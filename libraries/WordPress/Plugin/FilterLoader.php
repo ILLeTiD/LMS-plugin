@@ -24,7 +24,7 @@ class FilterLoader extends ExtensionLoader
 
         if (file_exists($file)) {
             extract([
-                'action' => $this,
+                'filter' => $this,
                 'plugin' => $this->plugin
             ]);
 
