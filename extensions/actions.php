@@ -16,5 +16,16 @@ $action->add('manage_course_posts_custom_column', function ($columnName, $postID
     }
 });
 
+$action->add('add_meta_boxes', function() {
+    add_meta_box(
+        'lms_course_participants_box',
+        __('Participants', 'lms-plugin'),
+        function () {
+            echo 'Participants';
+        },
+        'course',
+        'side'
+    );
+});
 
 

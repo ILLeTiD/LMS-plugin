@@ -21,6 +21,7 @@ class CoursePostType
             ],
             'public' => true,
             'has_archive' => true,
+            'supports' => ['title', 'editor', 'thumbnail'],
             'taxonomies' => ['course_category']
         ];
     }
