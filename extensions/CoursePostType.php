@@ -22,7 +22,8 @@ class CoursePostType
             'public' => true,
             'has_archive' => true,
             'supports' => ['title', 'editor', 'thumbnail'],
-            'taxonomies' => ['course_category']
+            'taxonomies' => ['course_category'],
+            'menu_icon' => 'dashicons-welcome-learn-more'
         ];
     }
 
