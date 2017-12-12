@@ -1,1 +1,0 @@
-<a href="#">+ <?= __('Add Course Slide', 'lms-plugin'); ?></a>

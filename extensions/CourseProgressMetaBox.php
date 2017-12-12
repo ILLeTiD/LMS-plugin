@@ -10,10 +10,9 @@ class CourseProgressMetaBox extends MetaBox
     protected $title = 'Progress';
     protected $screen = 'course';
     protected $context = 'normal';
-    protected $priority = 'default';
 
     public function callback()
     {
-        $this->view('meta-boxes.course-progress');
+        $this->view('meta-boxes.course.progress');
     }
 }

@@ -10,10 +10,9 @@ class CourseSlidesMetaBox extends MetaBox
     protected $title = 'Slides';
     protected $screen = 'course';
     protected $context = 'normal';
-    protected $priority = 'default';
 
     public function callback()
     {
-        $this->view('meta-boxes.course-slides');
+        $this->view('meta-boxes.course.slides');
     }
 }

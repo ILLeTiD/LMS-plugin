@@ -29,10 +29,11 @@ abstract class MetaBox
 
     abstract public function callback();
 
-    protected function view($name)
+    protected function view($name, $variables = [])
     {
         (new View($this->plugin))
             ->template($name)
+            ->with($variables)
             ->display();
     }
 }

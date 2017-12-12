@@ -2,15 +2,13 @@
 
 namespace LmsPlugin;
 
-use FishyMinds\WordPress\Plugin\HasPlugin;
+use FishyMinds\WordPress\PostType;
 
-class CoursePostType
+class CoursePostType extends PostType
 {
-    use HasPlugin;
+    protected $name = 'course';
 
-    private $name = 'course';
-
-    private function arguments()
+    protected function arguments()
     {
         return [
             'labels' => [
@@ -26,10 +24,5 @@ class CoursePostType
             'menu_icon' => 'dashicons-welcome-learn-more',
             'menu_position' => 6
         ];
-    }
-
-    public function register()
-    {
-        register_post_type($this->name, $this->arguments());
     }
 }
