@@ -1,1 +1,1 @@
-<textarea name="slide_custom_css"><?= $customCss; ?></textarea>
+<textarea name="slide_custom_css" style="width: 100%" rows="5"><?= $customCSS; ?></textarea>
