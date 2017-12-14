@@ -27,17 +27,20 @@ $action->add('manage_course_posts_custom_column', function ($columnName, $postID
 });
 
 $action->add('save_post', function ($postID) {
+    if (array_key_exists('course', $_POST)) {
+        update_post_meta($postID, 'course', $_POST['course']);
+    }
+
     if (array_key_exists('slide_format', $_POST)) {
         update_post_meta($postID, 'slide_format', $_POST['slide_format']);
     }
 
-    if (array_key_exists('slide_custom_css', $_POST)) {
-        update_post_meta($postID, 'slide_custom_css', $_POST['slide_custom_css']);
+    if (array_key_exists('slide_content', $_POST)) {
+        update_post_meta($postID, 'slide_content', $_POST['slide_content']);
     }
 
-    if (array_key_exists('slide_content', $_POST)) {
-        var_dump($_POST['slide_content']);
-        die;
+    if (array_key_exists('slide_custom_css', $_POST)) {
+        update_post_meta($postID, 'slide_custom_css', $_POST['slide_custom_css']);
     }
 });
 

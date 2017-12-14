@@ -15,8 +15,10 @@ class SlideContentMetaBox extends MetaBox
     {
         global $post;
 
-        $content = get_post_meta($_GET['post'], 'slide_content', true);
+        $course = $_GET['course'];
+        $content = get_post_meta($post->ID, 'slide_content', true);
+        $slideNumber = -1;
 
-        $this->view('meta-boxes.slide.content', compact('post', 'content'));
+        $this->view('meta-boxes.slide.content', compact('post', 'course', 'content', 'slideNumber'));
     }
 }

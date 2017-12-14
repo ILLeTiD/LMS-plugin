@@ -13,6 +13,8 @@ class CourseSlidesMetaBox extends MetaBox
 
     public function callback()
     {
-        $this->view('meta-boxes.course.slides');
+        global $post;
+
+        $this->view('meta-boxes.course.slides', compact('post'));
     }
 }
