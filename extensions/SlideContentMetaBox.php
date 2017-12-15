@@ -19,6 +19,28 @@ class SlideContentMetaBox extends MetaBox
         $content = get_post_meta($post->ID, 'slide_content', true);
         $slideNumber = -1;
 
-        $this->view('meta-boxes.slide.content', compact('post', 'course', 'content', 'slideNumber'));
+        $slideThemeOptions = [
+            'dark' => 'Dark',
+            'light' => 'Light'
+        ];
+        $imageAlignmentOptions = [
+            'center' => 'Center',
+            'left' => 'Left',
+            'right' => 'Right'
+        ];
+        $linkTargetOptions = [
+            '_blank' => 'New tab',
+            '_self' => 'Same window'
+        ];
+
+        $this->view('meta-boxes.slide.content', compact(
+            'post',
+            'course',
+            'content',
+            'slideNumber',
+            'slideThemeOptions',
+            'imageAlignmentOptions',
+            'linkTargetOptions'
+        ));
     }
 }
