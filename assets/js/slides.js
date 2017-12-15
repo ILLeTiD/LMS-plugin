@@ -92,4 +92,14 @@
         e.preventDefault();
     });
 
+    $('input[name=slide_format]').on('change', function () {
+        var metaBoxes = [
+            '#lms_slide_content_meta_box',
+            '#lms_slide_settings_meta_box',
+            '#lms_slide_quiz_meta_box'
+        ];
+
+        $(metaBoxes.join(',')).toggleClass('hidden');
+    });
+
 })(jQuery);

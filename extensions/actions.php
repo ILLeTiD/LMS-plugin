@@ -12,6 +12,7 @@ $action->add('init', 'SlidePostType@register');
 $action->add('add_meta_boxes', 'SlideFormatMetaBox@add');
 $action->add('add_meta_boxes', 'SlideSettingsMetaBox@add');
 $action->add('add_meta_boxes', 'SlideContentMetaBox@add');
+$action->add('add_meta_boxes', 'SlideQuizMetaBox@add');
 $action->add('add_meta_boxes', 'SlideCustomCssMetaBox@add');
 
 $action->add('manage_course_posts_custom_column', function ($columnName, $postID) {
