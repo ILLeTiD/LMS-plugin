@@ -38,6 +38,9 @@ class Loader
         $styleLoader = new StyleLoader($this->plugin);
         $this->actionLoader->add('admin_enqueue_scripts', [$styleLoader, 'load']);
 
+        $scriptLoader = new ScriptLoader($this->plugin);
+        $this->actionLoader->add('admin_enqueue_scripts', [$scriptLoader, 'load']);
+
         $this->actionLoader->load();
         $this->filterLoader->load();
     }

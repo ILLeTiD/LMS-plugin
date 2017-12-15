@@ -26,5 +26,20 @@
 }
 
 .slide-content__advance-settings {
+    padding: 0 !important;
     width: 100%;
+}
+
+.advanced-settings {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.advanced-settings > div {
+    padding: 10px;
+}
+
+.advanced-settings__heading {
+    width: 100%;
+    max-width: 150px;
 }

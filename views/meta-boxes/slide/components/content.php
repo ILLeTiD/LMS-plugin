@@ -3,7 +3,7 @@
 <div class="slide-content" id="slide-<?= $i === '' ? 'template' : $i; ?>">
     <div class="slide-content__title" style="">
         <h4><?= __('Content', 'lms-plugin'); ?> <span class="slide-number"><?= ++$slideNumber; ?></span></h4>
-        <a href="#"><?= __('Advanced Settings', 'lms-plugin'); ?></a>
+        <a href="#" class="js-advanced-settings"><?= __('Advanced Settings', 'lms-plugin'); ?></a>
     </div>
     <div class="slide-content__text">
         <textarea name="slide_content[<?= $i; ?>][text]"><?= $slide['text'] ?></textarea>
