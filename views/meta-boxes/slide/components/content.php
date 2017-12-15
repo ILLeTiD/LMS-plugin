@@ -1,11 +1,14 @@
 <?php $i = is_null($i) ? '' : $i; ?>
 
-<div class="slide" id="slide-<?= $i === '' ? 'template' : $i; ?>" <?= $i === '' ? 'hidden' : ''; ?> style="display: flex;">
-    <div style="width: 100%; max-width: 150px;"><h4><?= __('Content', 'lms-plugin'); ?> <span class="slide-number"><?= ++$slideNumber; ?></span></h4></div>
-    <div style="width: 100%; max-width: 450px;">
-        <textarea name="slide_content[<?= $i; ?>][text]" style="width: 100%;"><?= $slide['text'] ?></textarea>
+<div class="slide-content" id="slide-<?= $i === '' ? 'template' : $i; ?>">
+    <div class="slide-content__title" style="">
+        <h4><?= __('Content', 'lms-plugin'); ?> <span class="slide-number"><?= ++$slideNumber; ?></span></h4>
+        <a href="#"><?= __('Advanced Settings', 'lms-plugin'); ?></a>
     </div>
-    <div>
+    <div class="slide-content__text">
+        <textarea name="slide_content[<?= $i; ?>][text]"><?= $slide['text'] ?></textarea>
+    </div>
+    <div class="slide-content__image">
         <div class="slide-image">
             <button type="button" id="insert-media-button" class="button insert-media add_media js-set-slide-image <?= ! empty($slide['image']) ? 'hidden' : ''; ?>" data-editor="content">
                 <span class="wp-media-buttons-icon"></span> <?= __('Add Media', 'lms-plugin'); ?>
@@ -13,7 +16,7 @@
 
             <div class="js-slide-image <?= empty($slide['image']) ? 'hidden' : ''; ?>">
                 <a href="#" class="js-update-slide-image">
-                    <img class="js-slide-image-thumbnail" src="<?= $slide['thumbnail']; ?>" style="max-width:100%;">
+                    <img class="js-slide-image-thumbnail slide-image__thumbnail" src="<?= $slide['thumbnail']; ?>">
                 </a>
 
                 <?= __('Click the image to edit or update', 'lms-plugin'); ?>
@@ -30,4 +33,7 @@
 
         </div>
     </div>
+
+    <?php include 'advanced-settings.php'; ?>
+
 </div>

@@ -1,0 +1,30 @@
+.slide-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.slide-content > div {
+    padding: 10px;
+}
+
+.slide-content__title {
+    width: 100%;
+    max-width: 150px;
+}
+
+.slide-content__text {
+    width: 100%;
+    max-width: 450px;
+}
+
+.slide-content__text textarea {
+    width: 100%;
+}
+
+.slide-image__thumbnail {
+    max-width: 100%;
+}
+
+.slide-content__advance-settings {
+    width: 100%;
+}
