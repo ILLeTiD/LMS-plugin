@@ -5,6 +5,10 @@
         var backToCourseLink = $('.back-to-course-link');
 
         $('h1.wp-heading-inline').after(backToCourseLink.show());
+
+        $('#slide-template').find('input, textarea, select').each(function (i, field) {
+            field.disabled = true;
+        });
     });
 
     $('.js-set-slide-image').click(function () {
@@ -54,11 +58,15 @@
     });
 
     $('.js-remove-slide-image').click(function (e) {
-        e.preventDefault();
+        var slideImage = $(this).parent().parent();
 
-        $(this).parent().hide();
-        $(this).parent().siblings('.js-set-slide-image').show();
-        $(this).siblings('input[type=hidden]').val('');
+
+        slideImage.hide();
+        slideImage.siblings('.js-set-slide-image').show();
+        slideImage.siblings('input[type=hidden]').val('');
+        slideImage.find('input[type=checkbox]').removeAttr('checked');
+
+        e.preventDefault();
     });
 
     $('.js-add-slide-content').click(function (e) {
@@ -75,8 +83,9 @@
 
         newSlide.attr('id', 'slide-' + newSlideIndex);
 
-        newSlide.find('input, textarea').each(function (i, element) {
+        newSlide.find('input, textarea, select').each(function (i, element) {
             element.name = element.name.replace('[]', '[' + newSlideIndex + ']');
+            element.disabled = false;
         });
 
         newSlide.insertAfter(lastSlide);

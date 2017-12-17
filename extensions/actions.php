@@ -30,13 +30,17 @@ $action->add('manage_course_posts_custom_column', function ($columnName, $postID
 $action->add('save_post', function ($postID) {
     $fields = [
         'course',
+        'slide_template',
+        'slide_content_display',
         'slide_format',
         'slide_content',
         'slide_custom_css'
     ];
 
     foreach ($fields as $field) {
-        update_post_meta($postID, $field, $_POST[$field]);
+        if (! empty($_POST[$field])) {
+            update_post_meta($postID, $field, $_POST[$field]);
+        }
     }
 });
 

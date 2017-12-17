@@ -9,9 +9,11 @@
         <?php include 'components/content.php' ?>
     </div>
 
-    <?php foreach ($content as $i => $slide): ?>
-        <?php include 'components/content.php' ?>
-    <?php endforeach; ?>
+    <?php if ($content): ?>
+        <?php foreach ($content as $i => $slide): ?>
+            <?php include 'components/content.php' ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 
 <a href="#" class="js-add-slide-content">+ <?= __('Add content', 'lms-plugin'); ?></a>

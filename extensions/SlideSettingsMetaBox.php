@@ -13,6 +13,23 @@ class SlideSettingsMetaBox extends MetaBox
 
     public function callback()
     {
-        $this->view('meta-boxes.slide.settings');
+        global $post;
+
+        $slideTemplateOptions = [
+            'vertical' => 'Vertical Split Screen',
+            'horizontal' => 'Horizontal Split Screen',
+            'centered' => 'Centered'
+        ];
+
+        $slideContentDisplayOptions = [
+            'once_at_a_time' => 'Once at a time',
+            'all_at_once' => 'All at once'
+        ];
+
+        $this->view('meta-boxes.slide.settings', compact(
+            'post',
+            'slideTemplateOptions',
+            'slideContentDisplayOptions'
+        ));
     }
 }
