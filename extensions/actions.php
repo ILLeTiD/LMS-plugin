@@ -13,6 +13,7 @@ $action->add('add_meta_boxes', 'SlideFormatMetaBox@add');
 $action->add('add_meta_boxes', 'SlideSettingsMetaBox@add');
 $action->add('add_meta_boxes', 'SlideContentMetaBox@add');
 $action->add('add_meta_boxes', 'SlideQuizMetaBox@add');
+$action->add('add_meta_boxes', 'SlideFormsMetaBox@add');
 $action->add('add_meta_boxes', 'SlideCustomCssMetaBox@add');
 
 $action->add('manage_course_posts_custom_column', function ($columnName, $postID) {
@@ -34,7 +35,10 @@ $action->add('save_post', function ($postID) {
         'slide_content_display',
         'slide_format',
         'slide_content',
-        'slide_custom_css'
+        'slide_custom_css',
+        'quiz_type',
+        'quiz_tolerance',
+        'quiz_hint'
     ];
 
     foreach ($fields as $field) {

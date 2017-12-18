@@ -13,6 +13,20 @@ class SlideQuizMetaBox extends MetaBox
 
     public function callback()
     {
-        $this->view('meta-boxes.slide.quiz');
+        global $post;
+
+        $quizTypeOptions = [
+            'forms' => 'Forms',
+            'drag_and_drop' => 'Drag and Drop',
+            'puzzle' => 'Puzzle'
+        ];
+
+        $quizToleranceOptions = [
+            'strict' => 'Strict',
+            'flexible' => 'Flexible',
+            'loose' => 'Loose'
+        ];
+
+        $this->view('meta-boxes.slide.quiz', compact('post', 'quizTypeOptions', 'quizToleranceOptions'));
     }
 }
