@@ -12,11 +12,26 @@
         ]
     };
 
-    var setSlideFormat = function (format) {
+    var quizTypes = {
+        forms: '#lms_slide_forms_meta_box',
+        drag_and_drop: '#lms_slide_drag_and_drop_meta_box',
+        puzzle: '#lms_slide_puzzle_meta_box'
+    };
+
+    function setQuizType(type) {
+        $(Object.values(quizTypes).join(',')).hide();
+        $(quizTypes[type]).show();
+    }
+
+    function setSlideFormat(format) {
         var inactive = (format === 'regular') ? 'quiz' : 'regular';
 
-        $(slideFormats[format].join(',')).removeClass('hidden');
-        $(slideFormats[inactive].join(',')).addClass('hidden');
+        $(slideFormats[format].join(',')).show();
+        $(slideFormats[inactive].join(',')).hide();
+
+        if (format === 'quiz') {
+            setQuizType($('.js-choose-quiz-type').val());
+        }
     };
 
     window.send_to_editor_default = window.send_to_editor;
@@ -34,6 +49,13 @@
 
         $('input[name=slide_format]').on('change', function () {
             setSlideFormat($(this).val());
+        });
+
+        $('.js-choose-quiz-type').on('change', function () {
+            var activeQuizType = $(this).val();
+
+            $(Object.values(quizTypes).join(',')).hide();
+            $(quizTypes[activeQuizType]).show('hidden');
         });
     });
 

@@ -15,6 +15,8 @@ class SlidePuzzleMetaBox extends MetaBox
     {
         global $post;
 
-        $this->view('meta-boxes.slide.forms', compact('post'));
+        $puzzle = get_post_meta($post->ID, 'puzzle', true);
+
+        $this->view('meta-boxes.slide.puzzle', compact('post', 'puzzle'));
     }
 }

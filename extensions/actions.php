@@ -45,7 +45,8 @@ $action->add('save_post', function ($postID) {
         'forms_answers',
         'drag_and_drop_layout',
         'drag_and_drop_images',
-        'drag_and_drop_zones'
+        'drag_and_drop_zones',
+        'puzzle'
     ];
 
     foreach ($fields as $field) {
