@@ -21,6 +21,8 @@ class SlideFormsMetaBox extends MetaBox
             'options' => 'Options'
         ];
 
-        $this->view('meta-boxes.slide.forms', compact('post', 'formsTypeOptions'));
+        $formsAnswers = get_post_meta($post->ID, 'forms_answers', true);
+
+        $this->view('meta-boxes.slide.forms', compact('post', 'formsTypeOptions', 'formsAnswers'));
     }
 }

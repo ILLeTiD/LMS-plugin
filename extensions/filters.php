@@ -15,3 +15,22 @@ $filter->add('manage_course_posts_columns', function ($defaults) {
     return $defaults;
 });
 
+$filter->add('wp_prepare_attachment_for_js', function ($response, $attachment, $meta) {
+    $size = 'slide_thumbnail';
+
+    if (isset( $meta['sizes'][$size])) {
+        $attachment_url = wp_get_attachment_url($attachment->ID);
+        $base_url = str_replace(wp_basename($attachment_url), '', $attachment_url);
+        $size_meta = $meta['sizes'][$size];
+
+        $response['sizes'][ $size ] = array(
+            'height'        => $size_meta['height'],
+            'width'         => $size_meta['width'],
+            'url'           => $base_url . $size_meta['file'],
+            'orientation'   => $size_meta['height'] > $size_meta['width'] ? 'portrait' : 'landscape',
+        );
+    }
+
+    return $response;
+});
+

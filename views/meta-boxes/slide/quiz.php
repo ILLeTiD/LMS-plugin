@@ -4,7 +4,7 @@
     </div>
 
     <div class="field__value">
-        <select name="quiz_type">
+        <select name="quiz_type" class="js-choose-quiz-type">
             <?php foreach ($quizTypeOptions as $type => $name): ?>
                 <option value="<?= $type; ?>" <?= selected($post->quiz_type, $type); ?>><?= __($name, 'lms-plugin'); ?></option>
             <?php endforeach; ?>

@@ -1,4 +1,24 @@
 (function ($) {
+    var slideFormats = {
+        regular: [
+            '#lms_slide_settings_meta_box',
+            '#lms_slide_content_meta_box'
+        ],
+        quiz: [
+            '#lms_slide_quiz_meta_box',
+            '#lms_slide_forms_meta_box',
+            '#lms_slide_drag_and_drop_meta_box',
+            '#lms_slide_puzzle_meta_box'
+        ]
+    };
+
+    var setSlideFormat = function (format) {
+        var inactive = (format === 'regular') ? 'quiz' : 'regular';
+
+        $(slideFormats[format].join(',')).removeClass('hidden');
+        $(slideFormats[inactive].join(',')).addClass('hidden');
+    };
+
     window.send_to_editor_default = window.send_to_editor;
 
     $(function () {
@@ -8,6 +28,12 @@
 
         $('#slide-template').find('input, textarea, select').each(function (i, field) {
             field.disabled = true;
+        });
+
+        setSlideFormat($('input[name=slide_format]:checked').val());
+
+        $('input[name=slide_format]').on('change', function () {
+            setSlideFormat($(this).val());
         });
     });
 
@@ -22,8 +48,8 @@
                 $slideImage = $button.siblings('input[type=hidden].slide-image');
 
             $button.hide();
-            $thumbnail.attr('src', attachment.sizes.thumbnail.url);
-            $slideThumbnail.val(attachment.sizes.thumbnail.url);
+            $thumbnail.attr('src', attachment.sizes.slide_thumbnail.url);
+            $slideThumbnail.val(attachment.sizes.slide_thumbnail.url);
             $slideImage.val(attachment.url);
             $wrapper.show();
 
@@ -43,10 +69,11 @@
 
         wp.media.editor.send.attachment = function (props, attachment) {
             var $thumbnail = $button.find('.js-slide-image-thumbnail'),
-                $slideImage = $button.parent().siblings('input[type=hidden]');
+                $image = $button.parent().siblings('input[type=hidden]');
 
-            $thumbnail.attr('src', attachment.sizes.thumbnail.url);
-            $slideImage.val(attachment.url);
+            $thumbnail.attr('src', attachment.sizes.slide_thumbnail.url);
+            $thumbnail.val(attachment.sizes.slide_thumbnail.url);
+            $image.val(attachment.url);
 
             wp.media.editor.send.attachment = originAttachment;
         };
@@ -99,16 +126,6 @@
         advancedSettings.toggleClass('hidden');
 
         e.preventDefault();
-    });
-
-    $('input[name=slide_format]').on('change', function () {
-        var metaBoxes = [
-            '#lms_slide_content_meta_box',
-            '#lms_slide_settings_meta_box',
-            '#lms_slide_quiz_meta_box'
-        ];
-
-        $(metaBoxes.join(',')).toggleClass('hidden');
     });
 
 })(jQuery);

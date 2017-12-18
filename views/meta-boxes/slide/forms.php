@@ -3,7 +3,7 @@
         <?= __('Type', 'lms-plugin'); ?>
     </div>
     <div class="field__value">
-        <select name="quiz_tolerance">
+        <select name="forms_type">
             <?php foreach ($formsTypeOptions as $type => $name): ?>
                 <option value="<?= $type; ?>" <?= selected($post->forms_type, $type); ?>><?= __($name, 'lms-plugin'); ?></option>
             <?php endforeach; ?>
@@ -14,11 +14,11 @@
 <?php for ($i = 0; $i < 3; $i++): ?>
     <div class="field">
         <div class="field__title">
-            <?= __('Answer' . ($i + 1), 'lms-plugin'); ?>
+            <?= __('Answer ' . ($i + 1), 'lms-plugin'); ?>
         </div>
         <div class="field__value">
-            <input type="text" name="slide_forms_answers[<?= $i; ?>][text]" value="<?= $post->forms_answers[$i]['text']; ?>">
-            <input type="checkbox" name="slide_forms_answers[<?= $i; ?>][correct]" <?= checked($post->forms_answers[$i]['correct']); ?>>
+            <input type="text" name="forms_answers[<?= $i; ?>][text]" value="<?= isset($formsAnswers[$i]) ? $formsAnswers[$i]['text'] : ''; ?>">
+            <input type="checkbox" name="forms_answers[<?= $i; ?>][correct]" <?= isset($formsAnswers[$i]) ? checked($formsAnswers[$i]['correct'], 'on') : ''; ?>>
         </div>
     </div>
 <?php endfor; ?>

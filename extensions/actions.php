@@ -14,6 +14,8 @@ $action->add('add_meta_boxes', 'SlideSettingsMetaBox@add');
 $action->add('add_meta_boxes', 'SlideContentMetaBox@add');
 $action->add('add_meta_boxes', 'SlideQuizMetaBox@add');
 $action->add('add_meta_boxes', 'SlideFormsMetaBox@add');
+$action->add('add_meta_boxes', 'SlideDragAndDropMetaBox@add');
+$action->add('add_meta_boxes', 'SlidePuzzleMetaBox@add');
 $action->add('add_meta_boxes', 'SlideCustomCssMetaBox@add');
 
 $action->add('manage_course_posts_custom_column', function ($columnName, $postID) {
@@ -38,7 +40,12 @@ $action->add('save_post', function ($postID) {
         'slide_custom_css',
         'quiz_type',
         'quiz_tolerance',
-        'quiz_hint'
+        'quiz_hint',
+        'forms_type',
+        'forms_answers',
+        'drag_and_drop_layout',
+        'drag_and_drop_images',
+        'drag_and_drop_zones'
     ];
 
     foreach ($fields as $field) {
@@ -46,6 +53,10 @@ $action->add('save_post', function ($postID) {
             update_post_meta($postID, $field, $_POST[$field]);
         }
     }
+});
+
+$action->add('init', function () {
+    add_image_size('slide_thumbnail', 150, 75, true);
 });
 
 
