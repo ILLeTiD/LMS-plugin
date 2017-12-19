@@ -37,13 +37,16 @@
 
 .slide-image__thumbnail-wrapper {
     display: inline-block;
-    max-height: 75px;
+    max-height: 65px;
     overflow: hidden;
     border: none;
+    margin-bottom: 10px;
 }
 
 .slide-image__thumbnail {
-    max-width: 100%;
+    /*max-width: 100%;*/
+    width: 100%;
+    height: auto;
 }
 
 .slide-image__help {
@@ -54,7 +57,7 @@
 }
 
 .slide-image__help span {
-    line-height: 60px;
+    line-height: 50px;
 }
 
 .slide-image__help a {
@@ -89,6 +92,8 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
 }
 
 .field:first-child {
@@ -105,12 +110,53 @@
     width: 130px;
 }
 
+.field__title.lms-checkbox-question{
+    display: inline-block;
+    width: 110px;
+    text-align: right;
+}
+
 .field__title h4 {
     margin-bottom: 5px;
 }
 
 .field__value {
     width: calc(100% - 150px);
+    display: flex;
+    align-items: center;
+}
+
+.field__value.lms-forms-select{
+    width: calc(100% - 250px);
+}
+
+.lms-quiz-wrap .quiz_hint{
+    width: 100%;
+}
+
+@media screen and (min-width: 1440px) {
+    .lms-quiz-wrap{
+        padding-right: 100px;
+    }
+}
+
+.lms-forms-input-wrap .field__value{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.lms-forms-input-wrap input[type="text"]{
+    width: 100%;
+}
+
+.lms-forms-input-wrap input[type="checkbox"]{
+    margin-left: 20px;
+    margin-top: 3px;
 }
 
 .field__value select {
@@ -129,4 +175,113 @@
     font-size: 12px;
     margin-left: 10px;
     vertical-align: top;
+    line-height: 12px;
+}
+
+/*Progress meta box*/
+.lsm-progress{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    padding: 15px;
+}
+.lsm-progress .lsm-progress-list{
+    flex: 1 1 30%;
+    padding-left: 28px;
+}
+
+.lsm-progress-list ul{
+    margin: 0;
+}
+
+.lsm-progress .lsm-progress-elem{
+    position: relative;
+}
+
+.lsm-progress .lsm-progress-elem:after{
+    content: "";
+    position: absolute;
+    left: -28px;
+    height: 17px;
+    width: 17px;
+    background-color: #999;
+}
+.lsm-complete.lsm-progress-elem:after{
+    background-color: #158920;
+}
+.lsm-in-progress.lsm-progress-elem:after{
+    background-color: #CF972F;
+}
+.lsm-failed.lsm-progress-elem:after{
+    background-color: #AB2828;
+}
+.lsm-pending.lsm-progress-elem:after{
+    background-color: #D1D0D1;
+}
+
+.lsm-progress .lsm-progress-line{
+    flex: 1 1 70%;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    padding-right: 100px;
+}
+
+.lsm-progress-line-point{
+    height: 70px;
+}
+
+.lsm-progress-line .lsm-line-complete{
+    background-color: #158920;
+}
+.lsm-progress-line .lsm-line-in-progress{
+    background-color: #CF972F;
+}
+.lsm-progress-line .lsm-line-failed{
+    background-color: #AB2828;
+}
+.lsm-progress-line .lsm-line-pending{
+    background-color: #D1D0D1;
+}
+
+.lsm-link-wrap{
+    padding-right: 15px;
+}
+.lsm-link-wrap.right{
+    text-align: right;
+}
+.lsm-link-wrap a{
+    text-decoration: none;
+}
+
+#lms_course_slides_meta_box .inside{
+    padding: 0;
+    margin: 0;
+}
+
+#lms_course_slides_meta_box .widefat{
+    border: none;
+}
+
+.lms-links .lms-export-slide a:last-child{
+    margin-left: 15px;
+}
+
+.lms-links{
+    height: 56px;
+}
+
+.lms-links td{
+    vertical-align: middle;
+}
+
+.lms-title-column{
+    width: 50%;
+}
+.lms-date-column{
+    width: 100px;
 }

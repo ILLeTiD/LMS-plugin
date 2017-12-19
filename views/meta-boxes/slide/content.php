@@ -2,7 +2,7 @@
     <?= __('Back to course', 'lms-plugin'); ?>
 </a>
 
-<input type="hidden" name="_course" value="<?= $course; ?>">
+<input type="hidden" name="course" value="<?= $course; ?>">
 
 <div class="slides">
     <div class="slide-content-template hidden">
