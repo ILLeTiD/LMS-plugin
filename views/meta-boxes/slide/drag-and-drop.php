@@ -25,7 +25,7 @@
 
                     <div class="js-slide-image <?= empty($images[$i]['image']) ? 'hidden' : ''; ?>">
                         <a href="#" class="js-update-slide-image slide-image__thumbnail-wrapper">
-                            <img class="js-slide-image-thumbnail slide-image__thumbnail" src="<?= $images[$i]['thumbnail']; ?>">
+                            <img class="js-slide-image-thumbnail slide-image__thumbnail" src="<?= isset($images[$i]) ? $images[$i]['thumbnail'] : ''; ?>">
                         </a>
 
                         <div class="slide-image__help">
@@ -34,8 +34,8 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="drag_and_drop_images[<?= $i; ?>][thumbnail]" class="slide-thumbnail" value="<?= $images[$i]['thumbnail']; ?>">
-                    <input type="hidden" name="drag_and_drop_images[<?= $i; ?>][image]" class="slide-image" value="<?= $images[$i]['image']; ?>">
+                    <input type="hidden" name="drag_and_drop_images[<?= $i; ?>][thumbnail]" class="slide-thumbnail" value="<?= isset($images[$i]) ? $images[$i]['thumbnail'] : ''; ?>">
+                    <input type="hidden" name="drag_and_drop_images[<?= $i; ?>][image]" class="slide-image" value="<?= isset($images[$i]) ? $images[$i]['image'] : ''; ?>">
 
                 </div>
                 <label>
@@ -59,7 +59,7 @@
 
                     <div class="js-slide-image <?= empty($zones[$i]['image']) ? 'hidden' : ''; ?>">
                         <a href="#" class="js-update-slide-image slide-image__thumbnail-wrapper">
-                            <img class="js-slide-image-thumbnail slide-image__thumbnail" src="<?= $zones[$i]['thumbnail']; ?>">
+                            <img class="js-slide-image-thumbnail slide-image__thumbnail" src="<?= isset($zones[$i]) ? $zones[$i]['thumbnail'] : ''; ?>">
                         </a>
 
                         <div class="slide-image__help">
@@ -68,8 +68,8 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="drag_and_drop_zones[<?= $i; ?>][thumbnail]" class="slide-thumbnail" value="<?= $zones[$i]['thumbnail']; ?>">
-                    <input type="hidden" name="drag_and_drop_zones[<?= $i; ?>][image]" class="slide-image" value="<?= $zones[$i]['image']; ?>">
+                    <input type="hidden" name="drag_and_drop_zones[<?= $i; ?>][thumbnail]" class="slide-thumbnail" value="<?= isset($zones[$i]) ? $zones[$i]['thumbnail'] : ''; ?>">
+                    <input type="hidden" name="drag_and_drop_zones[<?= $i; ?>][image]" class="slide-image" value="<?= isset($zones[$i]) ? $zones[$i]['image'] : ''; ?>">
 
                 </div>
             </div>
