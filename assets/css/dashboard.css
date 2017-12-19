@@ -9,6 +9,10 @@
     flex-wrap: wrap;
 }
 
+.slide-content .js-slide-image {
+    margin-left: 20px;
+}
+
 .slide-content__title {
     width: 100%;
     max-width: 150px;
@@ -26,9 +30,9 @@
 .slide-content__image {
     display: inline-block;
     width: 100%;
-    max-width: calc(100% - 414px);
+    max-width: calc(100% - 350px);
     vertical-align: top;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
 }
 
 .slide-content__advance-settings-link {
@@ -38,6 +42,7 @@
 .slide-image__thumbnail-wrapper {
     display: inline-block;
     max-height: 65px;
+    max-width: 122px;
     overflow: hidden;
     border: none;
     margin-bottom: 10px;
@@ -280,8 +285,89 @@
 }
 
 .lms-title-column{
-    width: 50%;
+    width: 40%;
 }
 .lms-date-column{
     width: 100px;
+}
+
+.lms-puzzle-wrap{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.lms-puzzle-wrap .slide-content__image{
+    flex: 0 0 33.33333%;
+    height: 200px;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    justify-content: center;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+}
+
+.lms-puzzle-wrap .slide-content__image .js-slide-image{
+    text-align: center;
+}
+.lms-puzzle-wrap .slide-content__image .field__title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.lms-puzzle-wrap .slide-content__image:nth-child(1),
+.lms-puzzle-wrap .slide-content__image:nth-child(2){
+    border-right: 1px solid #F1F1F1;
+}
+.lms-puzzle-wrap .slide-content__image:nth-child(n+4){
+    border-top: 1px solid #F1F1F1;
+    border-right: 1px solid #F1F1F1;
+}
+.lms-puzzle-wrap .slide-content__image:nth-child(3n+3){
+    border-right: none;
+}
+
+.lms-burger{
+    height: 1px;
+    width: 20px;
+    background-color: #999;
+    position: relative;
+    display: inline-block;
+}
+
+.lms-burger:before{
+    height: 1px;
+    width: 20px;
+    content: "";
+    background-color: #999;
+    top: -5px;
+    position: absolute;
+}
+
+.lms-burger:after{
+    height: 1px;
+    width: 20px;
+    content: "";
+    background-color: #999;
+    bottom: -5px;
+    position: absolute;
 }

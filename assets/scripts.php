@@ -1,5 +1,8 @@
 <?php
 
+$script->add('course-scripts')
+       ->source('course.js');
+
 $script->add('slide-scripts')
-       ->source('slides.js');
+       ->source('slide.js');
 

@@ -1,4 +1,4 @@
-<table class="wp-list-table widefat fixed striped posts">
+<table class="wp-list-table widefat fixed striped posts js-course-slides">
     <thead>
     <tr>
         <td id="cb" class="manage-column column-cb check-column">
@@ -42,7 +42,7 @@
                     <?= $slide->post_date == $slide->post_modified ? 'Created' : 'Updated'; ?>
                     <?= get_the_modified_date(get_option('date_format'), $slide->ID); ?>
                 </td>
-                <td><i class="fa fa-bars" aria-hidden="true"></i></td>
+                <td><span class="dashicons-before dashicons-menu js-sortable-handle"></span></td>
             </tr>
         <?php endforeach; ?>
 
