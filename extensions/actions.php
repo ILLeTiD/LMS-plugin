@@ -31,6 +31,9 @@ $action->add('manage_course_posts_custom_column', function ($columnName, $postID
 });
 
 $action->add('save_post', function ($postID) {
+
+    // TODO: Needs refactoring.
+
     $fields = [
         'course',
         'slide_template',
@@ -48,6 +51,16 @@ $action->add('save_post', function ($postID) {
         'drag_and_drop_zones',
         'puzzle'
     ];
+
+    if (get_post_type($postID) == 'course' && array_key_exists('slide_weight', $_POST)) {
+        foreach ($_POST['slide_weight'] as $weight => $slideID) {
+            update_post_meta($slideID, 'slide_weight', $weight);
+        }
+    }
+
+    if (get_post_type($postID) == 'slide' && array_key_exists('slide_weight', $_POST)) {
+        update_post_meta($postID, 'slide_weight', $_POST['slide_weight']);
+    }
 
     foreach ($fields as $field) {
         if (! empty($_POST[$field])) {

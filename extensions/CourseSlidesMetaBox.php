@@ -18,8 +18,25 @@ class CourseSlidesMetaBox extends MetaBox
 
         $slides = new WP_Query([
             'post_type' => 'slide',
-            'meta_key' => 'course',
-            'meta_value' => $post->ID
+            'meta_query' => [
+                'relation' => 'AND', [
+                    'course_clause' => [
+                        'key' => 'course',
+                        'value' => (int) $post->ID,
+                        'type' => 'NUMERIC'
+                    ],
+                    'slide_weight_clause' => [
+                        'key' => 'slide_weight',
+                        'value' => 0,
+                        'compare' => '>=',
+                        'type' => 'NUMERIC'
+                    ]
+                ]
+            ],
+            'orderby' => [
+                'slide_weight_clause' => 'ASC',
+                'ID' => 'ASC'
+            ],
         ]);
 
         $slideTemplates = [

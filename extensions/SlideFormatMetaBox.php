@@ -6,6 +6,8 @@ use FishyMinds\WordPress\MetaBox;
 
 class SlideFormatMetaBox extends MetaBox
 {
+    const DEFAULT_SLIDE_FORMAT = 'regular';
+
     protected $id = 'lms_slide_format_meta_box';
     protected $title = 'Format';
     protected $screen = 'slide';
@@ -13,7 +15,9 @@ class SlideFormatMetaBox extends MetaBox
 
     public function callback()
     {
-        $format = get_post_meta($_GET['post'], 'slide_format', true);
+        $format = isset($_GET['post'])
+            ? get_post_meta($_GET['post'], 'slide_format', true)
+            : self::DEFAULT_SLIDE_FORMAT;
 
         $this->view('meta-boxes.slide.format', compact('format'));
     }

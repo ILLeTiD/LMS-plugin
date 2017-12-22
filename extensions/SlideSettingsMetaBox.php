@@ -26,10 +26,13 @@ class SlideSettingsMetaBox extends MetaBox
             'all_at_once' => 'All at once'
         ];
 
+        $weight = $post->slide_weight ?: PHP_INT_MAX;
+
         $this->view('meta-boxes.slide.settings', compact(
             'post',
             'slideTemplateOptions',
-            'slideContentDisplayOptions'
+            'slideContentDisplayOptions',
+            'weight'
         ));
     }
 }

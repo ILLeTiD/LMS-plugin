@@ -1,3 +1,5 @@
+<input type="hidden" name="slide_weight" value="<?= $weight; ?>">
+
 <div class="field">
     <div class="field__title">
         <?= __('Template', 'lms-plugin'); ?>

@@ -42,7 +42,10 @@
                     <?= $slide->post_date == $slide->post_modified ? 'Created' : 'Updated'; ?>
                     <?= get_the_modified_date(get_option('date_format'), $slide->ID); ?>
                 </td>
-                <td><span class="dashicons-before dashicons-menu js-sortable-handle"></span></td>
+                <td>
+                    <span class="dashicons-before dashicons-menu js-sortable-handle"></span>
+                    <input type="hidden" name="slide_weight[]" value="<?= $slide->ID; ?>">
+                </td>
             </tr>
         <?php endforeach; ?>
 
