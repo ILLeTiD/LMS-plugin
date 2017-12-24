@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
 
-class SlideContentMetaBox extends MetaBox
+class ContentMetaBox extends MetaBox
 {
     protected $id = 'lms_slide_content_meta_box';
     protected $title = 'Slide Content';

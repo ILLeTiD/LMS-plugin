@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
 
-class SlideDragAndDropMetaBox extends MetaBox
+class DragAndDropMetaBox extends MetaBox
 {
     protected $id = 'lms_slide_drag_and_drop_meta_box';
     protected $title = 'Drag and Drop';

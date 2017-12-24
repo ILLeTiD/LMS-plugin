@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
 
-class SlideCustomCssMetaBox extends MetaBox
+class CustomCssMetaBox extends MetaBox
 {
     protected $id = 'lms_slide_custom_css_meta_box';
     protected $title = 'Custom CSS';

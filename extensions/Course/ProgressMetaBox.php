@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Course;
 
 use FishyMinds\WordPress\MetaBox;
 
-class CourseProgressMetaBox extends MetaBox
+class ProgressMetaBox extends MetaBox
 {
     protected $id = 'lms_course_progress_meta_box';
     protected $title = 'Progress';

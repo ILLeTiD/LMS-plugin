@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Course;
 
 use FishyMinds\WordPress\Plugin\HasPlugin;
 
-class CourseCategoryTaxonomy
+class CategoryTaxonomy
 {
     use HasPlugin;
 

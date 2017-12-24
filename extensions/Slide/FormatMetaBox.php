@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
 
-class SlideFormatMetaBox extends MetaBox
+class FormatMetaBox extends MetaBox
 {
     const DEFAULT_SLIDE_FORMAT = 'regular';
 

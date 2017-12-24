@@ -1,10 +1,10 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Course;
 
 use FishyMinds\WordPress\MetaBox;
 
-class CourseParticipantsMetaBox extends MetaBox
+class ParticipantsMetaBox extends MetaBox
 {
     protected $id = 'lms_course_participants_meta_box';
     protected $title = 'Participants';

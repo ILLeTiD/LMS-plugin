@@ -1,6 +1,6 @@
 <?php
 
-namespace LmsPlugin;
+namespace LmsPlugin\Course;
 
 use FishyMinds\WordPress\PostType;
 
