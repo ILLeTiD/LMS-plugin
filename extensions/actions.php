@@ -1,4 +1,6 @@
 <?php
+$action->add('activate_' . $plugin, 'CustomRoles@add');
+$action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
 $action->add('admin_menu', 'DashboardMenu@create');
 
@@ -37,6 +39,9 @@ $action->add('manage_course_posts_custom_column', function ($columnName, $postID
 $action->add('init', function () {
     add_image_size('slide_thumbnail', 150, 75, true);
 });
+
+$action->add('wp_ajax_invite', 'Controllers\ParticipantsPageController@invite');
+$action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 
 
 

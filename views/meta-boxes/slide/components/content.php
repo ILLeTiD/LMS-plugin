@@ -8,15 +8,20 @@
         </a>
     </div>
     <div class="field__value">
-        <textarea name="slide_content[<?= $i; ?>][text]"><?= $slide['text'] ?></textarea>
+        <textarea name="slide_content[<?= $i; ?>][text]"><?= array_get($slide, 'text'); ?></textarea>
         <div class="slide-content__image slide-image">
-            <button type="button" id="insert-media-button" class="button insert-media add_media js-set-slide-image <?= ! empty($slide['image']) ? 'hidden' : ''; ?>" data-editor="content">
+            <button type="button"
+                    id="insert-media-button"
+                    class="button insert-media add_media js-set-slide-image <?= array_get($slide, 'image') ? 'hidden' : ''; ?>"
+                    data-editor="content">
                 <span class="wp-media-buttons-icon"></span> <?= __('Add Media', 'lms-plugin'); ?>
             </button>
 
             <div class="js-slide-image <?= empty($slide['image']) ? 'hidden' : ''; ?>">
                 <a href="#" class="js-update-slide-image slide-image__thumbnail-wrapper">
-                    <img class="js-slide-image-thumbnail slide-image__thumbnail" src="<?= $slide['thumbnail']; ?>">
+                    <img class="js-slide-image-thumbnail slide-image__thumbnail"
+                         src="<?= array_get($slide, 'thumbnail'); ?>"
+                    >
                 </a>
 
                 <div class="slide-image__help">
@@ -25,13 +30,22 @@
                 </div>
 
                 <label>
-                    <input type="checkbox" name="slide_content[<?= $i; ?>][image_as_background]" value="true" <?= $slide['image_as_background'] == true ? 'checked' : ''; ?>>
+                    <input type="checkbox"
+                           name="slide_content[<?= $i; ?>][image_as_background]"
+                           value="1"
+                           <?= checked(array_get($slide, 'image_as_background')); ?>>
                     <?= __('Image as background', 'lms-plugin'); ?>
                 </label>
             </div>
 
-            <input type="hidden" name="slide_content[<?= $i; ?>][thumbnail]" class="slide-thumbnail" value="<?= $slide['thumbnail']; ?>">
-            <input type="hidden" name="slide_content[<?= $i; ?>][image]" class="slide-image" value="<?= $slide['image']; ?>">
+            <input type="hidden"
+                   name="slide_content[<?= $i; ?>][thumbnail]"
+                   class="slide-thumbnail" value="<?= array_get($slide, 'thumbnail'); ?>"
+            >
+            <input type="hidden"
+                   name="slide_content[<?= $i; ?>][image]"
+                   class="slide-image" value="<?= array_get($slide, 'image'); ?>"
+            >
 
         </div>
 

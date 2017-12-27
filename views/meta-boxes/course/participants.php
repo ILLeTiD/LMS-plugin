@@ -10,4 +10,6 @@
 
 <br>
 
-<a href="<?= admin_url('edit.php?post_type=course&page=statistics'); ?>" class="thickbox">+ <?= __('Invite User(s)', 'lms-plugin'); ?></a>
+<a href="<?= admin_url('edit.php#invite?post_type=course&page=participants&cid=' . $course->ID); ?>">
+    + <?= __('Invite User(s)', 'lms-plugin'); ?>
+</a>

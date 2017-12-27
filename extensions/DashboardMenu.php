@@ -3,6 +3,7 @@
 namespace LmsPlugin;
 
 use FishyMinds\WordPress\Plugin\HasPlugin;
+use LmsPlugin\Controllers\ParticipantsPageController;
 
 class DashboardMenu
 {
@@ -10,15 +11,15 @@ class DashboardMenu
 
     public function create()
     {
+        $participantsPageController = new ParticipantsPageController($this->plugin);
+
         add_submenu_page(
             'edit.php?post_type=course',
             __('Participants', 'lms-plugin'),
             __('Participants', 'lms-plugin'),
             'manage_options',
             'participants',
-            function () {
-                echo 'Hello world';
-            }
+            [$participantsPageController, 'index']
         );
 
         add_submenu_page(

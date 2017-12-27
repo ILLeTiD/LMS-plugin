@@ -6,6 +6,7 @@
 
 <div class="slides">
     <div class="slide-content-template hidden">
+        <?php $slide = []; ?>
         <?php include 'components/content.php' ?>
     </div>
 

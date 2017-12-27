@@ -13,6 +13,10 @@ class ParticipantsMetaBox extends MetaBox
 
     public function callback()
     {
-        $this->view('meta-boxes.course.participants');
+        global $post;
+
+        $course = $post;
+
+        $this->view('meta-boxes.course.participants', compact('course'));
     }
 }

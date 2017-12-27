@@ -17,6 +17,11 @@ class ScriptLoader
         }
     }
 
+    public function getCurrentScreen()
+    {
+        return get_current_screen();
+    }
+
     private function readPluginFile()
     {
         $file = $this->plugin->getDirectory('assets/scripts.php');

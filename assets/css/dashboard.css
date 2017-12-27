@@ -371,3 +371,73 @@
     bottom: -5px;
     position: absolute;
 }
+
+/**
+ * Invite user to course.
+ */
+ .invite__wrapper {
+    background-color: #fcfcfc;
+ }
+
+ .lms-invite__title {
+     font-weight: 400;
+ }
+
+ .lms-invite__holder {
+     border: 1px solid #e5e5e5;
+ }
+
+.lms-invite-roles__title,
+.lms-invite-users__title {
+    border-right: 0;
+    border-left: 0;
+}
+
+.open .lms-invite-roles__title,
+.open .lms-invite-users__title {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+ .lms-invite-roles__content {
+     height: 300px;
+ }
+
+ .lms-invite-users {
+     border-bottom: 0;
+ }
+
+.lms-invite-users__content {
+    height: 275px;
+}
+
+.lms-invite-search {
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+.lms-invite-search__hint {
+}
+
+.lms-invite__footer {
+    text-align: right;
+    padding-top: 10px;
+}
+
+.lms-invite__button {
+    font-size: 14px !important;
+}
+
+/**
+ * Common classes.
+ */
+.lms-align-right {
+    text-align: right !important;
+}
+
+.lms-without-padding {
+    padding: 0;
+}
+
+.lms-without-border {
+    border: 0 !important;
+}
