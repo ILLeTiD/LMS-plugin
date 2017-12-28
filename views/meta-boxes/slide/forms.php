@@ -21,8 +21,14 @@
             <?= __('Answer ' . ($i + 1), 'lms-plugin'); ?>
         </div>
         <div class="field__value">
-            <input type="text" name="forms_answers[<?= $i; ?>][text]" value="<?= isset($formsAnswers[$i]) ? $formsAnswers[$i]['text'] : ''; ?>">
-            <input type="checkbox" name="forms_answers[<?= $i; ?>][correct]" <?= isset($formsAnswers[$i]) ? checked($formsAnswers[$i]['correct'], 'on') : ''; ?>>
+            <input type="text"
+                   name="forms_answers[<?= $i; ?>][text]"
+                   value="<?= array_get($formsAnswers, "$i.text"); ?>"
+            >
+            <input type="checkbox"
+                   name="forms_answers[<?= $i; ?>][correct]"
+                   <?= checked(array_get($formsAnswers, "$i.correct"), 'on'); ?>
+            >
         </div>
     </div>
 <?php endfor; ?>
