@@ -1,6 +1,11 @@
 <?php $i = is_null($i) ? '' : $i; ?>
 
 <div class="slide-content field" id="slide-<?= $i === '' ? 'template' : $i; ?>">
+    <!-- TODO: Restore slide after removing functionality. -->
+    <button type="button" class="notice-dismiss js-remove-slide">
+        <span class="screen-reader-text"><?= __('Dismiss this notice.'); ?></span>
+    </button>
+
     <div class="field__title" style="">
         <h4><?= __('Content', 'lms-plugin'); ?> <span class="slide-number"><?= ++$slideNumber; ?></span></h4>
         <a href="#" class="slide-content__advance-settings-link js-advanced-settings">

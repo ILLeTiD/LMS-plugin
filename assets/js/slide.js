@@ -150,4 +150,10 @@
         e.preventDefault();
     });
 
+    $('#lms_slide_content_meta_box').on('click', '.js-remove-slide', function () {
+        var slide = $(this);
+
+        slide.parent().remove();
+    });
+
 })(jQuery);
