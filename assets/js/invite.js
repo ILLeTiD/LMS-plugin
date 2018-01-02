@@ -42,26 +42,21 @@
             });
         });
 
-        $('.js-invite').on('click', function () {
-            var roles = $('.lms-invite-roles');
-            var formData = new FormData();
+        $('.js-invite-form').on('submit', function (e) {
+            var form = $(this),
+                action = $('.lms-invite-roles').hasClass('open') ? '_by_role_name' : '_by_user_id',
+                url = form.attr('action') + action;
 
-            formData.append('foo', 'bar');
+            $.ajax({
+                method: form.attr('method'),
+                url: url,
+                data: form.serialize()
+            }).done(function (response) {
+                // Reload the page and show message.
+                window.location.href += 'd';
+            });
 
-            if (roles.hasClass('open')) {
-                $('.lms-checkbox-role:checked').each(function (i, element) {
-                    formData.append('roles[]', element.value);
-                });
-            } else {
-                $('.lms-checkbox-user:checked').each(function (i, element) {
-                    formData.append('users[]', element.value);
-                });
-            }
-
-            // Send XHR request.
-
-            // Reload the page and show message.
-            window.location.href += 'd';
+            e.preventDefault();
         });
 
     });

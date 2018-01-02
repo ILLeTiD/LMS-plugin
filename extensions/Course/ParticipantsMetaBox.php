@@ -3,6 +3,7 @@
 namespace LmsPlugin\Course;
 
 use FishyMinds\WordPress\MetaBox;
+use LmsPlugin\Models\Course;
 
 class ParticipantsMetaBox extends MetaBox
 {
@@ -13,9 +14,7 @@ class ParticipantsMetaBox extends MetaBox
 
     public function callback()
     {
-        global $post;
-
-        $course = $post;
+        $course = new Course();
 
         $this->view('meta-boxes.course.participants', compact('course'));
     }

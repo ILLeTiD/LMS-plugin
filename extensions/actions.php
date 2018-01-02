@@ -40,7 +40,8 @@ $action->add('init', function () {
     add_image_size('slide_thumbnail', 150, 75, true);
 });
 
-$action->add('wp_ajax_invite', 'Controllers\ParticipantsPageController@invite');
+$action->add('wp_ajax_invite_by_role_name', 'Controllers\ParticipantsPageController@inviteByRoleName');
+$action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageController@inviteByUserId');
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 
 

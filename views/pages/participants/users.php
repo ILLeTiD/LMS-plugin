@@ -19,7 +19,11 @@
     <?php foreach ($users->results as $user): ?>
         <tr>
             <td>
-                <input type="checkbox" class="lms-checkbox-user">
+                <input type="checkbox"
+                       name="users[]"
+                       class="lms-checkbox-user"
+                       value="<?= $user->ID; ?>"
+                >
             </td>
             <td>
                 <?= $user->display_name; ?>
