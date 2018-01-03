@@ -130,6 +130,6 @@ class Plugin
      */
     public function getNamespace()
     {
-        return studly_case(dirname($this->slug));
+        return studly_case(basename($this->slug, '.php'));
     }
 }

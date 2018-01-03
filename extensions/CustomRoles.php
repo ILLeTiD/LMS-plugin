@@ -2,7 +2,6 @@
 
 namespace LmsPlugin;
 
-
 use FishyMinds\WordPress\Plugin\HasPlugin;
 
 class CustomRoles
