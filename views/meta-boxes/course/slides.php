@@ -31,7 +31,11 @@
                     <div class="row-actions">
                         <span class="edit"><a href="<?= get_edit_post_link($slide->ID); ?>&course=<?= $slide->ID; ?>"><?= __('Edit', 'lms-plugin'); ?></a> | </span>
                         <span class="inline hide-if-no-js"><a href="#" class="editinline"><?= __('Quick Edit', 'lms-plugin'); ?></a> | </span>
-                        <span class="trash"><a href="#" class="submitdelete"><?= __('Trash', 'lms-plugin'); ?></a> | </span>
+                        <span class="trash">
+                            <a href="<?= get_delete_post_link($slide->ID); ?>" class="submitdelete">
+                                <?= __('Trash', 'lms-plugin'); ?>
+                            </a> |
+                        </span>
                         <span class="view"><a href="#"><?= __('View', 'lms-plugin'); ?></a> | </span>
                         <span class="lms-clone"><a href="#"><?= __('Clone', 'lms-plugin'); ?></a></span>
                     </div>

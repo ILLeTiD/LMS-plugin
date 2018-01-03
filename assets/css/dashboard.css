@@ -442,3 +442,10 @@
 .lms-without-border {
     border: 0 !important;
 }
+
+/**
+ * Overwritten.
+ */
+.ui-sortable-handle {
+    cursor: pointer;
+}

@@ -2,6 +2,9 @@
 
 namespace FishyMinds\WordPress\Plugin;
 
+use FishyMinds\WordPress\Plugin\Updater\Repository;
+use FishyMinds\WordPress\Plugin\Updater\Updater;
+
 class Loader
 {
     use HasPlugin;
@@ -35,6 +38,12 @@ class Loader
      */
     public function load()
     {
+        $this->loadActions();
+        $this->loadFilters();
+    }
+
+    private function loadActions()
+    {
         $styleLoader = new StyleLoader($this->plugin);
         $this->actionLoader->add('admin_enqueue_scripts', [$styleLoader, 'load']);
 
@@ -42,6 +51,15 @@ class Loader
         $this->actionLoader->add('admin_enqueue_scripts', [$scriptLoader, 'load']);
 
         $this->actionLoader->load();
+    }
+
+    private function loadFilters()
+    {
+        $updater = new Updater($this->plugin, new Repository);
+        $this->filterLoader->add('pre_set_site_transient_update_plugins', [$updater, 'setTransient']);
+        $this->filterLoader->add('plugins_api', [$updater, 'setPluginInfo']);
+        $this->filterLoader->add('upgrader_post_install', [$updater, 'after']);
+
         $this->filterLoader->load();
     }
 }
