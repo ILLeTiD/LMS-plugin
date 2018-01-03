@@ -74,7 +74,7 @@ class Repository
         $url = 'https://bitbucket.org/fishyminds/wordpress-lms-plugin/get/' . $this->lastRelease->name . '.zip';
 
         return add_query_arg([
-            'access_token' => $this->getAccessToken()
+            'access_token' => urlencode($this->getAccessToken())
         ], $url);
     }
 }
