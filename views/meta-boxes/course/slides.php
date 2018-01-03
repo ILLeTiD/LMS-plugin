@@ -37,7 +37,7 @@
                             </a> |
                         </span>
                         <span class="view"><a href="#"><?= __('View', 'lms-plugin'); ?></a> | </span>
-                        <span class="lms-clone"><a href="#"><?= __('Clone', 'lms-plugin'); ?></a></span>
+<!--                        <span class="lms-clone"><a href="#">--><?//= __('Clone', 'lms-plugin'); ?><!--</a></span>-->
                     </div>
                 </td>
 
