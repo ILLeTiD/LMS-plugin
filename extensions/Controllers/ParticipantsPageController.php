@@ -26,12 +26,19 @@ class ParticipantsPageController
     {
         add_thickbox();
 
-        $cid = array_get($_GET, 'cid');
-        $course = WP_Post::get_instance($cid);
-
         $roles = CustomRoles::roles();
 
-        $this->view('pages.participants.index', compact('course', 'roles'));
+        if ($cid = array_get($_GET, 'cid')) {
+            $course = WP_Post::get_instance($cid);
+
+            $this->view('pages.participants.course', compact('course', 'roles'));
+        } else {
+            $users = new WP_User_Query([
+                'role__in' => array_keys(CustomRoles::roles())
+            ]);
+
+            $this->view('pages.participants.index', compact('users', 'roles'));
+        }
     }
 
     public function inviteByRoleName()
