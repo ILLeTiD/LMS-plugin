@@ -33,7 +33,7 @@
     width: 100%;
     max-width: calc(100% - 350px);
     vertical-align: top;
-    /*margin-left: 10px;*/
+    padding-left: 10px;
 }
 
 .slide-content__advance-settings-link {
