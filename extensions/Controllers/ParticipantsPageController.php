@@ -38,8 +38,11 @@ class ParticipantsPageController
         add_thickbox();
 
         $cid = array_get($_GET, 'cid');
+        $status = array_get($_GET, 'status');
+
         $course = WP_Post::get_instance($cid);
-        $users = new WP_User_Query([
+
+        $allUsers = new WP_User_Query([
             'role__in' => array_keys(CustomRoles::roles()),
             'meta_key' => 'status_' . $course->ID,
             'meta_value' => ['invited', 'in_progress', 'completed', 'failed'],
@@ -59,6 +62,18 @@ class ParticipantsPageController
             'meta_value' => 'invited'
         ]);
 
+        switch ($status) {
+            case 'enrolled':
+                $users = $enrolledUsers;
+                break;
+            case 'invited':
+                $users = $invitedUsers;
+                break;
+            case 'all':
+            default:
+                $users = $allUsers;
+        }
+
         $roles = CustomRoles::roles();
 
         $statuses = [
@@ -76,7 +91,8 @@ class ParticipantsPageController
                 'enrolledUsers',
                 'invitedUsers',
                 'roles',
-                'statuses'
+                'statuses',
+                'status'
             )
         );
     }

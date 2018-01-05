@@ -26,19 +26,25 @@
     <h2 class="screen-reader-text">Filter posts list</h2>
     <ul class="subsubsub">
         <li class="all">
-            <a href="#" class="current" aria-current="page">
+            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID) . '&status=all'; ?>"
+               <?= is_null($status) || $status == 'all' ? 'class="current" aria-current="page"' : ''; ?>
+            >
                 <?= __('All', 'lms-plugin'); ?>
                 <span class="count">(<?= $users->total_users; ?>)</span>
             </a> |
         </li>
         <li class="enrolled">
-            <a href="#">
+            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID) . '&status=enrolled'; ?>"
+                <?= $status == 'enrolled' ? 'class="current" aria-current="page"' : ''; ?>
+            >
                 <?= __('Enrolled', 'lms-plugin'); ?>
                 <span class="count">(<?= $enrolledUsers->total_users; ?>)</span>
             </a> |
         </li>
         <li class="pending-invites">
-            <a href="#">
+            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID) . '&status=invited'; ?>"
+                <?= $status == 'invited' ? 'class="current" aria-current="page"' : ''; ?>
+            >
                 <?= __('Pending Invites', 'lms-plugin'); ?>
                 <span class="count">(<?= $invitedUsers->total_users; ?>)</span>
             </a>
