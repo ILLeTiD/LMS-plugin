@@ -22,23 +22,63 @@ class ParticipantsPageController
             ->display();
     }
 
-    public function index()
+    public function all()
+    {
+        $roles = CustomRoles::roles();
+
+        $users = new WP_User_Query([
+            'role__in' => array_keys(CustomRoles::roles())
+        ]);
+
+        $this->view('pages.participants.all', compact('users', 'roles'));
+    }
+
+    public function course()
     {
         add_thickbox();
 
+        $cid = array_get($_GET, 'cid');
+        $course = WP_Post::get_instance($cid);
+        $users = new WP_User_Query([
+            'role__in' => array_keys(CustomRoles::roles()),
+            'meta_key' => 'status_' . $course->ID,
+            'meta_value' => ['invited', 'in_progress', 'completed', 'failed'],
+            'meta_compare' => 'IN'
+        ]);
+
+        $enrolledUsers = new WP_User_Query([
+            'role__in' => array_keys(CustomRoles::roles()),
+            'meta_key' => 'status_' . $course->ID,
+            'meta_value' => ['in_progress', 'completed', 'failed'],
+            'meta_compare' => 'IN'
+        ]);
+
+        $invitedUsers = new WP_User_Query([
+            'role__in' => array_keys(CustomRoles::roles()),
+            'meta_key' => 'status_' . $course->ID,
+            'meta_value' => 'invited'
+        ]);
+
         $roles = CustomRoles::roles();
 
-        if ($cid = array_get($_GET, 'cid')) {
-            $course = WP_Post::get_instance($cid);
+        $statuses = [
+            'invited' => __('Invited', 'lms-plugin'),
+            'in_progress' => __('In progress', 'lms-plugin'),
+            'completed' => __('Completed', 'lms-plugin'),
+            'failed' => __('Failed', 'lms-plugin'),
+        ];
 
-            $this->view('pages.participants.course', compact('course', 'roles'));
-        } else {
-            $users = new WP_User_Query([
-                'role__in' => array_keys(CustomRoles::roles())
-            ]);
-
-            $this->view('pages.participants.index', compact('users', 'roles'));
-        }
+        $this->view(
+            'pages.participants.course',
+            compact(
+                'course',
+                'users',
+                'enrolledUsers',
+                'invitedUsers',
+                'roles',
+                'statuses'
+            )
+        );
     }
 
     public function inviteByRoleName()

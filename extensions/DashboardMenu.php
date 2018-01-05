@@ -18,8 +18,17 @@ class DashboardMenu
             __('Participants', 'lms-plugin'),
             __('Participants', 'lms-plugin'),
             'manage_options',
-            'participants',
-            [$participantsPageController, 'index']
+            'all_participants',
+            [$participantsPageController, 'all']
+        );
+
+        add_submenu_page(
+            null,
+            __('Participants', 'lms-plugin'),
+            __('Participants', 'lms-plugin'),
+            'manage_options',
+            'course_participants',
+            [$participantsPageController, 'course']
         );
 
         add_submenu_page(

@@ -449,3 +449,29 @@
 .ui-sortable-handle {
     cursor: pointer;
 }
+
+.column-name {
+    width: 310px;
+}
+
+
+/**
+ * Enrollment statuses.
+ */
+
+.lms-status-invited {
+    color: #4b47ff;
+}
+
+.lms-status-in_progress {
+    color: #ffcf25;
+}
+
+.lms-status-completed {
+    color: green;
+}
+
+.lms-status-failed {
+    color: red;
+}
+
