@@ -2,6 +2,26 @@
 $action->add('activate_' . $plugin, 'CustomRoles@add');
 $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
+$action->add('activate_' . $plugin, function () {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'lms_activity';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+              user_id BIGINT NOT NULL,
+              course_id BIGINT NOT NULL,
+              slide_id BIGINT,
+              name VARCHAR(255) NOT NULL,
+              description VARCHAR(255),
+              date DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) {$charset_collate};";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+});
+
 $action->add('admin_menu', 'DashboardMenu@create');
 
 
@@ -43,6 +63,7 @@ $action->add('init', function () {
 $action->add('wp_ajax_invite_by_role_name', 'Controllers\ParticipantsPageController@inviteByRoleName');
 $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageController@inviteByUserId');
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
+$action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 
 
 

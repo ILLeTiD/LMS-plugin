@@ -2,7 +2,10 @@
 
 namespace LmsPlugin\Models;
 
+use FishyMinds\Collection;
+use LmsPlugin\Models\Repositories\UserRepository;
 use WP_Post;
+use WP_Query;
 
 class Course
 {
@@ -24,9 +27,32 @@ class Course
         return new static($post);
     }
 
+    public static function statuses()
+    {
+        return [
+            'invited' => __('Invited', 'lms-plugin'),
+            'in_progress' => __('In Progress', 'lms-plugin'),
+            'completed' => __('Completed', 'lms-plugin'),
+            'failed' => __('Failed', 'lms-plugin')
+        ];
+    }
+
     public function __get($property)
     {
-        return $this->post->$property;
+        switch ($property) {
+            case 'id':
+                return $this->post->ID;
+            case 'author':
+                return User::find($this->post->post_author);
+            case 'name':
+                return $this->post->post_title;
+            case 'category':
+                $terms = get_the_terms($this->id, 'course_category');
+
+                return $terms ? $terms[0] : false;
+            default:
+                return $this->post->$property;
+        }
     }
 
     public function getNumberOfParticipants()
@@ -62,5 +88,32 @@ class Course
             WHERE meta_key = 'status_{$this->post->ID}' 
                 AND meta_value = 'invited'
         ");
+    }
+
+    public function slides()
+    {
+        $results = [];
+
+        $slides = new WP_Query([
+            'post_type' => 'slide',
+            'meta_key' => 'course',
+            'meta_value' => $this->id,
+            'fields' => 'ids'
+        ]);
+
+        foreach ($slides->posts as $slide) {
+            $results[] = Slide::find($slide);
+        }
+
+        return new Collection($results);
+    }
+
+    public function participants()
+    {
+        $participants = UserRepository::get([
+            'meta_key' => 'status_' . $this->id
+        ]);
+
+        return new Collection($participants);
     }
 }

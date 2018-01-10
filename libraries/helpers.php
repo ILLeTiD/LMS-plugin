@@ -32,6 +32,33 @@ if ( ! function_exists('camel_case'))
     }
 }
 
+if ( ! function_exists('snake_case')) {
+    /**
+     * Convert a string to snake case.
+     *
+     * @param  string  $value
+     * @param  string  $delimiter
+     * @return string
+     */
+    function snake_case($value, $delimiter = '_')
+    {
+        static $snakeCache = [];
+        $key = $value.$delimiter;
+
+        if (isset($snakeCache[$key]))
+        {
+            return $snakeCache[$key];
+        }
+
+        if ( ! ctype_lower($value))
+        {
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+        }
+
+        return $snakeCache[$key] = $value;
+    }
+}
+
 if ( ! function_exists('is_closure'))
 {
     /**
@@ -111,6 +138,78 @@ if ( ! function_exists('dd')) {
     {
         var_dump($args);
         exit();
+    }
+}
+
+if ( ! function_exists('set_enrollment_status')) {
+
+    function set_enrollment_status($user_id, $course_id, $status = 'invited')
+    {
+        if ($status == 'uninvited') {
+            delete_user_meta($user_id, 'status_' . $course_id);
+            foreach (\LmsPlugin\Models\Course::statuses() as $name => $label) {
+                delete_user_meta($user_id, $name . '_' . $course_id);
+            }
+        } else {
+            update_user_meta($user_id, 'status_' . $course_id, $status);
+            update_user_meta($user_id, $status . '_' . $course_id, time());
+            update_user_meta($user_id, 'last_activity', time());
+        }
+
+        if ($status == 'invited') {
+            update_user_meta($user_id, 'last_enrollment', time());
+        }
+    }
+}
+
+if ( ! function_exists('page_url')) {
+
+    function page_url($name, $parameters) {
+        $parameters = http_build_query($parameters);
+
+        switch ($name) {
+            case 'course.participants':
+                return 'edit.php?post_type=course&page=course_participants&' . $parameters;
+        }
+    }
+}
+
+if ( ! function_exists('edit_course_url')) {
+
+    function edit_course_url($course) {
+        if (! is_int($course)) {
+            $course = $course->id;
+        }
+
+        return admin_url("post.php?post={$course}&action=edit");
+    }
+}
+
+if ( ! function_exists('edit_slide_url')) {
+
+    function edit_slide_url($slide) {
+        if (! is_int($slide)) {
+            $slide = $slide->id;
+        }
+
+        return admin_url("post.php?post={$slide}&action=edit"); }
+}
+
+if ( ! function_exists('get_status_label')) {
+
+    function get_status_label($name)
+    {
+        return \LmsPlugin\Models\Course::statuses()[$name];
+    }
+}
+
+if ( ! function_exists('component')) {
+
+    function component($file, $variables)
+    {
+        extract($variables);
+
+        include __DIR__ . '/../views/' . str_replace('.', '/', $file) . '.php';
     }
 }
 

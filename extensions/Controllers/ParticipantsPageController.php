@@ -6,27 +6,20 @@ use FishyMinds\View;
 use FishyMinds\WordPress\Plugin\HasPlugin;
 use LmsPlugin\CustomRoles;
 use LmsPlugin\EnrollmentFactory;
+use LmsPlugin\Models\Enrollment;
+use LmsPlugin\Models\Repositories\UserRepository;
 use LmsPlugin\Models\Role;
+use LmsPlugin\Models\User;
 use WP_Post;
 use WP_User_Query;
 
-class ParticipantsPageController
+class ParticipantsPageController extends Controller
 {
-    use HasPlugin;
-
-    protected function view($name, $variables = [])
-    {
-        (new View($this->plugin))
-            ->template($name)
-            ->with($variables)
-            ->display();
-    }
-
     public function all()
     {
         $roles = CustomRoles::roles();
 
-        $users = new WP_User_Query([
+        $users = UserRepository::get([
             'role__in' => array_keys(CustomRoles::roles())
         ]);
 
@@ -124,7 +117,7 @@ class ParticipantsPageController
         $search = sprintf('*%s*', $_POST['search'] ?: '');
 
         $users = new WP_User_Query([
-            'role__in' => ['backoffice', 'technician', 'sales'],
+            'role__in' => ['backoffice', 'technicians', 'sales'],
             'search' => $search,
         ]);
 

@@ -45,7 +45,10 @@
                 <input type="submit" name="filter_action" id="post-query-submit" class="button" value="Filter">
             </div>
 
-            <div class="tablenav-pages one-page"><span class="displaying-num">1 item</span>
+            <div class="tablenav-pages one-page">
+                <span class="displaying-num">
+                    <?= sprintf(_n( '%s item', '%s items', count($users)), count($users) ); ?>
+                </span>
                 <span class="pagination-links"><span class="tablenav-pages-navspan" aria-hidden="true">«</span>
 <span class="tablenav-pages-navspan" aria-hidden="true">‹</span>
 <span class="paging-input"><label for="current-page-selector" class="screen-reader-text">Current Page</label><input class="current-page" id="current-page-selector" type="text" name="paged" value="1" size="1" aria-describedby="table-paging"><span class="tablenav-paging-text"> of <span class="total-pages">1</span></span></span>
@@ -90,7 +93,7 @@
             </thead>
 
             <tbody id="the-list">
-            <?php foreach ($users->results as $user): ?>
+            <?php foreach ($users as $user): ?>
                 <tr id="post-<?= $user->ID; ?>" class="iedit author-self level-0 post-4 type-course status-publish hentry">
                     <th scope="row" class="check-column">
                         <label class="screen-reader-text" for="cb-select-<?= $user->ID; ?>">Select Test</label>
@@ -103,11 +106,17 @@
                     <td class="name column-name has-row-actions" data-colname="Title">
                         <div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
                         <strong>
-                            <a class="row-title" href="#" aria-label="“Test” (Edit)"><?= $user->display_name; ?></a>
+                            <a class="row-title"
+                               href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $user->ID); ?>"
+                               aria-label="“Test” (Edit)"
+                            >
+                                <?= $user->display_name; ?>
+                            </a>
                         </strong>
                         <div class="row-actions">
                             <span class="view">
-                                <a href="#" aria-label="<?= __('View', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
+                                <a href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $user->ID); ?>"
+                                   aria-label="<?= __('View', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
                                     <?= __('View', 'lms-plugin'); ?>
                                 </a> |
                             </span>
@@ -137,12 +146,32 @@
                         <a href="#"><?= $roles[$user->roles[0]]['label']; ?></a>
                     </td>
                     <td class="last-activity column-last-activity" data-colname="Last Activity">
-                        -
+                        <?php if ($user->last_activity): ?>
+                            <?= date(get_option('date_format'), $user->last_activity); ?>
+                        <?php else: ?>
+                            -
+                        <?php endif; ?>
                     </td>
-                    <td class="completed column-completed" data-colname="<?= __('Completed', 'lms-plugin'); ?>">0</td>
-                    <td class="in-progress column-in-progress" data-colname="<?= __('In Progress', 'lms-plugin'); ?>">0</td>
-                    <td class="failed column-failed" data-colname="<?= __('Failed', 'lms-plugin'); ?>">0</td>
-                    <td class="pending-invites column-pending-invites" data-colname="<?= __('Pending Invites', 'lms-plugin'); ?>">0</td>
+                    <td class="completed column-completed"
+                        data-colname="<?= __('Completed', 'lms-plugin'); ?>"
+                    >
+                        <?= count($user->completed()); ?>
+                    </td>
+                    <td class="in-progress column-in-progress"
+                        data-colname="<?= __('In Progress', 'lms-plugin'); ?>"
+                    >
+                        <?= count($user->inProgress()); ?>
+                    </td>
+                    <td class="failed column-failed"
+                        data-colname="<?= __('Failed', 'lms-plugin'); ?>"
+                    >
+                        <?= count($user->failed()); ?>
+                    </td>
+                    <td class="pending-invites column-pending-invites"
+                        data-colname="<?= __('Pending Invites', 'lms-plugin'); ?>"
+                    >
+                        <?= count($user->invited()); ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
@@ -194,7 +223,10 @@
             </div>
             <div class="alignleft actions">
             </div>
-            <div class="tablenav-pages one-page"><span class="displaying-num">1 item</span>
+            <div class="tablenav-pages one-page">
+                <span class="displaying-num">
+                    <?= sprintf(_n( '%s item', '%s items', count($users)), count($users) ); ?>
+                </span>
                 <span class="pagination-links"><span class="tablenav-pages-navspan" aria-hidden="true">«</span>
 <span class="tablenav-pages-navspan" aria-hidden="true">‹</span>
 <span class="screen-reader-text">Current Page</span><span id="table-paging" class="paging-input"><span class="tablenav-paging-text">1 of <span class="total-pages">1</span></span></span>

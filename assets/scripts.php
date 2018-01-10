@@ -16,6 +16,6 @@ $script->add('invite-scripts')
     ->source('invite.js')
     ->dependencies(['accordion'])
     ->condition(function () {
-        return $this->getCurrentScreen()->id == 'course_page_participants';
+        return $this->getCurrentScreen()->id == 'course_page_course_participants';
     });
 

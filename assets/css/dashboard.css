@@ -214,7 +214,7 @@
     width: 17px;
     background-color: #999;
 }
-.lsm-complete.lsm-progress-elem:after{
+.lsm-completed.lsm-progress-elem:after{
     background-color: #158920;
 }
 .lsm-in-progress.lsm-progress-elem:after{
@@ -223,7 +223,7 @@
 .lsm-failed.lsm-progress-elem:after{
     background-color: #AB2828;
 }
-.lsm-pending.lsm-progress-elem:after{
+.lsm-invited.lsm-progress-elem:after{
     background-color: #D1D0D1;
 }
 
@@ -241,7 +241,7 @@
     height: 70px;
 }
 
-.lsm-progress-line .lsm-line-complete{
+.lsm-progress-line .lsm-line-completed{
     background-color: #158920;
 }
 .lsm-progress-line .lsm-line-in-progress{
@@ -250,7 +250,7 @@
 .lsm-progress-line .lsm-line-failed{
     background-color: #AB2828;
 }
-.lsm-progress-line .lsm-line-pending{
+.lsm-progress-line .lsm-line-invited{
     background-color: #D1D0D1;
 }
 
@@ -428,6 +428,28 @@
     font-size: 14px !important;
 }
 
+.lms-participant {
+    margin: 10px 0;
+}
+
+.lms-participant__info {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.lms-participant__name {
+    display: block;
+}
+
+.lms-participant__last-activity {
+    margin-top: 10px;
+}
+
+.lms-activities-table .column-action,
+.lms-activities-table .column-course {
+    width: 200px;
+}
+
 /**
  * Common classes.
  */
@@ -460,18 +482,18 @@
  */
 
 .lms-status-invited {
-    color: #4b47ff;
+    color: #D1D0D1;
 }
 
 .lms-status-in_progress {
-    color: #ffcf25;
+    color: #CF972F;
 }
 
 .lms-status-completed {
-    color: green;
+    color: #158920;
 }
 
 .lms-status-failed {
-    color: red;
+    color: #AB2828;
 }
 
