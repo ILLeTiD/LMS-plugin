@@ -2,14 +2,21 @@
 
 namespace LmsPlugin\Models\Repositories;
 
+use FishyMinds\Collection;
 use LmsPlugin\Models\Course;
 use WP_Query;
 
 class CourseRepository
 {
-    public static function get($arguments)
+    private static $default_arguments = [
+        'post_type' => 'course'
+    ];
+
+    public static function get($arguments = [])
     {
         $result = [];
+
+        $arguments = array_merge($arguments, self::$default_arguments);
 
         $wp_posts = new WP_Query($arguments);
 
@@ -17,6 +24,6 @@ class CourseRepository
             $result[] = new Course($course);
         }
 
-        return $result;
+        return new Collection($result);
     }
 }

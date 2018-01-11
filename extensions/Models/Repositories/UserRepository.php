@@ -2,12 +2,14 @@
 
 namespace LmsPlugin\Models\Repositories;
 
+use FishyMinds\Collection;
+use LmsPlugin\CustomRoles;
 use LmsPlugin\Models\User;
 use WP_User_Query;
 
 class UserRepository
 {
-    public static function get($arguments)
+    public static function get($arguments = [])
     {
         $result = [];
 
@@ -17,6 +19,6 @@ class UserRepository
             $result[] = new User($user);
         }
 
-        return $result;
+        return new Collection($result);
     }
 }

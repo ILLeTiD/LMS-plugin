@@ -59,6 +59,14 @@ class Plugin
         $this->loader->load();
     }
 
+    public function __get($property)
+    {
+        switch ($property) {
+            case 'date_format':
+                return get_option('date_format');
+        }
+    }
+
     /**
      * @return string
      */

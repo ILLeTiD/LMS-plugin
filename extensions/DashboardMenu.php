@@ -5,6 +5,7 @@ namespace LmsPlugin;
 use FishyMinds\WordPress\Plugin\HasPlugin;
 use LmsPlugin\Controllers\ParticipantsPageController;
 use LmsPlugin\Controllers\ParticipantPageController;
+use LmsPlugin\Controllers\StatisticsPageController;
 
 class DashboardMenu
 {
@@ -14,6 +15,7 @@ class DashboardMenu
     {
         $participantsPageController = new ParticipantsPageController($this->plugin);
         $participantPageController = new ParticipantPageController($this->plugin);
+        $statisticsPageController = new StatisticsPageController($this->plugin);
 
         add_submenu_page(
             'edit.php?post_type=course',
@@ -39,9 +41,7 @@ class DashboardMenu
             __('Statistics', 'lms-plugin'),
             'manage_options',
             'statistics',
-            function () {
-                echo 'Hello world';
-            }
+            [$statisticsPageController, 'index']
         );
 
         add_submenu_page(

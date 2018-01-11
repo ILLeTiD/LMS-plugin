@@ -100,12 +100,12 @@
     <div class="clear"></div>
 
     <h1 class="wp-heading-inline">
-        <?= __('Courses', 'lms-plugin'); ?>
+        <?= __('courses', 'lms-plugin'); ?>
     </h1>
 
     <?php if (($total_enrollments = $user->enrollments()->count()) > 3): ?>
         <a href="<?= admin_url('edit.php?post_type=course&page=participant_courses&uid=' . $user->id); ?>">
-            <?= __('View full list', 'lms-plugin'); ?>
+            <?= __('view full list', 'lms-plugin'); ?>
         </a>
         (<?= $total_enrollments; ?>)
     <?php endif; ?>
@@ -117,11 +117,11 @@
     ]); ?>
 
     <h1 class="wp-heading-inline">
-        <?= __('Activities', 'lms-plugin'); ?>
+        <?= __('activities', 'lms-plugin'); ?>
     </h1>
 
     <?php if (($total_activities = $user->activities()->count()) > 3): ?>
-        <a href="<?= admin_url('edit.php?post_type=course&page=participant_activities&uid=' . $user->id); ?>"><?= __('View full list', 'lms-plugin'); ?></a>
+        <a href="<?= admin_url('edit.php?post_type=course&page=participant_activities&uid=' . $user->id); ?>"><?= __('view full list', 'lms-plugin'); ?></a>
         (<?= $total_activities; ?>)
     <?php endif; ?>
 

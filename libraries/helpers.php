@@ -164,12 +164,14 @@ if ( ! function_exists('set_enrollment_status')) {
 
 if ( ! function_exists('page_url')) {
 
-    function page_url($name, $parameters) {
+    function page_url($name, $parameters = []) {
         $parameters = http_build_query($parameters);
 
         switch ($name) {
             case 'course.participants':
                 return 'edit.php?post_type=course&page=course_participants&' . $parameters;
+            case 'course.edit':
+                return admin_url("post.php?action=edit&" . $parameters);
         }
     }
 }

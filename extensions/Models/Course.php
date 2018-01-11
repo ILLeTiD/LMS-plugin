@@ -110,10 +110,8 @@ class Course
 
     public function participants()
     {
-        $participants = UserRepository::get([
+        return UserRepository::get([
             'meta_key' => 'status_' . $this->id
         ]);
-
-        return new Collection($participants);
     }
 }
