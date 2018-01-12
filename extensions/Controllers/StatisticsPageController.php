@@ -4,6 +4,8 @@ namespace LmsPlugin\Controllers;
 
 use LmsPlugin\CustomRoles;
 use LmsPlugin\Models\Course;
+use LmsPlugin\Models\DataSuppliers\Statistics\BestCompletionDataSupplier;
+use LmsPlugin\Models\DataSuppliers\Statistics\MostHardworkingDataSupplier;
 use LmsPlugin\Models\DataSuppliers\Statistics\MostParticipantsDataSupplier;
 use LmsPlugin\Models\DataSuppliers\Statistics\ProgressDataSupplier;
 use LmsPlugin\Models\Repositories\CourseRepository;
@@ -25,7 +27,9 @@ class StatisticsPageController extends Controller
         ]);
 
         $most_participants = (new MostParticipantsDataSupplier)->getData();
+        $best_completion = BestCompletionDataSupplier::getData();
+        $users = MostHardworkingDataSupplier::getData();
 
-        $this->view('pages.statistics.index', compact('from', 'to', 'progress', 'statuses', 'courses', 'participants', 'most_participants'));
+        $this->view('pages.statistics.index', compact('from', 'to', 'progress', 'statuses', 'courses', 'participants', 'most_participants', 'best_completion', 'users'));
     }
 }

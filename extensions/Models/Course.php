@@ -74,7 +74,7 @@ class Course
             SELECT COUNT(*) 
             FROM {$wpdb->usermeta} 
             WHERE meta_key = 'status_{$this->post->ID}' 
-                AND meta_value = 'in_progress'
+                AND meta_value IN ('in_progress', 'completed', 'failed')
         ");
     }
 

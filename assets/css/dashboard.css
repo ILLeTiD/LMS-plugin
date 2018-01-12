@@ -450,6 +450,19 @@
     width: 200px;
 }
 
+.lms-top-lists {
+    display: flex;
+}
+
+.lms-top-list {
+    padding: 15px 30px;
+}
+
+.lms-top-list__title {
+    font-size: 14px;
+    margin: 0;
+}
+
 /**
  * Common classes.
  */
@@ -463,6 +476,10 @@
 
 .lms-without-border {
     border: 0 !important;
+}
+
+.lms-float-left {
+    float: left;
 }
 
 /**

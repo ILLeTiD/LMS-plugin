@@ -9,7 +9,7 @@
                 <?php foreach ($users as $user): ?>
                     <li>
                         <?= $user->name; ?>
-                        <span>(<?= $user->completed_courses; ?> <?= __('completed', 'lms-plugin'); ?></span>
+                        <span>(<?= $user->number; ?> <?= __('completed', 'lms-plugin'); ?>)</span>
                     </li>
                 <?php endforeach; ?>
             </ol>
