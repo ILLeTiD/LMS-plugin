@@ -514,3 +514,27 @@
     color: #AB2828;
 }
 
+/**
+ * Icons.
+ */
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+}
+.icon-print {
+    width: 0.9287109375em;
+}
+
+.lms-statistics__wrap {
+    position: relative;
+}
+
+.lms-statistics__print-button-wrap {
+    position: absolute;
+    right: 0;
+    bottom: 16px;
+}

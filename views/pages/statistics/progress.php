@@ -27,9 +27,8 @@
                 </div>
             </div>
 
-            <div class="lsm-link-wrap right">
-                <a href="#"><i class="fa fa-print" aria-hidden="true"></i> Print report</a>
-            </div>
+            <?php component('components.print-button', ['link' => '', 'text' => __('Print Report', 'lms-plugin')]); ?>
+
         <?php else: ?>
             <p><?= __('No progress', 'lms-plugin'); ?></p>
         <?php endif; ?>

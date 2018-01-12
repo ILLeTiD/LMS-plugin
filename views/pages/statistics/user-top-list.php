@@ -15,8 +15,7 @@
             </ol>
         </div>
 
-        <div class="lsm-link-wrap right">
-            <a href="#"><i class="fa fa-print" aria-hidden="true"></i> <?= __('Print report', 'lms-plugin'); ?></a>
-        </div>
+        <?php component('components.print-button', ['link' => '', 'text' => __('Print Report', 'lms-plugin')]); ?>
+
     </div>
 </div>

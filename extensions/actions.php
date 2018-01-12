@@ -44,13 +44,13 @@ $action->add('add_meta_boxes', 'Slide\PuzzleMetaBox@add');
 $action->add('add_meta_boxes', 'Slide\CustomCssMetaBox@add');
 $action->add('save_post', 'Slide\Saver@save');
 
-$action->add('manage_course_posts_custom_column', function ($columnName, $postID) {
-    if ($columnName == 'participants') {
+$action->add('manage_course_posts_custom_column', function ($column_name, $post_id) {
+    if ($column_name == 'participants') {
         // TODO: Implement course participation.
         echo 0;
     }
 
-    if ($columnName == 'overall_progress') {
+    if ($column_name == 'overall_progress') {
         // TODO: Implement course completion ratio.
         echo '0%';
     }
