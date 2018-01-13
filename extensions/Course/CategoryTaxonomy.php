@@ -17,7 +17,8 @@ class CategoryTaxonomy
         return [
             'label' => __('Categories', 'lms-plugin'),
             'rewrite' => ['slug' => 'course_category'],
-            'hierarchical' => true
+            'hierarchical' => true,
+            'show_admin_column' => true
         ];
     }
 

@@ -5,9 +5,9 @@ $filter->add('menu_order', 'DashboardMenu@changeOrder');
 
 $filter->add('manage_course_posts_columns', function ($defaults) {
     unset($defaults['date']);
-    unset($defaults['categories']);
+    unset($defaults['taxonomy-course_category']);
     $defaults['author'] = 'Author';
-    $defaults['categories'] = 'Categories';
+    $defaults['taxonomy-course_category'] = 'Categories';
     $defaults['participants'] = 'Participants';
     $defaults['overall_progress'] = 'Overall progress';
     $defaults['date'] = 'Date';
