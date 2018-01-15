@@ -44,10 +44,12 @@ $action->add('add_meta_boxes', 'Slide\PuzzleMetaBox@add');
 $action->add('add_meta_boxes', 'Slide\CustomCssMetaBox@add');
 $action->add('save_post', 'Slide\Saver@save');
 
-$action->add('manage_course_posts_custom_column', function ($column_name, $post_id) {
+$action->add('manage_course_posts_custom_column', function ($column_name, $course_id) {
     if ($column_name == 'participants') {
-        // TODO: Implement course participation.
-        echo 0;
+        $course = \LmsPlugin\Models\Course::find($course_id);
+        echo $course->participants()->count();
+
+        return;
     }
 
     if ($column_name == 'overall_progress') {
