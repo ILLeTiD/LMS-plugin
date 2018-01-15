@@ -2,7 +2,7 @@
       method="POST"
       class="js-change-status-form"
 >
-    <input type="hidden" name="user_id" value="<?= $user->ID; ?>">
+    <input type="hidden" name="user_id" value="<?= $user->id; ?>">
     <input type="hidden" name="course_id" value="<?= $enrollment->course->id; ?>">
 
     <select name="status" class="js-status-select">

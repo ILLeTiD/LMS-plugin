@@ -2,72 +2,57 @@
 
 namespace LmsPlugin\Models;
 
-class Enrollment
+class Enrollment extends Model
 {
-    private $user;
-    public $course;
+    const TABLE = 'lms_enrollments';
 
-    public function __construct($user, $course)
+    public function __construct($attributes)
     {
-        $this->user = $user;
-        $this->course = $course;
+        $this->attributes = $attributes;
+
+        if (array_key_exists('user_id', $this->attributes)) {
+            $this->attributes['user'] = User::find($this->attributes['user_id']);
+        }
+
+        if (array_key_exists('course_id', $this->attributes)) {
+            $this->attributes['course'] = Course::find($this->attributes['course_id']);
+        }
+    }
+
+    public static function create($attributes = [])
+    {
+        $instance = new self($attributes);
+
+        return $instance->save();
     }
 
     public function __get($property)
     {
         switch ($property) {
-            case 'enrollment_date':
-                $enrollment_date = $this->user->{'invited_'.$this->course->id};
-
-                if ( ! $enrollment_date) {
-                    return false;
-                }
-
+            case 'created_at':
                 return date(
                     get_option('date_format'),
-                    $enrollment_date
+                    strtotime($this->attributes['created_at'])
                 );
-            case 'last_activity':
-                $last_activity = $this->user->{'last_activity_'.$this->course->id};
-
-                if ( ! $last_activity) {
-                    return false;
-                }
-
+            case 'updated_at':
                 return date(
                     get_option('date_format'),
-                    $this->user->{'last_activity_'.$this->course->id}
+                    strtotime($this->attributes['updated_at'])
                 );
             case 'progress':
-                return $this->getProgress();
-            case 'status':
-                return $this->user->{'status_'.$this->course->id};
+                return $this->computeProgress();
         }
+
+        return parent::__get($property);
     }
 
-    public function save()
-    {
-        update_user_meta(
-            $this->user,
-            'status_' . $this->course,
-            'invited'
-        );
-
-        add_user_meta(
-            $this->user,
-            'invited_' . $this->course,
-            time(),
-            true
-        );
-    }
-
-    public function getProgress()
+    public function computeProgress()
     {
         global $wpdb;
 
         $slides = $this->course->slides();
 
-        if ( ! $slides->count()) {
+        if (!$slides->count()) {
             return 0;
         }
 
@@ -89,5 +74,33 @@ SQL;
         $rate = $slides->count() * $completed_slides;
 
         return $rate ? round(100 / $rate) : 0;
+    }
+
+    protected function insert()
+    {
+        global $wpdb;
+
+        $wpdb->insert($wpdb->prefix . self::TABLE, [
+            'user_id' => $this->user->id,
+            'course_id' => $this->course->id
+        ]);
+
+        $this->id = $wpdb->insert_id;
+
+        return $this;
+    }
+
+    protected function update()
+    {
+        global $wpdb;
+
+        $data = [];
+
+        foreach ($this->attributes as $name => $value) {
+            if (in_array($name, ['id', 'user', 'course', 'created_at', 'updated_at'])) continue;
+            $data[$name] = $value;
+        }
+
+        $wpdb->update($wpdb->prefix . self::TABLE, $data, ['id' => $this->id]);
     }
 }

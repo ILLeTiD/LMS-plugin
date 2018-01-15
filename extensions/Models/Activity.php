@@ -2,35 +2,30 @@
 
 namespace LmsPlugin\Models;
 
-class Activity
+class Activity extends Model
 {
-    private $id;
-    private $user;
-    private $course;
-    private $slide;
-    private $name;
-    private $description;
-    private $date;
+    const TABLE = 'lms_activities';
 
     /**
      * Activity constructor.
-     * @param $id
-     * @param $user
-     * @param $course
-     * @param $slide
-     * @param $name
-     * @param $description
-     * @param $date
+     *
+     * @param array $attributes
      */
-    public function __construct($id, $user, $course, $slide, $name, $description, $date)
+    public function __construct($attributes)
     {
-        $this->id = $id;
-        $this->user = $user;
-        $this->course = is_numeric($course) ? Course::find($course) : $course;
-        $this->slide = is_numeric($slide) ? Slide::find($slide) : $slide;
-        $this->name = $name;
-        $this->description = $description;
-        $this->date = $date;
+        $this->attributes = $attributes;
+
+        if (array_key_exists('user_id', $this->attributes)) {
+            $this->attributes['user'] = User::find($this->attributes['user_id']);
+        }
+
+        if (array_key_exists('course_id', $this->attributes)) {
+            $this->attributes['course'] = Course::find($this->attributes['course_id']);
+        }
+
+        if (array_key_exists('slide_id', $this->attributes)) {
+            $this->attributes['slide'] = ! is_null($this->attributes['slide_id']) ? Slide::find($this->attributes['slide_id']) : null;
+        }
     }
 
     public function __get($property)
@@ -39,15 +34,15 @@ class Activity
             case 'date':
                 return date(
                     get_option('date_format'),
-                    strtotime($this->date)
+                    strtotime($this->attributes['date'])
                 );
             case 'time':
                 return date(
                     get_option('time_format'),
-                    strtotime($this->date)
+                    strtotime($this->attributes['date'])
                 );
             default:
-                return $this->$property;
+                return parent::__get($property);
         }
     }
 

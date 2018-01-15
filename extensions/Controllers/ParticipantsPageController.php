@@ -6,6 +6,7 @@ use FishyMinds\View;
 use FishyMinds\WordPress\Plugin\HasPlugin;
 use LmsPlugin\CustomRoles;
 use LmsPlugin\EnrollmentFactory;
+use LmsPlugin\Models\Course;
 use LmsPlugin\Models\Enrollment;
 use LmsPlugin\Models\Repositories\UserRepository;
 use LmsPlugin\Models\Role;
@@ -33,39 +34,35 @@ class ParticipantsPageController extends Controller
         $cid = array_get($_GET, 'cid');
         $status = array_get($_GET, 'status');
 
-        $course = WP_Post::get_instance($cid);
+        $course = Course::find($cid);
 
-        $allUsers = new WP_User_Query([
-            'role__in' => array_keys(CustomRoles::roles()),
-            'meta_key' => 'status_' . $course->ID,
-            'meta_value' => ['invited', 'in_progress', 'completed', 'failed'],
-            'meta_compare' => 'IN'
-        ]);
-
-        $enrolledUsers = new WP_User_Query([
-            'role__in' => array_keys(CustomRoles::roles()),
-            'meta_key' => 'status_' . $course->ID,
-            'meta_value' => ['in_progress', 'completed', 'failed'],
-            'meta_compare' => 'IN'
-        ]);
-
-        $invitedUsers = new WP_User_Query([
-            'role__in' => array_keys(CustomRoles::roles()),
-            'meta_key' => 'status_' . $course->ID,
-            'meta_value' => 'invited'
-        ]);
-
-        switch ($status) {
-            case 'enrolled':
-                $users = $enrolledUsers;
-                break;
-            case 'invited':
-                $users = $invitedUsers;
-                break;
-            case 'all':
-            default:
-                $users = $allUsers;
+        if ($status) {
+            $participants = $course->participants()
+                                   ->where(['status' => $status])
+                                   ->get();
+        } else {
+            $participants = $course->participants;
         }
+
+        // $allUsers = new WP_User_Query([
+        //     'role__in' => array_keys(CustomRoles::roles()),
+        //     'meta_key' => 'status_' . $course->ID,
+        //     'meta_value' => ['invited', 'in_progress', 'completed', 'failed'],
+        //     'meta_compare' => 'IN'
+        // ]);
+        //
+        // $enrolledUsers = new WP_User_Query([
+        //     'role__in' => array_keys(CustomRoles::roles()),
+        //     'meta_key' => 'status_' . $course->ID,
+        //     'meta_value' => ['in_progress', 'completed', 'failed'],
+        //     'meta_compare' => 'IN'
+        // ]);
+        //
+        // $invitedUsers = new WP_User_Query([
+        //     'role__in' => array_keys(CustomRoles::roles()),
+        //     'meta_key' => 'status_' . $course->ID,
+        //     'meta_value' => 'invited'
+        // ]);
 
         $roles = CustomRoles::roles();
 
@@ -85,7 +82,8 @@ class ParticipantsPageController extends Controller
                 'invitedUsers',
                 'roles',
                 'statuses',
-                'status'
+                'status',
+                'participants'
             )
         );
     }
@@ -104,8 +102,8 @@ class ParticipantsPageController extends Controller
 
     public function inviteByUserId()
     {
-        $course = array_get($_POST, 'course');
-        $users = array_get($_POST, 'users');
+        $course = array_get($_REQUEST, 'course');
+        $users = array_get($_REQUEST, 'users');
 
         $this->enrollUsers($course, $users);
 

@@ -94,10 +94,10 @@
 
             <tbody id="the-list">
             <?php foreach ($users as $user): ?>
-                <tr id="post-<?= $user->ID; ?>" class="iedit author-self level-0 post-4 type-course status-publish hentry">
+                <tr id="post-<?= $user->id; ?>" class="iedit author-self level-0 post-4 type-course status-publish hentry">
                     <th scope="row" class="check-column">
-                        <label class="screen-reader-text" for="cb-select-<?= $user->ID; ?>">Select Test</label>
-                        <input id="cb-select-<?= $user->ID; ?>" type="checkbox" name="post[]" value="<?= $user->ID; ?>">
+                        <label class="screen-reader-text" for="cb-select-<?= $user->id; ?>">Select Test</label>
+                        <input id="cb-select-<?= $user->ID; ?>" type="checkbox" name="post[]" value="<?= $user->id; ?>">
                         <div class="locked-indicator">
                             <span class="locked-indicator-icon" aria-hidden="true"></span>
                             <span class="screen-reader-text">“Test” is locked</span>
@@ -107,40 +107,12 @@
                         <div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
                         <strong>
                             <a class="row-title"
-                               href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $user->ID); ?>"
+                               href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $user->id); ?>"
                                aria-label="“Test” (Edit)"
                             >
-                                <?= $user->display_name; ?>
+                                <?= $user->name; ?>
                             </a>
                         </strong>
-                        <div class="row-actions">
-                            <span class="view">
-                                <a href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $user->ID); ?>"
-                                   aria-label="<?= __('View', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('View', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="resend-invite">
-                                <a href="#" aria-label="<?= __('Resend Invite', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Resend Invite', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="univite trash">
-                                <a href="#" aria-label="<?= __('Uninvite', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Uninvite', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="reset-result">
-                                <a href="#" aria-label="<?= __('Reset result', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Reset result', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="fail trash">
-                                <a href="#" aria-label="<?= __('Fail', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Fail', 'lms-plugin'); ?>
-                                </a>
-                            </span>
-                        </div>
                     </td>
                     <td class="role column-role" data-colname="Role">
                         <a href="#"><?= $roles[$user->roles[0]]['label']; ?></a>
@@ -155,22 +127,22 @@
                     <td class="completed column-completed"
                         data-colname="<?= __('Completed', 'lms-plugin'); ?>"
                     >
-                        <?= count($user->completed()); ?>
+                        <?= $user->enrollments()->where(['status' => 'completed'])->count(); ?>
                     </td>
                     <td class="in-progress column-in-progress"
                         data-colname="<?= __('In Progress', 'lms-plugin'); ?>"
                     >
-                        <?= count($user->inProgress()); ?>
+                        <?= $user->enrollments()->where(['status' => 'in_progress'])->count(); ?>
                     </td>
                     <td class="failed column-failed"
                         data-colname="<?= __('Failed', 'lms-plugin'); ?>"
                     >
-                        <?= count($user->failed()); ?>
+                        <?= $user->enrollments()->where(['status' => 'failed'])->count(); ?>
                     </td>
                     <td class="pending-invites column-pending-invites"
                         data-colname="<?= __('Pending Invites', 'lms-plugin'); ?>"
                     >
-                        <?= count($user->invited()); ?>
+                        <?= $user->enrollments()->where(['status' => 'invited'])->count(); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

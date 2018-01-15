@@ -1,6 +1,6 @@
 <div class="wrap">
     <h1 class="wp-heading-inline">
-        <?= $user->display_name . __('\'s', 'lms-plugin'); ?>
+        <?= $user->name . __('\'s', 'lms-plugin'); ?>
         <?= __('Courses', 'lms-plugin'); ?>:
     </h1>
 
@@ -14,7 +14,7 @@
 
     <?php component('components.courses-table', [
         'user' => $user,
-        'enrollments' => $user->enrollments(),
+        'enrollments' => $user->enrollments,
         'statuses' => $statuses
     ]); ?>
 

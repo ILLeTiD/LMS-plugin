@@ -5,6 +5,7 @@ namespace LmsPlugin\Controllers;
 use LmsPlugin\CustomRoles;
 use LmsPlugin\Models\Course;
 use LmsPlugin\Models\DataSuppliers\ParticipantProgressDataSupplier;
+use LmsPlugin\Models\Enrollment;
 use LmsPlugin\Models\User;
 
 class ParticipantPageController extends Controller
@@ -51,7 +52,12 @@ class ParticipantPageController extends Controller
         $course_id = array_get($_POST, 'course_id');
         $status = array_get($_POST, 'status');
 
-        set_enrollment_status($user_id, $course_id, $status);
+        $enrollment = Enrollment::where(['user_id' => $user_id])
+                                ->where(['course_id' => $course_id])
+                                ->first();
+
+        $enrollment->status = $status;
+        $enrollment->save();
 
         wp_safe_redirect(wp_get_referer());
     }

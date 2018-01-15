@@ -3,10 +3,16 @@
 namespace LmsPlugin\Models;
 
 use FishyMinds\Collection;
-use LmsPlugin\Models\Repositories\UserRepository;
 use WP_Post;
 use WP_Query;
 
+/**
+ * Class Course
+ *
+ * @property int $id
+ *
+ * @package LmsPlugin\Models
+ */
 class Course
 {
     private $post;
@@ -50,44 +56,11 @@ class Course
                 $terms = get_the_terms($this->id, 'course_category');
 
                 return $terms ? $terms[0] : false;
+            case 'participants':
+                return $this->participants()->get();
             default:
                 return $this->post->$property;
         }
-    }
-
-    public function getNumberOfParticipants()
-    {
-        global $wpdb;
-
-        return $wpdb->get_var("
-            SELECT COUNT(*) 
-            FROM {$wpdb->usermeta} 
-            WHERE meta_key = 'status_{$this->post->ID}'
-        ");
-    }
-
-    public function getNumberOfEnrolledParticipants()
-    {
-        global $wpdb;
-
-        return $wpdb->get_var("
-            SELECT COUNT(*) 
-            FROM {$wpdb->usermeta} 
-            WHERE meta_key = 'status_{$this->post->ID}' 
-                AND meta_value IN ('in_progress', 'completed', 'failed')
-        ");
-    }
-
-    public function getNumberOfInvitedParticipants()
-    {
-        global $wpdb;
-
-        return $wpdb->get_var("
-            SELECT COUNT(*) 
-            FROM {$wpdb->usermeta} 
-            WHERE meta_key = 'status_{$this->post->ID}' 
-                AND meta_value = 'invited'
-        ");
     }
 
     public function slides()
@@ -110,8 +83,6 @@ class Course
 
     public function participants()
     {
-        return UserRepository::get([
-            'meta_key' => 'status_' . $this->id
-        ]);
+        return Enrollment::where(['course_id' => $this->id]);
     }
 }

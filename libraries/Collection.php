@@ -38,6 +38,11 @@ class Collection implements IteratorAggregate, Countable
         return new ArrayIterator($this->items);
     }
 
+    public function first()
+    {
+        return $this->items[0];
+    }
+
     /**
      * Return part of the collection.
      *

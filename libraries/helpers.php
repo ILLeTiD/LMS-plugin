@@ -141,6 +141,12 @@ if ( ! function_exists('dd')) {
     }
 }
 
+if ( ! function_exists('lms_invite')) {
+    function lms_invite($user_id, $course_id) {
+        return \LmsPlugin\Models\Enrollment::create($user_id, $course_id);
+    }
+}
+
 if ( ! function_exists('set_enrollment_status')) {
 
     function set_enrollment_status($user_id, $course_id, $status = 'invited')
@@ -157,7 +163,7 @@ if ( ! function_exists('set_enrollment_status')) {
         }
 
         if ($status == 'invited') {
-            update_user_meta($user_id, 'last_enrollment', time());
+            lms_invite($user_id, $course_id);
         }
     }
 }

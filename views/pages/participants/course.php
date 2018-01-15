@@ -26,19 +26,21 @@
     <h2 class="screen-reader-text">Filter posts list</h2>
     <ul class="subsubsub">
         <li class="all">
-            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID) . '&status=all'; ?>"
-               <?= is_null($status) || $status == 'all' ? 'class="current" aria-current="page"' : ''; ?>
+            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID); ?>"
+               <?= is_null($status) ? 'class="current" aria-current="page"' : ''; ?>
             >
                 <?= __('All', 'lms-plugin'); ?>
-                <span class="count">(<?= $users->total_users; ?>)</span>
+                <span class="count">(<?= $course->participants()->count(); ?>)</span>
             </a> |
         </li>
         <li class="enrolled">
-            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID) . '&status=enrolled'; ?>"
-                <?= $status == 'enrolled' ? 'class="current" aria-current="page"' : ''; ?>
+            <a href="<?= admin_url('edit.php?post_type=course&page=course_participants&cid=' . $course->ID) . '&status=in_progress'; ?>"
+                <?= $status == 'in_progress' ? 'class="current" aria-current="page"' : ''; ?>
             >
                 <?= __('Enrolled', 'lms-plugin'); ?>
-                <span class="count">(<?= $enrolledUsers->total_users; ?>)</span>
+                <span class="count">
+                    (<?= $course->participants()->where(['status' => 'in_progress'])->count(); ?>)
+                </span>
             </a> |
         </li>
         <li class="pending-invites">
@@ -46,7 +48,9 @@
                 <?= $status == 'invited' ? 'class="current" aria-current="page"' : ''; ?>
             >
                 <?= __('Pending Invites', 'lms-plugin'); ?>
-                <span class="count">(<?= $invitedUsers->total_users; ?>)</span>
+                <span class="count">
+                    (<?= $course->participants()->where(['status' => 'invited'])->count(); ?>)
+                </span>
             </a>
         </li>
     </ul>
@@ -129,68 +133,78 @@
             </thead>
 
             <tbody id="the-list">
-            <?php foreach ($users->results as $user): ?>
-                <tr id="post-<?= $user->ID; ?>" class="iedit author-self level-0 post-4 type-course status-publish hentry">
-                    <th scope="row" class="check-column">
-                        <label class="screen-reader-text" for="cb-select-<?= $user->ID; ?>">Select Test</label>
-                        <input id="cb-select-<?= $user->ID; ?>" type="checkbox" name="post[]" value="<?= $user->ID; ?>">
-                        <div class="locked-indicator">
-                            <span class="locked-indicator-icon" aria-hidden="true"></span>
-                            <span class="screen-reader-text">“Test” is locked</span>
-                        </div>
-                    </th>
-                    <td class="name column-name has-row-actions" data-colname="Title">
-                        <div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
-                        <strong>
-                            <a class="row-title" href="#" aria-label="“Test” (Edit)"><?= $user->display_name; ?></a>
-                        </strong>
-                        <div class="row-actions">
-                            <span class="view">
-                                <a href="#" aria-label="<?= __('View', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('View', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="resend-invite">
-                                <a href="#" aria-label="<?= __('Resend Invite', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Resend Invite', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="univite trash">
-                                <a href="#" aria-label="<?= __('Uninvite', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Uninvite', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="reset-result">
-                                <a href="#" aria-label="<?= __('Reset result', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Reset result', 'lms-plugin'); ?>
-                                </a> |
-                            </span>
-                            <span class="fail trash">
-                                <a href="#" aria-label="<?= __('Fail', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
-                                    <?= __('Fail', 'lms-plugin'); ?>
+            <?php if ($participants->count()): ?>
+                <?php foreach ($participants as $enrollment): ?>
+                    <tr id="post-<?= $enrollment->user->id; ?>" class="iedit author-self level-0 post-4 type-course status-publish hentry">
+                        <th scope="row" class="check-column">
+                            <label class="screen-reader-text" for="cb-select-<?= $enrollment->user->id; ?>">Select Test</label>
+                            <input id="cb-select-<?= $enrollment->user->id; ?>" type="checkbox" name="post[]" value="<?= $enrollment->user->id; ?>">
+                            <div class="locked-indicator">
+                                <span class="locked-indicator-icon" aria-hidden="true"></span>
+                                <span class="screen-reader-text">“Test” is locked</span>
+                            </div>
+                        </th>
+                        <td class="name column-name has-row-actions" data-colname="Title">
+                            <div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
+                            <strong>
+                                <a href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $enrollment->user->ID); ?>" class="row-title">
+                                    <?= $enrollment->user->name; ?>
                                 </a>
+                            </strong>
+                            <div class="row-actions">
+                                <span class="view">
+                                    <a href="<?= admin_url('edit.php?post_type=course&page=participant&uid=' . $enrollment->user->ID); ?>">
+                                        <?= __('View', 'lms-plugin'); ?>
+                                    </a> |
+                                </span>
+                                <span class="resend-invite">
+                                    <a href="#" aria-label="<?= __('Resend Invite', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
+                                        <?= __('Resend Invite', 'lms-plugin'); ?>
+                                    </a> |
+                                </span>
+                                <span class="univite trash">
+                                    <a href="#" aria-label="<?= __('Uninvite', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
+                                        <?= __('Uninvite', 'lms-plugin'); ?>
+                                    </a> |
+                                </span>
+                                <span class="reset-result">
+                                    <a href="#" aria-label="<?= __('Reset result', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
+                                        <?= __('Reset result', 'lms-plugin'); ?>
+                                    </a> |
+                                </span>
+                                <span class="fail trash">
+                                    <a href="#" aria-label="<?= __('Fail', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
+                                        <?= __('Fail', 'lms-plugin'); ?>
+                                    </a>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="role column-role" data-colname="Role">
+                            <a href="#"><?= $roles[$enrollment->user->roles[0]]['label']; ?></a>
+                        </td>
+                        <td class="enrollment-date column-enrollment-date" data-colname="<?= __('Enrollment Date', 'lms-plugin'); ?>">
+                            <?= $enrollment->created_at; ?>
+                        </td>
+                        <td class="last-activity column-last-activity" data-colname="<?= __('Last Activity', 'lms-plugin'); ?>">
+                            <?= $enrollment->updated_at; ?>
+                        </td>
+                        <td class="progress column-progress" data-colname="<?= __('Progress', 'lms-plugin'); ?>">
+                            <?= $enrollment->progress; ?>%
+                        </td>
+                        <td class="status column-status" data-colname="<?= __('Status', 'lms-plugin'); ?>">
+                            <span class="lms-status-<?= $enrollment->status; ?>">
+                                <?= $statuses[$enrollment->status]; ?>
                             </span>
-                        </div>
-                    </td>
-                    <td class="role column-role" data-colname="Role">
-                        <a href="#"><?= $roles[$user->roles[0]]['label']; ?></a>
-                    </td>
-                    <td class="enrollment-date column-enrollment-date" data-colname="<?= __('Enrollment Date', 'lms-plugin'); ?>">
-                        <?= date(get_option('date_format'), $user->{'invited_' . $course->ID}); ?>
-                    </td>
-                    <td class="last-activity column-last-activity" data-colname="<?= __('Last Activity', 'lms-plugin'); ?>">
-                        -
-                    </td>
-                    <td class="progress column-progress" data-colname="<?= __('Progress', 'lms-plugin'); ?>">
-                        0%
-                    </td>
-                    <td class="status column-status" data-colname="<?= __('Status', 'lms-plugin'); ?>">
-                        <span class="lms-status-<?= $user->{'status_' . $course->ID}; ?>">
-                            <?= $statuses[$user->{'status_' . $course->ID}]; ?>
-                        </span>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr class="no-items">
+                    <td class="colspanchange" colspan="4">
+                        <?= __('No participants found.', 'lms-plugin'); ?>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
 
             <tfoot>

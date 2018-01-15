@@ -3,6 +3,7 @@
 namespace LmsPlugin\Models\DataSuppliers;
 
 use LmsPlugin\Models\Course;
+use LmsPlugin\Models\Enrollment;
 use LmsPlugin\Models\User;
 
 class ParticipantProgressDataSupplier
@@ -21,10 +22,12 @@ class ParticipantProgressDataSupplier
         $statuses = array_keys(Course::statuses());
 
         foreach ($statuses as $status) {
-            $result[$status]['number'] = count($this->user->status($status));
+            $result[$status]['number'] = Enrollment::where(['user_id' => $this->user->id])
+                                                     ->where(['status' => $status])
+                                                     ->count();
         }
 
-        $all_courses = count($this->user->courses());
+        $all_courses = $this->user->enrollments()->count();
 
         foreach ($result as &$item) {
             if ($item['number'] > 0) {

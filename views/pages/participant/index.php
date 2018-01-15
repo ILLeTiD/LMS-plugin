@@ -1,10 +1,10 @@
 <div class="wrap">
     <h1 class="wp-heading-inline">
         <?= __('Participant', 'lms-plugin'); ?>:
-        <?= $user->display_name; ?>
+        <?= $user->name; ?>
     </h1>
 
-    <a href="<?= admin_url('user-edit.php?user_id=' . $user->ID); ?>"
+    <a href="<?= admin_url('user-edit.php?user_id=' . $user->id); ?>"
        class="page-title-action"
     >
         <?= __('Edit User', 'lms-plugin'); ?>
@@ -24,10 +24,12 @@
                         <h2 class="hndle ui-sortable-handle"><span><?= __('Info', 'lms-plugin'); ?></span></h2>
                         <div class="inside">
                             <div class="lms-participant">
-                                <?= get_avatar($user->ID, 75); ?>
+                                <?= get_avatar($user->id, 75); ?>
                                 <div class="lms-participant__info">
                                     <span class="lms-participant__name"><?= $user->display_name; ?></span>
-                                    <a href="#"><?= $roles[$user->roles[0]]['label']; ?></a>
+                                    <a href="<?= admin_url('users.php?role=' . $user->roles[0]); ?>">
+                                        <?= $roles[$user->roles[0]]['label']; ?>
+                                    </a>
                                 </div>
 
                                 <div class="lms-participant__last-activity">
@@ -100,7 +102,7 @@
     <div class="clear"></div>
 
     <h1 class="wp-heading-inline">
-        <?= __('courses', 'lms-plugin'); ?>
+        <?= __('Courses', 'lms-plugin'); ?>
     </h1>
 
     <?php if (($total_enrollments = $user->enrollments()->count()) > 3): ?>
@@ -112,12 +114,12 @@
 
     <?php component('components.courses-table', [
         'user' => $user,
-        'enrollments' => $user->enrollments()->take(3),
+        'enrollments' => $user->enrollments->take(3),
         'statuses' => $statuses
     ]); ?>
 
     <h1 class="wp-heading-inline">
-        <?= __('activities', 'lms-plugin'); ?>
+        <?= __('Activities', 'lms-plugin'); ?>
     </h1>
 
     <?php if (($total_activities = $user->activities()->count()) > 3): ?>

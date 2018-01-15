@@ -38,8 +38,8 @@
                     —
                 <?php endif ?>
             </td>
-            <td><?= $enrollment->enrollment_date; ?></td>
-            <td><?= $enrollment->last_activity; ?></td>
+            <td><?= $enrollment->created_at; ?></td>
+            <td><?= $enrollment->updated_at; ?></td>
             <td><?= $enrollment->progress; ?>%</td>
             <td>
                 <span class="lms-status-<?= $enrollment->status; ?>">
@@ -47,7 +47,7 @@
                 </span>
                 <?php if ($enrollment->status == 'completed'): ?>
                     <br>
-                    <?= date(get_option('date_format'), $user->{'completed_'.$enrollment->course->id}); ?>
+                    <?= $enrollment->updated_at; ?>
                 <?php endif; ?>
             </td>
             <td>
