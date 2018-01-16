@@ -30,7 +30,7 @@ $action->add('save_post', 'Slide\Saver@save');
 $action->add('manage_course_posts_custom_column', function ($column_name, $course_id) {
     if ($column_name == 'participants') {
         $course = \LmsPlugin\Models\Course::find($course_id);
-        echo $course->participants()->count();
+        echo $course->enrollments()->count();
 
         return;
     }
