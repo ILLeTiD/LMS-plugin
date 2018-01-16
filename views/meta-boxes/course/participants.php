@@ -1,17 +1,23 @@
 <div>
-    <?= __('Invited', 'lms-plugin'); ?>: <span><?= $course->participants()->count(); ?></span>
+    <?= __('Invited', 'lms-plugin'); ?>: <span><?= $course->enrollments()->count(); ?></span>
     <a href="<?= page_url('course.participants', ['cid' => $course->id]); ?>">
         <?= __('View', 'lms-plugin'); ?>
     </a>
 </div>
 <div>
-    <?= __('Enrolled', 'lms-plugin'); ?>: <span><?= $course->getNumberOfEnrolledParticipants(); ?></span>
+    <?= __('Enrolled', 'lms-plugin'); ?>:
+    <span>
+        <?= $course->enrollments()->whereIn('status', ['in_progress', 'completed', 'failed'])->count(); ?>
+    </span>
     <a href="<?= page_url('course.participants', ['cid' => $course->id, 'status' => 'enrolled']); ?>">
         <?= __('View', 'lms-plugin'); ?>
     </a>
 </div>
 <div>
-    <?= __('Pending', 'lms-plugin'); ?>: <span><?= $course->getNumberOfInvitedParticipants(); ?></span>
+    <?= __('Pending', 'lms-plugin'); ?>:
+    <span>
+        <?= $course->enrollments()->where(['status' => 'invited'])->count(); ?>
+    </span>
     <a href="<?= page_url('course.participants', ['cid' => $course->id, 'status' => 'invited']); ?>">
         <?= __('View', 'lms-plugin'); ?>
     </a>

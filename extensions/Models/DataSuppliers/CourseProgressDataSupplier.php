@@ -13,7 +13,7 @@ class CourseProgressDataSupplier
 
     public function getData()
     {
-        $participants = $this->course->participants()->count();
+        $participants = $this->course->enrollments()->count();
 
         if (! $participants) {
             return [];

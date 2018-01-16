@@ -56,8 +56,8 @@ class Course
                 $terms = get_the_terms($this->id, 'course_category');
 
                 return $terms ? $terms[0] : false;
-            case 'participants':
-                return $this->participants()->get();
+            case 'enrollments':
+                return $this->enrollments()->get();
             default:
                 return $this->post->$property;
         }
@@ -81,7 +81,7 @@ class Course
         return new Collection($results);
     }
 
-    public function participants()
+    public function enrollments()
     {
         return Enrollment::where(['course_id' => $this->id]);
     }

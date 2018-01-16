@@ -30,6 +30,14 @@ class QueryBuilder
             if (is_string($value)) {
                 $value = "'{$value}'";
             }
+
+            if (is_array($value)) {
+                $set = array_map(function ($item) {
+                    return "'{$item}'";
+                }, $value);
+                return $name . ' IN (' . implode(', ', $set)  . ')';
+            }
+
             return $name . ' = ' . $value;
         }, array_keys($this->where), array_values($this->where));
 
@@ -47,6 +55,17 @@ class QueryBuilder
     public function where($conditions)
     {
         $this->where = array_merge($this->where, $conditions);
+
+        return $this;
+    }
+
+    /**
+     * @param string $column
+     * @param array $values
+     */
+    public function whereIn($column, $values)
+    {
+        $this->where[$column] = $values;
 
         return $this;
     }
