@@ -14,6 +14,6 @@ class CategoryRepository
             'hide_empty' => true
         ]);
 
-        return new Collection($results->terms);
+        return new Collection($results->terms ? $results->terms : []);
     }
 }

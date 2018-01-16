@@ -11,16 +11,18 @@
             </label>
         </div>
         <div class="alignleft actions">
-            <select name="category">
-                <option><?= __('All categories', 'lms-plugin'); ?></option>
-                <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category->term_id; ?>"
-                            <?= selected($category->term_id, $filter['category']); ?>
-                    >
-                        <?= $category->name; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+            <?php if ($categories->count()): ?>
+                <select name="category">
+                    <option><?= __('All categories', 'lms-plugin'); ?></option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?= $category->term_id; ?>"
+                                <?= selected($category->term_id, $filter['category']); ?>
+                        >
+                            <?= $category->name; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
 
             <button class="button"><?= __('Filter', 'lms-plugin'); ?></button>
         </div>
