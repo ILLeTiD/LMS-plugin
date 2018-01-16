@@ -33,10 +33,10 @@ class CourseProgressDataSupplier
         global $wpdb;
 
         $sql = <<<SQL
-            SELECT meta_value AS status, COUNT(*) AS number
+            SELECT status, COUNT(*) AS number
             FROM {$wpdb->prefix}lms_enrollments
-            WHERE meta_key = 'status_%d'
-            GROUP BY meta_value;
+            WHERE course_id = %d
+            GROUP BY status;
 SQL;
 
         $sql = $wpdb->prepare($sql, $this->course->id);
