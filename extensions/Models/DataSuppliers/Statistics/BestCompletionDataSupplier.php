@@ -11,12 +11,11 @@ class BestCompletionDataSupplier
         global $wpdb;
 
         $sql = <<<SQL
-            SELECT course.ID AS id, course.post_title AS name, meta_value AS grade
-            FROM {$wpdb->usermeta}
+            SELECT course.ID AS id, course.post_title AS name, MAX(IFNULL(grade, 0)) AS grade
+            FROM {$wpdb->prefix}lms_enrollments
             LEFT JOIN {$wpdb->posts} course
-                ON course.ID = SUBSTRING_INDEX(meta_key, '_', -1)
-            WHERE meta_key LIKE 'grade_%'
-            GROUP BY meta_key
+                ON course.ID = course_id
+            GROUP BY course_id
             ORDER BY grade DESC;
 SQL;
 

@@ -30,7 +30,7 @@
                <?= is_null($status) ? 'class="current" aria-current="page"' : ''; ?>
             >
                 <?= __('All', 'lms-plugin'); ?>
-                <span class="count">(<?= $course->participants()->count(); ?>)</span>
+                <span class="count">(<?= $course->enrollments()->count(); ?>)</span>
             </a> |
         </li>
         <li class="enrolled">
@@ -39,7 +39,7 @@
             >
                 <?= __('Enrolled', 'lms-plugin'); ?>
                 <span class="count">
-                    (<?= $course->participants()->where(['status' => 'in_progress'])->count(); ?>)
+                    (<?= $course->enrollments()->whereIn('status', ['in_progress', 'completed', 'failed'])->count(); ?>)
                 </span>
             </a> |
         </li>
@@ -49,7 +49,7 @@
             >
                 <?= __('Pending Invites', 'lms-plugin'); ?>
                 <span class="count">
-                    (<?= $course->participants()->where(['status' => 'invited'])->count(); ?>)
+                    (<?= $course->enrollments()->where(['status' => 'invited'])->count(); ?>)
                 </span>
             </a>
         </li>

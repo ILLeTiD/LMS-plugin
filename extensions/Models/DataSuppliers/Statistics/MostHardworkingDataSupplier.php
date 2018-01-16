@@ -12,11 +12,10 @@ class MostHardworkingDataSupplier
 
         $sql = <<<SQL
             SELECT user.ID AS id, user.display_name AS name, COUNT(*) AS number
-            FROM {$wpdb->usermeta}
+            FROM {$wpdb->prefix}lms_enrollments
             INNER JOIN {$wpdb->users} user
                 ON user.ID = user_id
-            WHERE meta_key LIKE 'status_%'
-                AND meta_value = 'completed'
+            WHERE status = 'completed'
             GROUP BY user_id
             ORDER BY number DESC;
 SQL;

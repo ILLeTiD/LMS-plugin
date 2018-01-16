@@ -9,6 +9,7 @@ class QueryBuilder
     private $select = [];
     private $from = [];
     private $where = [];
+    private $order_by = [];
     private $limit = '';
 
     public function __construct($table, $class)
@@ -26,30 +27,54 @@ class QueryBuilder
         $select = 'SELECT ' . implode(', ', $this->select);
         $from = 'FROM ' . implode(', ', $this->from);
 
-        $conditions = array_map(function ($name, $value) {
-            if (is_string($value)) {
-                $value = "'{$value}'";
-            }
+        $query = $select . ' ' . $from;
 
-            if (is_array($value)) {
-                $set = array_map(function ($item) {
-                    return "'{$item}'";
-                }, $value);
-                return $name . ' IN (' . implode(', ', $set)  . ')';
-            }
+        if ($this->where) {
+            $conditions = array_map(function ($name, $value) {
+                if (is_string($value)) {
+                    $value = "'{$value}'";
+                }
 
-            return $name . ' = ' . $value;
-        }, array_keys($this->where), array_values($this->where));
+                if (is_array($value)) {
+                    $set = array_map(function ($item) {
+                        return "'{$item}'";
+                    }, $value);
+                    return $name . ' IN (' . implode(', ', $set) . ')';
+                }
 
-        $where = 'WHERE ' . implode(' AND ', $conditions);
+                return $name . ' = ' . $value;
+            }, array_keys($this->where), array_values($this->where));
 
-        $query = $select . ' ' . $from . ' ' . $where;
+            $query = ' WHERE ' . implode(' AND ', $conditions);
+        }
+
+
+        if ($this->order_by) {
+            $columns = array_map(function ($column, $order) {
+                return $column . ' ' . $order;
+            }, array_keys($this->order_by), array_values($this->order_by));
+
+            $query .= ' ORDER BY ' . implode(', ', $columns);
+        }
 
         if ($this->limit) {
             $query .= ' LIMIT ' . $this->limit;
         }
 
         return $query . ';';
+    }
+
+    public function select($columns)
+    {
+        if (is_string($columns)) {
+            $columns = [$columns];
+        }
+
+        $this->select =  $columns;
+
+        $this->class = null;
+
+        return $this;
     }
 
     public function where($conditions)
@@ -70,15 +95,26 @@ class QueryBuilder
         return $this;
     }
 
+    public function orderBy($columns)
+    {
+        $this->order_by = array_merge($this->order_by, $columns);
+
+        return $this;
+    }
+
     public function get()
     {
         $rows = $this->db->get_results($this->build(), ARRAY_A);
 
-        $enrollments = array_map(function ($row) {
-            return new $this->class($row);
-        }, $rows);
+        if ($this->class) {
+            $enrollments = array_map(function ($row) {
+                return new $this->class($row);
+            }, $rows);
 
-        return new Collection($enrollments);
+            return new Collection($enrollments);
+        }
+
+        return new Collection($rows);
     }
 
     public function count()
@@ -88,12 +124,22 @@ class QueryBuilder
         return $this->db->get_var($this->build());
     }
 
-    public function first()
+    public function first($columns = [])
     {
         $this->limit = '1';
 
         $row = $this->db->get_row($this->build(), ARRAY_A);
 
-        return new $this->class($row);
+        if ($this->class) {
+            return new $this->class($row);
+        }
+
+        if ($columns) {
+            if (is_string($columns)) {
+                return $row[$columns];
+            }
+        }
+
+        return $row;
     }
 }

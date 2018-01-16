@@ -12,11 +12,10 @@ class MostParticipantsDataSupplier
 
         $sql = <<<SQL
             SELECT course.ID AS id, course.post_title AS name, COUNT(*) AS participants
-            FROM {$wpdb->usermeta}
+            FROM {$wpdb->prefix}lms_enrollments
             LEFT JOIN {$wpdb->posts} course
-                ON course.ID = SUBSTRING_INDEX(meta_key, '_', -1)
-            WHERE meta_key LIKE 'status_%'
-            GROUP BY meta_key
+                ON course.ID = course_id
+            GROUP BY status
             ORDER BY participants DESC;
 SQL;
 

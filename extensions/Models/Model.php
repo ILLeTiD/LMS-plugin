@@ -13,11 +13,11 @@ abstract class Model
      *
      * @return \FishyMinds\QueryBuilder
      */
-    public static function where($conditions)
+    public static function __callStatic($name, $arguments)
     {
         $query_builder = new QueryBuilder(static::TABLE, static::class);
 
-        return $query_builder->where($conditions);
+        return call_user_func_array([$query_builder, $name], $arguments);
     }
 
     public static function find($id)

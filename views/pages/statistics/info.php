@@ -4,11 +4,11 @@
         <p>
         <div class="lms-statistics-info__label">
             <?= __('From', 'lms-plugin'); ?>:
-            <strong><?= $from; ?></strong>
+            <strong><?= date(get_option('date_format'), strtotime($from)); ?></strong>
         </div>
         <div class="lms-statistics-info__label">
             <?= __('To', 'lms-plugin'); ?>:
-            <strong><?= $to; ?></strong>
+            <strong><?= date(get_option('date_format'), strtotime($to)); ?></strong>
         </div>
 
         <p>

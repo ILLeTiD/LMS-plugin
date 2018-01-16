@@ -2,10 +2,24 @@
     <form method="POST">
         <div class="alignleft actions">
             <select name="from">
-                <option><?= __('From', 'lms-plugin'); ?></option>
+                <option value=""><?= __('From', 'lms-plugin'); ?></option>
+                <?php foreach ($dateFilter as $date): ?>
+                    <option value="<?= $date->format('Y-m-d H:i:s'); ?>"
+                            <?= selected($date->format('Y-m-d H:i:s'), $from); ?>
+                    >
+                        <?= $date->format(get_option('date_format')); ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
-            <select name="from">
-                <option><?= __('To', 'lms-plugin'); ?></option>
+            <select name="to">
+                <option value=""><?= __('To', 'lms-plugin'); ?></option>
+                <?php foreach ($dateFilter as $date): ?>
+                    <option value="<?= $date->format('Y-m-d H:i:s'); ?>"
+                            <?= selected($date->format('Y-m-d H:i:s'), $to); ?>
+                    >
+                        <?= $date->format(get_option('date_format')); ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="alignleft actions">

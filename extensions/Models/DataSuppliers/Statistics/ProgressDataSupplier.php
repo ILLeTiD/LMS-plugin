@@ -6,16 +6,33 @@ use FishyMinds\Collection;
 
 class ProgressDataSupplier
 {
+    private $from;
+    private $to;
+
+    public function period($from, $to)
+    {
+        $this->from = $from;
+        $this->to = $to;
+
+        return $this;
+    }
+
     public function getData()
     {
         global $wpdb;
 
+        $where = '1 = 1';
+        $where .= $this->from ? " AND updated_at >= '{$this->from}'" : '';
+        $where .= $this->to ? " AND updated_at <= '{$this->to}'" : '';
+
         $sql = <<<SQL
-            SELECT meta_value AS status, COUNT(*) as number
-            FROM {$wpdb->usermeta}
-            WHERE meta_key LIKE 'status_%'
-            GROUP BY meta_value;
+            SELECT status, COUNT(*) as number
+            FROM {$wpdb->prefix}lms_enrollments
+            WHERE {$where}
+            GROUP BY status;
 SQL;
+
+        d($sql);
 
         $results = $wpdb->get_results($sql, OBJECT_K);
 

@@ -37,11 +37,11 @@ class ParticipantsPageController extends Controller
         $course = Course::find($cid);
 
         if ($status) {
-            $participants = $course->participants()
+            $participants = $course->enrollments()
                                    ->where(['status' => $status])
                                    ->get();
         } else {
-            $participants = $course->participants;
+            $participants = $course->enrollments;
         }
 
         // $allUsers = new WP_User_Query([
