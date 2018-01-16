@@ -34,7 +34,7 @@ class CourseProgressDataSupplier
 
         $sql = <<<SQL
             SELECT meta_value AS status, COUNT(*) AS number
-            FROM {$wpdb->usermeta}
+            FROM {$wpdb->prefix}lms_enrollments
             WHERE meta_key = 'status_%d'
             GROUP BY meta_value;
 SQL;

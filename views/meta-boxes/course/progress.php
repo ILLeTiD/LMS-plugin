@@ -1,4 +1,4 @@
-<?php if ($course->participants()->count()): ?>
+<?php if ($course->enrollments()->count()): ?>
     <div class="lsm-progress">
         <div class="lsm-progress-list">
             <ul>
