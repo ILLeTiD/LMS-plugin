@@ -32,8 +32,6 @@ class ProgressDataSupplier
             GROUP BY status;
 SQL;
 
-        d($sql);
-
         $results = $wpdb->get_results($sql, OBJECT_K);
 
         $total = array_reduce($results, function ($sum, $item) {
