@@ -1,26 +1,14 @@
 <div class="tablenav top">
     <form method="POST">
         <div class="alignleft actions">
-            <select name="from">
-                <option value=""><?= __('From', 'lms-plugin'); ?></option>
-                <?php foreach ($dateFilter as $date): ?>
-                    <option value="<?= $date->format('Y-m-d H:i:s'); ?>"
-                            <?= selected($date->format('Y-m-d H:i:s'), $from); ?>
-                    >
-                        <?= $date->format(get_option('date_format')); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <select name="to">
-                <option value=""><?= __('To', 'lms-plugin'); ?></option>
-                <?php foreach ($dateFilter as $date): ?>
-                    <option value="<?= $date->format('Y-m-d H:i:s'); ?>"
-                            <?= selected($date->format('Y-m-d H:i:s'), $to); ?>
-                    >
-                        <?= $date->format(get_option('date_format')); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+            <label>
+                <?= __('From', 'lms-plugin'); ?>:
+                <input type="text" id="from" name="from" value="<?= $from; ?>">
+            </label>
+            <label>
+                <?= __('To', 'lms-plugin'); ?>:
+                <input type="text" id="to" name="to" value="<?= $to; ?>">
+            </label>
         </div>
         <div class="alignleft actions">
             <select name="category">
@@ -38,3 +26,31 @@
         </div>
     </form>
 </div>
+
+<script>
+    (function ($) {
+
+        $(function () {
+            var dateFormat = 'yy-mm-dd',
+                from = $('#from').datepicker({dateFormat: dateFormat})
+                    .on('change', function () {
+                        to.datepicker('option', 'minDate', getDate(this));
+                    }),
+                to = $('#to').datepicker({dateFormat: dateFormat})
+                    .on('change', function () {
+                        from.datepicker('option', 'maxDate', getDate(this));
+                    });
+
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+        });
+    })(jQuery);
+</script>

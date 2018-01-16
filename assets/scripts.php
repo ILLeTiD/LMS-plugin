@@ -19,3 +19,6 @@ $script->add('invite-scripts')
         return $this->getCurrentScreen()->id == 'course_page_course_participants';
     });
 
+$script->add('jquery-ui')
+       ->source('jquery-ui.min.js');
+

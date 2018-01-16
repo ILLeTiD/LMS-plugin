@@ -23,10 +23,8 @@ class StatisticsPageController extends Controller
     {
         $filter['category'] = array_get($_POST, 'category');
 
-        $from = array_get($_POST, 'from', date('Y-m-d H:i:s', strtotime('-1 month')));
-        $to = ! empty($_POST['to']) ? $_POST['to'] : date('Y-m-d H:i:s');
-
-        $dateFilter = $this->dateFilter();
+        $from = array_get($_POST, 'from', date($this->plugin->date_format, strtotime('-1 month')));
+        $to = ! empty($_POST['to']) ? $_POST['to'] : date($this->plugin->date_format);
 
         $categories = CategoryRepository::get([
             'taxonomy' => 'course_category',
@@ -66,20 +64,7 @@ class StatisticsPageController extends Controller
             'most_participants',
             'best_completion',
             'users',
-            'categories',
-            'dateFilter'
+            'categories'
         ));
-    }
-
-    private function dateFilter()
-    {
-        $earliest = Enrollment::select('created_at')->orderBy(['updated_at' => 'DESC'])->first('created_at');
-
-        $begin = new DateTime($earliest);
-        $begin->modify('first day of this month');
-        $end = new DateTime();
-        $interval = new DateInterval('P1M');
-
-        return new DatePeriod($begin, $interval ,$end);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace FishyMinds\WordPress\Plugin;
 
+/**
+ * @property string $date_format
+ */
 class Plugin
 {
     /**
