@@ -45,7 +45,7 @@ class QueryBuilder
                 return $name . ' = ' . $value;
             }, array_keys($this->where), array_values($this->where));
 
-            $query = ' WHERE ' . implode(' AND ', $conditions);
+            $query .= ' WHERE ' . implode(' AND ', $conditions);
         }
 
 
