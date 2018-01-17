@@ -2,28 +2,23 @@
 
 namespace LmsPlugin\Controllers;
 
-use DateInterval;
-use DatePeriod;
-use DateTime;
-use LmsPlugin\CustomRoles;
 use LmsPlugin\Models\Course;
 use LmsPlugin\Models\DataSuppliers\Statistics\BestCompletionDataSupplier;
+use LmsPlugin\Models\DataSuppliers\Statistics\CoursesDataSupplier;
 use LmsPlugin\Models\DataSuppliers\Statistics\MostHardworkingDataSupplier;
 use LmsPlugin\Models\DataSuppliers\Statistics\MostParticipantsDataSupplier;
+use LmsPlugin\Models\DataSuppliers\Statistics\ParticipantsDataSupplier;
 use LmsPlugin\Models\DataSuppliers\Statistics\ProgressDataSupplier;
-use LmsPlugin\Models\Enrollment;
 use LmsPlugin\Models\Repositories\CategoryRepository;
 use LmsPlugin\Models\Repositories\CourseRepository;
-use LmsPlugin\Models\Repositories\UserRepository;
 use WP_Term_Query;
 
 class StatisticsPageController extends Controller
 {
     public function index()
     {
-        $filter['category'] = array_get($_POST, 'category');
-
-        $from = array_get($_POST, 'from', date($this->plugin->date_format, strtotime('-1 month')));
+        $category = array_get($_POST, 'category');
+        $from = ! empty($_POST['from']) ? $_POST['from'] : date($this->plugin->date_format, strtotime('-1 month'));
         $to = ! empty($_POST['to']) ? $_POST['to'] : date($this->plugin->date_format);
 
         $categories = CategoryRepository::get([
@@ -31,30 +26,18 @@ class StatisticsPageController extends Controller
             'hide_empty' => true
         ]);
 
-        $progress = (new ProgressDataSupplier)->period($from, $to)->getData();
+        $progress = (new ProgressDataSupplier)->period($from, $to)->category($category)->get();
         $statuses = Course::statuses();
 
-        if ($filter['category']) {
-            $courses = CourseRepository::get([
-                'tax_query' => [[
-                    'taxonomy' => 'course_category',
-                    'terms' => $filter['category']
-                ]]
-            ]);
-        } else {
-            $courses = CourseRepository::get();
-        }
+        $courses = (new CoursesDataSupplier)->period($from, $to)->category($category)->get();
+        $participants = (new ParticipantsDataSupplier)->period($from, $to)->category($category)->get();
 
-        $participants = UserRepository::get([
-            'role__in' => array_keys(CustomRoles::roles()),
-        ]);
-
-        $most_participants = (new MostParticipantsDataSupplier)->getData();
-        $best_completion = BestCompletionDataSupplier::getData();
-        $users = MostHardworkingDataSupplier::getData();
+        $most_participants = (new MostParticipantsDataSupplier)->period($from, $to)->category($category)->get();
+        $best_completion = (new BestCompletionDataSupplier)->period($from, $to)->category($category)->get();
+        $users = (new MostHardworkingDataSupplier)->period($from, $to)->category($category)->get();
 
         $this->view('pages.statistics.index', compact(
-            'filter',
+            'category',
             'from',
             'to',
             'progress',

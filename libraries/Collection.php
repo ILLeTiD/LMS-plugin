@@ -62,4 +62,9 @@ class Collection implements IteratorAggregate, Countable
             return is_object($item) ? $item->$column : $item[$column];
         }, $this->items);
     }
+
+    public function join($glue)
+    {
+        return implode($glue, $this->items);
+    }
 }

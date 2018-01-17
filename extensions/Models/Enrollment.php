@@ -59,7 +59,7 @@ class Enrollment extends Model
         $slide_ids_placeholder = implode(', ', array_fill(0, $slides->count(), '%d'));
         $sql = <<<SQL
           SELECT COUNT(*)
-          FROM {$wpdb->prefix}lms_activity
+          FROM {$wpdb->prefix}lms_activities
           WHERE course_id = %d
                 AND slide_id IN ({$slide_ids_placeholder})
                 AND description = 'Completed';

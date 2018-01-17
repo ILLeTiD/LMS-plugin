@@ -6,16 +6,21 @@ use FishyMinds\Collection;
 
 class MostParticipantsDataSupplier
 {
-    public function getData()
+    use Filter;
+
+    public function get()
     {
         global $wpdb;
+
+        $where = $this->where();
 
         $sql = <<<SQL
             SELECT course.ID AS id, course.post_title AS name, COUNT(*) AS participants
             FROM {$wpdb->prefix}lms_enrollments
             LEFT JOIN {$wpdb->posts} course
                 ON course.ID = course_id
-            GROUP BY status
+            WHERE {$where}
+            GROUP BY course_id
             ORDER BY participants DESC;
 SQL;
 

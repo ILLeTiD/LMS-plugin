@@ -14,11 +14,11 @@
         <p>
         <div class="lms-statistics-info__label">
             <?= __('Courses', 'lms-plugin'); ?>:
-            <strong><?= $courses->count(); ?></strong>
+            <strong><?= $courses; ?></strong>
         </div>
         <div class="lms-statistics-info__label">
             <?= __('Participants', 'lms-plugin'); ?>:
-            <strong><?= $participants->count(); ?></strong>
+            <strong><?= $participants; ?></strong>
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@ class EnrollmentFactory
         $result = [];
 
         foreach ($users as $user) {
-            $result[] = new Enrollment($user, $course);
+            $result[] = new Enrollment(['user_id' => $user, 'course_id' => $course]);
         }
 
         return $result;

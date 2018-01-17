@@ -85,4 +85,9 @@ class Course
     {
         return Enrollment::where(['course_id' => $this->id]);
     }
+
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
 }

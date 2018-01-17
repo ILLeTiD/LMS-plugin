@@ -13,12 +13,12 @@
         <div class="alignleft actions">
             <?php if ($categories->count()): ?>
                 <select name="category">
-                    <option><?= __('All categories', 'lms-plugin'); ?></option>
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?= $category->term_id; ?>"
-                                <?= selected($category->term_id, $filter['category']); ?>
+                    <option value=""><?= __('All categories', 'lms-plugin'); ?></option>
+                    <?php foreach ($categories as $cat): ?>
+                        <option value="<?= $cat->term_id; ?>"
+                                <?= selected($cat->term_id, $category); ?>
                         >
-                            <?= $category->name; ?>
+                            <?= $cat->name; ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

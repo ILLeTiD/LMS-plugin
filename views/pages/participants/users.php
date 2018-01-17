@@ -31,8 +31,8 @@
             <td>
                 <?= ucfirst(implode(', ', $user->roles)); ?>
             </td>
-            <td>
-                <?= $user->last_activity ?: __('Unknown', 'lms-plugin'); ?>
+            <td class="lms-align-right">
+                <?= date(get_option('date_format', $user->last_activity)) ?: __('Unknown', 'lms-plugin'); ?>
             </td>
         </tr>
     <?php endforeach; ?>

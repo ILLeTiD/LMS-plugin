@@ -6,24 +6,13 @@ use FishyMinds\Collection;
 
 class ProgressDataSupplier
 {
-    private $from;
-    private $to;
+    use Filter;
 
-    public function period($from, $to)
-    {
-        $this->from = $from;
-        $this->to = $to;
-
-        return $this;
-    }
-
-    public function getData()
+    public function get()
     {
         global $wpdb;
 
-        $where = '1 = 1';
-        $where .= $this->from ? " AND updated_at >= '{$this->from}'" : '';
-        $where .= $this->to ? " AND updated_at <= '{$this->to}'" : '';
+        $where = $this->where();
 
         $sql = <<<SQL
             SELECT status, COUNT(*) as number
