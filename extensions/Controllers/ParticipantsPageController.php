@@ -8,6 +8,7 @@ use LmsPlugin\CustomRoles;
 use LmsPlugin\EnrollmentFactory;
 use LmsPlugin\Models\Course;
 use LmsPlugin\Models\Enrollment;
+use LmsPlugin\Models\Repositories\CategoryRepository;
 use LmsPlugin\Models\Repositories\UserRepository;
 use LmsPlugin\Models\Role;
 use LmsPlugin\Models\User;
@@ -18,13 +19,64 @@ class ParticipantsPageController extends Controller
 {
     public function all()
     {
+        $search = array_get($_GET, 's');
+        $role = array_get($_GET, 'role');
+        $from = array_get($_GET, 'from');
+        $to = array_get($_GET, 'to');
+
         $roles = CustomRoles::roles();
 
-        $users = UserRepository::get([
+        $arguments = [
             'role__in' => array_keys(CustomRoles::roles())
-        ]);
+        ];
 
-        $this->view('pages.participants.all', compact('users', 'roles'));
+        if ($search) {
+            $arguments['search'] = '*' . $search . '*';
+        }
+
+        if ($role) {
+            $arguments['role'] = $role;
+        }
+
+        if ($from || $to) {
+            $meta_query = [];
+
+            if ($from && $to) {
+                $meta_query['relation'] = 'AND';
+            }
+
+            if ($from) {
+                $meta_query[] = [
+                    'key' => 'last_activity',
+                    'value' => strtotime($from),
+                    'compare' => '>=',
+                    'type' => 'UNSIGNED'
+                ];
+            }
+
+            if ($to) {
+                $meta_query[] = [
+                    'key' => 'last_activity',
+                    'value' => strtotime($to) + (3600 * 24),
+                    'compare' => '<=',
+                    'type' => 'UNSIGNED'
+                ];
+            }
+
+            $arguments['meta_query'] = $meta_query;
+        }
+
+        $users = UserRepository::get($arguments);
+
+        $this->view('pages.participants.all', compact(
+            'categories',
+            'search',
+            'roles',
+            'users',
+            'from',
+            'role',
+            'to'
+        ));
     }
 
     public function course()
@@ -33,38 +85,38 @@ class ParticipantsPageController extends Controller
 
         $cid = array_get($_GET, 'cid');
         $status = array_get($_GET, 'status');
+        $search = array_get($_GET, 's');
+        $role = array_get($_GET, 'role');
+        $from = array_get($_GET, 'from');
+        $to = array_get($_GET, 'to');
 
         $course = Course::find($cid);
+        $roles = CustomRoles::roles();
+
+        $arguments = [
+            'role__in' => array_keys(CustomRoles::roles()),
+        ];
+
+        if ($search) {
+            $arguments['search'] = '*' . $search . '*';
+        }
+
+        if ($role) {
+            $arguments['role'] = $role;
+        }
+
+        $user_ids = UserRepository::get($arguments)->pluck('id');
 
         if ($status) {
             $participants = $course->enrollments()
+                                   ->whereIn('user_id', $user_ids)
                                    ->where(['status' => $status])
                                    ->get();
         } else {
-            $participants = $course->enrollments;
+            $participants = $course->enrollments()
+                                   ->whereIn('user_id', $user_ids)
+                                   ->get();
         }
-
-        // $allUsers = new WP_User_Query([
-        //     'role__in' => array_keys(CustomRoles::roles()),
-        //     'meta_key' => 'status_' . $course->ID,
-        //     'meta_value' => ['invited', 'in_progress', 'completed', 'failed'],
-        //     'meta_compare' => 'IN'
-        // ]);
-        //
-        // $enrolledUsers = new WP_User_Query([
-        //     'role__in' => array_keys(CustomRoles::roles()),
-        //     'meta_key' => 'status_' . $course->ID,
-        //     'meta_value' => ['in_progress', 'completed', 'failed'],
-        //     'meta_compare' => 'IN'
-        // ]);
-        //
-        // $invitedUsers = new WP_User_Query([
-        //     'role__in' => array_keys(CustomRoles::roles()),
-        //     'meta_key' => 'status_' . $course->ID,
-        //     'meta_value' => 'invited'
-        // ]);
-
-        $roles = CustomRoles::roles();
 
         $statuses = [
             'invited' => __('Invited', 'lms-plugin'),
@@ -76,14 +128,15 @@ class ParticipantsPageController extends Controller
         $this->view(
             'pages.participants.course',
             compact(
-                'course',
-                'users',
-                'enrolledUsers',
-                'invitedUsers',
-                'roles',
+                'participants',
                 'statuses',
+                'course',
+                'search',
                 'status',
-                'participants'
+                'roles',
+                'from',
+                'role',
+                'to'
             )
         );
     }

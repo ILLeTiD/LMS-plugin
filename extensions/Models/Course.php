@@ -3,6 +3,7 @@
 namespace LmsPlugin\Models;
 
 use FishyMinds\Collection;
+use FishyMinds\QueryBuilder;
 use WP_Post;
 use WP_Query;
 
@@ -81,6 +82,9 @@ class Course
         return new Collection($results);
     }
 
+    /**
+     * @return \FishyMinds\QueryBuilder
+     */
     public function enrollments()
     {
         return Enrollment::where(['course_id' => $this->id]);

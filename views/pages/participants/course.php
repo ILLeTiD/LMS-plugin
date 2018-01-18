@@ -55,44 +55,44 @@
         </li>
     </ul>
 
-    <form id="posts-filter" method="get">
+    <form id="posts-filter">
 
-        <p class="search-box">
-            <label class="screen-reader-text" for="post-search-input">Search Courses:</label>
-            <input type="search" id="post-search-input" name="s" value="">
-            <input type="submit" id="search-submit" class="button" value="Search Courses">
-        </p>
+        <?php component('components.search', ['s' => $search]); ?>
 
-        <input type="hidden" name="post_status" class="post_status_page" value="all">
-        <input type="hidden" name="post_type" class="post_type_page" value="course">
-
-        <input type="hidden" id="_wpnonce" name="_wpnonce" value="2a8c4a228e"><input type="hidden" name="_wp_http_referer" value="/wp-admin/edit.php?post_type=course">
+        <input type="hidden" name="post_type" value="course">
+        <input type="hidden" name="page" value="course_participants">
+        <input type="hidden" name="cid" value="<?= $course->id; ?>">
+        <input type="hidden" name="status" value="<?= $status; ?>">
 
         <div class="tablenav top">
             <div class="alignleft actions bulkactions">
-                <label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label>
+                <label for="bulk-action-selector-top" class="screen-reader-text">
+                    <?= __('Select bulk action', 'lms-plugin'); ?>
+                </label>
                 <select name="action" id="bulk-action-selector-top">
-                    <option value="-1">Bulk Actions</option>
-                    <option value="edit" class="hide-if-no-js">Edit</option>
-                    <option value="trash">Move to Trash</option>
+                    <option value="-1"><?= __('Bulk Actions', 'lms-plugin'); ?></option>
+                    <option value="resend_invite"><?= __('Resend invite', 'lms-plugin'); ?></option>
+                    <option value="uninvite"><?= __('Uninvite', 'lms-plugin'); ?></option>
+                    <option value="reset_result"><?= __('Reset result', 'lms-plugin'); ?></option>
+                    <option value="fail"><?= __('Fail', 'lms-plugin'); ?></option>
                 </select>
-                <input type="submit" id="doaction" class="button action" value="Apply">
+                <input type="submit" class="button action" value="<?= __('Apply', 'lms-plugin'); ?>">
             </div>
 
             <div class="alignleft actions">
-                <label for="filter-by-date" class="screen-reader-text">Filter by date</label>
-                <select name="m" id="filter-by-date">
-                    <option selected="selected" value="0">All dates</option>
-                    <option value="201712">December 2017</option>
-                </select>
-                <label for="filter-by-role" class="screen-reader-text">Filter by role</label>
-                <select name="role_filter" id="filter-by-role">
-                    <option value="all"><?= __('All roles', 'lms-plugin'); ?></option>
-                    <?php foreach ($roles as $name => $role): ?>
-                        <option value="<?= $name; ?>"><?= $role['label']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <input type="submit" name="filter_action" id="post-query-submit" class="button" value="Filter">
+                <?php component('components.filter.period', [
+                    'from' => $from,
+                    'to' => $to
+                ]); ?>
+            </div>
+
+            <div class="alignleft actions">
+                <?php component('components.filter.role', [
+                    'roles' => $roles,
+                    'role' => $role
+                ]); ?>
+
+                <button class="button"><?= __('Filter', 'lms-plugin'); ?></button>
             </div>
 
             <div class="tablenav-pages one-page"><span class="displaying-num">1 item</span>
@@ -159,7 +159,7 @@
                                 </span>
                                 <span class="resend-invite">
                                     <a href="#" aria-label="<?= __('Resend Invite', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
-                                        <?= __('Resend Invite', 'lms-plugin'); ?>
+                                        <?= __('Resend invite', 'lms-plugin'); ?>
                                     </a> |
                                 </span>
                                 <span class="univite trash">
