@@ -107,16 +107,12 @@ class ParticipantsPageController extends Controller
 
         $user_ids = UserRepository::get($arguments)->pluck('id');
 
-        if ($status) {
-            $participants = $course->enrollments()
-                                   ->whereIn('user_id', $user_ids)
-                                   ->where(['status' => $status])
-                                   ->get();
-        } else {
-            $participants = $course->enrollments()
-                                   ->whereIn('user_id', $user_ids)
-                                   ->get();
-        }
+        $participants = $course->enrollments()
+                               ->whereIn('user_id', $user_ids)
+                               ->where(['status' => $status])
+                               ->where('created_at', '>=', $from)
+                               ->where('created_at', '<', empty($to) ? $to : date(get_option('date_format'), strtotime($to) + 3600 * 24))
+                               ->get();
 
         $statuses = [
             'invited' => __('Invited', 'lms-plugin'),

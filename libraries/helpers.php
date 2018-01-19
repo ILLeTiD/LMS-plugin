@@ -121,9 +121,9 @@ if ( ! function_exists('d')) {
      * @param  mixed  $args
      * @return void
      */
-    function d($args = '')
+    function d(...$args)
     {
-        var_dump($args);
+        var_dump(...$args);
     }
 }
 
@@ -134,9 +134,9 @@ if ( ! function_exists('dd')) {
      * @param  mixed  $args
      * @return void
      */
-    function dd($args = '')
+    function dd(...$args)
     {
-        var_dump($args);
+        d(...$args);
         exit();
     }
 }

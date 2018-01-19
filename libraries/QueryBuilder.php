@@ -30,20 +30,22 @@ class QueryBuilder
         $query = $select . ' ' . $from;
 
         if ($this->where) {
-            $conditions = array_map(function ($name, $value) {
-                if (is_string($value)) {
-                    $value = "'{$value}'";
+            $conditions = array_map(function ($condition) {
+                if (is_string($condition['value'])) {
+                    return sprintf("%s %s '%s'", $condition['column'], $condition['operator'], $condition['value']);
                 }
 
-                if (is_array($value)) {
+                if (is_array($condition['value'])) {
                     $set = array_map(function ($item) {
-                        return "'{$item}'";
-                    }, $value);
-                    return $name . ' IN (' . implode(', ', $set) . ')';
+                        return is_int($item) ? $item : "'{$item}'";
+                    }, $condition['value']);
+
+                    return sprintf('%s IN (%s)', $condition['column'], implode(', ', $set));
                 }
 
-                return $name . ' = ' . $value;
-            }, array_keys($this->where), array_values($this->where));
+                return sprintf('%s %s %s', $condition['column'], $condition['operator'], $condition['value']);
+
+            }, $this->where);
 
             $query .= ' WHERE ' . implode(' AND ', $conditions);
         }
@@ -61,6 +63,8 @@ class QueryBuilder
             $query .= ' LIMIT ' . $this->limit;
         }
 
+        // d($query);
+
         return $query . ';';
     }
 
@@ -77,9 +81,30 @@ class QueryBuilder
         return $this;
     }
 
-    public function where($conditions)
+    /**
+     * Add where condition.
+     *
+     * @param string|array $column
+     * @param null|int|string $operator
+     * @param null|int|string $value
+     *
+     * @return $this|\FishyMinds\QueryBuilder
+     */
+    public function where($column, $operator = null, $value = null)
     {
-        $this->where = array_merge($this->where, $conditions);
+        if (is_array($column)) {
+            foreach ($column as $name => $value) {
+                $this->where($name, '=', $value);
+            }
+
+            return $this;
+        }
+
+        $condition = compact('column', 'operator', 'value');
+
+        if ( ! empty($value)) {
+            $this->where[] = $condition;
+        }
 
         return $this;
     }
@@ -90,7 +115,13 @@ class QueryBuilder
      */
     public function whereIn($column, $values)
     {
-        $this->where[$column] = $values;
+        $condition = [
+            'column' => $column,
+            'operator' => 'IN',
+            'value' => $values
+        ];
+
+        $this->where[] = $condition;
 
         return $this;
     }
