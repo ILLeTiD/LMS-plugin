@@ -13,7 +13,9 @@ class CustomCssMetaBox extends MetaBox
 
     public function callback()
     {
-        $customCSS = get_post_meta($_GET['post'], 'slide_custom_css', true);
+        global $post;
+
+        $customCSS = get_post_meta($post->ID, 'slide_custom_css', true);
 
         $this->view('meta-boxes.slide.custom-css', compact('customCSS'));
     }

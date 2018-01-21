@@ -121,29 +121,43 @@
     $('.js-add-slide-content').click(function (e) {
         e.preventDefault();
 
-        var lastSlide = $('.slides > div').last(),
+        var lastSlide = $('.lms-slide-sections > div').last(),
             newSlide = $('#slide-template').clone(true),
             slideNumberElement = newSlide.find('.slide-number'),
             lastSlideNumber = parseInt(lastSlide.find('.slide-number').text()),
             lastSlideIndex = lastSlideNumber - 1,
             newSlideIndex = lastSlideIndex + 1;
 
-        slideNumberElement.text(lastSlideNumber + 1);
+        // slideNumberElement.text(lastSlideNumber + 1);
+        //
+        // newSlide.attr('id', 'slide-' + newSlideIndex);
+        //
+        // newSlide.find('input, textarea, select').each(function (i, element) {
+        //     element.name = element.name.replace('[]', '[' + newSlideIndex + ']');
+        //     element.disabled = false;
+        // });
+        //
+        // newSlide.insertAfter(lastSlide);
+        // newSlide.show();
 
-        newSlide.attr('id', 'slide-' + newSlideIndex);
+        // New implementation.
+        $.get(ajaxurl, {
+            action: 'new_slide_section',
+            section_id: newSlideIndex
+        }, function (response) {
+            lastSlide.after(response);
 
-        newSlide.find('input, textarea, select').each(function (i, element) {
-            element.name = element.name.replace('[]', '[' + newSlideIndex + ']');
-            element.disabled = false;
+            console.log(newSlideIndex);
+            wp.editor.initialize('slide_content_' + newSlideIndex, {
+                tinymce: true,
+                quicktags: true
+            });
         });
-
-        newSlide.insertAfter(lastSlide);
-        newSlide.show();
 
     });
 
     $('.js-advanced-settings').on('click', function (e) {
-        var advancedSettings = $(this).parent().siblings('.slide-content__advance-settings');
+        var advancedSettings = $(this).parent().parent().siblings('.slide-content__advance-settings');
 
         advancedSettings.toggleClass('hidden');
 
@@ -151,9 +165,19 @@
     });
 
     $('#lms_slide_content_meta_box').on('click', '.js-remove-slide', function () {
-        var slide = $(this);
+        var button = $(this);
 
-        slide.parent().remove();
+        button.parent().remove();
+    });
+
+    $(function () {
+
+        $('.lms-slide-section').each(function (i) {
+            wp.editor.initialize('slide_content_' + i, {
+                tinymce: true,
+                quicktags: true
+            });
+        });
     });
 
 })(jQuery);

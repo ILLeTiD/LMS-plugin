@@ -49,6 +49,13 @@ $action->add('wp_ajax_invite_by_role_name', 'Controllers\ParticipantsPageControl
 $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageController@inviteByUserId');
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
+$action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
+
+
+if ( ! class_exists( '_WP_Editors', false ) ) {
+    require( ABSPATH . WPINC . '/class-wp-editor.php' );
+}
+$action->add('admin_print_footer_scripts', ['_WP_Editors', 'print_default_editor_scripts']);
 
 
 

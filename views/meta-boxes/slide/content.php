@@ -4,11 +4,11 @@
 
 <input type="hidden" name="course" value="<?= $course; ?>">
 
-<div class="slides">
-    <div class="slide-content-template hidden">
-        <?php $slide = []; ?>
-        <?php include 'components/content.php' ?>
-    </div>
+<div class="lms-slide-sections">
+<!--    <div class="slide-content-template hidden">-->
+<!--        --><?php //$slide = []; ?>
+<!--        --><?php //include 'components/content.php' ?>
+<!--    </div>-->
 
     <?php if ($content): ?>
         <?php foreach ($content as $i => $slide): ?>
@@ -17,4 +17,4 @@
     <?php endif; ?>
 </div>
 
-<a href="#" class="js-add-slide-content">+ <?= __('Add content', 'lms-plugin'); ?></a>
+<a href="#" class="lms-add-slide-section-button js-add-slide-content">+ <?= __('Add content', 'lms-plugin'); ?></a>
