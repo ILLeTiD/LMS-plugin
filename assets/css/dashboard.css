@@ -10,6 +10,8 @@
 
 .lms-slide-section {
     position: relative;
+    background-color: #FFF;
+    margin-top: 10px;
 }
 
 .lms-slide-section__title {
@@ -591,8 +593,11 @@
 }
 
 .lms-advanced-settings {
+    border-top: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
     background-color: #F6F6F6;
     width: calc(100% + 24px);
+    margin-top: 15px;
     margin-left: -12px;
     margin-right: -12px;
     padding: 10px 12px;

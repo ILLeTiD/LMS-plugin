@@ -179,6 +179,10 @@ var lms = {
         $('.lms-delete-confirmation').fadeIn();
     });
 
+    $('#lms_slide_content_meta_box').on('mousedown', '.js-sortable-handle', function (event) {
+        $(this).parent().parent().find('.lms-advanced-settings').addClass('hidden');
+    });
+
     $('.js-delete-confirmation__yes').on('click', function () {
         var button = $(this),
             section = $('#slide-section-' + button.data('section'));
