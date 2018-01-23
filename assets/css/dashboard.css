@@ -600,3 +600,20 @@
     font-size: 12px;
     font-weight: normal;
 }
+
+.lms-delete-confirmation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background-color: #F0F0F0;
+    padding: 20px 30px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #DDD;
+}
+
+.lms-delete-confirmation p {
+    margin-bottom: 30px;
+}

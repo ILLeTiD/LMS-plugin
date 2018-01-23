@@ -170,13 +170,28 @@ var lms = {
         e.preventDefault();
     });
 
-    $('#lms_slide_content_meta_box').on('click', '.js-remove-slide', function () {
+    $('#lms_slide_content_meta_box').on('click', '.js-remove-slide-section', function (event) {
         var button = $(this),
             section = button.parent();
 
-        lms.editor.remove('section_text_' + section.data('section'));
+        $('.js-delete-confirmation__yes').data('section', section.data('section'));
+
+        $('.lms-delete-confirmation').fadeIn();
+    });
+
+    $('.js-delete-confirmation__yes').on('click', function () {
+        var button = $(this),
+            section = $('#slide-section-' + button.data('section'));
+
+        lms.editor.remove('section_text_' + button.data('section'));
 
         section.remove();
+
+        $('.lms-delete-confirmation').fadeOut();
+    });
+
+    $('.js-delete-confirmation__no').on('click', function () {
+        $('.lms-delete-confirmation').fadeOut();
     });
 
     $(function () {

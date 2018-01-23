@@ -4,7 +4,7 @@
 
     <h4 class="lms-slide-section__title">
         <i class="fa fa-bars js-sortable-handle" aria-hidden="true"></i>
-        <?= __('Section', 'lms-plugin'); ?> <span class="slide-number"><?= isset($slideNumber) ? $slideNumber++ : $i + 1; ?></span>
+        <?= __('Section', 'lms-plugin'); ?> <span class="slide-number"><?= $i + 1; ?></span>
     </h4>
 
     <div class="row no-gutters">
@@ -31,7 +31,7 @@
     <?php include 'advanced-settings.php'; ?>
 
     <!-- TODO: Restore slide after removing functionality. -->
-    <button type="button" class="notice-dismiss lms-slide-section__remove-button js-remove-slide">
+    <button type="button" class="notice-dismiss lms-slide-section__remove-button js-remove-slide-section">
         <span class="screen-reader-text"><?= __('Dismiss this notice.'); ?></span>
     </button>
 
