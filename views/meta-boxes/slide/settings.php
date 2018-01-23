@@ -18,11 +18,11 @@
 
 <div class="field">
     <div class="field__title">
-        <?= __('Content Display', 'lms-plugin'); ?>
+        <?= __('Display Header', 'lms-plugin'); ?>
     </div>
     <div class="field__value">
         <select name="slide_content_display">
-            <?php foreach ($slideContentDisplayOptions as $value => $name): ?>
+            <?php foreach ($slideDisplayHeaderOptions as $value => $name): ?>
                 <option value="<?= $value; ?>" <?= selected($post->slide_content_display, $value); ?>><?= __($name, 'lms-plugin'); ?></option>
             <?php endforeach; ?>
         </select>

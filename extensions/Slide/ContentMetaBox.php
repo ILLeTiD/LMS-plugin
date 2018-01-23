@@ -26,9 +26,15 @@ class ContentMetaBox extends MetaBox
             'light' => 'Light'
         ];
         $imageAlignmentOptions = [
-            'center' => 'Center',
-            'left' => 'Left',
-            'right' => 'Right'
+            'center center' => 'center center',
+            'top center' => 'top center',
+            'bottom center' => 'bottom center',
+            'center left' => 'center left',
+            'top left' => 'top left',
+            'bottom left' => 'bottom left',
+            'center right' => 'center right',
+            'top right' => 'top right',
+            'bottom right' => 'bottom right',
         ];
         $linkTargetOptions = [
             '_blank' => 'New tab',

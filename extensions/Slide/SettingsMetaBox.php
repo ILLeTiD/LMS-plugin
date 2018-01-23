@@ -21,9 +21,10 @@ class SettingsMetaBox extends MetaBox
             'centered' => 'Centered'
         ];
 
-        $slideContentDisplayOptions = [
-            'once_at_a_time' => 'Once at a time',
-            'all_at_once' => 'All at once'
+        $slideDisplayHeaderOptions = [
+            'regular' => 'Regular',
+            'hide' => 'Hide',
+            'in_separate_section' => 'In separate section'
         ];
 
         $weight = $post->slide_weight ?: PHP_INT_MAX;
@@ -31,7 +32,7 @@ class SettingsMetaBox extends MetaBox
         $this->view('meta-boxes.slide.settings', compact(
             'post',
             'slideTemplateOptions',
-            'slideContentDisplayOptions',
+            'slideDisplayHeaderOptions',
             'weight'
         ));
     }

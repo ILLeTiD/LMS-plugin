@@ -94,7 +94,7 @@
                 <?php endforeach; ?>
             </select>
             <span class="field__help">
-                <?= __('Center alignment as default.', 'lms-plugin'); ?>
+                <?= __('Center, center alignment as default.', 'lms-plugin'); ?>
             </span>
         </div>
     </div>
