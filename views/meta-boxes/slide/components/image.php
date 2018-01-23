@@ -18,14 +18,6 @@
             <a href="#" class="js-remove-slide-image"><?= __('Remove image'); ?></a>
         </div>
 
-<!--        <label>-->
-<!--            <input type="checkbox"-->
-<!--                   name="slide_content[--><?//= $i; ?><!--][image_as_background]"-->
-<!--                   value="1"-->
-<!--                   --><?//= checked(array_get($slide, 'image_as_background')); ?>
-<!--            >-->
-<!--            --><?//= __('Image as background', 'lms-plugin'); ?>
-<!--        </label>-->
     </div>
 
     <input type="hidden"

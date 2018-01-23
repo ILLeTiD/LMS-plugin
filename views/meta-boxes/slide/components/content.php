@@ -1,22 +1,19 @@
 <?php $i = is_null($i) ? '' : $i; ?>
 
-<div class="lms-slide-section" id="slide-<?= $i === '' ? 'template' : $i; ?>">
+<div class="lms-slide-section" id="slide-section-<?= $i === '' ? 'template' : $i; ?>" data-section="<?= $i; ?>">
 
     <h4 class="lms-slide-section__title">
-        <i class="fa fa-bars" aria-hidden="true"></i>
-        <?= __('Section', 'lms-plugin'); ?> <span class="slide-number"><?= $i + 1; ?></span>
+        <i class="fa fa-bars js-sortable-handle" aria-hidden="true"></i>
+        <?= __('Section', 'lms-plugin'); ?> <span class="slide-number"><?= isset($slideNumber) ? $slideNumber++ : $i + 1; ?></span>
     </h4>
 
     <div class="row no-gutters">
         <div class="col-9">
 
-            <?php //wp_editor(array_get($slide, 'text'), "slide_content_{$i}", [
-            //     'media_buttons' => false,
-            //     'textarea_name' => "slide_content[{$i}][text]",
-            //     'textarea_rows' => 4,
-            //     'editor_class' => 'lms-slide-section__editor'
-            // ]); ?>
-            <textarea name="slide_content[<?= $i; ?>][text]" id="slide_content_<?= $i; ?>" class="lms-slide-section__editor"><?= array_get($slide, 'text'); ?></textarea>
+            <textarea name="slide_content[<?= $i; ?>][text]"
+                      id="section_text_<?= $i; ?>"
+                      class="lms-slide-section__editor wp-editor-area"
+            ><?= array_get($slide, 'text'); ?></textarea>
 
         </div>
 

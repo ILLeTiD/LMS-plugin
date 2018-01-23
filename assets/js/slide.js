@@ -1,3 +1,28 @@
+var lms = {
+    editor : {
+        settings: {
+            tinymce: {
+                toolbar1: 'formatselect bold italic bullist numlist blockquote alignleft aligncenter alignright link wp_more wp_adv dfw',
+                toolbar2: 'strikethrough hr forecolor pastetext removeformat charmap outdent indent undo redo wp_help'
+            },
+            quicktags: true
+        },
+
+        create: function (id) {
+            wp.editor.initialize(id, this.settings);
+        },
+
+        remove: function (id) {
+            wp.editor.remove(id);
+        },
+
+        refresh: function (id) {
+            this.remove(id);
+            this.create(id);
+        }
+    }
+};
+
 (function ($) {
     var slideFormats = {
         regular: [
@@ -33,6 +58,7 @@
             setQuizType($('.js-choose-quiz-type').val());
         }
     };
+
 
     window.send_to_editor_default = window.send_to_editor;
 
@@ -121,37 +147,17 @@
     $('.js-add-slide-content').click(function (e) {
         e.preventDefault();
 
-        var lastSlide = $('.lms-slide-sections > div').last(),
-            newSlide = $('#slide-template').clone(true),
-            slideNumberElement = newSlide.find('.slide-number'),
-            lastSlideNumber = parseInt(lastSlide.find('.slide-number').text()),
-            lastSlideIndex = lastSlideNumber - 1,
-            newSlideIndex = lastSlideIndex + 1;
+        var container = $('.lms-slide-sections');
+            sections = container.find('.lms-slide-section');
+            newSectionIndex = sections.length;
 
-        // slideNumberElement.text(lastSlideNumber + 1);
-        //
-        // newSlide.attr('id', 'slide-' + newSlideIndex);
-        //
-        // newSlide.find('input, textarea, select').each(function (i, element) {
-        //     element.name = element.name.replace('[]', '[' + newSlideIndex + ']');
-        //     element.disabled = false;
-        // });
-        //
-        // newSlide.insertAfter(lastSlide);
-        // newSlide.show();
-
-        // New implementation.
         $.get(ajaxurl, {
             action: 'new_slide_section',
-            section_id: newSlideIndex
+            section_id: newSectionIndex
         }, function (response) {
-            lastSlide.after(response);
+            container.append(response);
 
-            console.log(newSlideIndex);
-            wp.editor.initialize('slide_content_' + newSlideIndex, {
-                tinymce: true,
-                quicktags: true
-            });
+            lms.editor.create('section_text_' + newSectionIndex);
         });
 
     });
@@ -165,19 +171,32 @@
     });
 
     $('#lms_slide_content_meta_box').on('click', '.js-remove-slide', function () {
-        var button = $(this);
+        var button = $(this),
+            section = button.parent();
 
-        button.parent().remove();
+        lms.editor.remove('section_text_' + section.data('section'));
+
+        section.remove();
     });
 
     $(function () {
 
         $('.lms-slide-section').each(function (i) {
-            wp.editor.initialize('slide_content_' + i, {
-                tinymce: true,
-                quicktags: true
-            });
+            lms.editor.create('section_text_' + i);
         });
+
+        $('.lms-slide-sections').sortable({
+            handle: '.js-sortable-handle',
+            stop: function (event, ui) {
+                lms.editor.refresh('section_text_' + ui.item.data('section'));
+
+                $('.lms-slide-sections').find('.slide-number').each(function (i, item) {
+                    $(item).text(i + 1);
+                });
+            }
+        });
+
     });
+
 
 })(jQuery);
