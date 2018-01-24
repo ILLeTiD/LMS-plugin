@@ -105,10 +105,17 @@
             <h4 class="field__title"><?= __('Connect to', 'lms-plugin'); ?></h4>
         </div>
         <div class="col-7">
-            <select name="slide_content[<?= $i; ?>][connect_to]">
+            <select name="slide_content[<?= $i; ?>][connect_to]" class="js-connected-to">
                 <option value="">
                     <?= __('None', 'lms-plugin'); ?>
                 </option>
+                <?php foreach ($connectedToOptions as $value => $label): ?>
+                    <?php if ($value == $i) continue; ?>
+                    <option value="<?= $value; ?>"
+                            <?= selected($value, array_get($slide, 'connect_to')); ?>>
+                        <?= $label; ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
             <span class="field__help">
                 <?= __('This will override the ordering in mobile view and keep the connected section on top or below this section', 'lms-plugin'); ?>

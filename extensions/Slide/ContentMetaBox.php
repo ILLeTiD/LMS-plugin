@@ -36,19 +36,28 @@ class ContentMetaBox extends MetaBox
             'top right' => 'top right',
             'bottom right' => 'bottom right',
         ];
+
         $linkTargetOptions = [
             '_blank' => 'New tab',
             '_self' => 'Same window'
         ];
+
+        $values = range(0, count($content) - 1);
+        $labels = array_map(function ($value) {
+            return __('Section', 'lms-plugin') . ' ' . ($value + 1);
+        }, $values);
+
+        $connectedToOptions = array_combine($values, $labels);
 
         $this->view('meta-boxes.slide.content', compact(
             'post',
             'course',
             'content',
             'slideNumber',
+            'linkTargetOptions',
             'slideThemeOptions',
-            'imageAlignmentOptions',
-            'linkTargetOptions'
+            'connectedToOptions',
+            'imageAlignmentOptions'
         ));
     }
 }

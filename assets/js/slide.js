@@ -185,11 +185,15 @@ var lms = {
 
     $('.js-delete-confirmation__yes').on('click', function () {
         var button = $(this),
-            section = $('#slide-section-' + button.data('section'));
+            sectionId = button.data('section'),
+            section = $('#slide-section-' + sectionId);
 
         lms.editor.remove('section_text_' + button.data('section'));
 
         section.remove();
+
+        // Remove others section connections with this section.
+        $('.js-connected-to option[value=' + sectionId + ']').remove();
 
         $('.lms-delete-confirmation').fadeOut();
     });
@@ -200,7 +204,9 @@ var lms = {
 
     $(function () {
 
-        $('.lms-slide-section').each(function (i) {
+        var sections = $('.lms-slide-section');
+
+        sections.each(function (i) {
             lms.editor.create('section_text_' + i);
         });
 
@@ -211,6 +217,14 @@ var lms = {
 
                 $('.lms-slide-sections').find('.slide-number').each(function (i, item) {
                     $(item).text(i + 1);
+                });
+
+                $('.lms-slide-section').each(function (i, section) {
+                    var $section = $(section),
+                        oldSectionId = $section.data('section'),
+                        newSectionId = parseInt($section.find('.slide-number').text()) - 1;
+
+                    $('.js-connected-to option[value=' + oldSectionId + ']:selected').parent().val(newSectionId);
                 });
             }
         });
