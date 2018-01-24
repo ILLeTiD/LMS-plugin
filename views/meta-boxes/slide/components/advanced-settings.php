@@ -183,11 +183,20 @@
             <div class="wp-media-buttons">
                 <button type="button"
                         id="insert-media-button"
-                        class="button insert-media add_media"
+                        class="button insert-media add_media js-add-section-audio"
                         data-editor="content">
                     <span class="wp-media-buttons-icon"></span> <?= __('Add Media', 'lms-plugin'); ?>
                 </button>
             </div>
+
+            <audio controls src="<?= array_get($slide, 'audio'); ?>">
+                <?= __('Your browser does not support the audio element.', 'lms-plugin'); ?>
+            </audio>
+
+            <input type="hidden"
+                   name="slide_content[<?= $i; ?>][audio]"
+                   class="section-audio" value="<?= array_get($slide, 'audio'); ?>"
+            >
         </div>
     </div>
 

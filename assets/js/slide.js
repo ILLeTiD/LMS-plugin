@@ -229,6 +229,24 @@ var lms = {
             }
         });
 
+        $('.js-add-section-audio').click(function () {
+            var $button = $(this),
+                audio = $button.parent().siblings('audio');
+                originAttachment = wp.media.editor.send.attachment;
+
+            wp.media.editor.send.attachment = function (props, attachment) {
+
+                audio.attr('src', attachment.url);
+                audio.siblings('input[type=hidden]').val(attachment.url);
+
+                wp.media.editor.send.attachment = originAttachment;
+            };
+
+            wp.media.editor.open();
+
+            return false;
+        });
+
     });
 
 
