@@ -180,7 +180,7 @@
             <h4 class="field__title"><?= __('Audio file', 'lms-plugin'); ?></h4>
         </div>
         <div class="col-10">
-            <div class="wp-media-buttons">
+            <div class="wp-media-buttons <?= array_get($slide, 'audio') ? 'hidden' : ''; ?>">
                 <button type="button"
                         id="insert-media-button"
                         class="button insert-media add_media js-add-section-audio"
@@ -189,9 +189,18 @@
                 </button>
             </div>
 
-            <audio controls src="<?= array_get($slide, 'audio'); ?>">
+            <audio controls
+                   src="<?= array_get($slide, 'audio'); ?>"
+                   class="<?= array_get($slide, 'audio') ? '' : 'hidden'; ?>"
+            >
                 <?= __('Your browser does not support the audio element.', 'lms-plugin'); ?>
             </audio>
+
+            <a href="#"
+               class="js-remove-section-audio <?= array_get($slide, 'audio') ? '' : 'hidden'; ?>"
+            >
+                <?= __('Remove audio', 'lms-plugin'); ?>
+            </a>
 
             <input type="hidden"
                    name="slide_content[<?= $i; ?>][audio]"

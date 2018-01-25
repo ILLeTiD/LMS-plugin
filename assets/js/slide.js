@@ -228,13 +228,21 @@ var lms = {
 
         $('.js-add-section-audio').on('click', function () {
             var $button = $(this),
-                audio = $button.parent().siblings('audio');
+                $buttonHolder = $button.parent(),
+                $audio = $buttonHolder.siblings('audio'),
+                $input = $audio.siblings('input[type=hidden]'),
+                $removeButton = $audio.siblings('a'),
                 originAttachment = wp.media.editor.send.attachment;
 
             wp.media.editor.send.attachment = function (props, attachment) {
+                $buttonHolder.addClass('hidden');
 
-                audio.attr('src', attachment.url);
-                audio.siblings('input[type=hidden]').val(attachment.url);
+                $audio.attr('src', attachment.url);
+                $audio.removeClass('hidden');
+
+                $input.val(attachment.url);
+
+                $removeButton.removeClass('hidden');
 
                 wp.media.editor.send.attachment = originAttachment;
             };
@@ -242,6 +250,24 @@ var lms = {
             wp.media.editor.open();
 
             return false;
+        });
+
+        $('.lms-slide-sections').on('click', '.js-remove-section-audio', function (event) {
+            var $removeButton = $(this),
+                $buttonHolder = $removeButton.siblings('div'),
+                $player = $removeButton.siblings('audio'),
+                $input = $removeButton.siblings('input[type=hidden]');
+
+            $buttonHolder.removeClass('hidden');
+
+            $player.attr('src', '');
+
+            $player.addClass('hidden');
+            $removeButton.addClass(('hidden'));
+
+            $input.val('');
+
+            event.preventDefault();
         });
 
     });
