@@ -83,126 +83,123 @@ var lms = {
             $(Object.values(quizTypes).join(',')).hide();
             $(quizTypes[activeQuizType]).show('hidden');
         });
-    });
 
-    $('.js-set-slide-image').click(function () {
-        var $button = $(this),
-            originAttachment = wp.media.editor.send.attachment;
+        $('.js-set-slide-image').on('click', function () {
+            var $button = $(this),
+                originAttachment = wp.media.editor.send.attachment;
 
-        wp.media.editor.send.attachment = function (props, attachment) {
-            var $wrapper = $button.siblings('.js-slide-image'),
-                $thumbnail = $wrapper.find('.js-slide-image-thumbnail'),
-                $slideThumbnail = $button.siblings('input[type=hidden].slide-thumbnail'),
-                $slideImage = $button.siblings('input[type=hidden].slide-image');
+            wp.media.editor.send.attachment = function (props, attachment) {
+                var $wrapper = $button.siblings('.js-slide-image'),
+                    $thumbnail = $wrapper.find('.js-slide-image-thumbnail'),
+                    $slideThumbnail = $button.siblings('input[type=hidden].slide-thumbnail'),
+                    $slideImage = $button.siblings('input[type=hidden].slide-image');
 
-            $button.hide();
-            $thumbnail.attr('src', attachment.sizes.slide_thumbnail.url);
-            $slideThumbnail.val(attachment.sizes.slide_thumbnail.url);
-            $slideImage.val(attachment.url);
-            $wrapper.show();
+                $button.hide();
+                $thumbnail.attr('src', attachment.sizes.slide_thumbnail.url);
+                $slideThumbnail.val(attachment.sizes.slide_thumbnail.url);
+                $slideImage.val(attachment.url);
+                $wrapper.show();
 
-            wp.media.editor.send.attachment = originAttachment;
-        };
+                wp.media.editor.send.attachment = originAttachment;
+            };
 
-        wp.media.editor.open();
+            wp.media.editor.open();
 
-        return false;
-    });
-
-    $('.js-update-slide-image').click(function (e) {
-        var $button = $(this),
-            originAttachment = wp.media.editor.send.attachment;
-
-        e.preventDefault();
-
-        wp.media.editor.send.attachment = function (props, attachment) {
-            var $thumbnail = $button.find('.js-slide-image-thumbnail'),
-                $image = $button.parent().siblings('input[type=hidden]');
-
-            $thumbnail.attr('src', attachment.sizes.slide_thumbnail.url);
-            $thumbnail.val(attachment.sizes.slide_thumbnail.url);
-            $image.val(attachment.url);
-
-            wp.media.editor.send.attachment = originAttachment;
-        };
-
-        wp.media.editor.open('#slide_image');
-
-        return false;
-
-    });
-
-    $('.js-remove-slide-image').click(function (e) {
-        var slideImage = $(this).parent().parent();
-
-
-        slideImage.hide();
-        slideImage.siblings('.js-set-slide-image').show();
-        slideImage.siblings('input[type=hidden]').val('');
-        slideImage.find('input[type=checkbox]').removeAttr('checked');
-
-        e.preventDefault();
-    });
-
-    $('.js-add-slide-content').click(function (e) {
-        e.preventDefault();
-
-        var container = $('.lms-slide-sections');
-            sections = container.find('.lms-slide-section');
-            newSectionIndex = sections.length;
-
-        $.get(ajaxurl, {
-            action: 'new_slide_section',
-            section_id: newSectionIndex
-        }, function (response) {
-            container.append(response);
-
-            lms.editor.create('section_text_' + newSectionIndex);
+            return false;
         });
 
-    });
+        $('.js-update-slide-image').click(function (e) {
+            var $button = $(this),
+                originAttachment = wp.media.editor.send.attachment;
 
-    $('.js-advanced-settings').on('click', function (e) {
-        var advancedSettings = $(this).parent().parent().siblings('.slide-content__advance-settings');
+            e.preventDefault();
 
-        advancedSettings.toggleClass('hidden');
+            wp.media.editor.send.attachment = function (props, attachment) {
+                var $thumbnail = $button.find('.js-slide-image-thumbnail'),
+                    $image = $button.parent().siblings('input[type=hidden]');
 
-        e.preventDefault();
-    });
+                $thumbnail.attr('src', attachment.sizes.slide_thumbnail.url);
+                $thumbnail.val(attachment.sizes.slide_thumbnail.url);
+                $image.val(attachment.url);
 
-    $('#lms_slide_content_meta_box').on('click', '.js-remove-slide-section', function (event) {
-        var button = $(this),
-            section = button.parent();
+                wp.media.editor.send.attachment = originAttachment;
+            };
 
-        $('.js-delete-confirmation__yes').data('section', section.data('section'));
+            wp.media.editor.open('#slide_image');
 
-        $('.lms-delete-confirmation').fadeIn();
-    });
+            return false;
 
-    $('#lms_slide_content_meta_box').on('mousedown', '.js-sortable-handle', function (event) {
-        $(this).parent().parent().find('.lms-advanced-settings').addClass('hidden');
-    });
+        });
 
-    $('.js-delete-confirmation__yes').on('click', function () {
-        var button = $(this),
-            sectionId = button.data('section'),
-            section = $('#slide-section-' + sectionId);
+        $('.js-remove-slide-image').click(function (e) {
+            var slideImage = $(this).parent().parent();
 
-        lms.editor.remove('section_text_' + button.data('section'));
 
-        section.remove();
+            slideImage.hide();
+            slideImage.siblings('.js-set-slide-image').show();
+            slideImage.siblings('input[type=hidden]').val('');
+            slideImage.find('input[type=checkbox]').removeAttr('checked');
 
-        // Remove others section connections with this section.
-        $('.js-connected-to option[value=' + sectionId + ']').remove();
+            e.preventDefault();
+        });
 
-        $('.lms-delete-confirmation').fadeOut();
-    });
+        $('.js-add-slide-content').on('click', function (e) {
+            e.preventDefault();
 
-    $('.js-delete-confirmation__no').on('click', function () {
-        $('.lms-delete-confirmation').fadeOut();
-    });
+            var container = $('.lms-slide-sections');
+                sections = container.find('.lms-slide-section');
+                newSectionIndex = sections.length;
 
-    $(function () {
+            $.get(ajaxurl, {
+                action: 'new_slide_section',
+                section_id: newSectionIndex
+            }, function (response) {
+                container.append(response);
+
+                lms.editor.create('section_text_' + newSectionIndex);
+            });
+
+        });
+
+        $('.lms-slide-sections').on('click', '.js-advanced-settings', function (e) {
+            var advancedSettings = $(this).parent().parent().siblings('.slide-content__advance-settings');
+
+            advancedSettings.toggleClass('hidden');
+
+            e.preventDefault();
+        });
+
+        $('#lms_slide_content_meta_box').on('click', '.js-remove-slide-section', function (event) {
+            var button = $(this),
+                section = button.parent();
+
+            $('.js-delete-confirmation__yes').data('section', section.data('section'));
+
+            $('.lms-delete-confirmation').fadeIn();
+        });
+
+        $('#lms_slide_content_meta_box').on('mousedown', '.js-sortable-handle', function (event) {
+            $(this).parent().parent().find('.lms-advanced-settings').addClass('hidden');
+        });
+
+        $('.js-delete-confirmation__yes').on('click', function () {
+            var button = $(this),
+                sectionId = button.data('section'),
+                section = $('#slide-section-' + sectionId);
+
+            lms.editor.remove('section_text_' + button.data('section'));
+
+            section.remove();
+
+            // Remove others section connections with this section.
+            $('.js-connected-to option[value=' + sectionId + ']').remove();
+
+            $('.lms-delete-confirmation').fadeOut();
+        });
+
+        $('.js-delete-confirmation__no').on('click', function () {
+            $('.lms-delete-confirmation').fadeOut();
+        });
 
         var sections = $('.lms-slide-section');
 
@@ -229,7 +226,7 @@ var lms = {
             }
         });
 
-        $('.js-add-section-audio').click(function () {
+        $('.js-add-section-audio').on('click', function () {
             var $button = $(this),
                 audio = $button.parent().siblings('audio');
                 originAttachment = wp.media.editor.send.attachment;
