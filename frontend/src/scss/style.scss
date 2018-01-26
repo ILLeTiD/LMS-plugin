@@ -2,37 +2,37 @@
 # Import Modules
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
-
-/*--------------------------------------------------------------
-# Base
---------------------------------------------------------------*/
-@import 'base/variables';
-@import 'base/mixins';
-@import 'base/animations';
-@import 'base/containers';
-@import 'base/grid';
-@import 'base/spacing';
-@import 'base/wordpress';
-@import 'base/forms';
-
 /*--------------------------------------------------------------
 # Partials
 --------------------------------------------------------------*/
-@import 'partials/typography';
-@import 'partials/buttons';
-@import 'partials/links';
-@import 'partials/colours';
-@import 'partials/helpers';
-@import 'partials/media';
-
-/*--------------------------------------------------------------
-# Components
---------------------------------------------------------------*/
-@import 'components/header';
-@import 'components/sidebar';
-@import 'components/footer';
-
+//@import 'partials/typography';
+//@import 'partials/buttons';
+//@import 'partials/links';
+//@import 'partials/helpers';
+//@import 'partials/media';
+///*--------------------------------------------------------------
+//# Components
+//--------------------------------------------------------------*/
+//@import 'components/header';
+//@import 'components/footer';
 /*--------------------------------------------------------------
 # Pages
 --------------------------------------------------------------*/
-@import 'pages/home';
+@import 'pages/course';
+
+#course {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.slide-controls {
+  position: relative;
+}
+
+.slide {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
