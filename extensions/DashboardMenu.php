@@ -83,6 +83,8 @@ class DashboardMenu
         ksort($submenu['edit.php?post_type=course']);
         */
 
+        if (empty($submenu['edit.php?post_type=course'])) return $menuOrder;
+
         $statistics = array_pop($submenu['edit.php?post_type=course']);
         $participants = array_pop($submenu['edit.php?post_type=course']);
         $categories = array_pop($submenu['edit.php?post_type=course']);

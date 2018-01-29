@@ -60,5 +60,7 @@ class ParticipantPageController extends Controller
         $enrollment->save();
 
         wp_safe_redirect(wp_get_referer());
+
+        die;
     }
 }
