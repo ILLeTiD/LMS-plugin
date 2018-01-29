@@ -1,21 +1,23 @@
 //
 import Slide from './Slide';
 import UrlCtr from './slideUrlControl'
+import Hint from './Hint'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
+
 class Course {
     constructor() {
-        console.log('course inited!');
+        console.log('course inited1!');
         this.slide = new Slide();
         this.urlCrl = UrlCtr;
     }
 
 
     init() {
-        $('.slides').addClass('loaded');
         const initialSlide = this.initialSlide();
         initialSlide.addClass('active');
         this.listeners();
         this.checkControls();
+        $('.slides').addClass('loaded');
     }
 
     listeners() {
@@ -30,19 +32,20 @@ class Course {
         let slideFromDb = 0;
 
         const hash = window.location.hash;
-        console.log(hash);
+
+        //check if valid slide
         if (hash && hash.indexOf('#slide') != -1) {
             const slideToShow = +hash.substr(6);
-            console.log(+this.slide.amount, slideToShow);
+            console.log(+this.slide.amount, slideToShow, 'test');
 
-            if (slideToShow > +this.slide.amount) {
-                history.replaceState({current: slideFromDb}, `Slide ${slideFromDb}`, `#slide${slideFromDb}`);
+            if (slideToShow > +this.slide.amount || slideToShow <= 0) {
+                console.log('wrong slide');
+                history.replaceState({current: slideFromDb}, `Slide ${slideFromDb + 1}`, `#slide${slideFromDb + 1}`);
                 this.slide.current = slideFromDb;
             } else {
                 this.slide.current = slideToShow - 1;
                 slideFromDb = slideToShow - 1;
             }
-            console.log(+slideToShow);
             // UI.showStepByIndex(state.current - 1);
         } else {
             this.urlCrl.addToUrl(1, {current: slideFromDb,});
@@ -57,7 +60,7 @@ class Course {
         if (!IsFullScreenCurrently()) {
             GoInFullscreen($('#course').get(0))
         } else {
-            GoOutFullscreen()
+            GoOutFullscreen();
         }
     }
 
@@ -65,9 +68,14 @@ class Course {
         e.preventDefault();
 
         const currentSlide = this.slide.current;
+        const nextSlide = this.slide.current.next();
         let goNext = true;
-        if (currentSlide.data('type') == 'quiz') {
+
+        console.log(nextSlide.data('type'));
+        if (nextSlide.data('type') == 'quiz') {
             //@TODO check tollerance lvl
+            console.log('quiz slide');
+            const hint = new Hint('test');
         }
         if (goNext) this.slide.current = currentSlide.index() + 1;
         this.checkControls();
@@ -84,19 +92,18 @@ class Course {
 
     checkControls() {
         if (this.slide.current.is(':first-child')) {
-            console.log('first');
+            console.log('first slide');
             $('.slide-navigation .prev').hide();
         } else {
             $('.slide-navigation .prev').show();
         }
 
         if (this.slide.current.is(':last-child')) {
-            console.log('last');
+            console.log('last slide');
             $('.slide-navigation .next').hide();
         } else {
             $('.slide-navigation .next').show();
         }
     }
-
 }
 export default Course;

@@ -2,6 +2,7 @@
 # Import Modules
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
+@import '../../node_modules/izitoast/dist/css/iziToast.css';
 /*--------------------------------------------------------------
 # Partials
 --------------------------------------------------------------*/
@@ -26,7 +27,8 @@
 }
 
 .slide-controls {
-  position: relative;
+  position: sticky;
+  bottom: 10px;
 }
 
 .slide {
