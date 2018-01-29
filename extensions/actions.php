@@ -57,5 +57,36 @@ if ( ! class_exists( '_WP_Editors', false ) ) {
 }
 $action->add('admin_print_footer_scripts', ['_WP_Editors', 'print_default_editor_scripts']);
 
+$action->add('init', function () {
+    add_rewrite_rule('^register/?', 'index.php?controller=AuthController&action=register', 'top');
+});
+
+$action->add('template_redirect', function () {
+    global $wp_query;
+
+    $controller = $this->plugin->getNamespace() . '\\Controllers\\' . get_query_var('controller');
+    $action = get_query_var('action');
+
+    if ( ! class_exists($controller)) {
+        // 'Controller not found.';
+        $wp_query->set_404();
+        status_header(404);
+        get_template_part(404);
+        die;
+    }
+
+    $controller = new $controller($this->plugin);
+
+    if ( ! method_exists($controller, $action)) {
+        // 'Action not found.';
+        $wp_query->set_404();
+        status_header(404);
+        get_template_part(404);
+        die;
+    }
+
+    $controller->$action();
+    die;
+});
 
 

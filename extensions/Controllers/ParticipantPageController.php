@@ -3,6 +3,7 @@
 namespace LmsPlugin\Controllers;
 
 use LmsPlugin\CustomRoles;
+use LmsPlugin\Models\Activity;
 use LmsPlugin\Models\Course;
 use LmsPlugin\Models\DataSuppliers\ParticipantProgressDataSupplier;
 use LmsPlugin\Models\Enrollment;

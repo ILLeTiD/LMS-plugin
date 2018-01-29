@@ -34,3 +34,9 @@ $filter->add('wp_prepare_attachment_for_js', function ($response, $attachment, $
     return $response;
 });
 
+$filter->add('query_vars', function ($query_vars) {
+    $query_vars[] = 'controller';
+    $query_vars[] = 'action';
+    return $query_vars;
+});
+

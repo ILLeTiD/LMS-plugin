@@ -6,6 +6,8 @@ class Activity extends Model
 {
     const TABLE = 'lms_activities';
 
+    private $fillable = ['user_id', 'course_id', 'slide_id', 'name', 'description', 'date'];
+
     /**
      * Activity constructor.
      *
@@ -44,6 +46,44 @@ class Activity extends Model
             default:
                 return parent::__get($property);
         }
+    }
+
+    public function update()
+    {
+        global $wpdb;
+
+        $values = [];
+        $formats = [];
+
+        foreach ($this->fillable as $name) {
+            if ($value = array_get($this->attributes, $name)) {
+                $values[$name] = $value;
+                $formats[] = is_int($value) ? '%d' : '%s';
+            }
+        }
+
+        $wpdb->update($wpdb->prefix . self::TABLE, $values, ['id' => $this->id], $formats, ['%d']);
+    }
+
+    public function insert()
+    {
+        global $wpdb;
+
+        $values = [];
+        $formats = [];
+
+        foreach ($this->fillable as $name) {
+            if ($value = array_get($this->attributes, $name)) {
+                $values[$name] = $value;
+                $formats[] = is_int($value) ? '%d' : '%s';
+            }
+        }
+
+        $wpdb->insert($wpdb->prefix . self::TABLE, $values, $formats);
+
+        $this->id = $wpdb->insert_id;
+
+        return $this;
     }
 
 }
