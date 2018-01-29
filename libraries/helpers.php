@@ -1,11 +1,10 @@
 <?php
 
-if ( ! function_exists('studly_case'))
-{
+if (!function_exists('studly_case')) {
     /**
      * Convert a value to studly caps case.
      *
-     * @param  string  $value
+     * @param  string $value
      *
      * @return string
      */
@@ -17,12 +16,11 @@ if ( ! function_exists('studly_case'))
     }
 }
 
-if ( ! function_exists('camel_case'))
-{
+if (!function_exists('camel_case')) {
     /**
      * Convert a value to camel case.
      *
-     * @param  string  $value
+     * @param  string $value
      *
      * @return string
      */
@@ -32,35 +30,32 @@ if ( ! function_exists('camel_case'))
     }
 }
 
-if ( ! function_exists('snake_case')) {
+if (!function_exists('snake_case')) {
     /**
      * Convert a string to snake case.
      *
-     * @param  string  $value
-     * @param  string  $delimiter
+     * @param  string $value
+     * @param  string $delimiter
      * @return string
      */
     function snake_case($value, $delimiter = '_')
     {
         static $snakeCache = [];
-        $key = $value.$delimiter;
+        $key = $value . $delimiter;
 
-        if (isset($snakeCache[$key]))
-        {
+        if (isset($snakeCache[$key])) {
             return $snakeCache[$key];
         }
 
-        if ( ! ctype_lower($value))
-        {
-            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+        if (!ctype_lower($value)) {
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1' . $delimiter, $value));
         }
 
         return $snakeCache[$key] = $value;
     }
 }
 
-if ( ! function_exists('is_closure'))
-{
+if (!function_exists('is_closure')) {
     /**
      * Determine whether the callback is a closure.
      *
@@ -74,13 +69,13 @@ if ( ! function_exists('is_closure'))
     }
 }
 
-if ( ! function_exists('array_get')) {
+if (!function_exists('array_get')) {
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  array $array
+     * @param  string $key
+     * @param  mixed $default
      * @return mixed
      */
     function array_get($array, $key, $default = null)
@@ -90,7 +85,7 @@ if ( ! function_exists('array_get')) {
         if (isset($array[$key])) return $array[$key];
 
         foreach (explode('.', $key) as $segment) {
-            if ( ! is_array($array) || ! array_key_exists($segment, $array)) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return value($default);
             }
 
@@ -101,11 +96,11 @@ if ( ! function_exists('array_get')) {
     }
 }
 
-if ( ! function_exists('value')) {
+if (!function_exists('value')) {
     /**
      * Return the default value of the given value.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return mixed
      */
     function value($value)
@@ -114,11 +109,11 @@ if ( ! function_exists('value')) {
     }
 }
 
-if ( ! function_exists('d')) {
+if (!function_exists('d')) {
     /**
      * Dump the passed variables.
      *
-     * @param  mixed  $args
+     * @param  mixed $args
      * @return void
      */
     function d(...$args)
@@ -127,11 +122,11 @@ if ( ! function_exists('d')) {
     }
 }
 
-if ( ! function_exists('dd')) {
+if (!function_exists('dd')) {
     /**
      * Dump the passed variables and end the script.
      *
-     * @param  mixed  $args
+     * @param  mixed $args
      * @return void
      */
     function dd(...$args)
@@ -141,13 +136,14 @@ if ( ! function_exists('dd')) {
     }
 }
 
-if ( ! function_exists('lms_invite')) {
-    function lms_invite($user_id, $course_id) {
+if (!function_exists('lms_invite')) {
+    function lms_invite($user_id, $course_id)
+    {
         return \LmsPlugin\Models\Enrollment::create($user_id, $course_id);
     }
 }
 
-if ( ! function_exists('set_enrollment_status')) {
+if (!function_exists('set_enrollment_status')) {
 
     function set_enrollment_status($user_id, $course_id, $status = 'invited')
     {
@@ -168,9 +164,10 @@ if ( ! function_exists('set_enrollment_status')) {
     }
 }
 
-if ( ! function_exists('page_url')) {
+if (!function_exists('page_url')) {
 
-    function page_url($name, $parameters = []) {
+    function page_url($name, $parameters = [])
+    {
         $parameters = http_build_query($parameters);
 
         switch ($name) {
@@ -182,10 +179,11 @@ if ( ! function_exists('page_url')) {
     }
 }
 
-if ( ! function_exists('edit_course_url')) {
+if (!function_exists('edit_course_url')) {
 
-    function edit_course_url($course) {
-        if (! is_int($course)) {
+    function edit_course_url($course)
+    {
+        if (!is_int($course)) {
             $course = $course->id;
         }
 
@@ -193,17 +191,19 @@ if ( ! function_exists('edit_course_url')) {
     }
 }
 
-if ( ! function_exists('edit_slide_url')) {
+if (!function_exists('edit_slide_url')) {
 
-    function edit_slide_url($slide) {
-        if (! is_int($slide)) {
+    function edit_slide_url($slide)
+    {
+        if (!is_int($slide)) {
             $slide = $slide->id;
         }
 
-        return admin_url("post.php?post={$slide}&action=edit"); }
+        return admin_url("post.php?post={$slide}&action=edit");
+    }
 }
 
-if ( ! function_exists('get_status_label')) {
+if (!function_exists('get_status_label')) {
 
     function get_status_label($name)
     {
@@ -211,7 +211,7 @@ if ( ! function_exists('get_status_label')) {
     }
 }
 
-if ( ! function_exists('component')) {
+if (!function_exists('component')) {
 
     function component($file, $variables)
     {
@@ -220,4 +220,77 @@ if ( ! function_exists('component')) {
         include __DIR__ . '/../views/' . str_replace('.', '/', $file) . '.php';
     }
 }
+
+if (!function_exists('lms_locate_template')) {
+
+    function lms_locate_template($path, $var = NULL)
+    {
+        $lms_base = '/lms/';
+
+        $template_lms_path = $lms_base . $path;
+        $template_path = DIRECTORY_SEPARATOR . $path;
+        $plugin_path = plugin_dir_path(__FILE__) . 'templates' . DIRECTORY_SEPARATOR . $path;
+
+        // return $plugin_path;
+        $located = locate_template(array(
+            $template_lms_path, // Search in <theme>/lms/
+            $template_path,             // Search in <theme>/
+        ));
+
+        if (!$located && file_exists($plugin_path)) {
+            return apply_filters('lms_locate_template', $plugin_path, $path);
+        }
+
+        return apply_filters('lms_locate_template', $located, $path);
+    }
+}
+
+if (!function_exists('lms_get_template')) {
+    function lms_get_template($path, $var = null, $return = false)
+    {
+        $located = lms_locate_template($path, $var);
+        //   return $located;
+        if ($var && is_array($var)) {
+            extract($var);
+        }
+
+        if ($return) {
+            ob_start();
+        }
+
+        // include file located
+        include($located);
+
+        if ($return) {
+            return ob_get_clean();
+        }
+    }
+
+    add_filter('single_template', 'lms_page_template');
+}
+
+if (!function_exists('lms_page_template')) {
+    function lms_page_template($single)
+    {
+        global $wp_query, $post;
+
+        if ($post->post_type == 'course') {
+            if (file_exists(get_template_directory() . '/templates/course-template.php')) {
+                return get_template_directory() . '/templates/course-template.php';
+            } elseif (__DIR__ . '/../templates/course-template.php') {
+                return __DIR__ . '/../templates/course-template.php';
+            }
+        }
+        if ($post->post_type == 'slide') {
+            if (file_exists(get_template_directory() . '/templates/slide-template.php')) {
+                return get_template_directory() . '/templates/course-template.php';
+            } elseif (file_exists(plugin_dir_path(__FILE__) . '/templates/slide-template.php')) {
+                return __DIR__ . '/../templates/course-template.php';
+            }
+        }
+        return $single;
+    }
+}
+
+
 

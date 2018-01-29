@@ -20,7 +20,7 @@ class Course
 
     public function __construct($post = null)
     {
-        if (! $post) {
+        if (!$post) {
             global $post;
         }
 
@@ -67,12 +67,28 @@ class Course
     public function slides()
     {
         $results = [];
-
+        
         $slides = new WP_Query([
             'post_type' => 'slide',
-            'meta_key' => 'course',
-            'meta_value' => $this->id,
-            'fields' => 'ids'
+            'meta_query' => [
+                'relation' => 'AND', [
+                    'course_clause' => [
+                        'key' => 'course',
+                        'value' => (int)$this->id,
+                        'type' => 'NUMERIC'
+                    ],
+                    'slide_weight_clause' => [
+                        'key' => 'slide_weight',
+                        'value' => 0,
+                        'compare' => '>=',
+                        'type' => 'NUMERIC'
+                    ]
+                ]
+            ],
+            'orderby' => [
+                'slide_weight_clause' => 'ASC',
+                'ID' => 'ASC'
+            ],
         ]);
 
         foreach ($slides->posts as $slide) {
@@ -92,6 +108,6 @@ class Course
 
     public function __toString()
     {
-        return (string) $this->id;
+        return (string)$this->id;
     }
 }

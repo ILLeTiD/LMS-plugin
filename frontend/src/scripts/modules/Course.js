@@ -1,0 +1,109 @@
+//
+import Slide from './Slide';
+import UrlCtr from './slideUrlControl'
+import Hint from './Hint'
+import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
+
+class Course {
+    constructor() {
+        console.log('course inited1!');
+        this.slide = new Slide();
+        this.urlCrl = UrlCtr;
+    }
+
+
+    init() {
+        const initialSlide = this.initialSlide();
+        initialSlide.addClass('active');
+        this.listeners();
+        this.checkControls();
+        $('.slides').addClass('loaded');
+    }
+
+    listeners() {
+        //@TODO add left/right arrow switching
+        $('.slide-navigation .next').on('click', this.nextSlide.bind(this));
+        $('.slide-navigation .prev').on('click', this.prevSlide.bind(this));
+        $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
+    }
+
+    initialSlide() {
+        //@TODO get slide from store or db fake index for now
+        let slideFromDb = 0;
+
+        const hash = window.location.hash;
+
+        //check if valid slide
+        if (hash && hash.indexOf('#slide') != -1) {
+            const slideToShow = +hash.substr(6);
+            console.log(+this.slide.amount, slideToShow, 'test');
+
+            if (slideToShow > +this.slide.amount || slideToShow <= 0) {
+                console.log('wrong slide');
+                history.replaceState({current: slideFromDb}, `Slide ${slideFromDb + 1}`, `#slide${slideFromDb + 1}`);
+                this.slide.current = slideFromDb;
+            } else {
+                this.slide.current = slideToShow - 1;
+                slideFromDb = slideToShow - 1;
+            }
+            // UI.showStepByIndex(state.current - 1);
+        } else {
+            this.urlCrl.addToUrl(1, {current: slideFromDb,});
+        }
+
+        return $('.slides').find('.slide').eq(slideFromDb);
+    }
+
+    toggleFullscreen(e) {
+        e.preventDefault();
+        console.log('toggle fullscreen');
+        if (!IsFullScreenCurrently()) {
+            GoInFullscreen($('#course').get(0))
+        } else {
+            GoOutFullscreen();
+        }
+    }
+
+    nextSlide(e) {
+        e.preventDefault();
+
+        const currentSlide = this.slide.current;
+        const nextSlide = this.slide.current.next();
+        let goNext = true;
+
+        console.log(nextSlide.data('type'));
+        if (nextSlide.data('type') == 'quiz') {
+            //@TODO check tollerance lvl
+            console.log('quiz slide');
+            const hint = new Hint('test');
+        }
+        if (goNext) this.slide.current = currentSlide.index() + 1;
+        this.checkControls();
+        this.urlCrl.addToUrl(this.slide.current.index() + 1);
+    }
+
+    prevSlide(e) {
+        e.preventDefault();
+        const currentSlide = this.slide.current;
+        this.slide.current = currentSlide.index() - 1;
+        this.checkControls();
+        this.urlCrl.addToUrl(+this.slide.current.index() + 1);
+    }
+
+    checkControls() {
+        if (this.slide.current.is(':first-child')) {
+            console.log('first slide');
+            $('.slide-navigation .prev').hide();
+        } else {
+            $('.slide-navigation .prev').show();
+        }
+
+        if (this.slide.current.is(':last-child')) {
+            console.log('last slide');
+            $('.slide-navigation .next').hide();
+        } else {
+            $('.slide-navigation .next').show();
+        }
+    }
+}
+export default Course;

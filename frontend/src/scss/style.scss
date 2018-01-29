@@ -1,0 +1,40 @@
+/*--------------------------------------------------------------
+# Import Modules
+--------------------------------------------------------------*/
+@import '../../node_modules/normalize.css/normalize';
+@import '../../node_modules/izitoast/dist/css/iziToast.css';
+/*--------------------------------------------------------------
+# Partials
+--------------------------------------------------------------*/
+//@import 'partials/typography';
+//@import 'partials/buttons';
+//@import 'partials/links';
+//@import 'partials/helpers';
+//@import 'partials/media';
+///*--------------------------------------------------------------
+//# Components
+//--------------------------------------------------------------*/
+//@import 'components/header';
+//@import 'components/footer';
+/*--------------------------------------------------------------
+# Pages
+--------------------------------------------------------------*/
+@import 'pages/course';
+
+#course {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.slide-controls {
+  position: sticky;
+  bottom: 10px;
+}
+
+.slide {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

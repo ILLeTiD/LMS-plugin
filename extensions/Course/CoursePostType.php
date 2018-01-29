@@ -22,7 +22,8 @@ class CoursePostType extends PostType
             'supports' => ['title', 'editor', 'thumbnail'],
             'taxonomies' => ['course_category'],
             'menu_icon' => 'dashicons-welcome-learn-more',
-            'menu_position' => 6
+            'menu_position' => 6,
+            'rewrite' => true,
         ];
     }
 }

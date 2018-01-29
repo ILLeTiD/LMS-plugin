@@ -20,6 +20,7 @@ class SlidePostType extends PostType
             'public' => true,
             'show_in_menu' => false,
             'supports' => ['title', 'editor', 'thumbnail'],
+            'rewrite' => true,
         ];
     }
 }
