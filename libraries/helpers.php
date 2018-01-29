@@ -229,8 +229,9 @@ if (!function_exists('lms_locate_template')) {
 
         $template_lms_path = $lms_base . $path;
         $template_path = DIRECTORY_SEPARATOR . $path;
-        $plugin_path = plugin_dir_path(__FILE__) . 'templates' . DIRECTORY_SEPARATOR . $path;
-
+        //@TODO change to plugin path variable
+        $plugin_path = plugin_dir_path(__FILE__) . '../templates' . DIRECTORY_SEPARATOR . $path;
+        //    dd($plugin_path);
         // return $plugin_path;
         $located = locate_template(array(
             $template_lms_path, // Search in <theme>/lms/
@@ -249,6 +250,7 @@ if (!function_exists('lms_get_template')) {
     function lms_get_template($path, $var = null, $return = false)
     {
         $located = lms_locate_template($path, $var);
+
         //   return $located;
         if ($var && is_array($var)) {
             extract($var);
@@ -273,7 +275,7 @@ if (!function_exists('lms_page_template')) {
     function lms_page_template($single)
     {
         global $wp_query, $post;
-
+        //@TODO change to plugin path variable
         if ($post->post_type == 'course') {
             if (file_exists(get_template_directory() . '/templates/course-template.php')) {
                 return get_template_directory() . '/templates/course-template.php';

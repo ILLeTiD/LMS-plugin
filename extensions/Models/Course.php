@@ -67,14 +67,15 @@ class Course
     public function slides()
     {
         $results = [];
-        
-        $slides = new WP_Query([
+
+        global $post;
+        $slides = new \WP_Query([
             'post_type' => 'slide',
             'meta_query' => [
                 'relation' => 'AND', [
                     'course_clause' => [
                         'key' => 'course',
-                        'value' => (int)$this->id,
+                        'value' => $this->id,
                         'type' => 'NUMERIC'
                     ],
                     'slide_weight_clause' => [
@@ -92,7 +93,7 @@ class Course
         ]);
 
         foreach ($slides->posts as $slide) {
-            $results[] = Slide::find($slide);
+            $results[] = Slide::find($slide->ID);
         }
 
         return new Collection($results);
@@ -104,6 +105,11 @@ class Course
     public function enrollments()
     {
         return Enrollment::where(['course_id' => $this->id]);
+    }
+
+    public function hasParticipant($ID)
+    {
+        return !! $this->enrollments()->where('user_id', $ID)->count();
     }
 
     public function __toString()

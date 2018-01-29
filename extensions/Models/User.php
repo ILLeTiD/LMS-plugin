@@ -25,6 +25,8 @@ class User
     public function __get($property)
     {
         switch ($property) {
+            case 'id':
+                return $this->wp_user->ID;
             case 'name':
                 return $this->wp_user->display_name;
             case 'enrollments':
