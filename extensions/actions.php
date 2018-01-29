@@ -64,11 +64,17 @@ $action->add('init', function () {
 $action->add('template_redirect', function () {
     global $wp_query;
 
-    $controller = $this->plugin->getNamespace() . '\\Controllers\\' . get_query_var('controller');
-    $action = get_query_var('action');
+    $controller = $wp_query->get('controller');
+    $action = $wp_query->get('action');
+
+    if (empty($controller) || empty($action)) {
+        return;
+    }
+
+    $controller = $this->plugin->getNamespace() . '\\Controllers\\' . $controller;
 
     if ( ! class_exists($controller)) {
-        // 'Controller not found.';
+        // Controller not found.
         $wp_query->set_404();
         status_header(404);
         get_template_part(404);
@@ -78,7 +84,7 @@ $action->add('template_redirect', function () {
     $controller = new $controller($this->plugin);
 
     if ( ! method_exists($controller, $action)) {
-        // 'Action not found.';
+        // Action not found.
         $wp_query->set_404();
         status_header(404);
         get_template_part(404);
