@@ -5,6 +5,7 @@ namespace LmsPlugin;
 use FishyMinds\WordPress\Plugin\HasPlugin;
 use LmsPlugin\Controllers\ParticipantsPageController;
 use LmsPlugin\Controllers\ParticipantPageController;
+use LmsPlugin\Controllers\SettingsPageController;
 use LmsPlugin\Controllers\StatisticsPageController;
 
 class DashboardMenu
@@ -16,6 +17,7 @@ class DashboardMenu
         $participantsPageController = new ParticipantsPageController($this->plugin);
         $participantPageController = new ParticipantPageController($this->plugin);
         $statisticsPageController = new StatisticsPageController($this->plugin);
+        $settingsPageController = new SettingsPageController($this->plugin);
 
         add_submenu_page(
             'edit.php?post_type=course',
@@ -42,6 +44,15 @@ class DashboardMenu
             'manage_options',
             'statistics',
             [$statisticsPageController, 'index']
+        );
+
+        add_submenu_page(
+            'edit.php?post_type=course',
+            __('Settings', 'lms-plugin'),
+            __('Settings', 'lms-plugin'),
+            'manage_options',
+            'settings',
+            [$settingsPageController, 'index']
         );
 
         add_submenu_page(
@@ -85,6 +96,7 @@ class DashboardMenu
 
         if (empty($submenu['edit.php?post_type=course'])) return $menuOrder;
 
+        $settings = array_pop($submenu['edit.php?post_type=course']);
         $statistics = array_pop($submenu['edit.php?post_type=course']);
         $participants = array_pop($submenu['edit.php?post_type=course']);
         $categories = array_pop($submenu['edit.php?post_type=course']);
@@ -92,6 +104,7 @@ class DashboardMenu
         $submenu['edit.php?post_type=course'][] = $participants;
         $submenu['edit.php?post_type=course'][] = $categories;
         $submenu['edit.php?post_type=course'][] = $statistics;
+        $submenu['edit.php?post_type=course'][] = $settings;
 
         return $menuOrder;
     }
