@@ -39,7 +39,7 @@ class View
     public function display()
     {
         if ( ! file_exists($this->file)) {
-            throw new InvalidArgumentException('View not found: ' . $this->file);
+            throw new InvalidArgumentException('View not found: ' . $this->name);
         }
 
         extract($this->variables);

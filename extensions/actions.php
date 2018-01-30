@@ -1,4 +1,11 @@
 <?php
+$action->add('activate_' . $plugin, function () {
+    (new \FishyMinds\WordPress\Plugin\Router\Router($this->plugin))->registerRoutes();
+
+    flush_rewrite_rules();
+});
+$action->add('deactivate_' . $plugin, 'flush_rewrite_rules');
+
 $action->add('activate_' . $plugin, 'CustomRoles@add');
 $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
@@ -50,63 +57,4 @@ $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageControlle
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
-
-
-// if ( ! class_exists( '_WP_Editors', false ) ) {
-//     require( ABSPATH . WPINC . '/class-wp-editor.php' );
-// }
-// $action->add('admin_print_footer_scripts', ['_WP_Editors', 'print_default_editor_scripts']);
-
-// $action->add('init', function () {
-//     add_rewrite_rule('^register/?', 'index.php?controller=Auth/RegisterController&action=showForm', 'top');
-//     add_rewrite_rule('^request_invite/?', 'index.php?controller=Auth/RequestInviteController&action=showForm', 'top');
-// });
-//
-// $action->add('template_redirect', function () {
-//     global $wp_query;
-//
-//     $controller = $wp_query->get('controller');
-//     $action = $wp_query->get('action');
-//
-//     if (empty($controller) || empty($action)) {
-//         return;
-//     }
-//
-//     $controller = $this->plugin->getNamespace() . '\\Controllers\\' . str_replace('/', '\\', $controller);
-//
-//     if ( ! class_exists($controller)) {
-//         // Controller not found.
-//         $wp_query->set_404();
-//         status_header(404);
-//         get_template_part(404);
-//         die;
-//     }
-//
-//
-//     $controller = new $controller($this->plugin);
-//
-//     // Routing for POST requests.
-//     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//         $classname = get_class($controller);
-//         $classname = substr($classname, strrpos($classname, '\\') + 1);
-//         if ($classname == 'RegisterController') {
-//             $action = 'register';
-//         }
-//         if ($classname = 'RequestInviteController') {
-//             $action = 'requestInvite';
-//         }
-//     }
-//
-//     if ( ! method_exists($controller, $action)) {
-//         // Action not found.
-//         $wp_query->set_404();
-//         status_header(404);
-//         get_template_part(404);
-//         die;
-//     }
-//
-//     $controller->$action();
-//     die;
-// });
-
 

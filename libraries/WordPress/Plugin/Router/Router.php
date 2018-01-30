@@ -10,7 +10,7 @@ class Router
 
     private $routes = [];
 
-    public function loadRoutes()
+    public function registerRoutes()
     {
         $this->readFile();
 
@@ -22,6 +22,8 @@ class Router
     public function routeRequest()
     {
         global $wp_query;
+
+        $this->readFile();
 
         $route = $wp_query->get('route');
         $method = $_SERVER['REQUEST_METHOD'];
