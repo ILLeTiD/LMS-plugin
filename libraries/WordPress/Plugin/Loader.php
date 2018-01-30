@@ -2,6 +2,7 @@
 
 namespace FishyMinds\WordPress\Plugin;
 
+use FishyMinds\WordPress\Plugin\Router\Router;
 use FishyMinds\WordPress\Plugin\Updater\Repository;
 use FishyMinds\WordPress\Plugin\Updater\Updater;
 
@@ -38,6 +39,11 @@ class Loader
      */
     public function load()
     {
+        $router = new Router($this->plugin);
+        $this->actionLoader->add('init', [$router, 'loadRoutes']);
+        $this->actionLoader->add('template_redirect', [$router, 'routeRequest']);
+        $this->filterLoader->add('query_vars', [$router, 'whitelistRouteParameter']);
+
         $this->loadActions();
         $this->loadFilters();
     }
