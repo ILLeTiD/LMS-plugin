@@ -1,3 +1,6 @@
+<?php
+include 'header-auth.php';
+?>
 <form action="" method="POST">
     <p>
     <input type="text" name="name" placeholder="<?= __('Full Name', 'lms-plugin'); ?>" required>
@@ -10,3 +13,5 @@
 
 </form>
 
+<?php
+include 'footer-auth.php';

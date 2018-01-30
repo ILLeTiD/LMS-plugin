@@ -28,7 +28,7 @@ var browserSync  = require( 'browser-sync' ).create();
 var reload       = browserSync.reload;
 
 // Project related variables
-var projectURL   = 'http://localhost/fishy-lms';
+var projectURL   = 'http://fishy-lms.localhost';
 
 var styleSRC     = './src/scss/style.scss';
 var styleAdminSRC = './src/scss/admin.scss';

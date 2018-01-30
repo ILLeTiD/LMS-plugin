@@ -1,0 +1,30 @@
+.auth {
+  &-template {
+    height: 100%;
+    .wrap {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px 15px;
+    }
+  }
+
+  &-header,
+  &-footer {
+    text-align: center;
+  }
+
+  &-content {
+    max-width: 600px;
+    padding: 20px 15px;
+    margin: auto;
+
+    &__intro {
+      text-align: center;
+    }
+
+    button,
+    input[type=submit] {
+      width: 100%;
+    }
+  }
+}
