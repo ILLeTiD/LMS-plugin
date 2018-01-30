@@ -1,16 +1,17 @@
 <?php
+
 $course = \LmsPlugin\Models\Course::find(get_the_ID());
 $isEnrolled = $course->hasParticipant(get_current_user_id());
 $slides = $course->slides();
 
-if (!is_user_logged_in() && !$isEnrolled) {
+if (!is_user_logged_in() && $isEnrolled) {
     wp_redirect(home_url());
     exit;
 }
 get_header('course');
 ?>
 
-    <section class="course" id="course">
+    <section class="course" id="course" data-id="<?= $course->id; ?>" data-user-id="<?= get_current_user_id() ?>">
         <div class="course__wrapper">
             <div id="slides" class="slides">
                 <?php
@@ -29,12 +30,12 @@ get_header('course');
                 <div class="slide-navigation">
                     <div class="nav-button">
                         <a href="#" class="prev" rel="prev">
-                            <img src="http://localhost/fishy-lms/wp-content/uploads/2018/01/etp_arrow-left_over.png"
+                            <img src="<?php echo plugin_dir_url(__FILE__) ?>../assets/images/etp_arrow-left_over.png"
                                  alt"back"=""></a>
                     </div>
                     <div class="nav-button">
                         <a href="#" class="next" rel="next">
-                            <img src="http://localhost/fishy-lms/wp-content/uploads/2018/01/etp_arrow-right_over.png"
+                            <img src="<?php echo plugin_dir_url(__FILE__) ?>../assets/images/etp_arrow-right_over.png"
                                  alt"forward"=""></a>
                     </div>
                 </div>

@@ -267,8 +267,6 @@ if (!function_exists('lms_get_template')) {
             return ob_get_clean();
         }
     }
-
-    add_filter('single_template', 'lms_page_template');
 }
 
 if (!function_exists('lms_page_template')) {
@@ -292,6 +290,7 @@ if (!function_exists('lms_page_template')) {
         }
         return $single;
     }
+    add_filter('single_template', 'lms_page_template');
 }
 
 

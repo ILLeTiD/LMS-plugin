@@ -795,6 +795,16 @@ li {
       outline:none;
     }
   }
+
+  &__wrapper {
+    height: 100%;
+  }
+
+  &__image {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .slides {

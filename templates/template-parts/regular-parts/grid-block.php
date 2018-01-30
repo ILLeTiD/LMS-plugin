@@ -1,16 +1,16 @@
 <?php
-$text = $block['text'] ? $block['text'] : null;
-$thumbnail = $block['thumbnail'] ? $block['thumbnail'] : null;
-$image = $block['image'] ? $block['image'] : null;
+$text = isset($block['text']) ? $block['text'] : null;
+$thumbnail = isset($block['thumbnail']) ? $block['thumbnail'] : null;
+$image = isset($block['image']) ? $block['image'] : null;
 $link =  isset($block['link']) ? $block['link'] : null;
 $linkTarget =  isset($block['link_target']) ? $block['link_target'] : null;
 
-$bgC = $block['colors']['background'] ? $block['colors']['background'] : null;
-$headerC = $block['colors']['header'] ? $block['colors']['header'] : null;
-$textC = $block['colors']['text'] ? $block['colors']['text'] : null;
+$bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
+$headerC = isset($block['colors']['header']) ? $block['colors']['header'] : null;
+$textC = isset($block['colors']['text']) ? $block['colors']['text'] : null;
 $isBg = isset($block['image_as_background']) ? !!$block['image_as_background'] : false;
 $backgroundStyle = $isBg && $image ? $image : null;
-$customCss = $block['custom_css'] ? $block['custom_css'] : null;
+$customCss = isset($block['custom_css']) ? $block['custom_css'] : null;
 $randomId = uniqid('slide');
 $innerWidth = isset($block['image_width']) ? $block['image_width'] : null;
 $innerPadding = isset($block['image_padding']) ? $block['image_padding'] : null;
@@ -93,7 +93,7 @@ switch ($contentAlign) {
                  background-size: cover;">
         <div class="grid-block__wrapper">
             <?php if ($image && !$isBg) : ?>
-                <img src="<?= $image ?>" alt="">
+                <img src="<?= $image ?>" class="grid-block__image">
             <?php elseif ($text) : ?>
                 <div class="grid-block__text">
                     <?= $text ?>
@@ -109,7 +109,7 @@ switch ($contentAlign) {
                  background-size: cover;">
         <div class="grid-block__wrapper">
             <?php if ($image && !$isBg) : ?>
-                <img src="<?= $image ?>" alt="">
+                <img src="<?= $image ?>" class="grid-block__image">
             <?php elseif ($text) : ?>
                 <div class="grid-block__text">
                     <?= $text ?>

@@ -50,6 +50,12 @@ $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageControlle
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
+$action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
+$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
+$action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
+$action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
+$action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
+$action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
 
 
 if ( ! class_exists( '_WP_Editors', false ) ) {
