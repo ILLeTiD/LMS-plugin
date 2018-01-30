@@ -143,4 +143,26 @@ class Plugin
     {
         return studly_case(basename($this->slug, '.php'));
     }
+
+    /**
+     * Get settings of the plugin.
+     *
+     * @return array
+     */
+    public function getSettings()
+    {
+        return get_option(basename($this->slug, '.php'));
+    }
+
+    /**
+     * Set settings of the plugin.
+     *
+     * @param array $settings
+     *
+     * @return bool
+     */
+    public function setSettings($settings)
+    {
+        return update_option(basename($this->slug, '.php'), $settings);
+    }
 }
