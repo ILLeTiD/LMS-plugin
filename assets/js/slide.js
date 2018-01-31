@@ -270,6 +270,17 @@ var lms = {
             event.preventDefault();
         });
 
+        // Fix add new slide link href.
+        (function () {
+            var $button = $('a.page-title-action'),
+                href = $button.attr('href'),
+                course = $('input[name=course]').val();
+
+            if (href.endsWith('post_type=slide')) {
+                $button.attr('href', href + '&course=' + course);
+            }
+        })();
+
     });
 
 
