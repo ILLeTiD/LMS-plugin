@@ -1,0 +1,71 @@
+.auth {
+  &-html {
+    background: #fff;
+  }
+
+  &__logo {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    @media screen and (min-height: 700px) {
+      height: 100%;
+    }
+
+    .custom-logo-link {
+      padding: 0;
+    }
+
+    .wrap {
+      max-width: 450px;
+      width: 100%;
+      // margin: auto;
+      padding: 20px 15px;
+    }
+  }
+
+  &-header,
+  &-footer {
+    text-align: center;
+
+    &__restore-pass {
+      text-align: right;
+    }
+  }
+
+  &-content {
+    max-width: 450px;
+    width: 100%;
+    padding: 20px 15px;
+    //margin: auto;
+
+    &__intro {
+      text-align: center;
+
+      @media screen and (min-width: 991px) {
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+    }
+
+    button,
+    input[type=submit] {
+      width: 100%;
+    }
+  }
+
+  &-error {
+    list-style: none;
+
+    strong {
+      background: none;
+      color: #000;
+    }
+  }
+}

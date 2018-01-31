@@ -8,3 +8,4 @@ function my_scripts_method()
     wp_enqueue_style('lms-css', plugin_dir_url(__FILE__) . '/assets/css/style.min.css', array(), '', 'all');
 
 }
+

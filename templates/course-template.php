@@ -29,12 +29,12 @@ get_header('course');
                 <div class="slide-navigation">
                     <div class="nav-button">
                         <a href="#" class="prev" rel="prev">
-                            <img src="http://localhost/fishy-lms/wp-content/uploads/2018/01/etp_arrow-left_over.png"
+                            <img src="/etp_arrow-left_over.png"
                                  alt"back"=""></a>
                     </div>
                     <div class="nav-button">
                         <a href="#" class="next" rel="next">
-                            <img src="http://localhost/fishy-lms/wp-content/uploads/2018/01/etp_arrow-right_over.png"
+                            <img src="/etp_arrow-right_over.png"
                                  alt"forward"=""></a>
                     </div>
                 </div>
