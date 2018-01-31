@@ -2,6 +2,8 @@
 
 namespace LmsPlugin\Controllers;
 
+use WP_User_Query;
+
 class SettingsPageController extends Controller
 {
     public function index()
@@ -19,7 +21,8 @@ class SettingsPageController extends Controller
 
         $settings = $this->plugin->getSettings();
         $membership = get_option('users_can_register');
+        $support = new WP_User_Query(['role' => 'administrator']);
 
-        $this->view('pages.settings.index', compact('settings', 'membership', 'messages'));
+        $this->view('pages.settings.index', compact('settings', 'membership', 'messages', 'support'));
     }
 }

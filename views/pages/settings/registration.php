@@ -57,7 +57,13 @@
             </div>
             <div class="col-3">
                 <select name="settings[register][support]">
-                    <option value=""><?= __('Nobody', 'lms-plugin'); ?></option>
+                    <?php foreach ($support->results as $admin): ?>
+                        <option value="<?= $admin->ID; ?>"
+                                <?= selected($admin->ID, $settings['register']['support']); ?>
+                        >
+                            <?= $admin->display_name; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="col-4">

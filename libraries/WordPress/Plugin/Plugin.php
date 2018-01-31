@@ -151,7 +151,20 @@ class Plugin
      */
     public function getSettings()
     {
-        return get_option(basename($this->slug, '.php'));
+        $default = [
+            'colors' => [
+                'background' => '#4990E2',
+                'header' => '#f1f1f1',
+                'text' => '#ffffff'
+            ],
+            'register' => [
+                'restriction' => '',
+                'support' => '1'
+            ]
+        ];
+
+
+        return get_option(basename($this->slug, '.php'), $default);
     }
 
     /**
