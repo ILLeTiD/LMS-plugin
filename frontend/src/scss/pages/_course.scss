@@ -792,12 +792,14 @@ li {
     &:focus,
     &:active {
       text-decoration: none;
-      outline:none;
+      outline: none;
     }
   }
 
-  &__wrapper {
-    height: 100%;
+  &--image {
+    .grid-block__wrapper {
+      height: 100%;
+    }
   }
 
   &__image {
@@ -825,6 +827,35 @@ li {
   &.loaded {
     &:after {
       display: none;
+    }
+  }
+}
+
+.lms-puzzles-grid {
+  width: 630px;
+  margin:auto;
+  position: relative;
+
+  &__item {
+    display: block;
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    line-height: 200px;
+    margin: 5px;
+    text-align: center;
+    z-index: 1;
+
+    &.muuri-item-dragging {
+      z-index: 3;
+    }
+
+    &.muuri-item-releasing {
+      z-index: 2;
+    }
+
+    &.muuri-item-hidden {
+      z-index: 0;
     }
   }
 }

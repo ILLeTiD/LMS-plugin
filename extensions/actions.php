@@ -56,7 +56,8 @@ $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
 $action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
-
+$action->add('wp_ajax_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
+$action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
 
 if ( ! class_exists( '_WP_Editors', false ) ) {
     require( ABSPATH . WPINC . '/class-wp-editor.php' );

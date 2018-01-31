@@ -3,6 +3,9 @@ import SlideCtr from './Slide';
 import UrlCtr from './slideUrlControl'
 import Hint from './Hint'
 import Alert from '../utilities/Alerts'
+import 'hammerjs'
+import Muuri from 'muuri';
+
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 
 class Course {
@@ -18,15 +21,23 @@ class Course {
     init() {
         console.log('init Course');
         this.getCurrentSlideFromDb();
+
+
+
     }
 
 
-    afterDb(id) {
-        const initialSlide = this.initialSlide(id);
+    setActiveSlideOnInit() {
+        const initialSlide = this.initialSlide();
         initialSlide.addClass('active');
         this.listeners();
         this.checkControls();
         $('.slides').addClass('loaded');
+        console.log('init murri');
+        const grid = new Muuri(".lms-puzzles-grid", {
+            dragEnabled: true
+            // dragAxis: 'y'
+        });
     }
 
     listeners() {
@@ -51,62 +62,55 @@ class Course {
                 console.log(request.responseText);
             }
         }).done(function (json) {
-            console.log('slide from db action', json);
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            const passedIds = json.ids ? json.ids : [];
-            self.passedIds = passedIds;
-            self.afterDb();
+            self.passedIds = json.ids ? json.ids : [];
+            self.setActiveSlideOnInit();
         });
 
     }
 
     initialSlide() {
-        let slideFromDb = 0;
         let initialSlideIndex = 0;
 
-        console.log('passed ids', this.passedIds);
+        console.log('passed slide ids', this.passedIds);
 
+        //if user don`t have activities on this course just show 1st step
         if (this.passedIds.length == 0) {
-            console.log('empty ids');
+            console.log('fist time at course');
             this.urlCrl.addToUrl(1, {current: initialSlideIndex,});
             return $('.slides').find('.slide').eq(initialSlideIndex);
         }
 
         let hash = window.location.hash;
 
+        //collect info about last step from activities
         let lastSlideIdFromDB = this.passedIds[0];
         let lastElIndexFromDB = this.slideCtr.slides.find(value => value.id == lastSlideIdFromDB);
         let lastSlideIndexFromDB = lastElIndexFromDB.index;
 
-        //check if valid slide
-        //if 0 user first time at course so show first slide
-
+        //check if valid slide in url hash
         if (hash && hash.indexOf('#slide') != -1) {
-            const slideToShow = +hash.substr(6);
+            //extract step info from hash
+            const slideToShow = parseInt(hash.substr(6));
             const elementToShow = this.slideCtr.slides.find(value => value.index == (slideToShow - 1));
             const idToShow = elementToShow.id;
 
-
+            //check if user can go to this step
             if (this.passedIds.includes(idToShow) && !(slideToShow > +this.slideCtr.amount || slideToShow <= 0)) {
                 console.log('show slide from db by ID');
                 this.slideCtr.currentById = idToShow;
                 lastSlideIndexFromDB = this.slideCtr.current.index();
                 //  } else if (slideToShow > +this.slideCtr.amount || slideToShow <= 0) {
             } else {
-
+                //user cant go to slide in hash but has some activities so show last activity
                 console.log('wrong slide11');
                 console.log('id from DB', lastSlideIdFromDB);
                 console.log('index from DB', lastSlideIndexFromDB);
                 history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
                 this.slideCtr.currentById = +lastSlideIdFromDB;
             }
-            // else {
-            //     this.slideCtr.currentByIndex = slideToShow - 1;
-            //     slideFromDb = slideToShow - 1;
-            // }
-            // UI.showStepByIndex(state.current - 1);
         } else {
-            // this.urlCrl.addToUrl(1, {current: slideFromDb,});
+            // user just go to course not to specific slide and has some activity in past
             console.log('slide from DB');
             history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
             this.slideCtr.currentById = +lastSlideIdFromDB;
@@ -131,6 +135,7 @@ class Course {
         const currentSlide = this.slideCtr.current;
         const currentId = currentSlide.data('slide-id');
         const nextSlide = this.slideCtr.current.next();
+
         let goNext = true;
         console.log(currentId);
 
