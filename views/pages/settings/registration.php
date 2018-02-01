@@ -34,17 +34,17 @@
                 </h4>
             </div>
             <div class="col-3">
-                <label class="lms-color-picker-wrap">
+                <div class="lms-form-input-domain">
                     <input type="text"
                            name="settings[register][restriction]"
                            value="<?= array_get($settings, 'register.restriction'); ?>"
                     >
-                </label>
+                </div>
             </div>
             <div class="col-4">
-                <span>
+                <p class="lms-form-text">
                     <?= __('Only enable users with email URL to register and participate in courses.', 'lms-plugin'); ?>
-                </span>
+                </p>
             </div>
         </div>
 
@@ -67,9 +67,9 @@
                 </select>
             </div>
             <div class="col-4">
-                <span>
+                <p class="lms-form-text">
                     <?= __('The person that will receive an email when an user is requesting registration or reaching out for support.', 'lms-plugin'); ?>
-                </span>
+                </p>
             </div>
         </div>
 

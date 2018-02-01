@@ -1,5 +1,7 @@
 <form action="" method="POST">
-    <p>
+
+    <?php include('errors.php'); ?>
+
     <input type="text" name="name" placeholder="<?= __('Full Name', 'lms-plugin'); ?>" required>
     <p>
     <input type="email" name="email" placeholder="<?= __('Email Address', 'lms-plugin'); ?>" required>

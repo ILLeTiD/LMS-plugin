@@ -147,9 +147,11 @@ class Plugin
     /**
      * Get settings of the plugin.
      *
-     * @return array
+     * @param string|null $option
+     *
+     * @return mixed
      */
-    public function getSettings()
+    public function getSettings($option = null)
     {
         $default = [
             'colors' => [
@@ -163,8 +165,9 @@ class Plugin
             ]
         ];
 
+        $settings = get_option(basename($this->slug, '.php'), $default);
 
-        return get_option(basename($this->slug, '.php'), $default);
+        return $option ? array_get($settings, $option) : $settings;
     }
 
     /**
