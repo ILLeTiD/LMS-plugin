@@ -622,3 +622,43 @@
 .lms-delete-confirmation p {
     margin-bottom: 30px;
 }
+
+
+/**
+ * Forms
+ */
+.lms-form input[type=text],
+.lms-form select {
+    width: 100%;
+}
+
+.lms-form input,
+.lms-form select {
+    margin: 5px 0;
+}
+
+.lms-form-text {
+    color: #6c757d;
+    font-size: 11px;
+    line-height: 1.3;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lms-form-input-domain {
+    position: relative;
+}
+
+.lms-form-input-domain input{
+    padding-left: 25px;
+}
+
+.lms-form-input-domain::before {
+    content: '@';
+    position: absolute;
+    color: #6c757d;
+    left: 8px;
+    top: 8px;
+}

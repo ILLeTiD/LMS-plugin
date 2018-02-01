@@ -147,11 +147,27 @@ class Plugin
     /**
      * Get settings of the plugin.
      *
-     * @return array
+     * @param string|null $option
+     *
+     * @return mixed
      */
-    public function getSettings()
+    public function getSettings($option = null)
     {
-        return get_option(basename($this->slug, '.php'));
+        $default = [
+            'colors' => [
+                'background' => '#4990E2',
+                'header' => '#f1f1f1',
+                'text' => '#ffffff'
+            ],
+            'register' => [
+                'restriction' => '',
+                'support' => '1'
+            ]
+        ];
+
+        $settings = get_option(basename($this->slug, '.php'), $default);
+
+        return $option ? array_get($settings, $option) : $settings;
     }
 
     /**

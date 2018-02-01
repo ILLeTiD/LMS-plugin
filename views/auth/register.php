@@ -1,7 +1,6 @@
 <?php
 include 'header-auth.php';
 ?>
-
     <div class="auth-content">
         <div class="auth-content__intro">
             <h2 class="auth-content__title">
