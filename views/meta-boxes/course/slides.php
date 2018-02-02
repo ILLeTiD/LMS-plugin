@@ -32,7 +32,10 @@
                         <span class="edit"><a href="<?= get_edit_post_link($slide->ID); ?>&course=<?= $slide->ID; ?>"><?= __('Edit', 'lms-plugin'); ?></a> | </span>
                         <span class="inline hide-if-no-js"><a href="#" class="editinline"><?= __('Quick Edit', 'lms-plugin'); ?></a> | </span>
                         <span class="trash">
-                            <a href="<?= get_delete_post_link($slide->ID); ?>" class="submitdelete">
+                            <a href="#"
+                               class="submitdelete js-delete-slide"
+                               data-slide="<?= $slide->ID; ?>"
+                            >
                                 <?= __('Trash', 'lms-plugin'); ?>
                             </a> |
                         </span>
@@ -77,4 +80,10 @@
     </tbody>
 
 </table>
+
+<div class="lms-delete-confirmation hidden">
+    <p><?= __('Are you sure you want to delete this slide?', 'lms-plugin'); ?></p>
+    <button type="button" class="js-delete-confirmation__yes"><?= __('Yes', 'lms-plugin'); ?></button>
+    <button type="button" class="js-delete-confirmation__no"><?= __('No', 'lms-plugin'); ?></button>
+</div>
 

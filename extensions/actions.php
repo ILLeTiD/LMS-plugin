@@ -60,3 +60,5 @@ $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@c
 
 $action->add('wp_ajax_sort_slides', 'Controllers\CoursesController@sortSlides');
 
+$action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
+
