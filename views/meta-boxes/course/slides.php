@@ -66,7 +66,11 @@
         </td>
 
         <td></td>
-        <td></td>
+
+        <td>
+            <span class="lms-ajax-loader js-ajax-loader hidden"><?= __('Loading...', 'lms-plugin'); ?></span>
+            <span class="lms-ajax-message js-ajax-message hidden"></span>
+        </td>
 
         <td class="lms-export-slide">
             <a href="<?= admin_url('post-new.php?post_type=slide&course=' . $post->ID); ?>">

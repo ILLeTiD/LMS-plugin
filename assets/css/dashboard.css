@@ -662,3 +662,20 @@
     left: 8px;
     top: 8px;
 }
+
+.lms-ajax-loader {
+    padding: 3px 5px;
+    border: 1px solid #bcdff1;
+    border-radius: 4px;
+    background-color: #d9edf7;
+    color: #31708f;
+}
+
+.lms-ajax-message {
+    padding: 3px 5px;
+    border: 1px solid #d0e9c6;
+    border-radius: 4px;
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+

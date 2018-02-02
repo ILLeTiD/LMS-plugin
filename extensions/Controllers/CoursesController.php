@@ -12,6 +12,8 @@ class CoursesController extends Controller
             update_post_meta($slide_id, 'slide_weight', $weight);
         }
 
-        die;
+        wp_send_json([
+            'message' => __('Saved', 'lms-plugin')
+        ]);
     }
 }

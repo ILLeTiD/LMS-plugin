@@ -11,7 +11,8 @@ class SlidesController extends Controller
         $slide = wp_delete_post($slide_id, true);
 
         wp_send_json([
-            'slide' => $slide
+            'slide' => $slide,
+            'message' => __('Saved', 'lms-plugin')
         ]);
     }
 }
