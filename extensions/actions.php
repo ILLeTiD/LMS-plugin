@@ -12,8 +12,15 @@ $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 
-$action->add('admin_menu', 'DashboardMenu@create');
+/**
+ * Session.
+ */
+$action->add('init', 'session_start', 1);
+$action->add('wp_login', 'session_destroy');
+$action->add('wp_logout', 'session_destroy');
 
+
+$action->add('admin_menu', 'DashboardMenu@create');
 
 $action->add('init', 'Course\CoursePostType@register');
 $action->add('init', 'Course\CategoryTaxonomy@register');
@@ -59,6 +66,7 @@ $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@cha
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
 
 $action->add('wp_ajax_sort_slides', 'Controllers\CoursesController@sortSlides');
-
 $action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
+
+$action->add('wp_ajax_add_profile_field', 'Controllers\SettingsPageController@addField');
 

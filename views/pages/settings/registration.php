@@ -73,6 +73,36 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-2">
+                <h4 class="field__title">
+                    <?= __('Custom fields', 'lms-plugin'); ?>
+                </h4>
+            </div>
+            <div class="col-10">
+                <div class="lms-profile-fields">
+                    <?php if (count($fields)): ?>
+                        <?php $i = 0; ?>
+                        <?php foreach($fields as $field): ?>
+                            <?php include('components/field.php'); ?>
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+
+                <a href="#"
+                   class="js-add-field-button">
+                    <?= __('Add field', 'lms-plugin'); ?>
+                </a>
+
+                <div class="lms-delete-confirmation hidden">
+                    <p><?= __('Are you sure you want to delete this profile field?', 'lms-plugin'); ?></p>
+                    <button type="button" class="js-delete-confirmation__yes"><?= __('Yes', 'lms-plugin'); ?></button>
+                    <button type="button" class="js-delete-confirmation__no"><?= __('No', 'lms-plugin'); ?></button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

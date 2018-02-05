@@ -22,7 +22,25 @@ class SettingsPageController extends Controller
         $settings = $this->plugin->getSettings();
         $membership = get_option('users_can_register');
         $support = new WP_User_Query(['role' => 'administrator']);
+        $fields = array_get($settings, 'fields');
 
-        $this->view('pages.settings.index', compact('settings', 'membership', 'messages', 'support'));
+        $this->view(
+            'pages.settings.index',
+            compact(
+                'settings',
+                'membership',
+                'messages',
+                'support',
+                'fields'
+            )
+        );
+    }
+
+    public function addField()
+    {
+        $i = array_get($_GET, 'id', 0);
+
+        $this->view('pages.settings.components.field', compact('i'));
+        die;
     }
 }
