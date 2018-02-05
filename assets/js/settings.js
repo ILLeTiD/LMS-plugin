@@ -19,10 +19,11 @@
 
         $('.lms-profile-fields').on('change', '.js-change-field-type', function (event) {
             var select = $(this),
+                type = select.val(),
                 container = select.parent().parent(),
                 options = container.find('textarea');
 
-            if (select.val() == 'select') {
+            if (type === 'select' || type === 'radio') {
                 options.show();
             } else {
                 options.hide();

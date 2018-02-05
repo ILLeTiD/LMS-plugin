@@ -38,9 +38,9 @@ include 'header-auth.php';
                     <?php switch ($field['type']):
                         case 'text': ?>
                             <input type="text"
-                                   name="<?= snake_case($field['name']); ?>"
+                                   name="<?= metakey_case($field['name']); ?>"
                                    placeholder="<?= $field['name']; ?>"
-                                   value="<?= old(snake_case($field['name'])); ?>"
+                                   value="<?= old(metakey_case($field['name'])); ?>"
                                    <?= array_get($field, 'required') ? 'required' : ''; ?>
                             >
                         <?php break; ?>
@@ -48,16 +48,16 @@ include 'header-auth.php';
                         <?php case 'checkbox': ?>
                             <label>
                                 <input type="checkbox"
-                                       name="<?= snake_case($field['name']); ?>"
+                                       name="<?= metakey_case($field['name']); ?>"
                                        value="1"
-                                       <?= checked(old(snake_case($field['name']))); ?>
+                                       <?= checked(old(metakey_case($field['name']))); ?>
                                        <?= array_get($field, 'required') ? 'required' : ''; ?>
                                 >
                                 <?= $field['name']; ?>
                             </label>
                         <?php break; ?>
                         <?php case 'select': ?>
-                            <select name="<?= snake_case($field['name']); ?>"
+                            <select name="<?= metakey_case($field['name']); ?>"
                                     <?= array_get($field, 'required') ? 'required' : ''; ?>
                             >
                                 <option value="">
@@ -65,12 +65,31 @@ include 'header-auth.php';
                                 </option>
 
                                 <?php foreach (explode("\n", array_get($field, 'options')) as $option): ?>
-                                    <option value="<?= snake_case($option); ?>">
+                                    <option value="<?= metakey_case($option); ?>"
+                                            <?= selected(old(metakey_case($field['name'])), metakey_case($option)); ?>
+                                    >
                                         <?= $option; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         <?php break; ?>
+
+                        <?php case 'radio': ?>
+                            <?= $field['name']; ?>:
+
+                                <?php foreach (explode("\n", array_get($field, 'options')) as $option): ?>
+                                    <label>
+                                        <input type="radio"
+                                               name="<?= metakey_case($field['name']); ?>"
+                                               value="<?= metakey_case($option); ?>"
+                                               <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                               <?= checked(old(metakey_case($field['name'])), metakey_case($option)); ?>
+                                        >
+                                        <?= $option; ?>
+                                    </label>
+                                <?php endforeach; ?>
+                            </select>
+                            <?php break; ?>
                     <?php endswitch; ?>
                 <?php endforeach; ?>
             <?php endif; ?>

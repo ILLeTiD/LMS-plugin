@@ -23,6 +23,11 @@
                     >
                         <?= __('Select', 'lms-plugin'); ?>
                     </option>
+                    <option value="radio"
+                        <?= selected('radio', array_get($field, 'type')); ?>
+                    >
+                        <?= __('Radio', 'lms-plugin'); ?>
+                    </option>
             </select>
         </div>
         <div class="col-4">
@@ -31,7 +36,7 @@
                    value="<?= array_get($field, 'name'); ?>"
             >
             <textarea name="settings[fields][<?= $i; ?>][options]"
-                      class="<?= array_get($field, 'type') != 'select' ? 'hidden' : ''; ?>"
+                      class="<?= in_array(array_get($field, 'type'), ['select', 'radio']) ? '' : 'hidden'; ?>"
             ><?= array_get($field, 'options'); ?></textarea>
         </div>
         <div class="col-4">

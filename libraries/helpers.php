@@ -55,7 +55,19 @@ if (!function_exists('snake_case')) {
     }
 }
 
-if (!function_exists('is_closure')) {
+if ( ! function_exists('metakey_case')) {
+    /**
+     * Convert a string to format which acceptable for meta key name.
+     *
+     * @param string $value
+     * @return string
+     */
+    function metakey_case($value) {
+        return strtolower(str_replace(' ', '_', trim($value)));
+    }
+}
+
+if ( ! function_exists('is_closure')) {
     /**
      * Determine whether the callback is a closure.
      *

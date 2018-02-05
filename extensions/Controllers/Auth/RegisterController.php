@@ -85,7 +85,7 @@ class RegisterController extends Controller
         $fields = $this->plugin->getSettings('fields');
 
         foreach ($fields as $field) {
-            $name = snake_case($field['name']);
+            $name = metakey_case($field['name']);
             update_user_meta($user_id, $name, $_POST[$name]);
         }
 
