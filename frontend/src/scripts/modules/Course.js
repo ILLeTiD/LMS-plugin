@@ -2,6 +2,7 @@
 import SlideCtr from './Slide';
 import UrlCtr from './slideUrlControl'
 import Hint from './Hint'
+import Quiz from './Quiz'
 import Alert from '../utilities/Alerts'
 import 'hammerjs'
 import Muuri from 'muuri';
@@ -17,27 +18,19 @@ class Course {
         this.userId = $('#course').data('user-id');
     }
 
-
     init() {
         console.log('init Course');
         this.getCurrentSlideFromDb();
-
-
-
     }
 
-
     setActiveSlideOnInit() {
-        const initialSlide = this.initialSlide();
-        initialSlide.addClass('active');
+
+        const initialSlide = this.getinitialSlideIndex();
+        // initialSlide.addClass('active');
+        // this.checkControls();
+        this.showSlide(initialSlide, initialSlide + 1);
         this.listeners();
-        this.checkControls();
         $('.slides').addClass('loaded');
-        console.log('init murri');
-        const grid = new Muuri(".lms-puzzles-grid", {
-            dragEnabled: true
-            // dragAxis: 'y'
-        });
     }
 
     listeners() {
@@ -69,7 +62,7 @@ class Course {
 
     }
 
-    initialSlide() {
+    getinitialSlideIndex() {
         let initialSlideIndex = 0;
 
         console.log('passed slide ids', this.passedIds);
@@ -77,8 +70,7 @@ class Course {
         //if user don`t have activities on this course just show 1st step
         if (this.passedIds.length == 0) {
             console.log('fist time at course');
-            this.urlCrl.addToUrl(1, {current: initialSlideIndex,});
-            return $('.slides').find('.slide').eq(initialSlideIndex);
+            return initialSlideIndex;
         }
 
         let hash = window.location.hash;
@@ -108,15 +100,17 @@ class Course {
                 console.log('index from DB', lastSlideIndexFromDB);
                 history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
                 this.slideCtr.currentById = +lastSlideIdFromDB;
+                lastSlideIndexFromDB = this.slideCtr.current.index();
             }
         } else {
             // user just go to course not to specific slide and has some activity in past
             console.log('slide from DB');
             history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
             this.slideCtr.currentById = +lastSlideIdFromDB;
+            lastSlideIndexFromDB = this.slideCtr.current.index();
         }
-
-        return $('.slides').find('.slide').eq(lastSlideIndexFromDB);
+        console.log(lastSlideIndexFromDB);
+        return lastSlideIndexFromDB;
     }
 
     toggleFullscreen(e) {
@@ -135,6 +129,7 @@ class Course {
         const currentSlide = this.slideCtr.current;
         const currentId = currentSlide.data('slide-id');
         const nextSlide = this.slideCtr.current.next();
+        const nextSlideIndex = nextSlide.index();
 
         let goNext = true;
         console.log(currentId);
@@ -142,39 +137,63 @@ class Course {
         console.log(nextSlide.data('type'));
         if (nextSlide.data('type') == 'quiz') {
             //@TODO check tollerance lvl
+            const quiz = new Quiz(
+                nextSlide,
+                nextSlide.data('quiz-type'),
+                nextSlide.data('tolerance'));
             console.log('quiz slide');
-            const hint = new Hint('test');
         }
 
         if (goNext) {
-            $.ajax(
-                {
-                    method: "POST",
-                    url: lmsAjax.ajaxurl,
-                    data: {
-                        action: 'progress_commit',
-                        user_id: this.userId,
-                        course_id: this.courseId,
-                        slide_id: currentId
-                    }
-                }
-            ).done(function (msg) {
-                console.log(msg);
-            });
-
-            this.slideCtr.currentByIndex = currentSlide.index() + 1;
-            this.checkControls();
-            this.urlCrl.addToUrl(this.slideCtr.current.index() + 1);
+            this.commitActivity(currentId);
+            console.log('next slide index', nextSlideIndex);
+            this.showSlide(nextSlideIndex, nextSlideIndex + 1)
         }
-    }
 
+    }
 
     prevSlide(e) {
         e.preventDefault();
         const currentSlide = this.slideCtr.current;
-        this.slideCtr.currentByIndex = currentSlide.index() - 1;
+        const prevSlideIndex = currentSlide.prev().index();
+        console.log('prev slide index', prevSlideIndex);
+        this.showSlide(prevSlideIndex, prevSlideIndex + 1)
+    }
+
+    showSlide(indexSlide, indexHash) {
+        console.log('show slide ', indexSlide, indexHash);
+        this.slideCtr.currentByIndex = indexSlide;
         this.checkControls();
-        this.urlCrl.addToUrl(+this.slideCtr.current.index() + 1);
+        this.urlCrl.addToUrl(indexHash, {
+            current: indexHash,
+
+        });
+
+        if (this.slideCtr.current.data('type') === 'quiz' && this.slideCtr.current.data('quiz-type') === 'puzzle') {
+            console.log('puzzle reinit');
+            const grid = new Muuri(".lms-puzzles-grid", {
+                dragEnabled: true
+                // dragAxis: 'y'
+            });
+        }
+        console.log('showSlide method');
+    }
+
+    commitActivity(currentId) {
+        $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'progress_commit',
+                    user_id: this.userId,
+                    course_id: this.courseId,
+                    slide_id: currentId
+                }
+            }
+        ).done(function (msg) {
+            console.log(msg);
+        });
     }
 
     checkControls() {

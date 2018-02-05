@@ -2,20 +2,38 @@
 
 namespace LmsPlugin\Controllers;
 
-
 use LmsPlugin\Models\Slide;
 
 class QuizAnswerController extends Controller
 {
     public function checkOptionsAnswer()
     {
-     $slide_id = $_REQUEST['slide_id'];
-     $userAnswer = json_decode($_REQUEST['user_answer'],true);
+        $slide_id = $_POST['slide_id'];
+        $userAnswer = $_POST['answers'];
 
-     $slide = Slide::find($slide_id);
-     $answers = $slide->forms_answers;
-     dd($answers);
+        $slide = Slide::find($slide_id);
+        $questions = $slide->forms_answers;
+        $rightAnswers = array_filter($questions, function ($e) {
+            return isset($e['correct']);
+        });
 
-        wp_send_json(['slide'=>$slide]);
+        $arr4 = array_merge( $questions, $userAnswer );
+        dd($arr4);
+//        function checkValue($value, $key) use($rightAnswers)
+//        {
+//            $value['text'];
+//        }
+//
+//        array_walk($userAnswer, 'checkValue');
+//        $checkedAnswers = array_map(function ($e) use ($rightAnswers){
+//            $text = $e['text'];
+//            return array_search($text, $rightAnswers);
+//        },$userAnswer);
+//dd($checkedAnswers);
+
+//        dd($userAnswer);
+//        dd($answers);
+
+        wp_send_json(['answers' => $answers, 'post' => $_POST]);
     }
 }

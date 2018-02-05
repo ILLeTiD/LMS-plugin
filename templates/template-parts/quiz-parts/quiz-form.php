@@ -1,6 +1,9 @@
 <?php
 $formType = $slide->forms_type;
 $answers = $slide->forms_answers;
+$answersN = array_map(function (){
+
+},$answers);
 shuffle($answers);
 $correctCount = array_reduce($answers, function ($acc, $item) {
     if (isset($item['correct']) && $item['correct'] == 'on') $acc++;
@@ -23,8 +26,10 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
 <?php endforeach; ?>
 <?php elseif ($formType == 'text_field'): ?>
     <label>
-        <input type="text" name="text_field" placeholder="Answer">
+        <input type="text" name="text_field" placeholder="Answer" name="option">
     </label>
 <?php elseif ($formType == 'text_area'): ?>
-    <textarea placeholder="Answer"></textarea>
+    <textarea placeholder="Answer" name="text_field"></textarea>
 <?php endif; ?>
+
+<button class="check-answer"> Check answer</button>
