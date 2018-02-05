@@ -5,9 +5,9 @@ $type = $slide->quiz_type;
 $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;
 ?>
-<div class="slide slide-quiz" data-slide-id="<?= $id ?>" data-type="quiz"
+<div class="slide slide-quiz" data-slide-id="<?= $id ?>" data-slide-index="<?= $slide_index ?>" data-type="quiz"
      data-quiz-type="<?= $type ?>"
-     data-toleance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
+     data-tolerance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
     <h1>simple slide from theme quiz</h1>
     <h1>  <?php print_r($slide->post_title) ?></h1>
     <h3>question is : <?= $question ?></h3>

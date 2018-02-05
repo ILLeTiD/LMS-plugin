@@ -50,6 +50,8 @@ $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageControlle
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
+
+//frontend actions
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
@@ -58,9 +60,11 @@ $action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllU
 $action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
 $action->add('wp_ajax_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
 $action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
+$action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
+$action->add('wp_ajax_nopriv_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
 
-if ( ! class_exists( '_WP_Editors', false ) ) {
-    require( ABSPATH . WPINC . '/class-wp-editor.php' );
+if (!class_exists('_WP_Editors', false)) {
+    require(ABSPATH . WPINC . '/class-wp-editor.php');
 }
 $action->add('admin_print_footer_scripts', ['_WP_Editors', 'print_default_editor_scripts']);
 
@@ -80,7 +84,7 @@ $action->add('template_redirect', function () {
 
     $controller = $this->plugin->getNamespace() . '\\Controllers\\' . $controller;
 
-    if ( ! class_exists($controller)) {
+    if (!class_exists($controller)) {
         // Controller not found.
         $wp_query->set_404();
         status_header(404);
@@ -90,7 +94,7 @@ $action->add('template_redirect', function () {
 
     $controller = new $controller($this->plugin);
 
-    if ( ! method_exists($controller, $action)) {
+    if (!method_exists($controller, $action)) {
         // Action not found.
         $wp_query->set_404();
         status_header(404);

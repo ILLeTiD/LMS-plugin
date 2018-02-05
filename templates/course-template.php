@@ -15,12 +15,12 @@ get_header('course');
         <div class="course__wrapper">
             <div id="slides" class="slides">
                 <?php
-                foreach ($slides as $slide) {
+                foreach ($slides as $key => $slide) {
                     // print_r($slide);
                     if ($slide->slide_format == 'quiz') {
-                        lms_get_template('template-parts/slide-quiz.php', ['slide' => $slide]);
+                        lms_get_template('template-parts/slide-quiz.php', ['slide' => $slide, 'slide_index' => $key]);
                     } elseif ($slide->slide_format == 'regular') {
-                        lms_get_template('template-parts/slide-text.php', ['slide' => $slide]);
+                        lms_get_template('template-parts/slide-text.php', ['slide' => $slide, 'slide_index' => $key]);
                     }
                 }
                 ?>

@@ -30,6 +30,13 @@ class Alert {
                     position: 'topRight',
                 });
                 break;
+            case 'info' :
+                iziToast.warning({
+                    title: 'Info',
+                    message: this.message,
+                    position: 'topRight',
+                });
+                break;
         }
     }
 }
