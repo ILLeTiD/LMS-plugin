@@ -294,5 +294,13 @@ if (!function_exists('lms_page_template')) {
     }
 }
 
+if ( ! function_exists('old')) {
+
+    function old($name, $default = null) {
+
+        return array_get($_REQUEST, $name, $default);
+    }
+}
+
 
 

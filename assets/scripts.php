@@ -22,3 +22,10 @@ $script->add('invite-scripts')
 $script->add('jquery-ui')
        ->source('jquery-ui.min.js');
 
+$script->add('settings-scripts')
+    ->source('settings.js')
+    ->dependencies(['accordion', 'jquery-ui-sortable'])
+    ->condition(function () {
+        return $this->getCurrentScreen()->id == 'course_page_settings';
+    });
+

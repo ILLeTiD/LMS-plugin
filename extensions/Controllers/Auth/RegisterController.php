@@ -3,6 +3,7 @@
 namespace LmsPlugin\Controllers\Auth;
 
 use LmsPlugin\Controllers\Controller;
+use LmsPlugin\Models\User;
 use WP_Error;
 
 class RegisterController extends Controller
@@ -15,15 +16,18 @@ class RegisterController extends Controller
             wp_safe_redirect('/request_invite');
         }
 
-        $this->view('auth.register');
+        $fields = $this->plugin->getSettings('fields');
+
+        $this->view('auth.register', compact('fields'));
     }
 
     public function register()
     {
+        $fields = $this->plugin->getSettings('fields');
+
         $name = array_get($_POST, 'name');
         $email = array_get($_POST, 'email');
         $password = array_get($_POST, 'password');
-        $role = array_get($_POST, 'role');
 
         $allowed_domain = $this->plugin->getSettings('register.restriction');
         $domain = strstr($email, '@');
@@ -54,14 +58,14 @@ class RegisterController extends Controller
         }
 
         if (count($errors->get_error_messages())) {
-            $this->view('auth.register', compact('errors'));
+            $this->view('auth.register', compact('errors', 'fields'));
 
             return;
         }
 
         list($first_name, $last_name) = explode(' ', $_POST['name']);
 
-        wp_insert_user([
+        $user_id = wp_insert_user([
             'user_login' => $_POST['email'],
             'user_email' => $_POST['email'],
             'user_pass' => $_POST['password'],
@@ -69,7 +73,31 @@ class RegisterController extends Controller
             'last_name' => $last_name
         ]);
 
-        // wp_safe_redirect($this->redirect_to);
+        if (is_wp_error($user_id)) {
+            $errors->add('registration.failed', __('Sorry! Something went wrong. User could not be registered.', 'lms-plugin'));
+            $this->view('auth.register', compact('errors', 'fields'));
+
+            return;
+        }
+
+        $user = User::find($user_id);
+
+        $fields = $this->plugin->getSettings('fields');
+
+        foreach ($fields as $field) {
+            $name = snake_case($field['name']);
+            update_user_meta($user_id, $name, $_POST[$name]);
+        }
+
+        // Fire user registered event.
+        do_action('lms_event_user_registered', $user);
+
+        wp_signon([
+            'user_login' => $email,
+            'user_password' => $password
+        ]);
+
+        wp_safe_redirect($this->redirect_to);
     }
 
     private function canUsersRegister()

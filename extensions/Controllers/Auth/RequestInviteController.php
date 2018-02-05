@@ -35,7 +35,10 @@ class RequestInviteController extends Controller
             $this->view('auth.request-invite', compact('errors'));
         }
 
-        // TODO: Notify administrator.
+        // Fire user registered event.
+        do_action('lms_event_invite_requested', $email);
+
+        // TODO: Show a success message.
 
         // wp_safe_redirect($this->redirect_to);
     }

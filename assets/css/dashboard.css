@@ -662,3 +662,19 @@
     left: 8px;
     top: 8px;
 }
+
+.lms-profile-field {
+    position: relative;
+}
+
+.lms-profile-field__title {
+    margin: 0;
+}
+
+.lms-profile-field__title i {
+    cursor: pointer;
+}
+
+.lms-button-remove-profile-field {
+    padding: 0;
+}
