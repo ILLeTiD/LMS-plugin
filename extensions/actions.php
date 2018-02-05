@@ -65,6 +65,8 @@ $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@sear
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
 
-$action->add('wp_ajax_add_profile_field', 'Controllers\SettingsPageController@addField');
+$action->add('wp_ajax_sort_slides', 'Controllers\CoursesController@sortSlides');
+$action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
 
+$action->add('wp_ajax_add_profile_field', 'Controllers\SettingsPageController@addField');
 
