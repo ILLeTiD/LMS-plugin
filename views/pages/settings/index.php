@@ -21,6 +21,8 @@
                         <?php include('styling.php'); ?>
 
                         <?php include('registration.php'); ?>
+
+                        <?php include('email-templates.php'); ?>
                     </div>
                 </div>
 

@@ -678,3 +678,18 @@
 .lms-button-remove-profile-field {
     padding: 0;
 }
+
+.lms-settings-email-templates .accordion-section-title {
+    border-left: 0;
+    border-right: 0;
+}
+
+.lms-settings-email-templates .accordion-section.open .accordion-section-title {
+    border-bottom: 1px solid #ddd;
+}
+
+.lms-email-template__subject {
+    position: absolute;
+    width: 50% !important;
+    z-index: 999;
+}
