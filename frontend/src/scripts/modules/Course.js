@@ -16,11 +16,37 @@ class Course {
         this.urlCrl = UrlCtr;
         this.courseId = $('#course').data('id');
         this.userId = $('#course').data('user-id');
+        this.canGoNext = true;
+        this.flexThreshold = 50;
     }
 
     init() {
         console.log('init Course');
         this.getCurrentSlideFromDb();
+        //      this.getAnswersFromDB();
+
+    }
+
+    getAnswersFromDB() {
+        const self = this;
+        $.ajax({
+            method: "POST",
+            url: lmsAjax.ajaxurl,
+            data: {
+                action: 'get_course_answers',
+                user_id: this.userId,
+                course_id: this.courseId,
+            },
+            error: function (request, status, error) {
+                new Alert(request.responseText);
+                console.log(request.responseText);
+            }
+        }).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            self.formAnswers = json.questions;
+            console.log(json);
+            console.log(self.formAnswers);
+        });
     }
 
     setActiveSlideOnInit() {
@@ -33,11 +59,106 @@ class Course {
         $('.slides').addClass('loaded');
     }
 
+    quizSubmit(e) {
+        e.preventDefault();
+
+        const form = $(e.target);
+        const serialized = form.serializeArray();
+        const slide = form.closest('.slide');
+        const slideId = slide.data('slide-id');
+        const correctAnswersCount = form.data('answers-count');
+        let checkedAnswers = [];
+
+        form.find('input[type="checkbox"]:checked').each(function (i) {
+            checkedAnswers.push({index: $(this).data('index'), correct: null});
+        });
+
+        const self = this;
+
+        $.ajax({
+            method: "POST",
+            url: lmsAjax.ajaxurl,
+            data: {
+                action: 'check_options_answer',
+                user_id: this.userId,
+                slide_id: slideId,
+                course_id: this.courseId,
+                indexes: checkedAnswers
+            },
+            error: function (request, status, error) {
+                new Alert(request.responseText);
+                console.log(request.responseText);
+            }
+        }).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            console.log(json);
+            checkedAnswers = json.checkedAnswers;
+            inputsCheck(checkedAnswers);
+            toleranceCheck(checkedAnswers, slide.data('tolerance'));
+        });
+
+        const toleranceCheck = (checkedAnswers, tolerance) => {
+            console.log(tolerance);
+            console.log(checkedAnswers);
+            console.log('correct', correctAnswersCount);
+
+            if (tolerance === 'strict') {
+                if (checkedAnswers.length > correctAnswersCount || checkedAnswers.length < correctAnswersCount) {
+                    new Alert('Please try again', 'info', 3000);
+                    return;
+                }
+                const canGo = checkedAnswers.reduce((acc, current) => {
+                    return current.correct;
+                }, true);
+
+                if (canGo) {
+                    this.canGoNext = true;
+                    new Alert('you can go to the next slide', 'success', 3000);
+                    return true;
+                } else {
+                    this.canGoNext = false;
+                    new Alert('Please try again', 'info', 3000);
+                    return false;
+                }
+
+            } else if (tolerance === 'flexible') {
+                // correctAnswersCount
+                const answeredCorrect = checkedAnswers.reduce((acc, current) => {
+                    if (current.correct) acc++;
+                    return acc;
+                }, 0);
+
+                const percentOfCorrect = Math.round((answeredCorrect / correctAnswersCount) * 100);
+                console.log(percentOfCorrect);
+
+                if (percentOfCorrect >= this.flexThreshold) {
+                    this.canGoNext = true;
+                    new Alert('you can go to the next slide', 'success', 3000);
+                    return true;
+                } else {
+                    this.canGoNext = false;
+                    new Alert('Please try again', 'info', 3000);
+                    return false;
+                }
+            } else {
+                new Alert('you can go to the next slide', 'info', 3000);
+            }
+        };
+
+        const inputsCheck = (checkedAnswers) => {
+            checkedAnswers.forEach(item => {
+                const className = item['correct'] ? 'correct' : 'error';
+                form.find(`input[data-index="${item.index}"]`).addClass(className);
+            });
+        };
+    }
+
     listeners() {
         //@TODO add left/right arrow switching
         $('.slide-navigation .next').on('click', this.nextSlide.bind(this));
         $('.slide-navigation .prev').on('click', this.prevSlide.bind(this));
         $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
+        $('.quiz-form').on('submit', this.quizSubmit.bind(this));
     }
 
     getCurrentSlideFromDb() {
@@ -131,7 +252,6 @@ class Course {
         const nextSlide = this.slideCtr.current.next();
         const nextSlideIndex = nextSlide.index();
 
-        let goNext = true;
         console.log(currentId);
 
         console.log(nextSlide.data('type'));
@@ -144,7 +264,8 @@ class Course {
             console.log('quiz slide');
         }
 
-        if (goNext) {
+
+        if (this.canGoNext) {
             this.commitActivity(currentId);
             console.log('next slide index', nextSlideIndex);
             this.showSlide(nextSlideIndex, nextSlideIndex + 1)
