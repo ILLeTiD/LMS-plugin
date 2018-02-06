@@ -4,7 +4,6 @@
 @import '../../node_modules/normalize.css/normalize';
 @import '../../node_modules/izitoast/dist/css/iziToast.css';
 @import '../../node_modules/mediaelement/src/css/mediaelementplayer.css';
-
 /*--------------------------------------------------------------
 # Partials
 --------------------------------------------------------------*/
@@ -17,15 +16,29 @@
 //# Components
 //--------------------------------------------------------------*/
 //@import 'components/header';
-//@import 'components/footer';
 /*--------------------------------------------------------------
 # Pages
 --------------------------------------------------------------*/
+@import 'components/loader';
 @import 'pages/course';
 
 #course {
   min-height: 100vh;
   width: 100%;
+  position: relative;
+
+  &.unloaded {
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rebeccapurple;
+      z-index:100;
+    }
+  }
 }
 
 .slide-controls {

@@ -8,7 +8,9 @@ class App {
 
     init() {
         console.info('App Initialized');
-        this.course.init();
+        if ($('#course').length > 0) {
+            this.course.init($('#course'));
+        }
     }
 }
 

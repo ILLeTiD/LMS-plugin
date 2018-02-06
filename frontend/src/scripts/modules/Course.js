@@ -1,4 +1,3 @@
-//
 import SlideCtr from './Slide';
 import UrlCtr from './slideUrlControl'
 import Hint from './Hint'
@@ -14,143 +13,29 @@ class Course {
         console.log('course inited1!');
         this.slideCtr = new SlideCtr();
         this.urlCrl = UrlCtr;
-        this.courseId = $('#course').data('id');
-        this.userId = $('#course').data('user-id');
         this.canGoNext = true;
         this.flexThreshold = 50;
     }
 
-    init() {
+    init($courseEl) {
         console.log('init Course');
+        this.courseEl = $courseEl;
+        this.courseId = $courseEl.data('id');
+        this.userId = $courseEl.data('user-id');
         this.getCurrentSlideFromDb();
         //      this.getAnswersFromDB();
 
     }
 
-    getAnswersFromDB() {
-        const self = this;
-        $.ajax({
-            method: "POST",
-            url: lmsAjax.ajaxurl,
-            data: {
-                action: 'get_course_answers',
-                user_id: this.userId,
-                course_id: this.courseId,
-            },
-            error: function (request, status, error) {
-                new Alert(request.responseText);
-                console.log(request.responseText);
-            }
-        }).done(function (json) {
-            if (json.error) new Alert(`"${json.error}" please reload page`);
-            self.formAnswers = json.questions;
-            console.log(json);
-            console.log(self.formAnswers);
-        });
-    }
-
     setActiveSlideOnInit() {
 
-        const initialSlide = this.getinitialSlideIndex();
-        // initialSlide.addClass('active');
-        // this.checkControls();
-        this.showSlide(initialSlide, initialSlide + 1);
+        const initialSlideIndex = this.getinitialSlideIndex();
+        this.showSlide(initialSlideIndex, initialSlideIndex + 1);
         this.listeners();
-        $('.slides').addClass('loaded');
-    }
 
-    quizSubmit(e) {
-        e.preventDefault();
-
-        const form = $(e.target);
-        const serialized = form.serializeArray();
-        const slide = form.closest('.slide');
-        const slideId = slide.data('slide-id');
-        const correctAnswersCount = form.data('answers-count');
-        let checkedAnswers = [];
-
-        form.find('input[type="checkbox"]:checked').each(function (i) {
-            checkedAnswers.push({index: $(this).data('index'), correct: null});
-        });
-
-        const self = this;
-
-        $.ajax({
-            method: "POST",
-            url: lmsAjax.ajaxurl,
-            data: {
-                action: 'check_options_answer',
-                user_id: this.userId,
-                slide_id: slideId,
-                course_id: this.courseId,
-                indexes: checkedAnswers
-            },
-            error: function (request, status, error) {
-                new Alert(request.responseText);
-                console.log(request.responseText);
-            }
-        }).done(function (json) {
-            if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log(json);
-            checkedAnswers = json.checkedAnswers;
-            inputsCheck(checkedAnswers);
-            toleranceCheck(checkedAnswers, slide.data('tolerance'));
-        });
-
-        const toleranceCheck = (checkedAnswers, tolerance) => {
-            console.log(tolerance);
-            console.log(checkedAnswers);
-            console.log('correct', correctAnswersCount);
-
-            if (tolerance === 'strict') {
-                if (checkedAnswers.length > correctAnswersCount || checkedAnswers.length < correctAnswersCount) {
-                    new Alert('Please try again', 'info', 3000);
-                    return;
-                }
-                const canGo = checkedAnswers.reduce((acc, current) => {
-                    return current.correct;
-                }, true);
-
-                if (canGo) {
-                    this.canGoNext = true;
-                    new Alert('you can go to the next slide', 'success', 3000);
-                    return true;
-                } else {
-                    this.canGoNext = false;
-                    new Alert('Please try again', 'info', 3000);
-                    return false;
-                }
-
-            } else if (tolerance === 'flexible') {
-                // correctAnswersCount
-                const answeredCorrect = checkedAnswers.reduce((acc, current) => {
-                    if (current.correct) acc++;
-                    return acc;
-                }, 0);
-
-                const percentOfCorrect = Math.round((answeredCorrect / correctAnswersCount) * 100);
-                console.log(percentOfCorrect);
-
-                if (percentOfCorrect >= this.flexThreshold) {
-                    this.canGoNext = true;
-                    new Alert('you can go to the next slide', 'success', 3000);
-                    return true;
-                } else {
-                    this.canGoNext = false;
-                    new Alert('Please try again', 'info', 3000);
-                    return false;
-                }
-            } else {
-                new Alert('you can go to the next slide', 'info', 3000);
-            }
-        };
-
-        const inputsCheck = (checkedAnswers) => {
-            checkedAnswers.forEach(item => {
-                const className = item['correct'] ? 'correct' : 'error';
-                form.find(`input[data-index="${item.index}"]`).addClass(className);
-            });
-        };
+        //remove loader when we have slide to show
+        this.courseEl.removeClass('unloaded');
+        this.courseEl.find('#course-loader').remove();
     }
 
     listeners() {
@@ -158,7 +43,6 @@ class Course {
         $('.slide-navigation .next').on('click', this.nextSlide.bind(this));
         $('.slide-navigation .prev').on('click', this.prevSlide.bind(this));
         $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
-        $('.quiz-form').on('submit', this.quizSubmit.bind(this));
     }
 
     getCurrentSlideFromDb() {
@@ -255,22 +139,15 @@ class Course {
         console.log(currentId);
 
         console.log(nextSlide.data('type'));
+
         if (nextSlide.data('type') == 'quiz') {
             //@TODO check tollerance lvl
-            const quiz = new Quiz(
-                nextSlide,
-                nextSlide.data('quiz-type'),
-                nextSlide.data('tolerance'));
-            console.log('quiz slide');
         }
 
-
         if (this.canGoNext) {
-            this.commitActivity(currentId);
             console.log('next slide index', nextSlideIndex);
             this.showSlide(nextSlideIndex, nextSlideIndex + 1)
         }
-
     }
 
     prevSlide(e) {
@@ -285,10 +162,19 @@ class Course {
         console.log('show slide ', indexSlide, indexHash);
         this.slideCtr.currentByIndex = indexSlide;
         this.checkControls();
+        const currentId = this.slideCtr.current.data('slide-id');
         this.urlCrl.addToUrl(indexHash, {
             current: indexHash,
-
         });
+        this.commitActivity(currentId);
+
+        // if (this.slideCtr.current.data('type') === 'quiz') {
+        //     const quiz = new Quiz(
+        //         nextSlide,
+        //         nextSlide.data('quiz-type'),
+        //         nextSlide.data('tolerance'));
+        //     console.log('quiz slide');
+        // }
 
         if (this.slideCtr.current.data('type') === 'quiz' && this.slideCtr.current.data('quiz-type') === 'puzzle') {
             console.log('puzzle reinit');
@@ -313,7 +199,7 @@ class Course {
                 }
             }
         ).done(function (msg) {
-            console.log(msg);
+            console.log('commited slide activity ', msg);
         });
     }
 
