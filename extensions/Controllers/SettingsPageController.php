@@ -12,6 +12,7 @@ class SettingsPageController extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->plugin->setSettings(array_get($_POST, 'settings'));
+            $this->setProfileFields(array_get($_POST, 'fields'));
 
             $membership = array_get($_POST, 'membership');
             update_option('users_can_register', !! $membership);
@@ -22,7 +23,7 @@ class SettingsPageController extends Controller
         $settings = $this->plugin->getSettings();
         $membership = get_option('users_can_register');
         $support = new WP_User_Query(['role' => 'administrator']);
-        $fields = array_get($settings, 'fields');
+        $fields = $this->getProfileFields();
 
         $this->view(
             'pages.settings.index',
@@ -42,5 +43,43 @@ class SettingsPageController extends Controller
 
         $this->view('pages.settings.components.field', compact('i'));
         die;
+    }
+
+    private function getProfileFields()
+    {
+        $default = [
+            [
+                'name' => 'Full name',
+                'slug' => 'full-name',
+                'type' => 'text',
+                'required' => true,
+                'standard' => true
+            ], [
+                'name' => 'Email',
+                'slug' => 'email',
+                'type' => 'mail',
+                'required' => true,
+                'standard' => true
+            ], [
+                'name' => 'Password',
+                'slug' => 'password',
+                'type' => 'password',
+                'required' => true,
+                'standard' => true
+            ]
+        ];
+
+        return $this->plugin->getOption('profile_fields', $default);
+    }
+
+    private function setProfileFields($data)
+    {
+        foreach ($data as &$field) {
+            if (empty($field['slug'])) {
+                $field['slug'] = kebab_case($field['name']);
+            }
+        }
+
+        $this->plugin->setOption('profile_fields', $data);
     }
 }

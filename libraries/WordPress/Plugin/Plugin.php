@@ -19,6 +19,8 @@ class Plugin
      */
     private $slug;
 
+    private $prefix;
+
     /**
      * Absolute directory of the plugin.
      * @var string
@@ -48,6 +50,7 @@ class Plugin
         $this->url = rtrim(plugin_dir_url($file), '/');
         $this->directory = dirname($file);
         $this->slug = plugin_basename($file);
+        $this->prefix = basename($this->slug, '.php');
         $this->loader = new Loader($this, new ActionLoader($this), new FilterLoader($this));
     }
 
@@ -142,6 +145,21 @@ class Plugin
     public function getNamespace()
     {
         return studly_case(basename($this->slug, '.php'));
+    }
+
+    public function getPrefix($ending = '')
+    {
+        return $ending ? $this->prefix . '_' . $ending : $this->prefix;
+    }
+
+    public function getOption($name = '', $default = [])
+    {
+        return get_option($this->getPrefix($name), $default);
+    }
+
+    public function setOption($name, $value)
+    {
+        return update_option($this->getPrefix($name), $value);
     }
 
     /**

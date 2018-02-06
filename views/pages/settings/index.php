@@ -22,6 +22,8 @@
 
                         <?php include('registration.php'); ?>
 
+                        <?php include('profile-fields.php'); ?>
+
                         <?php include('email-templates.php'); ?>
                     </div>
                 </div>

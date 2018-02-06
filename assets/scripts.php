@@ -24,7 +24,7 @@ $script->add('jquery-ui')
 
 $script->add('settings-scripts')
     ->source('settings.js')
-    ->dependencies(['accordion', 'jquery-ui-sortable'])
+    ->dependencies(['postbox', 'accordion', 'jquery-ui-sortable'])
     ->condition(function () {
         return $this->getCurrentScreen()->id == 'course_page_settings';
     });
