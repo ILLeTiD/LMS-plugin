@@ -70,3 +70,17 @@ $action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
 
 $action->add('wp_ajax_add_profile_field', 'Controllers\SettingsPageController@addField');
 
+/**
+ * Events.
+ */
+$action->add('lms_event_invite_requested', function ($email) {
+    $admin_id = $this->plugin->getSettings('register.support');
+
+    $admin = \LmsPlugin\Models\User::find($admin_id);
+
+    $subject = __('A new invite request.', 'lms-plugin');
+    $message = __('A new invite request from', 'lms-plugin') . ': ' . $email;
+
+    wp_mail($admin->email, $subject, $message);
+});
+

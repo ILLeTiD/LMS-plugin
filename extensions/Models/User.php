@@ -27,6 +27,8 @@ class User
         switch ($property) {
             case 'id':
                 return $this->wp_user->ID;
+            case 'email':
+                return $this->wp_user->user_email;
             case 'name':
                 return $this->wp_user->display_name;
             case 'enrollments':
