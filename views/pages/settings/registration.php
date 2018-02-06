@@ -1,3 +1,7 @@
+<h2 class="lms-settings-section__title">
+    <?= __('User settings', 'lms-plugin'); ?>
+</h2>
+
 <div id="lms_settings_styling_meta_box" class="postbox">
     <button type="button" class="handlediv" aria-expanded="true">
         <span class="screen-reader-text">Toggle panel: Registration</span>
