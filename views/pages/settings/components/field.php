@@ -1,63 +1,86 @@
-<div id = "profile-field-<?= $i; ?>"
-     class="lms-profile-field">
-    <h4 class="lms-profile-field__title">
-        <i class="fa fa-bars js-sortable-handle" aria-hidden="true"></i>
-        <?= __('Field', 'lms-plugin'); ?>
-    </h4>
-    <div class="row">
-        <div class="col-4">
-            <select name="settings[fields][<?= $i; ?>][type]"
-                    class="js-change-field-type">
-                    <option value="text"
-                        <?= selected('text', array_get($field, 'type')); ?>
-                    >
-                        <?= __('Text', 'lms-plugin'); ?>
-                    </option>
-                    <option value="checkbox"
-                        <?= selected('checkbox', array_get($field, 'type')); ?>
-                    >
-                        <?= __('Checkbox', 'lms-plugin'); ?>
-                    </option>
-                    <option value="select"
-                        <?= selected('select', array_get($field, 'type')); ?>
-                    >
-                        <?= __('Select', 'lms-plugin'); ?>
-                    </option>
-                    <option value="radio"
-                        <?= selected('radio', array_get($field, 'type')); ?>
-                    >
-                        <?= __('Radio', 'lms-plugin'); ?>
-                    </option>
-            </select>
-        </div>
-        <div class="col-4">
-            <input type="text"
-                   name="settings[fields][<?= $i; ?>][name]"
-                   value="<?= array_get($field, 'name'); ?>"
+<tr class="lms-profile-field">
+    <td>
+        <input type="text"
+               name="fields[<?= $i; ?>][name]"
+               value="<?= array_get($field, 'name'); ?>"
+        >
+    </td>
+    <td>
+        <input type="text"
+               name="fields[<?= $i; ?>][slug]"
+               value="<?= array_get($field, 'slug'); ?>"
+        >
+    </td>
+    <td>
+        <select name="fields[<?= $i; ?>][type]"
+                class="js-change-field-type"
+                <?= isset($field['standard']) ? 'disabled' : ''; ?>
+        >
+            <option value="text"
+                <?= selected('text', array_get($field, 'type')); ?>
             >
-            <textarea name="settings[fields][<?= $i; ?>][options]"
-                      class="<?= in_array(array_get($field, 'type'), ['select', 'radio']) ? '' : 'hidden'; ?>"
-            ><?= array_get($field, 'options'); ?></textarea>
-        </div>
-        <div class="col-4">
-            <label>
-                <input type="checkbox"
-                       name="settings[fields][<?= $i; ?>][required]"
-                       <?= checked(array_get($field, 'required')); ?>
-                       value="1"
-                >
-                <?= __('Required', 'lms-plugin'); ?>
-            </label>
-        </div>
-    </div>
-
-    <button type="button"
-            class="notice-dismiss lms-button-remove-profile-field js-remove-profile-field"
-            data-field="<?= $i; ?>"
-    >
-        <span class="screen-reader-text"><?= __('Dismiss this notice.'); ?></span>
-    </button>
-
-    <hr>
-
-</div>
+                <?= __('Text', 'lms-plugin'); ?>
+            </option>
+            <option value="mail"
+                <?= selected('mail', array_get($field, 'type')); ?>
+            >
+                <?= __('Mail', 'lms-plugin'); ?>
+            </option>
+            <option value="password"
+                <?= selected('password', array_get($field, 'type')); ?>
+            >
+                <?= __('Password', 'lms-plugin'); ?>
+            </option>
+            <option value="checkbox"
+                <?= selected('checkbox', array_get($field, 'type')); ?>
+            >
+                <?= __('Checkbox', 'lms-plugin'); ?>
+            </option>
+            <option value="select"
+                <?= selected('select', array_get($field, 'type')); ?>
+            >
+                <?= __('Select', 'lms-plugin'); ?>
+            </option>
+            <option value="radio"
+                <?= selected('radio', array_get($field, 'type')); ?>
+            >
+                <?= __('Radio', 'lms-plugin'); ?>
+            </option>
+        </select>
+    </td>
+    <td>
+        <select name="fields[<?= $i; ?>][required]"
+                <?= isset($field['standard']) ? 'disabled' : ''; ?>
+        >
+            <option value="0"
+                    <?= selected(array_get($field, 'required'), 0); ?>
+            >
+                <?= __('No', 'lms-plugin'); ?>
+            </option>
+            <option value="1"
+                    <?= selected(array_get($field, 'required'), 1); ?>
+            >
+                <?= __('Yes', 'lms-plugin'); ?>
+            </option>
+        </select>
+    </td>
+    <td>
+        <?php if (isset($field['standard'])): ?>
+            <i class="lms-profile-field__standard">
+                <?= __('Standard', 'lms-plugin'); ?>
+            </i>
+            <input type="hidden" name="fields[<?= $i; ?>][standard]" value="1">
+            <input type="hidden" name="fields[<?= $i; ?>][type]" value="<?= array_get($field, 'type'); ?>">
+            <input type="hidden" name="fields[<?= $i; ?>][required]" value="1">
+        <?php else: ?>
+            <a href="#"
+               class="lms-profile-field__remove-button js-remove-profile-field"
+            >
+                <?= __('Delete', 'lms-plugin'); ?>
+            </a>
+        <?php endif; ?>
+    </td>
+    <td>
+        <i class="fa fa-bars lms-profile-field__bars js-sortable-handle" aria-hidden="true"></i>
+    </td>
+</tr>

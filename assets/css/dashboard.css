@@ -709,3 +709,32 @@
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+.lms-profile-fields__container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.lms-profile-fields__table {
+    border: 0 !important;
+}
+
+.lms-profile-fields__add-button {
+    display: inline-block;
+    margin: 10px;
+}
+
+.lms-profile-field__remove-button {
+    color: #A00;
+    line-height: 38px;
+}
+
+.lms-profile-field__standard {
+    color: #A1A1A1;
+    line-height: 38px;
+}
+
+.lms-profile-field__bars {
+    color: #A1A1A1;
+    line-height: 38px;
+}

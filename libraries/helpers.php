@@ -60,10 +60,24 @@ if ( ! function_exists('metakey_case')) {
      * Convert a string to format which acceptable for meta key name.
      *
      * @param string $value
+     *
      * @return string
      */
     function metakey_case($value) {
         return strtolower(str_replace(' ', '_', trim($value)));
+    }
+}
+
+if ( ! function_exists('kebab_case')) {
+    /**
+     * Convert a string to kebab case.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    function kebab_case($value) {
+        return strtolower(str_replace(' ', '-', trim($value)));
     }
 }
 

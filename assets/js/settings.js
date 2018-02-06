@@ -30,10 +30,12 @@
             }
         });
 
-        $('.lms-profile-fields').on('click', '.js-remove-profile-field', function () {
+        $('.lms-profile-fields').on('click', '.js-remove-profile-field', function (event) {
             $('.js-delete-confirmation__yes').data('field', $(this).data('field'));
 
             $('.lms-delete-confirmation').fadeIn();
+
+            event.preventDefault();
         });
 
         $('.js-delete-confirmation__yes').on('click', function () {
