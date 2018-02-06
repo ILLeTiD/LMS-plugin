@@ -7,6 +7,7 @@ array_walk($answers, function (&$item, $key) {
 });
 
 shuffle($answers);
+
 $correctCount = array_reduce($answers, function ($acc, $item) {
     if (isset($item['correct']) && $item['correct'] == 'on') $acc++;
     return $acc;
@@ -16,23 +17,19 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
 <h1>Form type <?= $formType ?></h1>
 <form class="quiz-form quiz-form-<?= $formType ?> "
       id="quiz-from-<?= $slide->id; ?>"
-    <?= $formType == 'options' ? 'data-answers-count="' . $correctCount . '"' : ''; ?>
+      <?= $formType == 'options' ? 'data-answers-count="' . $correctCount . '"' : ''; ?>
       data-form-type="<?= $formType ?>"
       data-slide-form-id="<?= $slide->id; ?>">
     <?php if ($formType == 'options') :
-        $optionsType = 'radio';
-        if ($correctCount > 1) {
-            $optionsType = 'checkbox';
-        } ?>
-
+        $optionsType = $correctCount > 1 ? 'checkbox' : 'radio'; ?>
 
         <?php foreach ($answers as $answer): ?>
-        <label>
-            <input type="<?= $optionsType ?>" data-index="<?= $answer['index'] ?>" value="<?= $answer['text'] ?>"
-                   name="option[]">
-            <?= $answer['text'] ?>
-        </label>
-    <?php endforeach; ?>
+            <label>
+                <input type="<?= $optionsType ?>" data-index="<?= $answer['index'] ?>" value="<?= $answer['text'] ?>"
+                       name="option[]">
+                <?= $answer['text'] ?>
+            </label>
+        <?php endforeach; ?>
     <?php elseif ($formType == 'text_field'): ?>
         <label>
             <input type="text" name="text_field" placeholder="Answer">

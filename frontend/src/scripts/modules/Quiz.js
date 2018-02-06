@@ -204,10 +204,25 @@ class Quiz {
 
 
     initPuzzle() {
+        const rightPuzzle = [0, 1, 2, 3, 4, 5];
         console.log('init murri');
         const grid = new Muuri(".lms-puzzles-grid", {
             dragEnabled: true
             // dragAxis: 'y'
+        });
+
+        $('.get-items').on('click', function (e) {
+            e.preventDefault();
+            const muuriItems = grid.getItems();
+            const realIndexes = muuriItems.map(i => {
+                return $(i._element).data('index');
+            });
+            // const isCorrect = realIndexes.reduce((acc, item, index) => {
+            //     console.log(item);
+            //     console.log(index);
+            //     return rightPuzzle[index] == item;
+            // }, false);
+            const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
         });
     }
 
