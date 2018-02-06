@@ -62,6 +62,8 @@ $action->add('wp_ajax_check_options_answer', 'Controllers\QuizAnswerController@c
 $action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
 $action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
 $action->add('wp_ajax_nopriv_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
+$action->add('wp_ajax_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
+$action->add('wp_ajax_nopriv_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
 
 if (!class_exists('_WP_Editors', false)) {
     require(ABSPATH . WPINC . '/class-wp-editor.php');

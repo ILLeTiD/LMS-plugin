@@ -14,9 +14,10 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
 
 
 <h1>Form type <?= $formType ?></h1>
-<form class="quiz-form"
+<form class="quiz-form quiz-form-<?= $formType ?> "
       id="quiz-from-<?= $slide->id; ?>"
     <?= $formType == 'options' ? 'data-answers-count="' . $correctCount . '"' : ''; ?>
+      data-form-type="<?= $formType ?>"
       data-slide-form-id="<?= $slide->id; ?>">
     <?php if ($formType == 'options') :
         $optionsType = 'radio';

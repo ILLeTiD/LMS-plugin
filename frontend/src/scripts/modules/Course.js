@@ -11,7 +11,7 @@ import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utiliti
 class Course {
     constructor() {
         console.log('course inited1!');
-        this.slideCtr = new SlideCtr();
+        this.slideCtr = new SlideCtr(this);
         this.urlCrl = UrlCtr;
         this.canGoNext = true;
         this.flexThreshold = 50;
@@ -136,14 +136,6 @@ class Course {
         const nextSlide = this.slideCtr.current.next();
         const nextSlideIndex = nextSlide.index();
 
-        console.log(currentId);
-
-        console.log(nextSlide.data('type'));
-
-        if (nextSlide.data('type') == 'quiz') {
-            //@TODO check tollerance lvl
-        }
-
         if (this.canGoNext) {
             console.log('next slide index', nextSlideIndex);
             this.showSlide(nextSlideIndex, nextSlideIndex + 1)
@@ -159,7 +151,6 @@ class Course {
     }
 
     showSlide(indexSlide, indexHash) {
-        console.log('show slide ', indexSlide, indexHash);
         this.slideCtr.currentByIndex = indexSlide;
         this.checkControls();
         const currentId = this.slideCtr.current.data('slide-id');
@@ -168,13 +159,16 @@ class Course {
         });
         this.commitActivity(currentId);
 
-        // if (this.slideCtr.current.data('type') === 'quiz') {
-        //     const quiz = new Quiz(
-        //         nextSlide,
-        //         nextSlide.data('quiz-type'),
-        //         nextSlide.data('tolerance'));
-        //     console.log('quiz slide');
-        // }
+
+        if (this.slideCtr.current.data('type') === 'quiz') {
+            const quizSlide = this.slideCtr.quizes.find(e => e.id == currentId);
+            if (!quizSlide.inited) {
+                quizSlide.quiz.init();
+                quizSlide.inited = true;
+                console.log('initeed quiz', quizSlide);
+                console.log(this.slideCtr.quizes);
+            }
+        }
 
         if (this.slideCtr.current.data('type') === 'quiz' && this.slideCtr.current.data('quiz-type') === 'puzzle') {
             console.log('puzzle reinit');
@@ -183,7 +177,6 @@ class Course {
                 // dragAxis: 'y'
             });
         }
-        console.log('showSlide method');
     }
 
     commitActivity(currentId) {
@@ -205,14 +198,12 @@ class Course {
 
     checkControls() {
         if (this.slideCtr.current.is(':first-child')) {
-            console.log('first slide');
             $('.slide-navigation .prev').hide();
         } else {
             $('.slide-navigation .prev').show();
         }
 
         if (this.slideCtr.current.is(':last-child')) {
-            console.log('last slide');
             $('.slide-navigation .next').hide();
         } else {
             $('.slide-navigation .next').show();

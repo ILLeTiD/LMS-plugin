@@ -1,22 +1,44 @@
+import Quiz from './Quiz'
+
 class Slide {
-    constructor() {
+    constructor(CourseInstance) {
+        this.CourseInstance = CourseInstance;
         console.log('slide constructed!');
+        console.log(CourseInstance);
         this.collectSlidesIds();
     }
 
     collectSlidesIds() {
         const self = this;
         let slides = [];
+        let quizes = [];
         $('#course .slide').each(function (i) {
             slides.push({
                 index: $(this).index(),
                 id: $(this).data('slide-id'),
-                type: $(this).data('type')
-            })
+                type: $(this).data('type'),
+            });
+
+            if ($(this).data('type') == 'quiz') {
+                quizes.push({
+                    index: $(this).index(),
+                    id: $(this).data('slide-id'),
+                    inited: false,
+                    passed: false,
+                    quiz: new Quiz(
+                        $(this),
+                        $(this).data('quiz-type'),
+                        $(this).data('tolerance'),
+                        self.CourseInstance)
+
+                });
+
+                console.log('quiz slide');
+            }
         });
 
         this.slides = slides;
-        console.log('slide ctrl', this.slides);
+        this.quizes = quizes;
     }
 
     get amount() {
