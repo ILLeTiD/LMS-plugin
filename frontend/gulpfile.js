@@ -5,6 +5,7 @@ var gulp         = require( 'gulp' );
 var sass         = require( 'gulp-sass' );
 var autoprefixer = require( 'gulp-autoprefixer' );
 var minifycss    = require( 'gulp-uglifycss' );
+var cssimport = require("gulp-cssimport");
 
 // JS related plugins
 var concat       = require( 'gulp-concat' );
@@ -53,76 +54,80 @@ var imgWatch     = './src/images/**/*.*';
 var fontsWatch   = './src/fonts/**/*.*';
 var phpWatch     = './**/*.php';
 
+var cssImportOptions = {
+    matchPattern: "*.css" // process only css
+};
 // Tasks
 gulp.task( 'browser-sync', function() {
-	browserSync.init({
-		proxy: projectURL,
-		injectChanges: true,
-		open: false
-	});
+    browserSync.init({
+        proxy: projectURL,
+        injectChanges: true,
+        open: false
+    });
 });
 
 gulp.task( 'styles', function() {
-	gulp.src( [ styleSRC, styleAdminSRC ] )
-		.pipe( sourcemaps.init() )
-		.pipe( sass({
-			errLogToConsole: true,
-			outputStyle: 'compressed'
-		}) )
-		.on( 'error', console.error.bind( console ) )
-		.pipe( autoprefixer({ browsers: [ 'last 2 versions', '> 5%', 'Firefox ESR' ] }) )
-		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( sourcemaps.write( mapURL ) )
-		.pipe( gulp.dest( styleURL ) )
-		.pipe( browserSync.stream() );
+    gulp.src( [ styleSRC, styleAdminSRC ] )
+        .pipe( sourcemaps.init() )
+        .pipe( sass({
+            errLogToConsole: true,
+            outputStyle: 'compressed'
+        }) )
+        .on( 'error', console.error.bind( console ) )
+        .pipe( autoprefixer({ browsers: [ 'last 2 versions', '> 5%', 'Firefox ESR' ] }) )
+        .pipe(cssimport(cssImportOptions))
+        .pipe( rename( { suffix: '.min' } ) )
+        .pipe( sourcemaps.write( mapURL ) )
+        .pipe( gulp.dest( styleURL ) )
+        .pipe( browserSync.stream() );
 });
 
 gulp.task( 'js', function() {
-	jsFiles.map( function( entry ) {
-		return browserify({
-			entries: [jsSRC + entry]
-		})
-		.transform( babelify, { presets: [ 'env' ] } )
-		.bundle()
-		.pipe( source( entry ) )
-		.pipe( rename( {
-			extname: '.min.js'
-        } ) )
-		.pipe( buffer() )
-		.pipe( gulpif( options.has( 'production' ), stripDebug() ) )
-		.pipe( sourcemaps.init({ loadMaps: true }) )
-		.pipe( uglify() )
-		.pipe( sourcemaps.write( '.' ) )
-		.pipe( gulp.dest( jsURL ) )
-		.pipe( browserSync.stream() );
-	});
- });
+    jsFiles.map( function( entry ) {
+        return browserify({
+            entries: [jsSRC + entry]
+        })
+            .transform( babelify, { presets: [ 'env' ] } )
+            .bundle()
+            .pipe( source( entry ) )
+            .pipe( rename( {
+                extname: '.min.js'
+            } ) )
+            .pipe( buffer() )
+            .pipe( gulpif( options.has( 'production' ), stripDebug() ) )
+            .pipe( sourcemaps.init({ loadMaps: true }) )
+            .pipe( uglify() )
+            .pipe( sourcemaps.write( '.' ) )
+            .pipe( gulp.dest( jsURL ) )
+            .pipe( browserSync.stream() );
+    });
+});
 
 gulp.task( 'images', function() {
-	triggerPlumber( imgSRC, imgURL );
+    triggerPlumber( imgSRC, imgURL );
 });
 
 gulp.task( 'fonts', function() {
-	triggerPlumber( fontsSRC, fontsURL );
+    triggerPlumber( fontsSRC, fontsURL );
 });
 
 function triggerPlumber( src, url ) {
-	return gulp.src( src )
-	.pipe( plumber() )
-	.pipe( gulp.dest( url ) );
+    return gulp.src( src )
+        .pipe( plumber() )
+        .pipe( gulp.dest( url ) );
 }
 
- gulp.task( 'default', ['styles', 'js', 'images', 'fonts'], function() {
-	gulp.src( jsURL + 'admin.min.js' )
-		.pipe( notify({ message: 'Assets Compiled!' }) );
- });
+gulp.task( 'default', ['styles', 'js', 'images', 'fonts'], function() {
+    gulp.src( jsURL + 'admin.min.js' )
+        .pipe( notify({ message: 'Assets Compiled!' }) );
+});
 
- gulp.task( 'watch', ['default', 'browser-sync'], function() {
-	gulp.watch( phpWatch, reload );
-	gulp.watch( styleWatch, [ 'styles' ] );
-	gulp.watch( jsWatch, [ 'js', reload ] );
-	gulp.watch( imgWatch, [ 'images' ] );
-	gulp.watch( fontsWatch, [ 'fonts' ] );
-	gulp.src( jsURL + 'admin.min.js' )
-		.pipe( notify({ message: 'Gulp is Watching, Happy Coding!' }) );
- });
+gulp.task( 'watch', ['default', 'browser-sync'], function() {
+    gulp.watch( phpWatch, reload );
+    gulp.watch( styleWatch, [ 'styles' ] );
+    gulp.watch( jsWatch, [ 'js', reload ] );
+    gulp.watch( imgWatch, [ 'images' ] );
+    gulp.watch( fontsWatch, [ 'fonts' ] );
+    gulp.src( jsURL + 'admin.min.js' )
+        .pipe( notify({ message: 'Gulp is Watching, Happy Coding!' }) );
+});

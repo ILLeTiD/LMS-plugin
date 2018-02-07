@@ -12,6 +12,7 @@
 		"plugin"
 	],
 	"dependencies": {
+		"gulp-cssimport": "^6.0.0",
 		"hammerjs": "^2.0.8",
 		"izimodal": "^1.5.1",
 		"izitoast": "^1.2.0",
