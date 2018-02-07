@@ -109,7 +109,7 @@ class Course
 
     public function hasParticipant($ID)
     {
-        return !! $this->enrollments()->where('user_id', $ID)->count();
+        return !!$this->enrollments()->where('user_id', $ID)->count();
     }
 
     public function __toString()

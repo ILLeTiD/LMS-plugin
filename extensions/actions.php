@@ -70,6 +70,19 @@ $action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
 
 $action->add('wp_ajax_add_profile_field', 'Controllers\SettingsPageController@addField');
 
+$action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
+$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
+$action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
+$action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
+$action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
+$action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
+$action->add('wp_ajax_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
+$action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
+$action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
+$action->add('wp_ajax_nopriv_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
+$action->add('wp_ajax_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
+$action->add('wp_ajax_nopriv_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
+
 /**
  * Events.
  */
@@ -85,7 +98,6 @@ $action->add('lms_event_invite_requested', function ($email) {
 });
 
 $action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
-
 
 /**
  * For test purposes.

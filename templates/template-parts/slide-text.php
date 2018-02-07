@@ -1,9 +1,11 @@
 <?php
+$id = $slide->ID;
 $content = $slide->slide_content;
 $title = $slide->post_title;
 $sectionsCount = count($content);
 ?>
-<div class="slide slide-regular" data-type="regular">
+
+    <div class="slide slide-regular" data-slide-id="<?= $id ?>" data-type="regular">
     <?php if ($content) : ?>
         <div class="grid-container grid-container-<?= $sectionsCount ?>">
             <?php

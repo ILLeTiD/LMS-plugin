@@ -1,22 +1,28 @@
 <?php
+$id = $slide->ID;
 $question = $slide->post_content;
 $type = $slide->quiz_type;
 $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;
 ?>
-<div class="slide slide-quiz" data-type="quiz"
-     data-toleance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
+<div class="slide slide-quiz" data-slide-id="<?= $id ?>" data-slide-index="<?= $slide_index ?>" data-type="quiz"
+     data-quiz-type="<?= $type ?>"
+     data-tolerance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
     <h1>simple slide from theme quiz</h1>
     <h1>  <?php print_r($slide->post_title) ?></h1>
     <h3>question is : <?= $question ?></h3>
-    <!--    <h2>Question is : --><? //= $question ?><!--</h2>-->
-    <!--    <h3>quiz type is --><? //= $type ?><!--</h3>-->
-    <!--    --><?php //lms_get_template('/quiz-parts/quiz-form.php', ['slide' => $slide]); ?>
-    <!--    <pre>-->
-    <!---->
-    <!--            --><?php //print_r($slide->slide_format) ?>
-    <!--            </pre>-->
-    <!--    <pre> --><?php //print_r($slide->slide_content_display) ?><!-- </pre>-->
-    <!--    <pre> --><?php //print_r($slide->slide_content) ?>
-    <!--    </pre>-->
+
+    <?php
+    switch ($type) {
+        case 'forms':
+            lms_get_template('template-parts/quiz-parts/quiz-form.php', ['slide' => $slide]);
+            break;
+        case 'drag_and_drop':
+            lms_get_template('template-parts/quiz-parts/quiz-dnd.php', ['slide' => $slide]);
+            break;
+        case 'puzzle':
+            lms_get_template('template-parts/quiz-parts/quiz-puzzle.php', ['slide' => $slide]);
+            break;
+    }
+    ?>
 </div>
