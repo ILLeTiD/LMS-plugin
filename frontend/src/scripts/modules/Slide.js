@@ -42,7 +42,7 @@ class Slide {
     }
 
     get amount() {
-        return $('.slide').length;
+        return this.slides.length;
     }
 
     get current() {

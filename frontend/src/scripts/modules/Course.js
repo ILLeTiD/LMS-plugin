@@ -122,7 +122,7 @@ class Course {
         e.preventDefault();
         console.log('toggle fullscreen');
         if (!IsFullScreenCurrently()) {
-            GoInFullscreen($('#course').get(0))
+            GoInFullscreen($('html').get(0))
         } else {
             GoOutFullscreen();
         }
@@ -177,6 +177,8 @@ class Course {
                 // dragAxis: 'y'
             });
         }
+
+        this.calculateProgress();
     }
 
     commitActivity(currentId) {
@@ -194,6 +196,12 @@ class Course {
         ).done(function (msg) {
             console.log('commited slide activity ', msg);
         });
+    }
+
+    calculateProgress(current = this.slideCtr.current.index(), amount = this.slideCtr.amount) {
+        console.log('start calculating progress');
+        const courseProgressLine = $('.course-progress');
+        courseProgressLine.css('width', `${((current + 1) / amount) * 100}%`);
     }
 
     checkControls() {

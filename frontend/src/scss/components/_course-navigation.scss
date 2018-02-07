@@ -1,0 +1,42 @@
+
+.course-controls {
+  //position: sticky;
+  //bottom: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.slide-controls {
+  background: #000;
+}
+
+.course-progress {
+  height: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  //background: #fff;
+}
+
+/*The navigation styling, bottom right*/
+.slide-navigation {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /*transform: translateX(-70%) translateY(-100%);*/
+  width: 128px;
+  padding: 0px;
+  padding-bottom: 0px;
+}
+
+.nav-button > a > img {
+  float: right;
+  max-width: 60px;
+  max-height: 60px;
+}
+
+.nav-button {
+  padding-right: 10px;
+}
