@@ -65,20 +65,12 @@ get_header('course');
                 <div class="slide-navigation">
                     <div class="nav-button">
                         <a href="#" class="prev" rel="prev">
-<<<<<<< HEAD
-                            <img src="/etp_arrow-left_over.png"
-=======
                             <img src="<?php echo plugin_dir_url(__FILE__) ?>../assets/images/etp_arrow-left_over.png"
->>>>>>> dev-front
                                  alt"back"=""></a>
                     </div>
                     <div class="nav-button">
                         <a href="#" class="next" rel="next">
-<<<<<<< HEAD
-                            <img src="/etp_arrow-right_over.png"
-=======
                             <img src="<?php echo plugin_dir_url(__FILE__) ?>../assets/images/etp_arrow-right_over.png"
->>>>>>> dev-front
                                  alt"forward"=""></a>
                     </div>
                 </div>
