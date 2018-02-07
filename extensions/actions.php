@@ -84,3 +84,47 @@ $action->add('lms_event_invite_requested', function ($email) {
     wp_mail($admin->email, $subject, $message);
 });
 
+$action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
+
+
+/**
+ * For test purposes.
+ */
+
+$action->add('wp_ajax_test', function () {
+    $message = 'Welcome [first name] [last name]! [full-name] your role is [role]. Job Title: [job-title]. Phone: [phone]';
+    $user = \LmsPlugin\Models\User::find(1);
+
+    $shortcoder = new \LmsPlugin\Shortcoder($this->plugin);
+    $message = $shortcoder->replace($message, compact('user'));
+
+    wp_mail($user->email, 'Test', $message);
+    dd($message);
+});
+
+$action->add('phpmailer_init', function ($phpmailer) {
+    // Define that we are sending with SMTP
+    $phpmailer->isSMTP();
+
+    // The hostname of the mailserver
+    $phpmailer->Host = 'localhost';
+
+    // Use SMTP authentication (true|false)
+    $phpmailer->SMTPAuth = false;
+
+    // SMTP port number
+    // Mailhog normally run on port 1025
+    $phpmailer->Port = WP_DEBUG ? '1025' : '25';
+
+    // Username to use for SMTP authentication
+    // $phpmailer->Username = 'yourusername';
+
+    // Password to use for SMTP authentication
+    // $phpmailer->Password = 'yourpassword';
+
+    // The encryption system to use - ssl (deprecated) or tls
+    // $phpmailer->SMTPSecure = 'tls';
+
+    $phpmailer->From = 'noreply@fishy-minds.localhost';
+    $phpmailer->FromName = 'WP DEV';
+});

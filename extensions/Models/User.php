@@ -22,6 +22,24 @@ class User
         return new static($wp_user);
     }
 
+    public function __isset($property)
+    {
+        switch ($property) {
+            case 'id':
+                return isset($this->wp_user->ID);
+            case 'email':
+                return isset($this->wp_user->user_email);
+            case 'name':
+                return isset($this->wp_user->display_name);
+            case 'enrollments':
+                return $this->enrollments()->get();
+            case 'role':
+                return isset($this->wp_user->roles[0]);
+            default:
+                return isset($this->wp_user->$property);
+        }
+    }
+
     public function __get($property)
     {
         switch ($property) {
@@ -33,6 +51,8 @@ class User
                 return $this->wp_user->display_name;
             case 'enrollments':
                 return $this->enrollments()->get();
+            case 'role':
+                return $this->wp_user->roles[0];
             default:
                 return $this->wp_user->$property;
         }
