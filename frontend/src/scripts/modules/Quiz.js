@@ -34,6 +34,8 @@ class Quiz {
         //this.slide.find('.check-answer').on('click', this.checkOptionQuizAnswer.bind(this));
         this.slide.find('.quiz-form-options').on('submit', this.quizSubmitOptions.bind(this));
         this.slide.find('.quiz-form-text_field, .quiz-form-text_area').on('submit', this.quizSubmitText.bind(this));
+        this.slide.find('.check-puzzle').on('click', this.checkPuzzle.bind(this));
+        this.slide.find('.check-dnd').on('click', this.checkDnD.bind(this));
     }
 
     quizSubmitOptions(e) {
@@ -207,28 +209,27 @@ class Quiz {
 
     initPuzzle() {
         //Array.from(Array(10).keys())
-        const rightPuzzle = [...Array($('.lms-puzzles-grid__item').length).keys()];
         const gridNode = this.slide.find('.lms-puzzles-grid')[0];
-        const self = this;
+
 
         console.log('init murri');
-        console.log(rightPuzzle);
         console.log('Puzzle grid node ', gridNode);
         this.grid = new Muuri(gridNode, {
             dragEnabled: true
             // dragAxis: 'y'
         });
+    }
 
-        $('.get-items').on('click', function (e) {
-            e.preventDefault();
-            const muuriItems = self.grid.getItems();
-            const realIndexes = muuriItems.map(i => {
-                return $(i._element).data('index');
-            });
-
-            const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
-            console.log('Is puzzle correct? ', isCorrect)
+    checkPuzzle(e) {
+        e.preventDefault();
+        //make array with numbers from 1 to puzzles length
+        const rightPuzzle = [...Array(this.slide.find('.lms-puzzles-grid__item').length).keys()];
+        const muuriItems = this.grid.getItems();
+        const realIndexes = muuriItems.map(i => {
+            return $(i._element).data('index');
         });
+        const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
+        console.log('Is puzzle correct? ', isCorrect)
     }
 
     refreshPuzzle() {
@@ -236,7 +237,124 @@ class Quiz {
     }
 
     initDnD() {
+        const self = this;
+        const docElem = this.slide[0];
+        const dnd = document.querySelector('.dnd-quiz');
+        this.board = dnd.querySelector('.board');
+        const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.board-column-content'));
+        this.columnGrids = [];
+        this.dragCounter = 0;
+        let boardGrid;
 
+        itemContainers.forEach(function (container, index) {
+
+            var muuri = new Muuri(container, {
+                items: '.board-item',
+                layoutDuration: 400,
+                layoutEasing: 'ease',
+                dragEnabled: true,
+                dragSort: function () {
+                    return self.columnGrids;
+                },
+                dragSortInterval: 0,
+                dragContainer: document.body,
+                dragReleaseDuration: 400,
+                dragReleaseEasing: 'ease'
+            })
+                .on('dragStart', function (item) {
+                    ++self.dragCounter;
+                    docElem.classList.add('dragging');
+                    item.getElement().style.width = item.getWidth() + 'px';
+                    item.getElement().style.height = item.getHeight() + 'px';
+                })
+                .on('dragEnd', function (item) {
+                    if (--this.dragCounter < 1) {
+                        docElem.classList.remove('dragging');
+                    }
+                })
+                .on('dragReleaseEnd', function (item) {
+                    item.getElement().style.width = '';
+                    item.getElement().style.height = '';
+                    self.columnGrids.forEach(function (muuri) {
+                        muuri.refreshItems();
+                    });
+                })
+                .on('layoutStart', function () {
+                    boardGrid.refreshItems().layout();
+                });
+
+            self.columnGrids.push(muuri);
+
+        });
+        console.log(this);
+        console.log('this ', this.columnGrids);
+        console.log('self ', self.columnGrids);
+
+        boardGrid = new Muuri(this.board, {
+            layoutDuration: 400,
+            layoutEasing: 'ease',
+            dragEnabled: false,
+            dragSortInterval: 0,
+            dragStartPredicate: {
+                handle: '.board-column-header'
+            },
+            dragReleaseDuration: 400,
+            dragReleaseEasing: 'ease'
+        });
+    }
+
+    checkDnD(e) {
+        e.preventDefault();
+        const boards = [...this.columnGrids];
+        this.statsDnD = [];
+
+        boards.forEach((board, index) => {
+            const items = board.getItems();
+            const indexToCheck = index;
+            const indexes = items.forEach(i => {
+                console.log(this.statsDnD);
+                this.statsDnD.push({
+                    boardIndex: indexToCheck,
+                    itemRealIndex: $(i._element).data('real-index'),
+                    itemBoardIndex: $(i._element).data('dz'),
+                    correct: indexToCheck == $(i._element).data('dz')
+                });
+            });
+            // console.log('stats ', this.statsDnD);
+        });
+
+        const percentOfCorrect = this.statsDnD.reduce((acc, item, index, arr) => {
+            const isCorrect = item.correct;
+            const percent = (1 / arr.length) * 100;
+            console.log(percent);
+            console.log(arr.length);
+            console.log(isCorrect);
+            return isCorrect ? acc + percent : acc;
+        }, 0);
+        const roundedPercentOfCorrect = Math.round(percentOfCorrect);
+        console.log(this.tolerance);
+        if (this.tolerance == 'strict') {
+            if (roundedPercentOfCorrect == 100) {
+                this.CourseInstance.canGoNext = true;
+                new Alert('Correct. You can go next', 'success', 3000);
+                return false;
+            } else {
+                this.CourseInstance.canGoNext = false;
+                new Alert('Please try again', 'info', 3000);
+                return false;
+            }
+        } else if (this.tolerance == 'flexible') {
+            if (roundedPercentOfCorrect >= 50) {
+                this.CourseInstance.canGoNext = true;
+                new Alert('Correct. You can go next', 'success', 3000);
+                return false;
+            } else {
+                this.CourseInstance.canGoNext = false;
+                new Alert('Please try again', 'info', 3000);
+                return false;
+            }
+        }
+        console.log('Rounded percent of correct answers', roundedPercentOfCorrect);
     }
 }
 
