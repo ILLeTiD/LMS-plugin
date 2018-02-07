@@ -25,13 +25,15 @@ class Quiz {
         if (this.type === 'puzzle') {
             this.initPuzzle();
         }
+        if (this.type === 'drag_and_drop') {
+            this.initDnD();
+        }
     }
 
     listeners() {
         //this.slide.find('.check-answer').on('click', this.checkOptionQuizAnswer.bind(this));
         this.slide.find('.quiz-form-options').on('submit', this.quizSubmitOptions.bind(this));
         this.slide.find('.quiz-form-text_field, .quiz-form-text_area').on('submit', this.quizSubmitText.bind(this));
-
     }
 
     quizSubmitOptions(e) {
@@ -204,30 +206,37 @@ class Quiz {
 
 
     initPuzzle() {
-        const rightPuzzle = [0, 1, 2, 3, 4, 5];
+        //Array.from(Array(10).keys())
+        const rightPuzzle = [...Array($('.lms-puzzles-grid__item').length).keys()];
+        const gridNode = this.slide.find('.lms-puzzles-grid')[0];
+        const self = this;
+
         console.log('init murri');
-        const grid = new Muuri(".lms-puzzles-grid", {
+        console.log(rightPuzzle);
+        console.log('Puzzle grid node ', gridNode);
+        this.grid = new Muuri(gridNode, {
             dragEnabled: true
             // dragAxis: 'y'
         });
 
         $('.get-items').on('click', function (e) {
             e.preventDefault();
-            const muuriItems = grid.getItems();
+            const muuriItems = self.grid.getItems();
             const realIndexes = muuriItems.map(i => {
                 return $(i._element).data('index');
             });
-            // const isCorrect = realIndexes.reduce((acc, item, index) => {
-            //     console.log(item);
-            //     console.log(index);
-            //     return rightPuzzle[index] == item;
-            // }, false);
+
             const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
+            console.log('Is puzzle correct? ', isCorrect)
         });
     }
 
     refreshPuzzle() {
-        grid.layout();
+        this.grid.layout();
+    }
+
+    initDnD() {
+
     }
 }
 
