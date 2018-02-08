@@ -1,8 +1,8 @@
 /**
  * Manage global libraries like jQuery or THREE from the package.json file
  */
-var $ = require('jquery');
-var mediaelement = require('mediaelement');
+// var $ = require('jquery');
+var $ = window.jQuery;
 // import  'mediaelement';
 // Import libraries
 import 'izimodal';
@@ -13,12 +13,7 @@ import App from'./modules/app.js';
 (($) => {
     const app = new App();
 
-    $('video, audio').mediaelementplayer({
-        // Do not forget to put a final slash (/)
-        pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
-        // this will allow the CDN to use Flash without restrictions
-        // (by default, this is set as `sameDomain`)
-        shimScriptAccess: 'always'
-    });
+    //var player = new MediaElementPlayer('#slide-control-player');
+
 })($);
 

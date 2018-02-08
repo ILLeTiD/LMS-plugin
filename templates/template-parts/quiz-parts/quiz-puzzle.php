@@ -8,12 +8,14 @@ shuffle($puzzles);
 ?>
 
 <?php if ($puzzles) : ?>
-    <div class="lms-puzzles-grid">
+<div class="quiz__wrapper">
+    <div class="quiz-puzzle lms-puzzles-grid">
         <?php foreach ($puzzles as $puzzle) : ?>
             <div class="lms-puzzles-grid__item" data-index="<?= $puzzle['index'] ?>">
                 <img src="<?= $puzzle['thumbnail'] ?>" alt="">
             </div>
         <?php endforeach; ?>
     </div>
-<?php endif; ?>
-<button class="check-puzzle">Check puzzle</button>
+    <?php endif; ?>
+    <button class="check-puzzle">Check puzzle</button>
+</div>

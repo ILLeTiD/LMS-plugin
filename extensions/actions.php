@@ -15,7 +15,7 @@ $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 /**
  * Session.
  */
-$action->add('init', 'session_start', 1);
+//$action->add('init', 'session_start', 1);
 $action->add('wp_login', 'session_destroy');
 $action->add('wp_logout', 'session_destroy');
 

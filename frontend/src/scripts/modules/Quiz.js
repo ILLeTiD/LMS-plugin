@@ -13,13 +13,13 @@ class Quiz {
         this.courseId = $('#course').data('id');
         this.userId = $('#course').data('user-id');
         this.CourseInstance = CourseInstance;
-        console.log('course instance', CourseInstance);
+       // console.log('course instance', CourseInstance);
     }
 
     init() {
         this.listeners();
         this.hint = this.slide.data('hint');
-        console.info('Quiz Inited');
+       // console.info('Quiz Inited');
         const hint = new Hint(this.hint);
 
         if (this.type === 'puzzle') {
@@ -229,6 +229,14 @@ class Quiz {
             return $(i._element).data('index');
         });
         const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
+
+        if ((this.tolerance == 'strict' || this.tolerance == 'flexifble') && isCorrect) {
+            this.CourseInstance.canGoNext = true;
+            new Alert('You can go to the next slide', 'success', 3000);
+        } else {
+            this.CourseInstance.canGoNext = false;
+            new Alert('Please try again', 'error', 3000);
+        }
         console.log('Is puzzle correct? ', isCorrect)
     }
 

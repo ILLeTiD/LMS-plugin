@@ -13,30 +13,30 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
     return $acc;
 }, 0); ?>
 
+<div class="quiz__wrapper quiz__wrapper--small">
+    <form class="quiz-form quiz-form-<?= $formType ?> "
+          id="quiz-from-<?= $slide->id; ?>"
+        <?= $formType == 'options' ? 'data-answers-count="' . $correctCount . '"' : ''; ?>
+          data-form-type="<?= $formType ?>"
+          data-slide-form-id="<?= $slide->id; ?>">
+        <?php if ($formType == 'options') :
+            $optionsType = $correctCount > 1 ? 'checkbox' : 'radio'; ?>
 
-<h1>Form type <?= $formType ?></h1>
-<form class="quiz-form quiz-form-<?= $formType ?> "
-      id="quiz-from-<?= $slide->id; ?>"
-      <?= $formType == 'options' ? 'data-answers-count="' . $correctCount . '"' : ''; ?>
-      data-form-type="<?= $formType ?>"
-      data-slide-form-id="<?= $slide->id; ?>">
-    <?php if ($formType == 'options') :
-        $optionsType = $correctCount > 1 ? 'checkbox' : 'radio'; ?>
-
-        <?php foreach ($answers as $answer): ?>
-            <label>
+            <?php foreach ($answers as $answer): ?>
+            <label class="label-<?= $optionsType ?>">
+                <?= $answer['text'] ?>
                 <input type="<?= $optionsType ?>" data-index="<?= $answer['index'] ?>" value="<?= $answer['text'] ?>"
                        name="option[]">
-                <?= $answer['text'] ?>
+                <span class="checkmark"></span>
             </label>
         <?php endforeach; ?>
-    <?php elseif ($formType == 'text_field'): ?>
-        <label>
-            <input type="text" name="text_field" placeholder="Answer">
-        </label>
-    <?php elseif ($formType == 'text_area'): ?>
-        <textarea placeholder="Answer"></textarea>
-    <?php endif; ?>
-    <button class="check">Check your answer</button>
-</form>
-
+        <?php elseif ($formType == 'text_field'): ?>
+            <label>
+                <input type="text" name="text_field" placeholder="Answer">
+            </label>
+        <?php elseif ($formType == 'text_area'): ?>
+            <textarea placeholder="Answer"></textarea>
+        <?php endif; ?>
+        <button class="check quiz-form__check button">Check your answer</button>
+    </form>
+</div>

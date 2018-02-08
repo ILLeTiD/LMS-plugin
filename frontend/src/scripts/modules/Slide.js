@@ -3,8 +3,8 @@ import Quiz from './Quiz'
 class Slide {
     constructor(CourseInstance) {
         this.CourseInstance = CourseInstance;
-        console.log('slide constructed!');
-        console.log(CourseInstance);
+       // console.log('slide constructed!');
+      // console.log(CourseInstance);
         this.collectSlidesIds();
     }
 

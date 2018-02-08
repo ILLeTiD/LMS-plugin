@@ -66,7 +66,11 @@ get_header('course');
 
                 </div>
                 <div class="slide-controls">
-                    <button class="slide-fullscreen">toggle fullscreen</button>
+                    <button class="slide-control-fullscreen slide-fullscreen">toggle fullscreen</button>
+                    <div class="slide-control-audio">
+                        <audio src="" id="slide-control-player"
+                               class="lms-audio"></audio>
+                    </div>
                     <div class="slide-navigation">
                         <div class="nav-button">
                             <a href="#" class="prev" rel="prev">

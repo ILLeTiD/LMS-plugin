@@ -3,18 +3,20 @@
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
 @import '../../node_modules/izitoast/dist/css/iziToast.css';
-@import '../../node_modules/mediaelement/src/css/mediaelementplayer.css';
+//@import '../../node_modules/mediaelement/src/css/mediaelementplayer.css';
 /*--------------------------------------------------------------
 # Pages
 --------------------------------------------------------------*/
 @import 'components/loader';
+@import 'components/mediaelement';
 @import 'components/course-navigation';
-@import 'components/slide-grid';
 @import 'pages/course';
 @import 'quiz/puzzle';
 @import 'quiz/dnd-quiz';
 @import 'quiz/quiz-layout';
+@import 'quiz/quiz-form';
 @import 'pages/auth';
+@import 'components/slide-grid';
 
 #course {
   min-height: 100vh;

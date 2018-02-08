@@ -4,8 +4,8 @@ $thumbnail = isset($block['thumbnail']) ? $block['thumbnail'] : null;
 $image = isset($block['image']) ? $block['image'] : null;
 $audio = isset($block['audio']) ? $block['audio'] : null;
 $video = isset($block['embed_video']) ? $block['embed_video'] : null;
-$link =  isset($block['link']) ? $block['link'] : null;
-$linkTarget =  isset($block['link_target']) ? $block['link_target'] : null;
+$link = isset($block['link']) ? $block['link'] : null;
+$linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 
 $bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
 $headerC = isset($block['colors']['header']) ? $block['colors']['header'] : null;
@@ -60,12 +60,11 @@ switch ($contentAlign) {
 ?>
 
 <style>
-    #<?= $randomId?>
-    {
+    #<?= $randomId?> {
         color:<?= $textC ?>;
         background-color:<?= $bgC ?>;
         display: flex;
-        justify-content: <?= $justifyContent ?>;
+        justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
     }
     #<?= $randomId?> .grid-block__wrapper {
@@ -78,28 +77,33 @@ switch ($contentAlign) {
     #<?= $randomId?> h3,
     #<?= $randomId?> h4,
     #<?= $randomId?> h5,
-    #<?= $randomId?> h6
-                     {
-                         color:<?= $headerC ?>;
-                     }
+    #<?= $randomId?> h6 {
+        color: <?= $headerC ?>;
+    }
 </style>
 <?php
 //d($block);
 ?>
-<?php if ( $link ) : ?>
-    <a href="<?= $link ?>" target="<?= $linkTarget ?>"
-       class="grid-block grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>" id="<?= $randomId; ?>"
+<?php if ($link) : ?>
+<a href="<?= $link ?>" target="<?= $linkTarget ?>"
+   class="grid-block grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+            <?php if ($audio) : ?>
+                <?= 'data-audio-src="'.$audio.'"'; ?>
+            <?php endif; ?>id="<?= $randomId; ?>"
+   style="background-image: url( <?= $backgroundStyle ? $backgroundStyle : '' ?>);
+           background-position: 50%;
+           background-repeat: no-repeat;
+           background-size: cover;">
+    <?php else: ?>
+    <div class="grid-block <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+           <?php if ($audio) : ?>
+                <?= 'data-audio-src="'.$audio.'"'; ?>
+            <?php endif; ?>id="<?= $randomId; ?>"
          style="background-image: url( <?= $backgroundStyle ? $backgroundStyle : '' ?>);
                  background-position: 50%;
                  background-repeat: no-repeat;
                  background-size: cover;">
-<?php else: ?>
-    <div class="grid-block <?= $image && !$isBg ? 'grid-block--image' : ''; ?>" id="<?= $randomId; ?>"
-         style="background-image: url( <?= $backgroundStyle ? $backgroundStyle : '' ?>);
-                 background-position: 50%;
-                 background-repeat: no-repeat;
-                 background-size: cover;">
-<?php endif; ?>
+        <?php endif; ?>
         <div class="grid-block__wrapper">
 
             <?php if ($image && !$isBg) : ?>
@@ -109,20 +113,15 @@ switch ($contentAlign) {
                     <?= $text ?>
                 </div>
             <?php endif; ?>
-            <?php if ( $audio ) : ?>
-                <audio src="<?= $audio ?>" class="lms-audio mejs__player"></audio>
-            <?php endif; ?>
-            <?php if ( $video ) : ?>
+            <?php if ($video) : ?>
                 <?php
                 global $wp_embed;
-                echo $wp_embed->run_shortcode( '[embed]' . $video . '[/embed]' );
+                echo $wp_embed->run_shortcode('[embed]' . $video . '[/embed]');
                 ?>
-
-
             <?php endif; ?>
         </div>
-<?php if ( $link ) : ?>
-    </a>
+        <?php if ($link) : ?>
+</a>
 <?php else: ?>
     </div>
 <?php endif; ?>
