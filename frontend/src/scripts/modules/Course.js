@@ -2,6 +2,7 @@ import SlideCtr from './Slide';
 import UrlCtr from './slideUrlControl'
 import Hint from './Hint'
 import Quiz from './Quiz'
+import {initLazyLoading} from '../utilities/lazy-loading';
 import Alert from '../utilities/Alerts'
 import 'hammerjs'
 import Muuri from 'muuri';
@@ -26,7 +27,7 @@ class Course {
         this.userId = $courseEl.data('user-id');
         this.getLatestSlideFromDb();
         this.initAudio();
-        //      this.getAnswersFromDB();
+        initLazyLoading();
     }
 
     initAudio() {

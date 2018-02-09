@@ -25,6 +25,10 @@ export const initLazyLoading = () => {
         console.log('OBSERVEEEEEEEEE', element);
         const src = element.getAttribute('data-src');
         const isImg = (element.nodeName.toLowerCase() === 'img');
+
+        // function isImage(i) {
+        //     return i instanceof HTMLImageElement;
+        // }
         if (!src) {
             return;
         }

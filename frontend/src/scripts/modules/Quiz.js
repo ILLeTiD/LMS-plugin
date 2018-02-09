@@ -3,6 +3,7 @@ import Muuri from 'muuri';
 import Hint from './Hint'
 import Alert from '../utilities/Alerts'
 
+
 class Quiz {
 
     constructor(slide, type, tolerance, CourseInstance) {
@@ -13,14 +14,15 @@ class Quiz {
         this.courseId = $('#course').data('id');
         this.userId = $('#course').data('user-id');
         this.CourseInstance = CourseInstance;
-       // console.log('course instance', CourseInstance);
+        // console.log('course instance', CourseInstance);
     }
 
     init() {
         this.listeners();
+
         this.hint = this.slide.data('hint');
-       // console.info('Quiz Inited');
-        const hint = new Hint(this.hint);
+        // console.info('Quiz Inited');
+        const hint = new Hint(this.hint, this.slide);
 
         if (this.type === 'puzzle') {
             this.initPuzzle();

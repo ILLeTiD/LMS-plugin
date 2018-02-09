@@ -67,6 +67,7 @@ switch ($contentAlign) {
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
     }
+
     #<?= $randomId?> .grid-block__wrapper {
         padding: <?=$innerPadding ?>;
         width: <?=  $innerWidth?>;
@@ -81,16 +82,16 @@ switch ($contentAlign) {
         color: <?= $headerC ?>;
     }
 </style>
-<?php
-//d($block);
-?>
+
 <?php if ($link) : ?>
 <a href="<?= $link ?>" target="<?= $linkTarget ?>"
    class="grid-block grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
             <?php if ($audio) : ?>
                 <?= 'data-audio-src="'.$audio.'"'; ?>
-            <?php endif; ?>id="<?= $randomId; ?>"
-   style="background-image: url( <?= $backgroundStyle ? $backgroundStyle : '' ?>);
+            <?php endif; ?>
+   id="<?= $randomId; ?>"
+   data-bg-src="<?= $backgroundStyle ? $backgroundStyle : '' ?>"
+   style=" background-image: url( );
            background-position: 50%;
            background-repeat: no-repeat;
            background-size: cover;">
@@ -98,8 +99,10 @@ switch ($contentAlign) {
     <div class="grid-block <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
            <?php if ($audio) : ?>
                 <?= 'data-audio-src="'.$audio.'"'; ?>
-            <?php endif; ?>id="<?= $randomId; ?>"
-         style="background-image: url( <?= $backgroundStyle ? $backgroundStyle : '' ?>);
+            <?php endif; ?>
+         id="<?= $randomId; ?>"
+        <?= $isBg ? 'data-src="'.$backgroundStyle .'"': ''  ?>
+         style=" background-image: url( );
                  background-position: 50%;
                  background-repeat: no-repeat;
                  background-size: cover;">
@@ -107,7 +110,7 @@ switch ($contentAlign) {
         <div class="grid-block__wrapper">
 
             <?php if ($image && !$isBg) : ?>
-                <img src="<?= $image ?>" class="grid-block__image">
+                <img data-src="<?= $image ?>" class="grid-block__image">
             <?php elseif ($text) : ?>
                 <div class="grid-block__text">
                     <?= $text ?>

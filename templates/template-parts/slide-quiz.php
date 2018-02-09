@@ -5,16 +5,20 @@ $type = $slide->quiz_type;
 $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;
 ?>
-<div class="slide slide-quiz quiz" data-slide-id="<?= $id ?>" data-slide-index="<?= $slide_index ?>" data-type="quiz"
+<div class="slide slide-quiz quiz" data-slide-id="<?= $id ?>"
+     data-slide-index="<?= $slide_index ?>"
+     data-type="quiz"
      data-quiz-type="<?= $type ?>"
      data-tolerance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
-
     <header class="quiz__header">
         <div class="quiz__wrapper">
             <h1 class="quiz__title"><?php print_r($slide->post_title) ?></h1>
-            <a href="#" class="quiz__hint">
-                <img src="" alt="question mark">
-            </a>
+
+            <?php if ($hint) : ?>
+                <a href="#" class="quiz__hint">
+                    <img src="<?= plugin_dir_url(__FILE__) ?>../../assets/images/questionmark.png" alt="question mark">
+                </a>
+            <?php endif; ?>
         </div>
     </header>
     <div class="quiz__question">
@@ -24,7 +28,6 @@ $hint = $slide->quiz_hint;
         </div>
     </div>
     <main class="quiz-main">
-
         <?php
         switch ($type) {
             case 'forms':
@@ -38,6 +41,5 @@ $hint = $slide->quiz_hint;
                 break;
         }
         ?>
-
     </main>
 </div>
