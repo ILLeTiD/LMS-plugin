@@ -7,6 +7,8 @@ $video = isset($block['embed_video']) ? $block['embed_video'] : null;
 $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 
+$linkedTo = isset($block['connect_to'])&&$block['connect_to']  ? intval($block['connect_to']) +1 : null;
+
 $bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
 $headerC = isset($block['colors']['header']) ? $block['colors']['header'] : null;
 $textC = isset($block['colors']['text']) ? $block['colors']['text'] : null;
@@ -66,6 +68,12 @@ switch ($contentAlign) {
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
+    }
+
+    @media screen and (max-width: 1024px){
+        #<?= $randomId?> {
+            order:<?= $linkedTo*10 +1 ?>;
+        }
     }
 
     #<?= $randomId?> .grid-block__wrapper {

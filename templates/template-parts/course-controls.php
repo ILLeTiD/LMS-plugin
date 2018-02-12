@@ -1,7 +1,6 @@
 <div class="course-controls">
-    <div class="course-progress">
+    <div class="course-progress"></div>
 
-    </div>
     <div class="slide-controls">
         <button class="slide-control-fullscreen-option">
             <!--            <img src="--><?php //echo base_plugin_dir_url() ?><!--/assets/icons/PNG/Optons.png"-->

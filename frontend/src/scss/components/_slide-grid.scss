@@ -23,6 +23,12 @@
   width: 100%;
 }
 
+@for $i from 1 through 9 {
+  .grid-block-#{$i} {
+    order: $i*10
+  }
+}
+
 .grid-container {
   //height: 100vh;
   height: 100%;

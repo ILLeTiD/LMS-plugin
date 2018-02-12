@@ -24,7 +24,7 @@ include 'slide-settings.php';
          style=" background-position: 50%;
                  background-repeat: no-repeat;
                  background-size: cover;">
-<?php endif; ?>
+        <?php endif; ?>
         <div class="grid-block__wrapper">
             <?php if ($image && !$isBg) : ?>
                 <img data-src="<?= $image ?>" class="grid-block__image">
