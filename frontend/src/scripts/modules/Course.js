@@ -57,10 +57,12 @@ class Course {
         const firstAudioSrc = audioBlock.data('audio-src');
         if (firstAudioSrc) {
             console.log('slide has audio');
+            this.courseEl.find('.slide-control-audio').addClass('audio-inited');
             this.playerInstance.setSrc(firstAudioSrc);
             this.playerInstance.load();
             this.playerInstance.play();
         } else {
+            this.courseEl.find('.slide-control-audio').removeClass('audio-inited');
             console.log('slide has NO audio');
             // this.playerInstance.setSrc('');
             // this.playerInstance.load();

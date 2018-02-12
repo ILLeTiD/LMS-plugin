@@ -1,6 +1,7 @@
 <?php
 
 $course = \LmsPlugin\Models\Course::find(get_the_ID());
+//$settings = \LmsPlugin\Models\Course::getSettings();
 $isEnrolled = $course->hasParticipant(get_current_user_id());
 $slides = $course->slides();
 
@@ -8,7 +9,8 @@ if (!is_user_logged_in() && $isEnrolled) {
     wp_redirect(home_url());
     exit;
 }
-get_header('course');
+//get_header('course');
+lms_get_template('course-header.php');
 ?>
     <section class="course unloaded" id="course" data-id="<?= $course->id; ?>"
              data-user-id="<?= get_current_user_id() ?>">
@@ -32,4 +34,6 @@ get_header('course');
             ?>
         </div>
     </section>
-<?php get_footer('course');
+<?php
+//get_footer('course');
+lms_get_template('course-footer.php');

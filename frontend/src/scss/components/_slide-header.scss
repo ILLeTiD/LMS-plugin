@@ -1,9 +1,16 @@
 .slide-header {
+  background: rgb(241, 241, 241);
+  color: #fff;
+  width: 100%;
+
   &__wrapper {
     max-width: 900px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 30px 15px;
     text-align: center;
     margin: auto;
+
+    & > * {
+      margin: 0;
+    }
   }
 }

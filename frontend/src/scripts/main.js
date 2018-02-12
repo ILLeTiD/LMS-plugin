@@ -12,8 +12,6 @@ import App from'./modules/app.js';
 
 (($) => {
     const app = new App();
-
     //var player = new MediaElementPlayer('#slide-control-player');
-
 })($);
 

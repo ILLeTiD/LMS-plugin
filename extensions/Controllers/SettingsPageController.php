@@ -15,7 +15,7 @@ class SettingsPageController extends Controller
             $this->setProfileFields(array_get($_POST, 'fields'));
 
             $membership = array_get($_POST, 'membership');
-            update_option('users_can_register', !! $membership);
+            update_option('users_can_register', !!$membership);
 
             $messages['success'] = __('Settings saved.', 'lms-plugin');
         }
