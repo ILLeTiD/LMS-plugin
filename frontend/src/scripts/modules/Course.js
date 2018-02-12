@@ -108,7 +108,15 @@ class Course {
     }
 
     listeners() {
-        //@TODO add left/right arrow switching
+        $('html').keydown((e) => {
+            console.log(e);
+            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
+                this.prevSlide();
+            } else if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+                this.nextSlide();
+            }
+        });
+
         $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
         $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
         $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));

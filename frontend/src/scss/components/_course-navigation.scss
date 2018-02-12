@@ -33,6 +33,10 @@
     & > *:not(.slide-control-fullscreen-option) {
       display: none;
     }
+
+    & > .slide-control-navigation {
+      display: flex;
+    }
   }
 }
 
@@ -44,9 +48,6 @@
   //.slide-controls > * {
   //  display: block;
   //}
-  .slide-control-navigation {
-    display: flex;
-  }
 
   .slide-control-audio.audio-inited {
     display: block;
