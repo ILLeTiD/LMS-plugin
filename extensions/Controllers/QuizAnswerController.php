@@ -79,6 +79,6 @@ class QuizAnswerController extends Controller
         }, false);
 
 
-        wp_send_json(['slide' => $sanitizedUserAnswer, 'isCorrect' => $isCorrect, 'checkedAnswer1s' => $correctAnswers, 'post' => $_POST]);
+        wp_send_json(['slide' => $sanitizedUserAnswer, 'isCorrect' => $isCorrect, 'checkedAnswers' => $correctAnswers, 'post' => $_POST]);
     }
 }

@@ -3,9 +3,17 @@
 
     </div>
     <div class="slide-controls">
+        <button class="slide-control-fullscreen-option">
+            <img src="<?php echo base_plugin_dir_url() ?>/assets/icons/PNG/Optons.png"
+                 alt"back"=""></a>
+        </button>
         <button class="slide-control-fullscreen slide-fullscreen">
-            <img src="<?php echo base_plugin_dir_url() ?>/assets/icons/PNG/Maximize.png"
-                 alt"forward"="">
+            <img class="slide-control-fullscreen-in"
+                 src="<?php echo base_plugin_dir_url() ?>/assets/icons/PNG/Maximize.png"
+                 alt="Go fullscreen">
+            <img class="slide-control-fullscreen-out"
+                 src="<?php echo base_plugin_dir_url() ?>/assets/icons/PNG/Minimize.png"
+                 alt="Go out fullscreen">
         </button>
         <div class="slide-control-audio">
             <audio src="" id="slide-control-player"

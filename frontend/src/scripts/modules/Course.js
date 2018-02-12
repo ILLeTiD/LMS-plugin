@@ -112,6 +112,7 @@ class Course {
         $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
         $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
         $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
+        $('.slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
     }
 
     getinitialSlideIndex() {
@@ -169,7 +170,17 @@ class Course {
             GoInFullscreen($('html').get(0))
         } else {
             GoOutFullscreen();
+            this.courseEl.find('.course-controls').removeClass('option-shown');
         }
+
+        this.courseEl.toggleClass('fullscreen-init');
+        this.courseEl.find('.course-controls').toggleClass('fullscreen-init');
+    }
+
+    toggleFullscreenOption(e) {
+        e.preventDefault();
+        console.log('options clicked');
+        this.courseEl.find('.course-controls').toggleClass('option-shown');
     }
 
     nextSlide(e) {

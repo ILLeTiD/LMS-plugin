@@ -7,9 +7,10 @@ export const GoInFullscreen = (element) => {
         element.webkitRequestFullscreen();
     else if (element.msRequestFullscreen)
         element.msRequestFullscreen();
+
 };
 
-export const GoOutFullscreen = () => {
+export const GoOutFullscreen = (element) => {
     if (document.exitFullscreen)
         document.exitFullscreen();
     else if (document.mozCancelFullScreen)
@@ -18,6 +19,7 @@ export const GoOutFullscreen = () => {
         document.webkitExitFullscreen();
     else if (document.msExitFullscreen)
         document.msExitFullscreen();
+
 };
 
 export const IsFullScreenCurrently = () => {

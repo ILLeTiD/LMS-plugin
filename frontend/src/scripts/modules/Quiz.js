@@ -163,37 +163,14 @@ class Quiz {
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log(json);
-
+            textAnswerAfterCheck(json.isCorrect, self.tolerance);
         });
-        const textAnswerAfterCheck = (checkedAnswers, tolerance, correctAnswersCount) => {
-            if (tolerance === 'strict') {
-                if (checkedAnswers.length > correctAnswersCount || checkedAnswers.length < correctAnswersCount) {
-                    new Alert('Please try again', 'info', 3000);
-                    return;
-                }
-                const canGo = checkedAnswers.every((current) => {
-                    return current.correct === true;
-                });
+
+        const textAnswerAfterCheck = (isCorrect, tolerance,) => {
+            if (tolerance === 'strict' || tolerance === 'flexible') {
+                const canGo = isCorrect;
 
                 if (canGo) {
-                    this.CourseInstance.canGoNext = true;
-                    new Alert('you can go to the next slide', 'success', 3000);
-                    return true;
-                } else {
-                    this.CourseInstance.canGoNext = false;
-                    new Alert('Please try again', 'info', 3000);
-                    return false;
-                }
-            } else if (tolerance === 'flexible') {
-                // correctAnswersCount
-                const answeredCorrect = checkedAnswers.reduce((acc, current) => {
-                    if (current.correct) acc++;
-                    return acc;
-                }, 0);
-
-                const percentOfCorrect = Math.round((answeredCorrect / correctAnswersCount) * 100);
-
-                if (percentOfCorrect >= this.flexThreshold) {
                     this.CourseInstance.canGoNext = true;
                     new Alert('you can go to the next slide', 'success', 3000);
                     return true;
