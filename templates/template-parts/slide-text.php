@@ -2,10 +2,14 @@
 $id = $slide->ID;
 $content = $slide->slide_content;
 $title = $slide->post_title;
+$displayHeader = $slide->slide_content_display;
 $sectionsCount = count($content);
 ?>
 
-    <div class="slide slide-regular" data-slide-id="<?= $id ?>" data-type="regular">
+<div class="slide slide-regular" data-slide-id="<?= $id ?>" data-type="regular">
+    <?php if ($displayHeader) :
+        lms_get_template('template-parts/regular-parts/slide-header.php', ['title' => $title]);
+    endif; ?>
     <?php if ($content) : ?>
         <div class="grid-container grid-container-<?= $sectionsCount ?>">
             <?php
@@ -15,5 +19,4 @@ $sectionsCount = count($content);
             ?>
         </div>
     <?php endif; ?>
-
 </div>

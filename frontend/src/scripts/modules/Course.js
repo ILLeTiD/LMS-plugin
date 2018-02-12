@@ -107,8 +107,8 @@ class Course {
 
     listeners() {
         //@TODO add left/right arrow switching
-        $('.slide-navigation .next').on('click', this.nextSlide.bind(this));
-        $('.slide-navigation .prev').on('click', this.prevSlide.bind(this));
+        $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
+        $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
         $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
     }
 
@@ -259,15 +259,15 @@ class Course {
 
     checkControls() {
         if (this.slideCtr.current.is(':first-child')) {
-            $('.slide-navigation .prev').hide();
+            $('.slide-control-navigation .prev').hide();
         } else {
-            $('.slide-navigation .prev').show();
+            $('.slide-control-navigation .prev').show();
         }
 
         if (this.slideCtr.current.is(':last-child')) {
-            $('.slide-navigation .next').hide();
+            $('.slide-control-navigation .next').hide();
         } else {
-            $('.slide-navigation .next').show();
+            $('.slide-control-navigation .next').show();
         }
     }
 }

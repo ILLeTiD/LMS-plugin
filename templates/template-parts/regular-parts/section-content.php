@@ -1,7 +1,3 @@
-<?php
-include 'slide-settings.php';
-?>
-
 <?php if ($link) : ?>
 <a href="<?= $link ?>" target="<?= $linkTarget ?>"
    class="grid-block grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
@@ -10,22 +6,24 @@ include 'slide-settings.php';
     <?php endif; ?>
    id="<?= $randomId; ?>"
    data-bg-src="<?= $backgroundStyle ? $backgroundStyle : '' ?>"
-   style=" background-position: 50%;
+   style=" background-image: url( );
+           background-position: 50%;
            background-repeat: no-repeat;
            background-size: cover;">
-<?php else: ?>
-    <div
-        class="grid-block <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+    <?php else: ?>
+    <div class="grid-block <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>
          id="<?= $randomId; ?>"
         <?= $isBg ? 'data-src="' . $backgroundStyle . '"' : '' ?>
-         style=" background-position: 50%;
+         style=" background-image: url( );
+                 background-position: 50%;
                  background-repeat: no-repeat;
                  background-size: cover;">
-<?php endif; ?>
+        <?php endif; ?>
         <div class="grid-block__wrapper">
+
             <?php if ($image && !$isBg) : ?>
                 <img data-src="<?= $image ?>" class="grid-block__image">
             <?php elseif ($text) : ?>
@@ -40,8 +38,8 @@ include 'slide-settings.php';
                 ?>
             <?php endif; ?>
         </div>
-<?php if ($link) : ?>
+        <?php if ($link) : ?>
 </a>
 <?php else: ?>
-</div>
+    </div>
 <?php endif; ?>

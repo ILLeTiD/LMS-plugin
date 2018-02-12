@@ -1,4 +1,3 @@
-
 .course-controls {
   //position: sticky;
   //bottom: 10px;
@@ -14,23 +13,35 @@
   align-items: center;
 }
 
+.slide-control {
+  &-fullscreen {
+    padding: 0;
+    line-height: 1;
+    font-size: 0;
+
+    img {
+      height: 53px;
+      width: 53px;
+    }
+  }
+
+  &-navigation {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /*transform: translateX(-70%) translateY(-100%);*/
+    width: 128px;
+    padding: 0px;
+    padding-bottom: 0px;
+  }
+}
+
 .course-progress {
   height: 10px;
   background: rgba(0, 0, 0, 0.5);
   //background: #fff;
-}
-
-/*The navigation styling, bottom right*/
-.slide-navigation {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  /*transform: translateX(-70%) translateY(-100%);*/
-  width: 128px;
-  padding: 0px;
-  padding-bottom: 0px;
 }
 
 .nav-button > a > img {
