@@ -322,11 +322,37 @@ if (!function_exists('lms_page_template')) {
     add_filter('single_template', 'lms_page_template');
 }
 
-if (!function_exists('old')) {
+if ( ! function_exists('old')) {
 
     function old($name, $default = null)
     {
 
         return array_get($_REQUEST, $name, $default);
+    }
+}
+
+if ( ! function_exists('lms_plugin_url')) {
+    /**
+     * Return absolute URL to the plugin directory.
+     *
+     * @return string
+     */
+    function lms_plugin_url()
+    {
+        return plugin_dir_url(
+            realpath(__DIR__ . '/../lms-plugin.php')
+        );
+    }
+}
+
+if ( ! function_exists('lms_plugin_dir')) {
+    /**
+     * Return absolute path to the plugin directory.
+     *
+     * @return string
+     */
+    function lms_plugin_dir()
+    {
+        return realpath(__DIR__ . '/..');
     }
 }
