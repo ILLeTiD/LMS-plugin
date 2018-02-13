@@ -11,6 +11,7 @@ $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
 $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
+$action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 
 /**
  * Session.
