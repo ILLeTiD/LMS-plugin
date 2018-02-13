@@ -750,3 +750,23 @@
     color: #CECECE;
     font-size: 12px;
 }
+
+.lms-profile-field-actions {
+    margin-top: 10px;
+    margin-bottom: 23px;
+    text-align: right;
+}
+
+.lms-profile-field-actions__cancel,
+.lms-profile-field-actions__delete {
+    vertical-align: bottom;
+    margin-right: 5px;
+}
+
+.lms-profile-field-actions__delete {
+    color: #a00;
+}
+
+.lms-profile-field__textarea {
+    width: 100%;
+}

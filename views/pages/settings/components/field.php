@@ -82,5 +82,6 @@
     </td>
     <td>
         <i class="fa fa-bars lms-profile-field__bars js-sortable-handle" aria-hidden="true"></i>
+        <input type="hidden" name="fields_order[]" value="<?= $i; ?>">
     </td>
 </tr>

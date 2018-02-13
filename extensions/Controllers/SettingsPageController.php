@@ -12,7 +12,8 @@ class SettingsPageController extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->plugin->setSettings(array_get($_POST, 'settings'));
-            $this->setProfileFields(array_get($_POST, 'fields'));
+
+            $this->saveProfileFieldsOrder(array_get($_POST, 'fields_order'));
 
             $membership = array_get($_POST, 'membership');
             update_option('users_can_register', !! $membership);
@@ -81,5 +82,16 @@ class SettingsPageController extends Controller
         }
 
         $this->plugin->setOption('profile_fields', $data);
+    }
+
+    private function saveProfileFieldsOrder($order)
+    {
+        $fields = $this->getProfileFields();
+
+        $fieldsWithNewOrder = array_combine($order, $fields);
+
+        ksort($fieldsWithNewOrder);
+
+        $this->plugin->setOption('profile_fields', $fieldsWithNewOrder);
     }
 }
