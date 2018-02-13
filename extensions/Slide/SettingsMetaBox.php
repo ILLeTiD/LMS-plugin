@@ -16,9 +16,8 @@ class SettingsMetaBox extends MetaBox
         global $post;
 
         $slideTemplateOptions = [
-            'vertical' => 'Vertical Split Screen',
-            'horizontal' => 'Horizontal Split Screen',
-            'centered' => 'Centered'
+            'dynamic' => 'Dynamic template',
+            'full-width' => 'Full width',
         ];
 
         $slideDisplayHeaderOptions = [

@@ -68,6 +68,7 @@ switch ($contentAlign) {
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
+        <?= $customCss; ?>
     }
 
     @media screen and (max-width: 1024px){

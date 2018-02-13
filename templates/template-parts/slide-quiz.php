@@ -16,9 +16,7 @@ $hint = $slide->quiz_hint;
 
             <?php if ($hint) : ?>
                 <a href="#" class="quiz__hint">
-                    <!--                    <img src="-->
-                    <? //= base_plugin_dir_url() ?><!--/assets/images/questionmark.png" alt="question mark"> -->
-                    <img src="<?= plugin_dir_url(__FILE__) ?>../../assets/images/questionmark.png"
+                    <img src="<?= lms_plugin_url() ?>/assets/images/questionmark.png"
                          alt="question mark">
                 </a>
             <?php endif; ?>
@@ -26,7 +24,6 @@ $hint = $slide->quiz_hint;
     </header>
     <div class="quiz__question">
         <div class="quiz__wrapper">
-            <h3>question is :</h3>
             <?= $question ?>
         </div>
     </div>

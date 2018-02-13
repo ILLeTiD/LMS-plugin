@@ -71,6 +71,7 @@ class Course
         global $post;
         $slides = new \WP_Query([
             'post_type' => 'slide',
+            'posts_per_page' => -1,
             'meta_query' => [
                 'relation' => 'AND', [
                     'course_clause' => [

@@ -18,11 +18,12 @@ class SlidesMetaBox extends MetaBox
 
         $slides = new WP_Query([
             'post_type' => 'slide',
+            'posts_per_page' => -1,
             'meta_query' => [
                 'relation' => 'AND', [
                     'course_clause' => [
                         'key' => 'course',
-                        'value' => (int) $post->ID,
+                        'value' => (int)$post->ID,
                         'type' => 'NUMERIC'
                     ],
                     'slide_weight_clause' => [
@@ -40,9 +41,8 @@ class SlidesMetaBox extends MetaBox
         ]);
 
         $slideTemplates = [
-            'vertical' => 'Vertical Split Screen',
-            'horizontal' => 'Horizontal Split Screen',
-            'centered' => 'Centered'
+            'dynamic' => 'Dynamic template',
+            'full-width' => 'Full width',
         ];
 
         $this->view('meta-boxes.course.slides', compact('post', 'slides', 'slideTemplates'));
