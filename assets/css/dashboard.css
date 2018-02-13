@@ -724,19 +724,21 @@
     margin: 10px;
 }
 
+.lms-profile-field td {
+    padding: 10px;
+}
+
+.lms-profile-field td.muted {
+    color: #A1A1A1;
+}
+
 .lms-profile-field__remove-button {
     color: #A00;
     line-height: 38px;
 }
 
-.lms-profile-field__standard {
-    color: #A1A1A1;
-    line-height: 38px;
-}
-
 .lms-profile-field__bars {
     color: #A1A1A1;
-    line-height: 38px;
 }
 
 .lms-settings-section__title {

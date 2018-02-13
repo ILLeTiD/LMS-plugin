@@ -8,8 +8,6 @@ class SettingsPageController extends Controller
 {
     public function index()
     {
-        echo lms_plugin_dir();
-
         $messages = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

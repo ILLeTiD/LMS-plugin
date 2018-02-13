@@ -39,8 +39,8 @@
             </tbody>
         </table>
 
-        <a href="#"
-           class="lms-profile-fields__add-button js-add-field-button">
+        <a href="<?= admin_url('edit.php?post_type=course&page=profile_field.create'); ?>"
+           class="lms-profile-fields__add-button">
             <?= __('+ Add field', 'lms-plugin'); ?>
         </a>
 

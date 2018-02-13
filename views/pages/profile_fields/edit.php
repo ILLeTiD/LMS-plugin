@@ -4,7 +4,8 @@
     </h1>
     <hr class="wp-header-end">
 
-    <form action="<?= admin_url('edit.php?post_type=course&page=profile_field.edit&id=' . $id); ?>" method="POST">
+    <form action="<?= admin_url('admin-ajax.php?action=update_profile_field'); ?>" method="POST">
+        <input type="hidden" name="id" value="<?= $id; ?>">
         <div id="poststuff">
             <div id="post-body" class="metabox-holder columns-2">
                 <div id="post-body-content">
@@ -23,8 +24,15 @@
                 </div>
                 <div id="postbox-container-1" class="postbox-container">
                     <div class="lms-profile-field-actions">
-                        <a href="#" class="lms-profile-field-actions__delete"><?= __('Delete', 'lms-plugin'); ?></a>
-                        <a href="#" class="lms-profile-field-actions__cancel"><?= __('Cancel', 'lms-plugin'); ?></a>
+                        <a href="<?= admin_url('admin-ajax.php?action=delete_profile_field&id=' . $id); ?>"
+                           class="lms-profile-field-actions__delete">
+                            <?= __('Delete', 'lms-plugin'); ?>
+                        </a>
+                        <a href="<?= admin_url('edit.php?post_type=course&page=settings'); ?>"
+                           class="lms-profile-field-actions__cancel"
+                        >
+                            <?= __('Cancel', 'lms-plugin'); ?>
+                        </a>
                         <button class="button button-primary"><?= __('Save', 'lms-plugin'); ?></button>
                     </div>
 
@@ -100,6 +108,9 @@
                                     <?= __('Radio', 'lms-plugin'); ?>
                                 </option>
                             </select>
+
+                            <?php include('components/options.php'); ?>
+
                         </div>
                     </div>
                 </div>

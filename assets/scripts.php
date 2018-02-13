@@ -29,3 +29,11 @@ $script->add('settings-scripts')
         return $this->getCurrentScreen()->id == 'course_page_settings';
     });
 
+$script->add('profile-fields-scripts')
+    ->source('profile-fields.js')
+    ->dependencies(['jquery-ui-sortable'])
+    ->condition(function () {
+        return $this->getCurrentScreen()->id == 'course_page_profile_field.create' ||
+               $this->getCurrentScreen()->id == 'course_page_profile_field.edit';
+    });
+
