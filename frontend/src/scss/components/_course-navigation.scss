@@ -1,0 +1,137 @@
+.course-controls {
+  //position: sticky;
+  //bottom: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 63px;
+  transform: translate3d(0, 0, 0);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.fullscreen-init {
+  flex-direction: column-reverse;
+
+  .slide-control-fullscreen-out {
+    display: block;
+  }
+
+  .slide-control-fullscreen-in {
+    display: none;
+  }
+
+  .slide-control-fullscreen-option {
+    display: block;
+  }
+
+  .slide-controls {
+    background: transparent;
+
+    & > *:not(.slide-control-fullscreen-option) {
+      display: none;
+    }
+
+    & > .slide-control-navigation {
+      display: flex;
+    }
+  }
+}
+
+.fullscreen-init.option-shown {
+  .slide-controls {
+    background: #000;
+  }
+
+  //.slide-controls > * {
+  //  display: block;
+  //}
+
+  .slide-control-audio.audio-inited {
+    display: block;
+  }
+
+  .slide-control-fullscreen {
+    display: block;
+  }
+}
+
+.slide-controls {
+  background: #000;
+  display: flex;
+  align-items: center;
+  height: 55px;
+  width: 100%;
+}
+
+.slide-control {
+  &-fullscreen-option {
+    display: none;
+    padding: 0;
+    font-size: 0;
+    line-height: 1;
+    background-color: transparent;
+
+    img {
+      height: 53px;
+      width: 53px;
+    }
+  }
+
+  &-fullscreen {
+    padding: 0;
+    line-height: 1;
+    font-size: 0;
+
+    img {
+      height: 53px;
+      width: 53px;
+    }
+
+    &-in {
+      display: block;
+    }
+
+    &-out {
+      display: none;
+    }
+  }
+
+  &-navigation {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    //bottom: 0;
+    right: 0;
+    /*transform: translateX(-70%) translateY(-100%);*/
+    width: 128px;
+    padding: 0px;
+    padding-bottom: 0px;
+  }
+
+  &-audio {
+    display: none;
+
+    &.audio-inited {
+      display: block;
+    }
+  }
+}
+
+.course-progress {
+  height: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  //background: #fff;
+}
+
+.nav-button > a > img {
+  float: right;
+  max-width: 53px;
+  max-height: 53px;
+}
+
+.nav-button {
+  padding-right: 10px;
+}

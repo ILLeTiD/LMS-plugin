@@ -1,0 +1,56 @@
+.quiz {
+  text-align: center;
+
+  &__wrapper {
+    max-width: 1300px;
+    margin: auto;
+    padding: 40px 30px;
+    position: relative;
+
+    @media screen and (max-width: 991px) {
+      padding: 30px 15px;
+    }
+
+    &--small {
+      max-width: 800px;
+    }
+  }
+
+  &__header {
+    //padding-top: 40px;
+    //padding-bottom: 20px;
+  }
+
+  &__hint {
+    position: absolute;
+    top: 40px;
+    right: 120px;
+    height: 40px;
+    width: 42px;
+
+    & + .tooltip {
+      .tooltip-inner {
+        max-width: 200px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  &__question {
+    background: rgb(73, 174, 226);
+    color: #fff;
+
+    h3 {
+      color: #fff;
+      //margin: 0;
+    }
+  }
+
+  &-main {
+
+  }
+
+  &__check {
+    float: right;
+  }
+}

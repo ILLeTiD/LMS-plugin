@@ -8,6 +8,8 @@ class SettingsPageController extends Controller
 {
     public function index()
     {
+        echo lms_plugin_dir();
+
         $messages = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,7 +18,7 @@ class SettingsPageController extends Controller
             $this->saveProfileFieldsOrder(array_get($_POST, 'fields_order'));
 
             $membership = array_get($_POST, 'membership');
-            update_option('users_can_register', !! $membership);
+            update_option('users_can_register', !!$membership);
 
             $messages['success'] = __('Settings saved.', 'lms-plugin');
         }

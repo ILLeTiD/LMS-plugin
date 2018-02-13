@@ -100,6 +100,11 @@ class QueryBuilder
             return $this;
         }
 
+        if (is_null($value)) {
+            $value = $operator;
+            $operator = '=';
+        }
+
         $condition = compact('column', 'operator', 'value');
 
         if ( ! empty($value)) {

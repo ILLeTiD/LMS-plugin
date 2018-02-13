@@ -1,44 +1,39 @@
 <?php
+
 $course = \LmsPlugin\Models\Course::find(get_the_ID());
+//$settings = \LmsPlugin\Models\Course::getSettings();
 $isEnrolled = $course->hasParticipant(get_current_user_id());
 $slides = $course->slides();
 
-if (!is_user_logged_in() && !$isEnrolled) {
+if (!is_user_logged_in() && $isEnrolled) {
     wp_redirect(home_url());
     exit;
 }
-get_header('course');
+//get_header('course');
+lms_get_template('course-header.php');
 ?>
-
-    <section class="course" id="course">
+    <section class="course unloaded" id="course" data-id="<?= $course->id; ?>"
+             data-user-id="<?= get_current_user_id() ?>">
+        <?php
+        lms_get_template('template-parts/course-preloader.php');
+        ?>
         <div class="course__wrapper">
             <div id="slides" class="slides">
                 <?php
-                foreach ($slides as $slide) {
-                    // print_r($slide);
+                foreach ($slides as $key => $slide) {
                     if ($slide->slide_format == 'quiz') {
-                        lms_get_template('template-parts/slide-quiz.php', ['slide' => $slide]);
+                        lms_get_template('template-parts/slide-quiz.php', ['slide' => $slide, 'slide_index' => $key]);
                     } elseif ($slide->slide_format == 'regular') {
-                        lms_get_template('template-parts/slide-text.php', ['slide' => $slide]);
+                        lms_get_template('template-parts/slide-text.php', ['slide' => $slide, 'slide_index' => $key]);
                     }
                 }
                 ?>
             </div>
-            <div class="slide-controls">
-                <button class="slide-fullscreen">toggle fullscreen</button>
-                <div class="slide-navigation">
-                    <div class="nav-button">
-                        <a href="#" class="prev" rel="prev">
-                            <img src="/etp_arrow-left_over.png"
-                                 alt"back"=""></a>
-                    </div>
-                    <div class="nav-button">
-                        <a href="#" class="next" rel="next">
-                            <img src="/etp_arrow-right_over.png"
-                                 alt"forward"=""></a>
-                    </div>
-                </div>
-            </div>
+            <?php
+            lms_get_template('template-parts/course-controls.php');
+            ?>
         </div>
     </section>
-<?php get_footer('course');
+<?php
+//get_footer('course');
+lms_get_template('course-footer.php');

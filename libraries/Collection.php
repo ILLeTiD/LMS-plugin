@@ -38,6 +38,16 @@ class Collection implements IteratorAggregate, Countable
         return new ArrayIterator($this->items);
     }
 
+    public function map($callback)
+    {
+        return array_map($this->items, $callback);
+    }
+
+    public function filter($callback, $flag = 0)
+    {
+        return array_filter($this->items, $callback, $flag);
+    }
+
     public function first()
     {
         return $this->items[0];

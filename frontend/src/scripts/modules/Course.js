@@ -1,108 +1,294 @@
-//
-import Slide from './Slide';
+import SlideCtr from './Slide';
 import UrlCtr from './slideUrlControl'
 import Hint from './Hint'
+import Quiz from './Quiz'
+import {initLazyLoading} from '../utilities/lazy-loading';
+import Alert from '../utilities/Alerts'
+import 'hammerjs'
+import Muuri from 'muuri';
+import mediaelement from 'mediaelement';
+
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 
 class Course {
     constructor() {
         console.log('course inited1!');
-        this.slide = new Slide();
-        this.urlCrl = UrlCtr;
+        this.slideCtr = new SlideCtr(this);
+        this.urlCrl = new UrlCtr(this.slideCtr, this);
+        this.canGoNext = true;
+        this.flexThreshold = 50;
+        this.passedIds = [];
     }
 
+    init($courseEl) {
+        console.log('init Course');
+        this.courseEl = $courseEl;
+        this.courseId = $courseEl.data('id');
+        this.userId = $courseEl.data('user-id');
+        this.getLatestSlideFromDb();
+        this.initAudio();
+        initLazyLoading();
+    }
 
-    init() {
-        const initialSlide = this.initialSlide();
-        initialSlide.addClass('active');
+    initAudio() {
+        const self = this;
+        if ($.fn.mediaelementplayer) {
+            console.log('MEDIA ELEMENT');
+            this.player = $('#slide-control-player').mediaelementplayer({
+                pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
+                shimScriptAccess: 'always',
+                success: function (mediaElement, originalNode, instance) {
+                    // do things
+                    console.log('media element ', mediaElement);
+                    console.log('originalNode ', originalNode);
+                    console.log('instance ', instance);
+                    self.playerInstance = instance;
+                }
+            });
+
+            console.log('this player ', this.player);
+        }
+    }
+
+    setSlideAudio() {
+        const slide = this.slideCtr.current;
+        // if (slide.data('type') != 'regular') return;
+        const audioBlock = slide.find(`.grid-block[data-audio-src]`).first();
+        const firstAudioSrc = audioBlock.data('audio-src');
+        if (firstAudioSrc) {
+            console.log('slide has audio');
+            this.courseEl.find('.slide-control-audio').addClass('audio-inited');
+            this.playerInstance.setSrc(firstAudioSrc);
+            this.playerInstance.load();
+            this.playerInstance.play();
+        } else {
+            this.courseEl.find('.slide-control-audio').removeClass('audio-inited');
+            console.log('slide has NO audio');
+            // this.playerInstance.setSrc('');
+            // this.playerInstance.load();
+            if (!this.playerInstance.paused) {
+                this.playerInstance.pause();
+            }
+        }
+        console.log('audio src ', firstAudioSrc);
+
+    }
+
+    getLatestSlideFromDb() {
+        const self = this;
+        $.ajax({
+            method: "POST",
+            url: lmsAjax.ajaxurl,
+            data: {
+                action: 'progress_get_all',
+                user_id: this.userId,
+                course_id: this.courseId,
+            },
+            error: function (request, status, error) {
+                new Alert(request.responseText);
+                console.log(request.responseText);
+            }
+        }).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            self.passedIds = json.ids ? json.ids : [];
+            self.setActiveSlideOnInit();
+        });
+
+    }
+
+    setActiveSlideOnInit() {
+
+        const initialSlideIndex = this.getinitialSlideIndex();
+        this.showSlide(initialSlideIndex, initialSlideIndex + 1);
         this.listeners();
-        this.checkControls();
-        $('.slides').addClass('loaded');
+
+        //remove loader when we have slide to show
+        this.courseEl.removeClass('unloaded');
+        this.courseEl.find('#course-loader').remove();
     }
 
     listeners() {
-        //@TODO add left/right arrow switching
-        $('.slide-navigation .next').on('click', this.nextSlide.bind(this));
-        $('.slide-navigation .prev').on('click', this.prevSlide.bind(this));
+        $('html').keydown((e) => {
+            console.log(e);
+            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
+                this.prevSlide();
+            } else if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+                this.nextSlide();
+            }
+        });
+
+        $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
+        $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
         $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
+        $('.slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
     }
 
-    initialSlide() {
-        //@TODO get slide from store or db fake index for now
-        let slideFromDb = 0;
-
-        const hash = window.location.hash;
-
-        //check if valid slide
-        if (hash && hash.indexOf('#slide') != -1) {
-            const slideToShow = +hash.substr(6);
-            console.log(+this.slide.amount, slideToShow, 'test');
-
-            if (slideToShow > +this.slide.amount || slideToShow <= 0) {
-                console.log('wrong slide');
-                history.replaceState({current: slideFromDb}, `Slide ${slideFromDb + 1}`, `#slide${slideFromDb + 1}`);
-                this.slide.current = slideFromDb;
-            } else {
-                this.slide.current = slideToShow - 1;
-                slideFromDb = slideToShow - 1;
-            }
-            // UI.showStepByIndex(state.current - 1);
-        } else {
-            this.urlCrl.addToUrl(1, {current: slideFromDb,});
+    getinitialSlideIndex() {
+        let initialSlideIndex = 0;
+        //if user don`t have activities on this course just show 1st step
+        if (this.passedIds.length == 0) {
+            console.log('fist time at course');
+            return initialSlideIndex;
         }
 
-        return $('.slides').find('.slide').eq(slideFromDb);
+        let hash = window.location.hash;
+
+        //collect info about last step from activities
+        let lastSlideIdFromDB = this.passedIds[0];
+        let lastElIndexFromDB = this.slideCtr.slides.find(value => value.id == lastSlideIdFromDB);
+        let lastSlideIndexFromDB = lastElIndexFromDB.index;
+
+        //check if valid slide in url hash
+        if (hash && hash.indexOf('#slide') != -1) {
+            //extract step info from hash
+            const slideToShow = parseInt(hash.substr(6));
+            const elementToShow = this.slideCtr.slides.find(value => value.index == (slideToShow - 1));
+            const idToShow = elementToShow.id;
+
+            //check if user can go to this step
+            if (this.passedIds.includes(idToShow) && !(slideToShow > +this.slideCtr.amount || slideToShow <= 0)) {
+                console.log('show slide from db by ID');
+                this.slideCtr.currentById = idToShow;
+                lastSlideIndexFromDB = this.slideCtr.current.index();
+                //  } else if (slideToShow > +this.slideCtr.amount || slideToShow <= 0) {
+            } else {
+                //user cant go to slide in hash but has some activities so show last activity
+                console.log('wrong slide11');
+                console.log('id from DB', lastSlideIdFromDB);
+                console.log('index from DB', lastSlideIndexFromDB);
+                history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
+                this.slideCtr.currentById = +lastSlideIdFromDB;
+                lastSlideIndexFromDB = this.slideCtr.current.index();
+            }
+        } else {
+            // user just go to course not to specific slide and has some activity in past
+            console.log('slide from DB');
+            history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
+            this.slideCtr.currentById = +lastSlideIdFromDB;
+            lastSlideIndexFromDB = this.slideCtr.current.index();
+        }
+        console.log(lastSlideIndexFromDB);
+        return lastSlideIndexFromDB;
     }
 
     toggleFullscreen(e) {
         e.preventDefault();
         console.log('toggle fullscreen');
         if (!IsFullScreenCurrently()) {
-            GoInFullscreen($('#course').get(0))
+            GoInFullscreen($('html').get(0))
         } else {
             GoOutFullscreen();
+            this.courseEl.find('.course-controls').removeClass('option-shown');
         }
+
+        this.courseEl.toggleClass('fullscreen-init');
+        this.courseEl.find('.course-controls').toggleClass('fullscreen-init');
+    }
+
+    toggleFullscreenOption(e) {
+        e.preventDefault();
+        console.log('options clicked');
+        this.courseEl.find('.course-controls').toggleClass('option-shown');
     }
 
     nextSlide(e) {
-        e.preventDefault();
+        if (e) e.preventDefault();
 
-        const currentSlide = this.slide.current;
-        const nextSlide = this.slide.current.next();
-        let goNext = true;
+        const currentSlide = this.slideCtr.current;
+        const currentId = currentSlide.data('slide-id');
+        const nextSlide = this.slideCtr.current.next();
+        const nextSlideIndex = nextSlide.index();
 
-        console.log(nextSlide.data('type'));
-        if (nextSlide.data('type') == 'quiz') {
-            //@TODO check tollerance lvl
-            console.log('quiz slide');
-            const hint = new Hint('test');
+        if (this.canGoNext) {
+            console.log('next slide index', nextSlideIndex);
+            this.showSlide(nextSlideIndex, nextSlideIndex + 1)
+        } else {
+            new Alert('Please answer the question to go next')
         }
-        if (goNext) this.slide.current = currentSlide.index() + 1;
-        this.checkControls();
-        this.urlCrl.addToUrl(this.slide.current.index() + 1);
     }
 
     prevSlide(e) {
-        e.preventDefault();
-        const currentSlide = this.slide.current;
-        this.slide.current = currentSlide.index() - 1;
+        if (e) e.preventDefault();
+        const currentSlide = this.slideCtr.current;
+        const prevSlideIndex = currentSlide.prev().index();
+        console.log('prev slide index', prevSlideIndex);
+        this.showSlide(prevSlideIndex, prevSlideIndex + 1)
+    }
+
+    showSlide(indexSlide, indexHash) {
+        this.slideCtr.currentByIndex = indexSlide;
         this.checkControls();
-        this.urlCrl.addToUrl(+this.slide.current.index() + 1);
+        const currentId = this.slideCtr.current.data('slide-id');
+        this.urlCrl.addToUrl(indexHash, {
+            current: indexHash,
+        });
+        this.setSlideAudio();
+
+
+        if (this.slideCtr.current.data('type') === 'quiz') {
+            console.log('show quiz slide with strict/flex tolerance');
+            console.log('tol', this.slideCtr.current.data('tolerance'));
+            console.log('passed ids', this.passedIds);
+            console.log('current id', this.slideCtr.current.data('slide-id'));
+            if ((this.slideCtr.current.data('tolerance') === "strict" || this.slideCtr.current.data('tolerance') === "flexible") && !this.passedIds.includes(this.slideCtr.current.data('slide-id'))) {
+                this.canGoNext = false;
+            }
+            //init current quiz
+            const quizSlide = this.slideCtr.quizes.find(e => e.id == currentId);
+            if (!quizSlide.inited) {
+                quizSlide.quiz.init();
+                quizSlide.inited = true;
+                console.log('initeed quiz', quizSlide);
+                console.log(this.slideCtr.quizes);
+            }
+        }
+
+        if (this.slideCtr.current.data('type') === 'quiz' && this.slideCtr.current.data('quiz-type') === 'puzzle') {
+            console.log('puzzle reinit');
+            // const grid = new Muuri(".lms-puzzles-grid", {
+            //     dragEnabled: true
+            //     // dragAxis: 'y'
+            // });
+        }
+        this.commitActivity(currentId);
+        this.calculateProgress();
+    }
+
+    commitActivity(currentId) {
+        if (!this.passedIds.includes(currentId)) this.passedIds.push(currentId);
+        $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'progress_commit',
+                    user_id: this.userId,
+                    course_id: this.courseId,
+                    slide_id: currentId
+                }
+            }
+        ).done(function (msg) {
+            console.log('commited slide activity ', msg);
+        });
+    }
+
+    calculateProgress(current = this.slideCtr.current.index(), amount = this.slideCtr.amount) {
+        console.log('start calculating progress');
+        const courseProgressLine = $('.course-progress');
+        courseProgressLine.css('width', `${((current + 1) / amount) * 100}%`);
     }
 
     checkControls() {
-        if (this.slide.current.is(':first-child')) {
-            console.log('first slide');
-            $('.slide-navigation .prev').hide();
+        if (this.slideCtr.current.is(':first-child')) {
+            $('.slide-control-navigation .prev').hide();
         } else {
-            $('.slide-navigation .prev').show();
+            $('.slide-control-navigation .prev').show();
         }
 
-        if (this.slide.current.is(':last-child')) {
-            console.log('last slide');
-            $('.slide-navigation .next').hide();
+        if (this.slideCtr.current.is(':last-child')) {
+            $('.slide-control-navigation .next').hide();
         } else {
-            $('.slide-navigation .next').show();
+            $('.slide-control-navigation .next').show();
         }
     }
 }
