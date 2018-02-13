@@ -13,15 +13,15 @@ include 'slide-settings.php';
    style=" background-position: 50%;
            background-repeat: no-repeat;
            background-size: cover;">
-<?php else: ?>
+    <?php else: ?>
     <div
-        class="grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+            class="grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>
-         id="<?= $randomId; ?>"
+            id="<?= $randomId; ?>"
         <?= $isBg ? 'data-src="' . $backgroundStyle . '"' : '' ?>
-         style=" background-position: 50%;
+            style=" background-position: 50%;
                  background-repeat: no-repeat;
                  background-size: cover;">
         <?php endif; ?>
@@ -39,8 +39,8 @@ include 'slide-settings.php';
                 </div>
             <?php endif; ?>
         </div>
-<?php if ($link) : ?>
+        <?php if ($link) : ?>
 </a>
 <?php else: ?>
-</div>
+    </div>
 <?php endif; ?>

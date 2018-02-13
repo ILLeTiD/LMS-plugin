@@ -7,6 +7,7 @@
 /*--------------------------------------------------------------
 # Pages
 --------------------------------------------------------------*/
+@import "settings";
 @import 'components/loader';
 @import 'components/mediaelement';
 @import 'components/course-navigation';
@@ -16,8 +17,10 @@
 @import 'quiz/quiz-layout';
 @import 'quiz/quiz-form';
 @import 'pages/auth';
-@import 'components/slide-grid';
-@import 'components/slide-header';
+@import 'slides/slide-grid';
+@import 'slides/slide-header';
+@import 'slides/slide-dynamic';
+@import 'slides/slide-fullwidth';
 
 #course {
   min-height: 100vh;

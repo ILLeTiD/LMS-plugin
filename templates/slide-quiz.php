@@ -10,23 +10,11 @@ $hint = $slide->quiz_hint;
      data-type="quiz"
      data-quiz-type="<?= $type ?>"
      data-tolerance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
-    <header class="quiz__header">
-        <div class="quiz__wrapper">
-            <h1 class="quiz__title"><?php print_r($slide->post_title) ?></h1>
 
-            <?php if ($hint) : ?>
-                <a href="#" class="quiz__hint">
-                    <img src="<?= lms_plugin_url() ?>/assets/images/questionmark.png"
-                         alt="question mark">
-                </a>
-            <?php endif; ?>
-        </div>
-    </header>
-    <div class="quiz__question">
-        <div class="quiz__wrapper">
-            <?= $question ?>
-        </div>
-    </div>
+    <?php lms_get_template('template-parts/quiz-parts/quiz-header.php', ['slide' => $slide, 'hint' => $hint]); ?>
+
+    <?php lms_get_template('template-parts/quiz-parts/quiz-question.php', ['question' => $question]); ?>
+
     <main class="quiz-main">
         <?php
         switch ($type) {

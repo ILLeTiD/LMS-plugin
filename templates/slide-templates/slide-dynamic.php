@@ -1,12 +1,3 @@
-<?php
-$id = $slide->ID;
-$template = $slide->slide_template;
-$content = $slide->slide_content;
-$title = $slide->post_title;
-$displayHeader = $slide->slide_content_display;
-$sectionsCount = count($content);
-?>
-
 <div class="slide slide-<?= $template ?> slide-regular" data-slide-id="<?= $id ?>" data-type="regular">
     <?php if ($displayHeader == 'regular') :
         lms_get_template('template-parts/regular-parts/slide-header.php', ['title' => $title]);

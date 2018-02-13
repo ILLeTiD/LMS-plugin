@@ -5,12 +5,23 @@ $course = \LmsPlugin\Models\Course::find(get_the_ID());
 $isEnrolled = $course->hasParticipant(get_current_user_id());
 $slides = $course->slides();
 
-if (!is_user_logged_in() && $isEnrolled) {
+if (!is_user_logged_in()) {
     wp_redirect(home_url());
     exit;
 }
-//get_header('course');
-lms_get_template('course-header.php');
+
+//@TODO remove comment when go live
+
+if (!$isEnrolled) {
+//    wp_redirect(home_url());
+//    exit;
+}
+
+get_header('course');
+
+//lms_get_template('course-header.php');
+lms_get_template('course-settings.php');
+
 ?>
     <section class="course unloaded" id="course" data-id="<?= $course->id; ?>"
              data-user-id="<?= get_current_user_id() ?>">
@@ -22,9 +33,9 @@ lms_get_template('course-header.php');
                 <?php
                 foreach ($slides as $key => $slide) {
                     if ($slide->slide_format == 'quiz') {
-                        lms_get_template('template-parts/slide-quiz.php', ['slide' => $slide, 'slide_index' => $key]);
+                        lms_get_template('slide-quiz.php', ['slide' => $slide, 'slide_index' => $key]);
                     } elseif ($slide->slide_format == 'regular') {
-                        lms_get_template('template-parts/slide-text.php', ['slide' => $slide, 'slide_index' => $key]);
+                        lms_get_template('slide-text.php', ['slide' => $slide, 'slide_index' => $key]);
                     }
                 }
                 ?>
@@ -35,5 +46,5 @@ lms_get_template('course-header.php');
         </div>
     </section>
 <?php
-//get_footer('course');
-lms_get_template('course-footer.php');
+get_footer('course');
+//lms_get_template('course-footer.php');

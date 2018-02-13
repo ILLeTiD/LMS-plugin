@@ -109,12 +109,19 @@ class Course {
 
     listeners() {
         $('html').keydown((e) => {
-            console.log(e);
+            //    console.log(e);
             if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
                 this.prevSlide();
-            } else if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+            }
+            if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
                 this.nextSlide();
             }
+
+            // if (e.keyCode == 27 && IsFullScreenCurrently()) {
+            //     e.preventDefault();
+            //     console.log('exit fullscreen!!! Toggle!');
+            //     this.toggleFullscreen();
+            // }
         });
 
         $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
@@ -172,10 +179,12 @@ class Course {
     }
 
     toggleFullscreen(e) {
-        e.preventDefault();
-        console.log('toggle fullscreen');
+        if (e) e.preventDefault();
+        console.log('toggle fullscreen!');
         if (!IsFullScreenCurrently()) {
-            GoInFullscreen($('html').get(0))
+            // GoInFullscreen($('html').get(0))
+            console.log(this.courseEl);
+            GoInFullscreen(this.courseEl[0]);
         } else {
             GoOutFullscreen();
             this.courseEl.find('.course-controls').removeClass('option-shown');

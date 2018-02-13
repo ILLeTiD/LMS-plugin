@@ -249,7 +249,7 @@ if (!function_exists('component')) {
     }
 }
 
-if ( ! function_exists('old')) {
+if (!function_exists('old')) {
 
     function old($name, $default = null)
     {
@@ -258,7 +258,7 @@ if ( ! function_exists('old')) {
     }
 }
 
-if ( ! function_exists('lms_plugin_url')) {
+if (!function_exists('lms_plugin_url')) {
     /**
      * Return absolute URL to the plugin directory.
      *
@@ -272,7 +272,7 @@ if ( ! function_exists('lms_plugin_url')) {
     }
 }
 
-if ( ! function_exists('lms_plugin_dir')) {
+if (!function_exists('lms_plugin_dir')) {
     /**
      * Return absolute path to the plugin directory.
      *
@@ -281,5 +281,18 @@ if ( ! function_exists('lms_plugin_dir')) {
     function lms_plugin_dir()
     {
         return realpath(__DIR__ . '/..');
+    }
+}
+
+if (!function_exists('lms_get_options')) {
+    /**
+     * Return option value from lms options.
+     *
+     * @return mixed
+     */
+    function lms_get_options($option)
+    {
+        $lms_options = get_option('lms-plugin');
+        return $lms_options[$option] ? $lms_options[$option] : null;
     }
 }
