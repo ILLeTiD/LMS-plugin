@@ -3,6 +3,7 @@
 namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
+use LmsPlugin\Models\Slide;
 
 class SettingsMetaBox extends MetaBox
 {
@@ -15,24 +16,18 @@ class SettingsMetaBox extends MetaBox
     {
         global $post;
 
-        $slideTemplateOptions = [
-            'dynamic' => 'Dynamic template',
-            'full-width' => 'Full width',
-        ];
-
-        $slideDisplayHeaderOptions = [
-            'regular' => 'Regular',
-            'hide' => 'Hide',
-            'in_separate_section' => 'In separate section'
-        ];
+        $slideSectionDisplayOptions = Slide::SECTION_DISPLAY_OPTIONS;
+        $slideTemplateOptions = Slide::TEMPLATE_OPTIONS;
+        $slideDisplayHeaderOptions = Slide::DISPLAY_HEADER_OPTIONS;
 
         $weight = $post->slide_weight ?: PHP_INT_MAX;
 
         $this->view('meta-boxes.slide.settings', compact(
-            'post',
-            'slideTemplateOptions',
+            'slideSectionDisplayOptions',
             'slideDisplayHeaderOptions',
-            'weight'
+            'slideTemplateOptions',
+            'weight',
+            'post'
         ));
     }
 }

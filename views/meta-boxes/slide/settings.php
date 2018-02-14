@@ -8,11 +8,29 @@
     <div class="field__value">
         <select name="slide_template">
             <?php foreach ($slideTemplateOptions as $value => $name): ?>
-                    <option value="<?= $value; ?>" <?= selected($post->slide_template, $value); ?>><?= __($name, 'lms-plugin'); ?></option>
-                <?php endforeach; ?>
+                <option value="<?= $value; ?>" <?= selected($post->slide_template, $value); ?>><?= __($name, 'lms-plugin'); ?></option>
+            <?php endforeach; ?>
         </select>
 
         <span class="field__help"><?= __('Choose template to change layout of the slide.'); ?></span>
+    </div>
+</div>
+
+<div class="field">
+    <div class="field__title">
+        <?= __('Section Display', 'lms-plugin'); ?>
+    </div>
+
+    <div class="field__value">
+        <select name="slide_section_display">
+            <?php foreach ($slideSectionDisplayOptions as $value => $name): ?>
+                    <option value="<?= $value; ?>" <?= selected($post->slide_section_display, $value); ?>>
+                        <?= __($name, 'lms-plugin'); ?>
+                    </option>
+                <?php endforeach; ?>
+        </select>
+
+        <span class="field__help"><?= __('All section will be visible at once as default', 'lms-plugin'); ?></span>
     </div>
 </div>
 
@@ -27,7 +45,7 @@
             <?php endforeach; ?>
         </select>
 
-        <span class="field__help"><?= __('All content will be visible as default.'); ?></span>
+        <span class="field__help"><?= __('All content will be visible at once as default.', 'lms-plugin'); ?></span>
     </div>
 </div>
 
