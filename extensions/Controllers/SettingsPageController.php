@@ -52,8 +52,10 @@ class SettingsPageController extends Controller
             'success' => __('Settings saved.', 'lms-plugin')
         ];
 
-        wp_safe_redirect(
+        wp_redirect(
             admin_url('edit.php?post_type=course&page=settings')
         );
+
+        die;
     }
 }
