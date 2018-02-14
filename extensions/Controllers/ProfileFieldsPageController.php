@@ -39,9 +39,11 @@ class ProfileFieldsPageController extends Controller
             'success' => __('Profile field saved.', 'lms-plugin')
         ];
 
-        wp_safe_redirect(
+        wp_redirect(
             admin_url('edit.php?post_type=course&page=profile_field.edit&id=' . $id)
         );
+
+        die;
     }
 
     public function edit()
@@ -71,9 +73,11 @@ class ProfileFieldsPageController extends Controller
             'success' => __('Profile field saved.', 'lms-plugin')
         ];
 
-        wp_safe_redirect(
+        wp_redirect(
             admin_url('edit.php?post_type=course&page=profile_field.edit&id=' . $id)
         );
+
+        die;
     }
 
     public function delete()
@@ -83,9 +87,11 @@ class ProfileFieldsPageController extends Controller
         $this->fields_manager->delete($id);
         $this->fields_manager->save();
 
-        wp_safe_redirect(
+        wp_redirect(
             admin_url('edit.php?post_type=course&page=settings')
         );
+
+        die;
     }
 
     public function addOption()
