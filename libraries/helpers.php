@@ -326,7 +326,7 @@ if (!function_exists('get_status_label')) {
 
 if (!function_exists('component')) {
 
-    function component($file, $variables)
+    function component($file, $variables = [])
     {
         extract($variables);
 

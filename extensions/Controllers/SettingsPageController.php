@@ -3,16 +3,16 @@
 namespace LmsPlugin\Controllers;
 
 use FishyMinds\WordPress\Plugin\Plugin;
-use LmsPlugin\Profile;
+use LmsPlugin\ProfileFieldsManager;
 use WP_User_Query;
 
 class SettingsPageController extends Controller
 {
-    private $profile;
+    private $fields_manager;
 
     public function __construct(Plugin $plugin)
     {
-        $this->profile = new Profile($plugin);
+        $this->fields_manager = new ProfileFieldsManager($plugin);
 
         parent::__construct($plugin);
     }
@@ -23,15 +23,12 @@ class SettingsPageController extends Controller
         $membership = get_option('users_can_register');
         $support = new WP_User_Query(['role' => 'administrator']);
 
-        $fields = $this->profile->getFields();
-
-        $messages = array_pull($_SESSION, 'messages');
+        $fields = $this->fields_manager->get();
 
         $this->view(
             'pages.settings.index',
             compact(
                 'membership',
-                'messages',
                 'settings',
                 'support',
                 'fields'
@@ -46,8 +43,9 @@ class SettingsPageController extends Controller
         $order = array_get($_POST, 'fields_order');
 
         $this->plugin->setSettings($settings);
-        $this->profile->reorderFields($order)
-                      ->save();
+        $this->fields_manager
+             ->reorder($order)
+             ->save();
         update_option('users_can_register', !!$membership);
 
         $_SESSION['messages'] = [

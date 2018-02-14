@@ -4,6 +4,8 @@
     </h1>
     <hr class="wp-header-end">
 
+    <?php component('components.messages'); ?>
+
     <form action="<?= admin_url('admin-ajax.php?action=update_profile_field'); ?>" method="POST">
         <input type="hidden" name="id" value="<?= $id; ?>">
         <div id="poststuff">
