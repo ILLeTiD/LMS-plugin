@@ -2,8 +2,20 @@
 
 namespace LmsPlugin\Controllers;
 
+use FishyMinds\WordPress\Plugin\Plugin;
+use LmsPlugin\Profile;
+
 class ProfileFieldsPageController extends Controller
 {
+    private $profile;
+
+    public function __construct(Plugin $plugin)
+    {
+        $this->profile = new Profile($plugin);
+
+        parent::__construct($plugin);
+    }
+
     public function create()
     {
         $this->view('pages.profile_fields.create');
@@ -16,19 +28,11 @@ class ProfileFieldsPageController extends Controller
             'description',
             'required',
             'type',
-            'options',
-            'default_option'
+            'options'
         ]);
 
-        $fields = $this->plugin->getOption('profile_fields');
-
-        $field['slug'] = kebab_case($field['name']);
-
-        $fields[] = $field;
-
-        $this->plugin->setOption('profile_fields', $fields);
-
-        $id = count($fields) - 1;
+        $id = $this->profile->addField($field);
+        $this->profile->save();
 
         wp_safe_redirect(
             admin_url('edit.php?post_type=course&page=profile_field.edit&id=' . $id)
@@ -38,10 +42,7 @@ class ProfileFieldsPageController extends Controller
     public function edit()
     {
         $id = array_get($_GET, 'id');
-
-        $fields = $this->plugin->getOption('profile_fields');
-
-        $field = array_get($fields, $id);
+        $field = $this->profile->getField($id);
 
         $this->view('pages.profile_fields.edit', compact('id', 'field'));
     }
@@ -54,17 +55,11 @@ class ProfileFieldsPageController extends Controller
             'description',
             'required',
             'type',
-            'options',
-            'default_option'
+            'options'
         ]);
 
-        $fields = $this->plugin->getOption('profile_fields');
-
-        $field['slug'] = kebab_case($field['name']);
-
-        $fields[$id] = $field;
-
-        $this->plugin->setOption('profile_fields', $fields);
+        $this->profile->updateField($id, $field);
+        $this->profile->save();
 
         wp_safe_redirect(
             admin_url('edit.php?post_type=course&page=profile_field.edit&id=' . $id)
@@ -75,11 +70,8 @@ class ProfileFieldsPageController extends Controller
     {
         $id = array_get($_GET, 'id');
 
-        $fields = $this->plugin->getOption('profile_fields');
-
-        array_splice($fields, $id, 1);
-
-        $this->plugin->setOption('profile_fields', $fields);
+        $this->profile->deleteField($id);
+        $this->profile->save();
 
         wp_safe_redirect(
             admin_url('edit.php?post_type=course&page=settings')

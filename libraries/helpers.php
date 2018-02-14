@@ -138,6 +138,77 @@ if ( ! function_exists('array_only')) {
     }
 }
 
+if ( ! function_exists('array_pull')) {
+    /**
+     * Get a value from the array, and remove it.
+     *
+     * @param  array   $array
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function array_pull(&$array, $key, $default = null)
+    {
+        $value = get($array, $key, $default);
+        forget($array, $key);
+        return $value;
+    }
+}
+
+if ( ! function_exists('get')) {
+    /**
+     * Get an item from an array using "dot" notation.
+     *
+     * @param  array   $array
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function get($array, $key, $default = null)
+    {
+        if (is_null($key)) return $array;
+        if (isset($array[$key])) return $array[$key];
+        foreach (explode('.', $key) as $segment)
+        {
+            if ( ! is_array($array) || ! array_key_exists($segment, $array))
+            {
+                return value($default);
+            }
+            $array = $array[$segment];
+        }
+        return $array;
+    }
+}
+
+if ( ! function_exists('forget')) {
+    /**
+     * Remove one or many array items from a given array using "dot" notation.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return void
+     */
+    function forget(&$array, $keys)
+    {
+        $original =& $array;
+        foreach ((array) $keys as $key)
+        {
+            $parts = explode('.', $key);
+            while (count($parts) > 1)
+            {
+                $part = array_shift($parts);
+                if (isset($array[$part]) && is_array($array[$part]))
+                {
+                    $array =& $array[$part];
+                }
+            }
+            unset($array[array_shift($parts)]);
+            // clean up after each pass
+            $array =& $original;
+        }
+    }
+}
+
 if (!function_exists('value')) {
     /**
      * Return the default value of the given value.

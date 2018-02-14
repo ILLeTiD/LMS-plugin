@@ -1,15 +1,15 @@
 <tr class="lms-profile-field-option">
     <td>
         <input type="text"
-               name="options[]"
-               value="<?= $option; ?>"
+               name="options[<?= $i; ?>][value]"
+               value="<?= array_get($option, 'value'); ?>"
         >
     </td>
     <td>
         <input type="radio"
-               name="default_option"
-               value="<?= $i; ?>"
-               <?= checked($i, array_get($field, 'default_option')); ?>
+               name="options[<?= $i; ?>][default]"
+               value="1"
+               <?= checked(array_get($option, 'default')); ?>
         >
     </td>
     <td>

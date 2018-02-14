@@ -16,7 +16,11 @@ $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 /**
  * Session.
  */
-//$action->add('init', 'session_start', 1);
+// $action->add('init', 'session_start', 1);
+$action->add('init', function () {
+    session_start();
+}, 1);
+
 $action->add('wp_login', 'session_destroy');
 $action->add('wp_logout', 'session_destroy');
 
@@ -68,6 +72,8 @@ $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@c
 
 $action->add('wp_ajax_sort_slides', 'Controllers\CoursesController@sortSlides');
 $action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
+
+$action->add('wp_ajax_save_settings', 'Controllers\SettingsPageController@save');
 
 $action->add('wp_ajax_store_profile_field', 'Controllers\ProfileFieldsPageController@store');
 $action->add('wp_ajax_update_profile_field', 'Controllers\ProfileFieldsPageController@update');

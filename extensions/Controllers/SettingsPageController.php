@@ -2,96 +2,60 @@
 
 namespace LmsPlugin\Controllers;
 
+use FishyMinds\WordPress\Plugin\Plugin;
+use LmsPlugin\Profile;
 use WP_User_Query;
 
 class SettingsPageController extends Controller
 {
+    private $profile;
+
+    public function __construct(Plugin $plugin)
+    {
+        $this->profile = new Profile($plugin);
+
+        parent::__construct($plugin);
+    }
+
     public function index()
     {
-        $messages = [];
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->plugin->setSettings(array_get($_POST, 'settings'));
-
-            $this->saveProfileFieldsOrder(array_get($_POST, 'fields_order'));
-
-            $membership = array_get($_POST, 'membership');
-            update_option('users_can_register', !!$membership);
-
-            $messages['success'] = __('Settings saved.', 'lms-plugin');
-        }
-
         $settings = $this->plugin->getSettings();
         $membership = get_option('users_can_register');
         $support = new WP_User_Query(['role' => 'administrator']);
-        $fields = $this->getProfileFields();
+
+        $fields = $this->profile->getFields();
+
+        $messages = array_pull($_SESSION, 'messages');
 
         $this->view(
             'pages.settings.index',
             compact(
-                'settings',
                 'membership',
                 'messages',
+                'settings',
                 'support',
                 'fields'
             )
         );
     }
 
-    public function addField()
+    public function save()
     {
-        $i = array_get($_GET, 'id', 0);
+        $settings = array_get($_POST, 'settings');
+        $membership = array_get($_POST, 'membership');
+        $order = array_get($_POST, 'fields_order');
 
-        $this->view('pages.settings.components.field', compact('i'));
-        die;
-    }
+        $this->plugin->setSettings($settings);
+        $this->profile->reorderFields($order)
+                      ->save();
+        update_option('users_can_register', !!$membership);
 
-    private function getProfileFields()
-    {
-        $default = [
-            [
-                'name' => 'Full name',
-                'slug' => 'full-name',
-                'type' => 'text',
-                'required' => true,
-                'standard' => true
-            ], [
-                'name' => 'Email',
-                'slug' => 'email',
-                'type' => 'mail',
-                'required' => true,
-                'standard' => true
-            ], [
-                'name' => 'Password',
-                'slug' => 'password',
-                'type' => 'password',
-                'required' => true,
-                'standard' => true
-            ]
+        $_SESSION['messages'] = [
+            'success' => __('Settings saved.', 'lms-plugin')
         ];
 
-        return $this->plugin->getOption('profile_fields', $default);
-    }
-
-    private function setProfileFields($data)
-    {
-        foreach ($data as &$field) {
-            if (empty($field['slug'])) {
-                $field['slug'] = kebab_case($field['name']);
-            }
-        }
-
-        $this->plugin->setOption('profile_fields', $data);
-    }
-
-    private function saveProfileFieldsOrder($order)
-    {
-        $fields = $this->getProfileFields();
-
-        $fieldsWithNewOrder = array_combine($order, $fields);
-
-        ksort($fieldsWithNewOrder);
-
-        $this->plugin->setOption('profile_fields', $fieldsWithNewOrder);
+        wp_safe_redirect(
+            admin_url('edit.php?post_type=course&page=settings')
+        );
     }
 }

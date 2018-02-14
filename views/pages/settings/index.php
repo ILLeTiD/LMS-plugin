@@ -12,7 +12,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="" method="POST" class="lms-form">
+    <form action="<?= admin_url('admin-ajax.php?action=save_settings'); ?>" method="POST" class="lms-form">
 
         <div id="poststuff">
             <div id="post-body" class="metabox-holder columns-2">
