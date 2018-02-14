@@ -3,16 +3,9 @@
         <?= __('Settings', 'lms-plugin'); ?>
     </h1>
 
-    <?php if (isset($messages['success'])): ?>
-        <div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">
-            <p><strong><?= $messages['success']; ?></strong></p>
-            <button type="button" class="notice-dismiss">
-                <span class="screen-reader-text">Dismiss this notice.</span>
-            </button>
-        </div>
-    <?php endif; ?>
+    <?php component('components.messages'); ?>
 
-    <form action="" method="POST" class="lms-form">
+    <form action="<?= admin_url('admin-ajax.php?action=save_settings'); ?>" method="POST" class="lms-form">
 
         <div id="poststuff">
             <div id="post-body" class="metabox-holder columns-2">
