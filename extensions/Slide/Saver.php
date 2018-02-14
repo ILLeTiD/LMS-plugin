@@ -11,6 +11,7 @@ class Saver
         'course',
         'slide_template',
         'slide_content_display',
+        'slide_section_display',
         'slide_format',
         'slide_content',
         'slide_custom_css',
