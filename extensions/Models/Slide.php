@@ -6,6 +6,22 @@ use WP_Post;
 
 class Slide
 {
+    const SECTION_DISPLAY_OPTIONS = [
+        'all_at_once' => 'All at once',
+        'once_at_a_time' => 'Once at a time'
+    ];
+
+    const TEMPLATE_OPTIONS =[
+        'dynamic' => 'Dynamic template',
+        'full-width' => 'Full width',
+    ];
+
+    const DISPLAY_HEADER_OPTIONS = [
+        'regular' => 'Regular',
+        'hide' => 'Hide',
+        'in_separate_section' => 'In separate section'
+    ];
+
     private $post;
 
     public function __construct($post = null)
