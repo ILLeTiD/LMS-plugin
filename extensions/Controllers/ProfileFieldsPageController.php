@@ -28,7 +28,8 @@ class ProfileFieldsPageController extends Controller
             'description',
             'required',
             'type',
-            'options'
+            'options',
+            'default_option'
         ]);
 
         $id = $this->fields_manager->add($field);
@@ -59,7 +60,8 @@ class ProfileFieldsPageController extends Controller
             'description',
             'required',
             'type',
-            'options'
+            'options',
+            'default_option'
         ]);
 
         $this->fields_manager->update($id, $field);

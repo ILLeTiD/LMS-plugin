@@ -3,7 +3,7 @@ $show_options = isset($field) && in_array(array_get($field, 'type'), ['select', 
 ?>
 
 <div class="lms-profile-field-options-container <?= $show_options ? '' : 'hidden'; ?>">
-    <table class="wp-list-table widefat striped">
+    <table class="wp-list-table widefat striped lms-profile-field-options-table">
         <thead>
             <tr>
                 <th><?= __('Text', 'lms-plugin'); ?></th>

@@ -17,6 +17,7 @@
                                    value=""
                                    spellcheck="true"
                                    placeholder="<?= __('Enter name here', 'lms-plugin'); ?>"
+                                   required
                             >
                         </div>
                     </div>

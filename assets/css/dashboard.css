@@ -772,3 +772,19 @@
 .lms-profile-field__textarea {
     width: 100%;
 }
+
+.lms-profile-field-options-table {
+    border: 0 !important;
+    margin: 10px -12px;
+    width: calc(100% + 24px);
+}
+
+.lms-profile-field-options-table th {
+    color: #838383 !important;
+    border-bottom: 0 !important;
+}
+
+.lms-button_delete-option {
+    color: #a00;
+    text-decoration: underline !important;
+}

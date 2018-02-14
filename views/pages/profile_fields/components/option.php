@@ -7,14 +7,14 @@
     </td>
     <td>
         <input type="radio"
-               name="options[<?= $i; ?>][default]"
-               value="1"
-               <?= checked(array_get($option, 'default')); ?>
+               name="default_option"
+               value="<?= $i; ?>"
+               <?= isset($field) ? checked(array_get($field, 'default_option'), $i) : ''; ?>
         >
     </td>
     <td>
         <a href="#"
-           class="js-delete-option"
+           class="lms-button_delete-option js-delete-option"
         >
             <?= __('Delete', 'lms-plugin'); ?>
         </a>

@@ -20,6 +20,7 @@
                                    value="<?= array_get($field, 'name'); ?>"
                                    spellcheck="true"
                                    placeholder="<?= __('Enter name here', 'lms-plugin'); ?>"
+                                   required
                             >
                         </div>
                     </div>
@@ -27,14 +28,11 @@
                 <div id="postbox-container-1" class="postbox-container">
                     <div class="lms-profile-field-actions">
                         <a href="<?= admin_url('admin-ajax.php?action=delete_profile_field&id=' . $id); ?>"
-                           class="lms-profile-field-actions__delete">
-                            <?= __('Delete', 'lms-plugin'); ?>
-                        </a>
+                           class="lms-profile-field-actions__delete"
+                        ><?= __('Delete', 'lms-plugin'); ?></a>
                         <a href="<?= admin_url('edit.php?post_type=course&page=settings'); ?>"
                            class="lms-profile-field-actions__cancel"
-                        >
-                            <?= __('Cancel', 'lms-plugin'); ?>
-                        </a>
+                        ><?= __('Cancel', 'lms-plugin'); ?></a>
                         <button class="button button-primary"><?= __('Save', 'lms-plugin'); ?></button>
                     </div>
 
