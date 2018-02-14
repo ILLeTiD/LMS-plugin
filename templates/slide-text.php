@@ -4,9 +4,9 @@ $template = $slide->slide_template;
 $content = $slide->slide_content;
 $title = $slide->post_title;
 $displayHeader = $slide->slide_content_display;
+$sectionsDisplay = $slide->slide_section_display;
 $sectionsCount = count($content);
 
-$sectionsDisplay = 'one'; //all/one
 $optionsArray = ['slide' => $slide,
     'id' => $id,
     'template' => $template,

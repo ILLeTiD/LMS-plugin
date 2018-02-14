@@ -18,7 +18,7 @@ class Course {
         this.canGoNext = true;
         this.flexThreshold = 50;
         this.passedIds = [];
-        this.slideDisplayType = 'all';
+        this.slideDisplayType = 'all_at_once';
         this.navType = 'slide';
     }
 
@@ -327,13 +327,13 @@ class Course {
 
     //@TODO add some state
     checkCourseNavigation() {
-        if (this.slideDisplayType == 'one') {
+        if (this.slideDisplayType == 'once_at_a_time') {
             this.navType = 'section';
             this.disableCourseNav();
             this.enableSectionNav();
         }
 
-        if (this.slideDisplayType == 'all' || this.slideSectionsCount == 1 || this.slideCtr.current.hasClass('passed')) {
+        if (this.slideDisplayType == 'all_at_once' || this.slideSectionsCount == 1 || this.slideCtr.current.hasClass('passed')) {
             this.navType = 'slide';
             this.enableCourseNav();
             this.disableSectionNav();
