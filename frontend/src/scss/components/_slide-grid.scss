@@ -154,20 +154,4 @@
   }
 }
 
-.slide {
-  &-dynamic {
 
-  }
-
-  &-full-width {
-    .grid-container {
-      flex-direction: column;
-
-      .grid-block-full-width {
-        width: 100%;
-        height: auto;
-        flex: 1;
-      }
-    }
-  }
-}
