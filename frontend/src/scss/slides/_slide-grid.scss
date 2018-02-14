@@ -171,3 +171,13 @@
     }
   }
 }
+
+.slide-section-display-one {
+  .grid-block {
+    display: none !important;
+
+    &.active {
+      display: flex !important;;
+    }
+  }
+}

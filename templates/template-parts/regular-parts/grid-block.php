@@ -4,7 +4,7 @@ include 'slide-settings.php';
 
 <?php if ($link) : ?>
 <a href="<?= $link ?>" target="<?= $linkTarget ?>"
-   class="grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+   class="<?= $isFirst ?> grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
     <?php if ($audio) : ?>
         <?= 'data-audio-src="' . $audio . '"'; ?>
     <?php endif; ?>
@@ -15,7 +15,7 @@ include 'slide-settings.php';
            background-size: cover;">
     <?php else: ?>
     <div
-            class="grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+            class="<?= $isFirst ?> grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>

@@ -36,7 +36,7 @@ class Hint {
     }
 
     removeTimer() {
-        console.log(this.timer);
+        //console.log(this.timer);
         clearTimeout(this.timer);
     }
 }

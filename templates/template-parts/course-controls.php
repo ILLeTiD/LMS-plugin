@@ -35,5 +35,13 @@
                 </a>
             </div>
         </div>
+        <div class="section-control-navigation">
+            <div class="nav-button">
+                <a href="#" class="next" rel="next">
+                    <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Arrow-right.png"
+                         alt="forward">
+                </a>
+            </div>
+        </div>
     </div>
 </div>

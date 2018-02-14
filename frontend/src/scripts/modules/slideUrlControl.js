@@ -3,9 +3,9 @@ class stepsUrlControl {
     constructor(SlideCtrl, Course) {
         this.Course = Course;
         this.SlideCtrl = SlideCtrl;
-        console.log('URL SLIDE CTRL ', this.SlideCtrl);
+        //console.log('URL SLIDE CTRL ', this.SlideCtrl);
         this.changeUrlListen();
-        console.log('init Url step controller');
+        //console.log('init Url step controller');
     }
 
     addToUrl(part, obj = {}) {
@@ -31,7 +31,7 @@ class stepsUrlControl {
 
         window.addEventListener('popstate', (e) => {
             var state = e.state;
-            console.log('STATE !1!', e.state);
+            //console.log('STATE !1!', e.state);
 
             // if (state.current > (this.SlideCtrl.current.index() + 1)) {
             //     this.Course.nextSlide();

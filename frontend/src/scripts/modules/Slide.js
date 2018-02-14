@@ -3,8 +3,8 @@ import Quiz from './Quiz'
 class Slide {
     constructor(CourseInstance) {
         this.CourseInstance = CourseInstance;
-       // console.log('slide constructed!');
-      // console.log(CourseInstance);
+        // //console.log('slide constructed!');
+        // //console.log(CourseInstance);
         this.collectSlidesIds();
     }
 
@@ -17,6 +17,7 @@ class Slide {
                 index: $(this).index(),
                 id: $(this).data('slide-id'),
                 type: $(this).data('type'),
+                sectionDisplay: $(this).data('section-display')
             });
 
             if ($(this).data('type') == 'quiz') {
@@ -33,7 +34,7 @@ class Slide {
 
                 });
 
-                console.log('quiz slide');
+                //console.log('quiz slide');
             }
         });
 
@@ -50,13 +51,13 @@ class Slide {
     }
 
     set currentByIndex(index) {
-        console.log('set current by index');
+        //console.log('set current by index');
         $('.slide.active').removeClass('active');
         $('.slide').eq(index).addClass('active');
     }
 
     set currentById(id) {
-        console.log('set current by ID');
+        //console.log('set current by ID');
         $('.slide.active').removeClass('active');
         $(`.slide[data-slide-id=${id}]`).addClass('active');
     }

@@ -14,7 +14,7 @@ class Quiz {
         this.courseId = $('#course').data('id');
         this.userId = $('#course').data('user-id');
         this.CourseInstance = CourseInstance;
-        // console.log('course instance', CourseInstance);
+        // //console.log('course instance', CourseInstance);
     }
 
     init() {
@@ -42,7 +42,7 @@ class Quiz {
 
     quizSubmitOptions(e) {
         e.preventDefault();
-        console.log('submitting option form');
+        //console.log('submitting option form');
         const form = $(e.target);
         const serialized = form.serializeArray();
         const slide = form.closest('.slide');
@@ -69,11 +69,11 @@ class Quiz {
             },
             error: function (request, status, error) {
                 new Alert(request.responseText);
-                console.log(request.responseText);
+                //console.log(request.responseText);
             }
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log(json);
+            //console.log(json);
             checkedAnswers = json.checkedAnswers;
             inputsCheck(checkedAnswers);
             optionAnswerAfterCheck(checkedAnswers, slide.data('tolerance'), correctAnswersCount);
@@ -131,7 +131,7 @@ class Quiz {
 
     quizSubmitText(e) {
         e.preventDefault();
-        console.log('submitting text form');
+        //console.log('submitting text form');
         const form = $(e.target);
         const serialized = form.serializeArray();
         const slide = form.closest('.slide');
@@ -158,11 +158,11 @@ class Quiz {
             },
             error: function (request, status, error) {
                 new Alert(request.responseText);
-                console.log(request.responseText);
+                //console.log(request.responseText);
             }
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log(json);
+            //console.log(json);
             textAnswerAfterCheck(json.isCorrect, self.tolerance);
         });
 
@@ -191,8 +191,8 @@ class Quiz {
         const gridNode = this.slide.find('.lms-puzzles-grid')[0];
 
 
-        console.log('init murri');
-        console.log('Puzzle grid node ', gridNode);
+        //console.log('init murri');
+        //console.log('Puzzle grid node ', gridNode);
         this.grid = new Muuri(gridNode, {
             dragEnabled: true
             // dragAxis: 'y'
@@ -216,7 +216,7 @@ class Quiz {
             this.CourseInstance.canGoNext = false;
             new Alert('Please try again', 'error', 3000);
         }
-        console.log('Is puzzle correct? ', isCorrect)
+        //console.log('Is puzzle correct? ', isCorrect)
     }
 
     refreshPuzzle() {
@@ -273,9 +273,9 @@ class Quiz {
             self.columnGrids.push(muuri);
 
         });
-        console.log(this);
-        console.log('this ', this.columnGrids);
-        console.log('self ', self.columnGrids);
+        //console.log(this);
+        //console.log('this ', this.columnGrids);
+        //console.log('self ', self.columnGrids);
 
         boardGrid = new Muuri(this.board, {
             layoutDuration: 400,
@@ -299,7 +299,7 @@ class Quiz {
             const items = board.getItems();
             const indexToCheck = index;
             const indexes = items.forEach(i => {
-                console.log(this.statsDnD);
+                //console.log(this.statsDnD);
                 this.statsDnD.push({
                     boardIndex: indexToCheck,
                     itemRealIndex: $(i._element).data('real-index'),
@@ -307,19 +307,19 @@ class Quiz {
                     correct: indexToCheck == $(i._element).data('dz')
                 });
             });
-            // console.log('stats ', this.statsDnD);
+            // //console.log('stats ', this.statsDnD);
         });
 
         const percentOfCorrect = this.statsDnD.reduce((acc, item, index, arr) => {
             const isCorrect = item.correct;
             const percent = (1 / arr.length) * 100;
-            console.log(percent);
-            console.log(arr.length);
-            console.log(isCorrect);
+            //console.log(percent);
+            //console.log(arr.length);
+            //console.log(isCorrect);
             return isCorrect ? acc + percent : acc;
         }, 0);
         const roundedPercentOfCorrect = Math.round(percentOfCorrect);
-        console.log(this.tolerance);
+        //console.log(this.tolerance);
         if (this.tolerance == 'strict') {
             if (roundedPercentOfCorrect == 100) {
                 this.CourseInstance.canGoNext = true;
@@ -341,7 +341,7 @@ class Quiz {
                 return false;
             }
         }
-        console.log('Rounded percent of correct answers', roundedPercentOfCorrect);
+        //console.log('Rounded percent of correct answers', roundedPercentOfCorrect);
     }
 }
 

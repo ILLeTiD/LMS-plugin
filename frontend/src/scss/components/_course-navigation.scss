@@ -109,6 +109,10 @@
     width: 128px;
     padding: 0px;
     padding-bottom: 0px;
+
+    &.disabled {
+      display: none;
+    }
   }
 
   &-audio {
@@ -134,4 +138,22 @@
 
 .nav-button {
   padding-right: 10px;
+}
+
+.section-control {
+  &-navigation {
+    display: none;
+    justify-content: flex-end;
+    position: absolute;
+    //bottom: 0;
+    right: 0;
+    /*transform: translateX(-70%) translateY(-100%);*/
+    width: 128px;
+    padding: 0px;
+    padding-bottom: 0px;
+
+    &.active {
+      display: flex;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 <?php
+$isFirst = isset($index) && $index == 1 ? 'active' : '';
 $text = isset($block['text']) ? $block['text'] : null;
 $thumbnail = isset($block['thumbnail']) ? $block['thumbnail'] : null;
 $image = isset($block['image']) ? $block['image'] : null;

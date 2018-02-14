@@ -6,13 +6,15 @@ $title = $slide->post_title;
 $displayHeader = $slide->slide_content_display;
 $sectionsCount = count($content);
 
+$sectionsDisplay = 'one'; //all/one
 $optionsArray = ['slide' => $slide,
     'id' => $id,
     'template' => $template,
     'content' => $content,
     'title' => $title,
     'displayHeader' => $displayHeader,
-    'sectionsCount' => $sectionsCount
+    'sectionsCount' => $sectionsCount,
+    'sectionsDisplay' => $sectionsDisplay
 ];
 ?>
 <?php
