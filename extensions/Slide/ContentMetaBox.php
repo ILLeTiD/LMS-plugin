@@ -3,6 +3,7 @@
 namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
+use LmsPlugin\Models\Section;
 
 class ContentMetaBox extends MetaBox
 {
@@ -21,26 +22,8 @@ class ContentMetaBox extends MetaBox
         $content = get_post_meta($post->ID, 'slide_content', true);
         $slideNumber = -1;
 
-        $slideThemeOptions = [
-            'dark' => 'Dark',
-            'light' => 'Light'
-        ];
-        $imageAlignmentOptions = [
-            'center center' => 'center center',
-            'top center' => 'top center',
-            'bottom center' => 'bottom center',
-            'center left' => 'center left',
-            'top left' => 'top left',
-            'bottom left' => 'bottom left',
-            'center right' => 'center right',
-            'top right' => 'top right',
-            'bottom right' => 'bottom right',
-        ];
-
-        $linkTargetOptions = [
-            '_blank' => 'New tab',
-            '_self' => 'Same window'
-        ];
+        $imageAlignmentOptions = Section::IMAGE_ALIGNMENT_OPTIONS;
+        $linkTargetOptions = Section::LINK_TARGET_OPTIONS;
 
         $values = range(0, count($content) - 1);
         $labels = array_map(function ($value) {
@@ -50,14 +33,13 @@ class ContentMetaBox extends MetaBox
         $connectedToOptions = array_combine($values, $labels);
 
         $this->view('meta-boxes.slide.content', compact(
-            'post',
-            'course',
-            'content',
-            'slideNumber',
-            'linkTargetOptions',
-            'slideThemeOptions',
+            'imageAlignmentOptions',
             'connectedToOptions',
-            'imageAlignmentOptions'
+            'linkTargetOptions',
+            'slideNumber',
+            'content',
+            'course',
+            'post'
         ));
     }
 }

@@ -2,34 +2,6 @@
 (function ($) {
     $(function () {
 
-        $('.js-add-field-button').on('click', function (event) {
-            var container = $('.lms-profile-fields'),
-                fields = container.find('.lms-profile-field'),
-                newFieldIndex = fields.length;
-
-            $.get(ajaxurl, {
-                action: 'add_profile_field',
-                id: newFieldIndex
-            }, function (response) {
-                container.append(response);
-            });
-
-            event.preventDefault();
-        });
-
-        $('.lms-profile-fields').on('change', '.js-change-field-type', function (event) {
-            var select = $(this),
-                type = select.val(),
-                container = select.parent().parent(),
-                options = container.find('textarea');
-
-            if (type === 'select' || type === 'radio') {
-                options.show();
-            } else {
-                options.hide();
-            }
-        });
-
         $('.lms-profile-fields').on('click', '.js-remove-profile-field', function (event) {
             $('.js-delete-confirmation__yes').data('field', $(this).data('field'));
 

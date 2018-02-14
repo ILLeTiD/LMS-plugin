@@ -16,7 +16,11 @@ $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 /**
  * Session.
  */
-//$action->add('init', 'session_start', 1);
+// $action->add('init', 'session_start', 1);
+$action->add('init', function () {
+    session_start();
+}, 1);
+
 $action->add('wp_login', 'session_destroy');
 $action->add('wp_logout', 'session_destroy');
 
@@ -69,7 +73,12 @@ $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@c
 $action->add('wp_ajax_sort_slides', 'Controllers\CoursesController@sortSlides');
 $action->add('wp_ajax_delete_slide', 'Controllers\SlidesController@delete');
 
-$action->add('wp_ajax_add_profile_field', 'Controllers\SettingsPageController@addField');
+$action->add('wp_ajax_save_settings', 'Controllers\SettingsPageController@save');
+
+$action->add('wp_ajax_store_profile_field', 'Controllers\ProfileFieldsPageController@store');
+$action->add('wp_ajax_update_profile_field', 'Controllers\ProfileFieldsPageController@update');
+$action->add('wp_ajax_delete_profile_field', 'Controllers\ProfileFieldsPageController@delete');
+$action->add('wp_ajax_add_profile_field_option', 'Controllers\ProfileFieldsPageController@addOption');
 
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');

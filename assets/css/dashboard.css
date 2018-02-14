@@ -724,19 +724,21 @@
     margin: 10px;
 }
 
+.lms-profile-field td {
+    padding: 10px;
+}
+
+.lms-profile-field td.muted {
+    color: #A1A1A1;
+}
+
 .lms-profile-field__remove-button {
     color: #A00;
     line-height: 38px;
 }
 
-.lms-profile-field__standard {
-    color: #A1A1A1;
-    line-height: 38px;
-}
-
 .lms-profile-field__bars {
     color: #A1A1A1;
-    line-height: 38px;
 }
 
 .lms-settings-section__title {
@@ -749,4 +751,40 @@
 .lms-settings-section__help {
     color: #CECECE;
     font-size: 12px;
+}
+
+.lms-profile-field-actions {
+    margin-top: 10px;
+    margin-bottom: 23px;
+    text-align: right;
+}
+
+.lms-profile-field-actions__cancel,
+.lms-profile-field-actions__delete {
+    vertical-align: bottom;
+    margin-right: 5px;
+}
+
+.lms-profile-field-actions__delete {
+    color: #a00;
+}
+
+.lms-profile-field__textarea {
+    width: 100%;
+}
+
+.lms-profile-field-options-table {
+    border: 0 !important;
+    margin: 10px -12px;
+    width: calc(100% + 24px);
+}
+
+.lms-profile-field-options-table th {
+    color: #838383 !important;
+    border-bottom: 0 !important;
+}
+
+.lms-button_delete-option {
+    color: #a00;
+    text-decoration: underline !important;
 }

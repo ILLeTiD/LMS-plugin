@@ -5,6 +5,7 @@ namespace LmsPlugin;
 use FishyMinds\WordPress\Plugin\HasPlugin;
 use LmsPlugin\Controllers\ParticipantsPageController;
 use LmsPlugin\Controllers\ParticipantPageController;
+use LmsPlugin\Controllers\ProfileFieldsPageController;
 use LmsPlugin\Controllers\SettingsPageController;
 use LmsPlugin\Controllers\StatisticsPageController;
 
@@ -18,6 +19,7 @@ class DashboardMenu
         $participantPageController = new ParticipantPageController($this->plugin);
         $statisticsPageController = new StatisticsPageController($this->plugin);
         $settingsPageController = new SettingsPageController($this->plugin);
+        $profileFieldsPageController = new ProfileFieldsPageController($this->plugin);
 
         add_submenu_page(
             'edit.php?post_type=course',
@@ -80,6 +82,24 @@ class DashboardMenu
             'manage_options',
             'participant_activities',
             [$participantPageController, 'activities']
+        );
+
+        add_submenu_page(
+            null,
+            __('Create Profile Field', 'lms-plugin'),
+            __('Create Profile Field', 'lms-plugin'),
+            'manage_options',
+            'profile_field.create',
+            [$profileFieldsPageController, 'create']
+        );
+
+        add_submenu_page(
+            null,
+            __('Store Profile Field', 'lms-plugin'),
+            __('Store Profile Field', 'lms-plugin'),
+            'manage_options',
+            'profile_field.edit',
+            [$profileFieldsPageController, 'edit']
         );
     }
 
