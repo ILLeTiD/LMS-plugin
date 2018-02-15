@@ -39,6 +39,7 @@ class Course {
             this.player = $('#slide-control-player').mediaelementplayer({
                 pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                 shimScriptAccess: 'always',
+                stretching: 'responsive',
                 success: function (mediaElement, originalNode, instance) {
                     // do things
                     //console.log('media element ', mediaElement);
@@ -268,6 +269,13 @@ class Course {
             }
             //init current quiz
             const quizSlide = this.slideCtr.quizes.find(e => e.id == currentId);
+
+            //hack to recalc quiz hint
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+                window.scrollTo(0, 0);
+            }, 16);
+
             if (!quizSlide.inited) {
                 quizSlide.quiz.init();
                 quizSlide.inited = true;

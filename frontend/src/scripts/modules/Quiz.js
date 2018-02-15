@@ -14,12 +14,12 @@ class Quiz {
         this.courseId = $('#course').data('id');
         this.userId = $('#course').data('user-id');
         this.CourseInstance = CourseInstance;
+        this.passed = null;
         // //console.log('course instance', CourseInstance);
     }
 
     init() {
         this.listeners();
-
         this.hint = this.slide.data('hint');
         // console.info('Quiz Inited');
         const hint = new Hint(this.hint, this.slide);
@@ -172,6 +172,8 @@ class Quiz {
 
                 if (canGo) {
                     this.CourseInstance.canGoNext = true;
+                    this.passed = true;
+                    this.slide.addClass('passed');
                     new Alert('you can go to the next slide', 'success', 3000);
                     return true;
                 } else {

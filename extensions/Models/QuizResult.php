@@ -67,5 +67,4 @@ class QuizResult extends Model
 
         return $this;
     }
-
 }
