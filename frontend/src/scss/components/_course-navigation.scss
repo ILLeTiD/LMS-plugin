@@ -2,6 +2,7 @@
   //position: sticky;
   //bottom: 10px;
   position: fixed;
+  z-index: 2;
   bottom: 0;
   left: 0;
   right: 0;
@@ -84,6 +85,9 @@
     padding: 0;
     line-height: 1;
     font-size: 0;
+    position: absolute;
+    top: 10px;
+    left: 0;
 
     img {
       height: 53px;
@@ -109,6 +113,7 @@
     width: 128px;
     padding: 0px;
     padding-bottom: 0px;
+    z-index: 22;
 
     &.disabled {
       display: none;
@@ -117,6 +122,21 @@
 
   &-audio {
     display: none;
+    position: absolute;
+    top: 15px;
+    left: 55px;
+
+    //.mejs__container {
+    //  width: 100% !important;
+    //}
+
+    .mejs__time {
+      display: none;
+    }
+
+    .mejs__time-rail {
+      display: none;
+    }
 
     &.audio-inited {
       display: block;
@@ -151,6 +171,7 @@
     width: 128px;
     padding: 0px;
     padding-bottom: 0px;
+    z-index: 22;
 
     &.active {
       display: flex;

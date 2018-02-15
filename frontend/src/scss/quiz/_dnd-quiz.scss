@@ -1,3 +1,10 @@
+.slide-quiz[data-quiz-type="drag_and_drop"] {
+  &.passed {
+    .check-dnd {
+      display: none;
+    }
+  }
+}
 
 .board {
   position: relative;
@@ -10,12 +17,12 @@
   right: 0;
   width: 30%;
   margin: 0 1.5%;
-  background: #f0f0f0;
+  //background: #f0f0f0;
   border-radius: 3px;
   z-index: 1;
 
   &.initial {
-    width: 90%;
+    width: 100%;
 
     .board-item {
       width: 33%;
@@ -50,18 +57,6 @@
   }
 }
 
-.board-column.todo .board-column-header {
-  background: #4A9FF9;
-}
-
-.board-column.working .board-column-header {
-  background: #f9944a;
-}
-
-.board-column.done .board-column-header {
-  background: #2ac06d;
-}
-
 .board-column-content {
   position: relative;
   border: 10px solid transparent;
@@ -90,12 +85,8 @@
 .board-item-content {
   position: relative;
   padding: 20px;
-  background: #fff;
-  border-radius: 4px;
-  font-size: 17px;
   cursor: pointer;
-  -webkit-box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+  background: #fff;
 }
 
 @media (max-width: 600px) {

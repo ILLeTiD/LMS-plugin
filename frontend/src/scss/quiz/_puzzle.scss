@@ -1,17 +1,35 @@
+.slide-quiz[data-quiz-type="puzzle"] {
+  &.passed {
+    .check-puzzle {
+      display: none;
+    }
+  }
+
+  .check-puzzle {
+    margin-top: 20px;
+  }
+}
+
 .lms-puzzles-grid {
-  width: 630px;
+  width: 100%;
   margin: auto;
   position: relative;
 
   &__item {
     display: block;
     position: absolute;
-    height: 200px;
-    width: 200px;
-    line-height: 200px;
-    margin: 5px;
+    width: 33.333%;
+    height: 75px;
+    line-height: 75px;
+    margin: 0px;
     text-align: center;
     z-index: 1;
+
+    img {
+      //height: 100%;
+      //width: 100%;
+      //object-fit: cover;
+    }
 
     &.muuri-item-dragging {
       z-index: 3;

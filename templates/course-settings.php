@@ -10,7 +10,7 @@ $textColor = $colors["text"] ? $colors["text"] : null;
         background: <?= $headerColor; ?>;
     }
 
-    .course {
+    .grid-block, .course {
         color: <?= $textColor ?>;
         background: <?= $backgroundColor; ?>;
     }
