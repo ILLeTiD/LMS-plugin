@@ -63,8 +63,6 @@ class QueryBuilder
             $query .= ' LIMIT ' . $this->limit;
         }
 
-        // d($query);
-
         return $query . ';';
     }
 
@@ -100,7 +98,9 @@ class QueryBuilder
             return $this;
         }
 
-        if (is_null($value)) {
+        $allowed_operators = ['=', '>', '<', '>=', '<=', '<>'];
+
+        if (is_null($value) && ! in_array($operator, $allowed_operators)) {
             $value = $operator;
             $operator = '=';
         }

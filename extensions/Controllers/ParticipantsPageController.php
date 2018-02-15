@@ -109,7 +109,7 @@ class ParticipantsPageController extends Controller
 
         $participants = $course->enrollments()
                                ->whereIn('user_id', $user_ids)
-                               ->where(['status' => $status])
+                               ->where('status', $status)
                                ->where('created_at', '>=', $from)
                                ->where('created_at', '<', empty($to) ? $to : date(get_option('date_format'), strtotime($to) + 3600 * 24))
                                ->get();
