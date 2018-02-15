@@ -60,5 +60,6 @@
         $('.js-delete-confirmation__no').on('click', function () {
             $('.lms-delete-confirmation').fadeOut();
         });
+
     });
 })(jQuery);

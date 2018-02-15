@@ -7,7 +7,7 @@
 
     <?php include('filter.php'); ?>
 
-    <div id="poststuff">
+    <div id="poststuff" class="lms-printable">
         <div id="post-body" class="metabox-holder columns-2">
             <div id="postbox-container-1" class="postbox-container">
                 <div id="normal-sortables" class="meta-box-sortables ui-sortable">
@@ -35,8 +35,6 @@
 
     <div class="clear"></div>
 
-    <div class="lms-statistics__print-button-wrap">
-        <?php component('components.print-button', ['link' => '', 'text' => __('Print Report', 'lms-plugin')]); ?>
-    </div>
+    <?php component('components.print-button'); ?>
 
 </div>

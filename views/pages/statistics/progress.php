@@ -4,30 +4,32 @@
     </h2>
     <div class="inside">
         <?php if($progress->count()): ?>
-            <div class="lsm-progress">
-                <div class="lsm-progress-list">
-                    <ul>
-                        <?php foreach ($progress as $status => $item): ?>
-                            <li class="lsm-progress-elem lsm-<?= str_replace('_', '-', $status); ?>">
-                                <?= $statuses[$status]; ?>:
-                                <?= $item->percent; ?>% /
-                                <?= $item->number; ?>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+            <div class="lms-printable">
+                <div class="lsm-progress">
+                    <div class="lsm-progress-list">
+                        <ul>
+                            <?php foreach ($progress as $status => $item): ?>
+                                <li class="lsm-progress-elem lsm-<?= str_replace('_', '-', $status); ?>">
+                                    <?= $statuses[$status]; ?>:
+                                    <?= $item->percent; ?>% /
+                                    <?= $item->number; ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
 
-                <div class="lsm-progress-line">
-                    <?php foreach ($progress as $status => $item): ?>
-                        <div class="lsm-progress-line-point lsm-line-<?= str_replace('_', '-', $status); ?>"
-                             style="width: <?= $item->percent; ?>%;"
-                        >
-                        </div>
-                    <?php endforeach; ?>
+                    <div class="lsm-progress-line">
+                        <?php foreach ($progress as $status => $item): ?>
+                            <div class="lsm-progress-line-point lsm-line-<?= str_replace('_', '-', $status); ?>"
+                                 style="width: <?= $item->percent; ?>%;"
+                            >
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
 
-            <?php component('components.print-button', ['link' => '', 'text' => __('Print Report', 'lms-plugin')]); ?>
+            <?php component('components.print-button'); ?>
 
         <?php else: ?>
             <p><?= __('No progress', 'lms-plugin'); ?></p>
