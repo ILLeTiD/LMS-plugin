@@ -80,6 +80,8 @@ $action->add('wp_ajax_update_profile_field', 'Controllers\ProfileFieldsPageContr
 $action->add('wp_ajax_delete_profile_field', 'Controllers\ProfileFieldsPageController@delete');
 $action->add('wp_ajax_add_profile_field_option', 'Controllers\ProfileFieldsPageController@addOption');
 
+$action->add('wp_ajax_print_version', 'Controllers\PrintReportController@printReport');
+
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');

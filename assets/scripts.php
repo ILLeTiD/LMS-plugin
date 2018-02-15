@@ -37,3 +37,6 @@ $script->add('profile-fields-scripts')
                $this->getCurrentScreen()->id == 'course_page_profile_field.edit';
     });
 
+$script->add('print-scripts')
+    ->source('print.js');
+
