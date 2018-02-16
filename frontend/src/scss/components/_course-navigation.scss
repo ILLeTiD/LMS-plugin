@@ -39,6 +39,16 @@
       display: flex;
     }
   }
+
+  .slide-fullscreen {
+    top: 0;
+    left: 53px;
+  }
+
+  .slide-control-audio {
+    left: 110px;
+    top: 5px;
+  }
 }
 
 .fullscreen-init.option-shown {
