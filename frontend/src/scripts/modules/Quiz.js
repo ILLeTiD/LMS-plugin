@@ -52,7 +52,7 @@ class Quiz {
         let checkedAnswers = [];
 
         form.find(`input[type="${inputType}"]:checked`).each(function (i) {
-            checkedAnswers.push({index: $(this).data('index'), correct: null});
+            checkedAnswers.push({index: $(this).data('index'), value: $(this).val(), correct: null});
         });
 
         const self = this;
@@ -73,7 +73,7 @@ class Quiz {
             }
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            //console.log(json);
+            console.log(json);
             checkedAnswers = json.checkedAnswers;
             inputsCheck(checkedAnswers);
             optionAnswerAfterCheck(checkedAnswers, slide.data('tolerance'), correctAnswersCount);
@@ -91,7 +91,9 @@ class Quiz {
 
                 if (canGo) {
                     this.CourseInstance.canGoNext = true;
-                    new Alert('you can go to the next slide', 'success', 3000);
+                    this.passed = true;
+                    this.slide.addClass('passed');
+                    new Alert('You can go to the next slide', 'success', 3000);
                     return true;
                 } else {
                     this.CourseInstance.canGoNext = false;
@@ -109,7 +111,9 @@ class Quiz {
 
                 if (percentOfCorrect >= this.flexThreshold) {
                     this.CourseInstance.canGoNext = true;
-                    new Alert('you can go to the next slide', 'success', 3000);
+                    this.passed = true;
+                    this.slide.addClass('passed');
+                    new Alert('You can go to the next slide', 'success', 3000);
                     return true;
                 } else {
                     this.CourseInstance.canGoNext = false;
@@ -117,7 +121,8 @@ class Quiz {
                     return false;
                 }
             } else {
-                new Alert('you can go to the next slide', 'info', 3000);
+                new Alert('You can go to the next slide', 'info', 3000);
+
             }
         };
 
@@ -163,7 +168,11 @@ class Quiz {
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             //console.log(json);
+            self.slide.find('.quiz-form').removeClass('quiz-passed');
             textAnswerAfterCheck(json.isCorrect, self.tolerance);
+            if (json.isCorrect) {
+                self.slide.find('.quiz-form').addClass('quiz-passed');
+            }
         });
 
         const textAnswerAfterCheck = (isCorrect, tolerance,) => {
@@ -315,9 +324,6 @@ class Quiz {
         const percentOfCorrect = this.statsDnD.reduce((acc, item, index, arr) => {
             const isCorrect = item.correct;
             const percent = (1 / arr.length) * 100;
-            //console.log(percent);
-            //console.log(arr.length);
-            //console.log(isCorrect);
             return isCorrect ? acc + percent : acc;
         }, 0);
         const roundedPercentOfCorrect = Math.round(percentOfCorrect);

@@ -3,6 +3,7 @@
 namespace LmsPlugin\Controllers;
 
 use LmsPlugin\Models\Slide;
+use LmsPlugin\Models\QuizResult;
 use LmsPlugin\Models\Course;
 
 class QuizAnswerController extends Controller
@@ -42,6 +43,8 @@ class QuizAnswerController extends Controller
 
     public function checkOptionsAnswer()
     {
+        $course_id = $_POST['course_id'];
+        $user_id = $_POST['user_id'];
         $slide_id = $_POST['slide_id'];
         $userAnswer = $_POST['indexes'];
         $answers = $this->getSlideAnswers($slide_id);
@@ -53,6 +56,21 @@ class QuizAnswerController extends Controller
             return $i;
         }, $userAnswer);
 
+
+        $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
+            'slide_id' => $slide_id,
+            'results' => json_encode($checkedAnswers)]);
+        $result = QuizResult::where('user_id', $user_id)
+            ->where('course_id', $course_id)
+            ->where('slide_id', $slide_id);
+        $resultCount = $result->count();
+
+        if ($resultCount > 0) {
+            $QuizModel->update();
+        } else {
+            $QuizModel->insert();
+        }
+
         wp_send_json(['slide' => $slide_id, 'slideans' => $answers, 'checkedAnswers' => $checkedAnswers, 'post' => $_POST]);
     }
 
@@ -62,6 +80,8 @@ class QuizAnswerController extends Controller
             return trim(strtolower(preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $str)));
         };
 
+        $course_id = $_POST['course_id'];
+        $user_id = $_POST['user_id'];
         $slide_id = $_POST['slide_id'];
         $userAnswer = $_POST['user_answer'][0];
         $userAnswerText = $userAnswer['text'];
@@ -78,6 +98,21 @@ class QuizAnswerController extends Controller
             return $acc;
         }, false);
 
+        if ($isCorrect) {
+            $result = QuizResult::where('user_id', $user_id)
+                ->where('course_id', intval($course_id))
+                ->where('slide_id', intval($slide_id));
+            $resultCount = $result->count();
+
+            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id, 'slide_id' => $slide_id, 'results' => $userAnswerText]);
+
+            if ($resultCount > 0) {
+                $QuizModel->update();
+            } else {
+                $QuizModel->insert();
+            }
+
+        }
 
         wp_send_json(['slide' => $sanitizedUserAnswer, 'isCorrect' => $isCorrect, 'checkedAnswers' => $correctAnswers, 'post' => $_POST]);
     }

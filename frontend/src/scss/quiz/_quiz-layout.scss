@@ -86,4 +86,15 @@
   &__check {
     float: right;
   }
+
+  &-passed {
+    input[type="text"],
+    textarea {
+      border-color: #3c763d;
+      border-width: 2px;
+    }
+    .quiz-check-button {
+      //  display: none;
+    }
+  }
 }

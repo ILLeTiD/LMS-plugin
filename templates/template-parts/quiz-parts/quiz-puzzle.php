@@ -17,5 +17,5 @@ shuffle($puzzles);
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <button class="check-puzzle">Check puzzle</button>
+    <button class="quiz-check-button check-puzzle">Check puzzle</button>
 </div>

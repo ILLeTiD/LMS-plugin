@@ -43,5 +43,5 @@ array_walk($images, function (&$item, $key) {
         </div>
 
     </section>
-    <button class="check-dnd">Check quiz</button>
+    <button class="quiz-check-button check-dnd">Check quiz</button>
 </div>

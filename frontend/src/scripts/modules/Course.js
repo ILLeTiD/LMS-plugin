@@ -67,14 +67,11 @@ class Course {
         } else {
             this.courseEl.find('.slide-control-audio').removeClass('audio-inited');
             //console.log('slide has NO audio');
-            // this.playerInstance.setSrc('');
-            // this.playerInstance.load();
             if (!this.playerInstance.paused) {
                 this.playerInstance.pause();
             }
         }
         //console.log('audio src ', firstAudioSrc);
-
     }
 
     getLatestSlideFromDb() {
@@ -96,7 +93,6 @@ class Course {
             self.passedIds = json.ids ? json.ids : [];
             self.setActiveSlideOnInit();
         });
-
     }
 
     setActiveSlideOnInit() {
@@ -124,12 +120,6 @@ class Course {
                     this.nextSection();
                 }
             }
-
-            // if (e.keyCode == 27 && IsFullScreenCurrently()) {
-            //     e.preventDefault();
-            //     //console.log('exit fullscreen!!! Toggle!');
-            //     this.toggleFullscreen();
-            // }
         });
 
         //default ESC button exit fullscreen handler
@@ -228,7 +218,8 @@ class Course {
 
         if (this.canGoNext) {
             //console.log('next slide index', nextSlideIndex);
-            this.showSlide(nextSlideIndex, nextSlideIndex + 1)
+            this.showSlide(nextSlideIndex, nextSlideIndex + 1);
+            this.commitActivity(currentId);
         } else {
             new Alert('Please answer the question to go next')
         }
@@ -236,6 +227,7 @@ class Course {
 
     prevSlide(e) {
         if (e) e.preventDefault();
+        this.canGoNext = true;
         const currentSlide = this.slideCtr.current;
         const prevSlideIndex = currentSlide.prev().index();
         //console.log('prev slide index', prevSlideIndex);
@@ -260,10 +252,6 @@ class Course {
         this.setSlideSectionDisplay();
 
         if (this.slideCtr.current.data('type') === 'quiz') {
-            //console.log('show quiz slide with strict/flex tolerance');
-            //console.log('tol', this.slideCtr.current.data('tolerance'));
-            //console.log('passed ids', this.passedIds);
-            //console.log('current id', this.slideCtr.current.data('slide-id'));
             if ((this.slideCtr.current.data('tolerance') === "strict" || this.slideCtr.current.data('tolerance') === "flexible") && !this.passedIds.includes(this.slideCtr.current.data('slide-id'))) {
                 this.canGoNext = false;
             }
@@ -279,19 +267,9 @@ class Course {
             if (!quizSlide.inited) {
                 quizSlide.quiz.init();
                 quizSlide.inited = true;
-                //console.log('initeed quiz', quizSlide);
-                //console.log(this.slideCtr.quizes);
             }
         }
 
-        if (this.slideCtr.current.data('type') === 'quiz' && this.slideCtr.current.data('quiz-type') === 'puzzle') {
-            //console.log('puzzle reinit');
-            // const grid = new Muuri(".lms-puzzles-grid", {
-            //     dragEnabled: true
-            //     // dragAxis: 'y'
-            // });
-        }
-        this.commitActivity(currentId);
         this.calculateProgress();
     }
 
