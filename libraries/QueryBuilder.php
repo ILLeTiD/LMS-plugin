@@ -72,7 +72,7 @@ class QueryBuilder
             $columns = [$columns];
         }
 
-        $this->select =  $columns;
+        $this->select = $columns;
 
         $this->class = null;
 
@@ -100,14 +100,14 @@ class QueryBuilder
 
         $allowed_operators = ['=', '>', '<', '>=', '<=', '<>'];
 
-        if (is_null($value) && ! in_array($operator, $allowed_operators)) {
+        if (is_null($value) && !in_array($operator, $allowed_operators)) {
             $value = $operator;
             $operator = '=';
         }
 
         $condition = compact('column', 'operator', 'value');
 
-        if ( ! empty($value)) {
+        if (!empty($value)) {
             $this->where[] = $condition;
         }
 
@@ -160,11 +160,16 @@ class QueryBuilder
         return $this->db->get_var($this->build());
     }
 
+
     public function first($columns = [])
     {
         $this->limit = '1';
 
         $row = $this->db->get_row($this->build(), ARRAY_A);
+
+        if (is_null($row)) {
+            return null;
+        }
 
         if ($this->class) {
             return new $this->class($row);
