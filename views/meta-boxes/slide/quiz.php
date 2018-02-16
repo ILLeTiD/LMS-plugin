@@ -1,11 +1,11 @@
 <div class="lms-quiz-wrap">
-    <div class="field">
-        <div class="field__title">
+    <!-- Type -->
+    <div class="lms-field">
+        <div class="lms-field__title">
             <?= __('Type', 'lms-plugin'); ?>
         </div>
-
-        <div class="field__value">
-            <select name="quiz_type" class="js-choose-quiz-type">
+        <div class="lms-field__value">
+            <select name="quiz_type" class="lms-quiz-type js-choose-quiz-type">
                 <?php foreach ($quizTypeOptions as $type => $name): ?>
                     <option value="<?= $type; ?>" <?= selected($post->quiz_type, $type); ?>><?= __($name, 'lms-plugin'); ?></option>
                 <?php endforeach; ?>
@@ -13,13 +13,13 @@
         </div>
     </div>
 
-    <div class="field">
-        <div class="field__title">
+    <!-- Tolerance -->
+    <div class="lms-field">
+        <div class="lms-field__title">
             <?= __('Tolerance', 'lms-plugin'); ?>
         </div>
-
-        <div class="field__value">
-            <select name="quiz_tolerance">
+        <div class="lms-field__value">
+            <select name="quiz_tolerance" class="lms-quiz-tolerance">
                 <?php foreach ($quizToleranceOptions as $type => $name): ?>
                     <option value="<?= $type; ?>" <?= selected($post->quiz_tolerance, $type); ?>><?= __($name, 'lms-plugin'); ?></option>
                 <?php endforeach; ?>
@@ -31,13 +31,54 @@
         </div>
     </div>
 
-    <div class="field">
-        <div class="field__title">
+    <!-- Hint -->
+    <div class="lms-field">
+        <div class="lms-field__title">
             <?= __('Hint', 'lms-plugin'); ?>
         </div>
+        <div class="lms-field__value">
+            <input type="text" name="quiz_hint" class="lms-quiz-hint" value="<?= $post->quiz_hint; ?>">
+        </div>
+    </div>
 
-        <div class="field__value">
-            <input type="text" name="quiz_hint" class="quiz_hint" value="<?= $post->quiz_hint; ?>">
+    <!-- Color theme -->
+    <div class="lms-field">
+        <div class="lms-field__title">
+            <?= __('Colors', 'lms-plugin'); ?>
+        </div>
+        <div class="lms-field__value">
+            <label class="lms-color-picker-wrap">
+                <input type="color"
+                       name="quiz_colors[background]"
+                       value="<?= array_get($post->quiz_colors, 'background', '#4990E2'); ?>"
+                >
+                <?= __('Background', 'lms-plugin'); ?>
+            </label>
+
+            <label class="lms-color-picker-wrap">
+                <input type="color"
+                       name="quiz_colors[header]"
+                       value="<?= array_get($post->quiz_colors, 'header', '#F1F1F1'); ?>"
+                >
+                <?= __('Header', 'lms-plugin'); ?>
+            </label>
+
+            <label class="lms-color-picker-wrap">
+                <input type="color"
+                       name="quiz_colors[text]"
+                       value="<?= array_get($post->quiz_colors, 'text', '#FFFFFF'); ?>"
+                >
+                <?= __('Text', 'lms-plugin'); ?>
+            </label>
+        </div>
+    </div>
+
+    <!-- Background image -->
+    <div class="lms-field">
+        <div class="lms-field__title">
+            <?= __('Backg. image', 'lms-plugin'); ?>
+        </div>
+        <div class="lms-field__value">
         </div>
     </div>
 </div>

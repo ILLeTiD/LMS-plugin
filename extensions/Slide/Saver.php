@@ -19,6 +19,7 @@ class Saver
         'quiz_type',
         'quiz_tolerance',
         'quiz_hint',
+        'quiz_colors',
         'forms_type',
         'forms_answers',
         'drag_and_drop_layout',

@@ -788,3 +788,43 @@
     color: #a00;
     text-decoration: underline !important;
 }
+
+.lms-slide-advanced-settings__hide-controls {
+    margin-top: 30px;
+}
+
+select.lms-quiz-type,
+select.lms-quiz-tolerance {
+    min-width: 200px;
+}
+
+input.lms-quiz-hint {
+    width: 100%;
+}
+
+.lms-field {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    padding: 2px 5px;
+}
+
+.lms-field:first-child {
+    margin-top: 20px;
+}
+
+.lms-field:last-child {
+    margin-bottom: 20px;
+}
+
+.lms-field__title {
+    width: 150px;
+    color: #C0C0C0;
+    font-size: 14px;
+}
+
+.lms-field__value {
+    width: calc(100% - 150px);
+}
