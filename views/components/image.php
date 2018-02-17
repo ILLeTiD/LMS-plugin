@@ -1,9 +1,12 @@
-<!--
-Parameters:
-$name
-$image
-$thumbnail
--->
+<?php
+/**
+ * Upload image component.
+ *
+ * string $name Name prefix for the inputs for thumbnail and image.
+ * string $image Image URL.
+ * string $thumbnail Thumbnail URL.
+ */
+?>
 
 <div>
     <div class="wp-media-buttons <?= $image ? 'hidden' : ''; ?>">
@@ -44,8 +47,6 @@ $thumbnail
 <script>
     (function ($) {
         $(function () {
-            // var window.send_to_editor_default = window.send_to_editor;
-
             $('.js-add-image').on('click', function () {
                 var button = $(this).parent(),
                     container = button.parent(),

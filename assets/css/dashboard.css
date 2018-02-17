@@ -362,7 +362,7 @@
     padding: 20px 0;
 }
 
-.lms-puzzle-wrap .slide-content__image{
+.lms-puzzle-piece {
     flex: 0 0 33.33333%;
     height: 200px;
     display: -webkit-flex;
@@ -388,15 +388,15 @@
     margin-bottom: 15px;
 }
 
-.lms-puzzle-wrap .slide-content__image:nth-child(1),
-.lms-puzzle-wrap .slide-content__image:nth-child(2){
+.lms-puzzle-piece:nth-child(1),
+.lms-puzzle-piece:nth-child(2) {
     border-right: 1px solid #F1F1F1;
 }
-.lms-puzzle-wrap .slide-content__image:nth-child(n+4){
+.lms-puzzle-piece:nth-child(n+4){
     border-top: 1px solid #F1F1F1;
     border-right: 1px solid #F1F1F1;
 }
-.lms-puzzle-wrap .slide-content__image:nth-child(3n+3){
+.lms-puzzle-piece:nth-child(3n+3){
     border-right: none;
 }
 
