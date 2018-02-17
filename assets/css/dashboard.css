@@ -193,11 +193,11 @@
     width: 100%;
 }
 
-@media screen and (min-width: 1440px) {
-    .lms-quiz-wrap{
-        padding-right: 100px;
-    }
-}
+/*@media screen and (min-width: 1440px) {*/
+    /*.lms-quiz-wrap{*/
+        /*padding-right: 100px;*/
+    /*}*/
+/*}*/
 
 .lms-forms-input-wrap .field__value{
     display: -webkit-flex;

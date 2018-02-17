@@ -24,7 +24,6 @@
                     <option value="<?= $type; ?>" <?= selected($post->quiz_tolerance, $type); ?>><?= __($name, 'lms-plugin'); ?></option>
                 <?php endforeach; ?>
             </select>
-
             <span class="field__help">
                 <?= __('If strict is set all the answers has to be answered correctly, if flexible is set at least on answer has to be correct and if loose is set any choice will pass.', 'lms-plugin'); ?>
             </span>
@@ -79,6 +78,11 @@
             <?= __('Backg. image', 'lms-plugin'); ?>
         </div>
         <div class="lms-field__value">
+            <?php component('components.image', [
+                'name' => 'quiz_background',
+                'image' => array_get($post->quiz_background, 'image'),
+                'thumbnail' => array_get($post->quiz_background, 'thumbnail')
+            ]); ?>
         </div>
     </div>
 </div>
