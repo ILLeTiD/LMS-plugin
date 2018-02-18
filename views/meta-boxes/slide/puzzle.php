@@ -13,7 +13,7 @@
 <div class="lms-puzzle-wrap">
     <?php for ($i = 0; $i < 6; $i++): ?>
         <div class="lms-puzzle-piece">
-            <span><?= __('Piece ' . ($i + 1), 'lms-plugin'); ?></span>
+            <span class="muted"><?= __('Piece ' . ($i + 1), 'lms-plugin'); ?></span>
 
             <?php component('components.image', [
                 'name' => "puzzle[{$i}]",

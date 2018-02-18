@@ -23,9 +23,7 @@ class Saver
         'quiz_background',
         'forms_type',
         'forms_answers',
-        'drag_and_drop_layout',
-        'drag_and_drop_images',
-        'drag_and_drop_zones',
+        'drag_and_drop',
         'puzzle'
     ];
 

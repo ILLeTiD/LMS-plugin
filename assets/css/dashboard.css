@@ -372,12 +372,13 @@
     display: flex;
     -ms-align-items: center;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     -webkit-flex-direction: column;
     -moz-flex-direction: column;
     -ms-flex-direction: column;
     -o-flex-direction: column;
     flex-direction: column;
+    padding: 10px 0;
 }
 
 .lms-puzzle-wrap .slide-content__image .js-slide-image{
@@ -827,4 +828,72 @@ input.lms-quiz-hint {
 
 .lms-field__value {
     width: calc(100% - 150px);
+}
+
+.lms-drag-and-drop-objects {
+    border: 0 !important;
+    margin: 0 -12px;
+    width: calc(100% + 24px);
+    table-layout: fixed;
+    white-space: nowrap;
+}
+
+.lms-drag-and-drop-objects .column-title,
+.lms-drag-and-drop-objects .column-type,
+.lms-drag-and-drop-objects .column-padding,
+.lms-drag-and-drop-objects .column-drop-zone {
+    width: 120px;
+}
+
+.lms-drag-and-drop-objects td {
+    white-space: nowrap;
+}
+
+.lms-drag-and-drop-objects td input {
+    width: 100%;
+}
+
+.lms-drag-and-drop-objects:last-child {
+    border-top: 1px solid #EBEBEB !important;
+}
+
+.lms-drag-and-drop-objects th {
+    color: #606060 !important;
+    border-bottom: 0 !important;
+}
+
+.lms-drag-and-drop__content_image a {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.lms-drag-and-drop__content_image img {
+    width: 80px;
+}
+
+.lms-drag-and-drop__content_image .slide-image__help {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.lms-drag-and-drop__content_image .slide-image__help span {
+    display: none;
+}
+
+.lms-drag-and-drop__content_image .slide-image__help a {
+    text-decoration: underline;
+}
+
+.lms-puzzle-piece .slide-image__help {
+    font-size: 12px;
+    text-align: center;
+}
+
+.lms-puzzle-piece .slide-image__help span {
+    display: none;
+}
+
+.muted {
+    color: #C2C2C2 !important;
 }
