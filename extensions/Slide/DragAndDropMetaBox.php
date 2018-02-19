@@ -16,8 +16,9 @@ class DragAndDropMetaBox extends MetaBox
     {
         $slide = new Slide();
 
-        $objects = array_get($slide->drag_and_drop, 'objects');
-        $drop_zones = array_get($slide->drag_and_drop, 'drop_zones');
+        $drag_and_drop = get_post_meta($slide->id, 'drag_and_drop', true);
+        $objects = array_get($drag_and_drop, 'objects');
+        $drop_zones = array_get($drag_and_drop, 'drop_zones');
 
         $this->view(
             'meta-boxes.slide.drag-and-drop',
