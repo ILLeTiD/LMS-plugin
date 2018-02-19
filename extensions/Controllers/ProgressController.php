@@ -14,8 +14,7 @@ class ProgressController extends Controller
             ->where('slide_id', intval($_REQUEST['slide_id']))
             ->where('name', 'finished')
             ->count();
-
-        //dd($activity);
+        
         $activityBool = !!$activity;
 
         if (!$activityBool) {
@@ -58,13 +57,12 @@ class ProgressController extends Controller
                 ->where('name', 'finished')
                 ->orderBy(['date' => 'DESC'])
                 ->get();
-            $ids = [];
-            $activityIter = $activity->getIterator();
+            $passedSlides = [];
 
-            foreach ($activityIter as $item) {
-                $ids[] = $item->slide->id;
+            foreach ($activity as $item) {
+                $passedSlides[] = $item->slide->id;
             }
-            wp_send_json(['ids' => $ids, 'post' => $_POST]);
+            wp_send_json(['ids' => $passedSlides, 'post' => $_POST]);
         } catch (\Exception $e) {
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);
         }

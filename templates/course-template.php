@@ -8,9 +8,7 @@ if (!is_user_logged_in()) {
     wp_redirect(home_url());
     exit;
 }
-
 //@TODO remove comment when go live
-
 if (!$isEnrolled) {
 //    wp_redirect(home_url());
 //    exit;
@@ -26,9 +24,8 @@ $activity = \LmsPlugin\Models\Activity::where('user_id', get_current_user_id())
     ->orderBy(['date' => 'DESC'])
     ->get();
 $ids = [];
-$activityIterator = $activity->getIterator();
 
-foreach ($activityIterator as $item) {
+foreach ($activity as $item) {
     $ids[] = $item->slide->id;
 }
 foreach ($slides as $key => $slide) {

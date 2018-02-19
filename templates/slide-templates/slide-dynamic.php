@@ -2,6 +2,7 @@
      data-section-display="<?= $sectionsDisplay; ?>"
      data-section-count="<?= $sectionsCount; ?>"
      data-passed="<?= $isPassed ?>"
+     data-slide-index="<?= $slide_index ?>"
      data-latest="<?= $isLatest ?>"
      data-slide-id="<?= $id ?>" data-type="regular">
     <?php if ($displayHeader == 'regular') :

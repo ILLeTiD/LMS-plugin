@@ -82,6 +82,7 @@ class Course {
             }
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
+            console.log(json);
             self.passedIds = json.ids ? json.ids : [];
             self.setActiveSlideOnInit();
         });
@@ -108,38 +109,46 @@ class Course {
         let hash = window.location.hash;
 
         //collect info about last step from activities
+      //  console.log(this.passedIds);
+
         let lastSlideIdFromDB = this.passedIds[0];
         let lastElIndexFromDB = this.slideCtr.slides.find(value => value.id == lastSlideIdFromDB);
         let lastSlideIndexFromDB = lastElIndexFromDB.index;
+
+      //  console.log(lastElIndexFromDB);
 
         //check if valid slide in url hash
         if (hash && hash.indexOf('#slide') != -1) {
             //extract step info from hash
             const slideToShow = parseInt(hash.substr(6));
-            const elementToShow = this.slideCtr.slides.find(value => value.index == (slideToShow - 1));
-            const idToShow = elementToShow.id;
+            const elementToShow = this.slideCtr.slides.find(value => {
+                // console.log(value);
+                // console.log(slideToShow);
+                return value.index == (slideToShow - 1);
+            });
 
+            const idToShow = elementToShow ? elementToShow.id : {};
             //check if user can go to this step
             if (this.passedIds.includes(idToShow) && !(slideToShow > +this.slideCtr.amount || slideToShow <= 0)) {
                 //console.log('show slide from db by ID');
                 this.slideCtr.currentById = idToShow;
-                lastSlideIndexFromDB = this.slideCtr.current.index();
+                lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
                 //  } else if (slideToShow > +this.slideCtr.amount || slideToShow <= 0) {
             } else {
                 //user cant go to slide in hash but has some activities so show last activity
-                //console.log('wrong slide11');
+                console.log('wrong slide11');
                 //console.log('id from DB', lastSlideIdFromDB);
-                //console.log('index from DB', lastSlideIndexFromDB);
+           //     console.log('index from DB11', lastSlideIndexFromDB);
                 history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
                 this.slideCtr.currentById = +lastSlideIdFromDB;
-                lastSlideIndexFromDB = this.slideCtr.current.index();
+                lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
             }
         } else {
             // user just go to course not to specific slide and has some activity in past
-            //console.log('slide from DB');
+         //   console.log('slide from DB', lastSlideIndexFromDB);
             history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
             this.slideCtr.currentById = +lastSlideIdFromDB;
-            lastSlideIndexFromDB = this.slideCtr.current.index();
+            lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
         }
         //console.log(lastSlideIndexFromDB);
         return lastSlideIndexFromDB;
@@ -206,7 +215,7 @@ class Course {
         const currentSlide = this.slideCtr.current;
         const currentId = currentSlide.data('slide-id');
         const nextSlide = this.slideCtr.current.next();
-        const nextSlideIndex = nextSlide.index();
+        const nextSlideIndex = nextSlide.data('slide-index');
 
         if (this.canGoNext) {
             //console.log('next slide index', nextSlideIndex);
@@ -319,6 +328,7 @@ class Course {
     }
 
     commitActivity(currentId, commitMessage = 'finished') {
+        console.log('cuurent slideid ', currentId);
         if (!this.passedIds.includes(currentId)) this.passedIds.push(currentId);
         $.ajax(
             {
@@ -333,7 +343,7 @@ class Course {
                 }
             }
         ).done(function (msg) {
-            //console.log('commited slide activity ', msg);
+            console.log('commited slide activity ', msg);
         });
     }
 

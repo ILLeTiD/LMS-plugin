@@ -1,8 +1,8 @@
 <?php
-$id = $slide->ID;
+$id = $slide->id;
 $template = $slide->slide_template;
 $content = $slide->slide_content;
-$title = $slide->post_title;
+$title = get_the_title($id);
 $displayHeader = $slide->slide_content_display;
 $sectionsDisplay = $slide->slide_section_display;
 $sectionsCount = count($content);
@@ -14,10 +14,14 @@ $optionsArray = ['slide' => $slide,
     'template' => $template,
     'content' => $content,
     'title' => $title,
+    'slide_index' => $slide_index,
     'displayHeader' => $displayHeader,
     'sectionsCount' => $sectionsCount,
-    'sectionsDisplay' => $sectionsDisplay
+    'sectionsDisplay' => $sectionsDisplay,
+    'isPassed' => $isPassed,
+    'isLatest' => $isLatest
 ];
+
 ?>
 <?php
 switch ($template) {

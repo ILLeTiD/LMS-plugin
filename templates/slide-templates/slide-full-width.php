@@ -2,6 +2,7 @@
      data-slide-id="<?= $id ?>"
      data-section-display="<?= $sectionsDisplay; ?>"
      data-passed="<?= $isPassed ?>"
+     data-slide-index="<?= $slide_index ?>"
      data-latest="<?= $isLatest ?>"
      data-section-count="<?= $sectionsCount; ?>"
      data-type="regular">

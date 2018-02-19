@@ -14,7 +14,7 @@ class Slide {
         let quizes = [];
         $('#lms-course .lms-slide').each(function (i) {
             slides.push({
-                index: $(this).index(),
+                index: +$(this).data('slide-index'),
                 id: $(this).data('slide-id'),
                 type: $(this).data('type'),
                 sectionDisplay: $(this).data('section-display')
@@ -22,7 +22,7 @@ class Slide {
 
             if ($(this).data('type') == 'quiz') {
                 quizes.push({
-                    index: $(this).index(),
+                    index: +$(this).data('slide-index'),
                     id: $(this).data('slide-id'),
                     inited: false,
                     passed: false,
@@ -53,7 +53,7 @@ class Slide {
     set currentByIndex(index) {
         //console.log('set current by index');
         $('.lms-slide.active').removeClass('active');
-        $('.lms-slide').eq(index).addClass('active');
+        $(`.lms-slide[data-slide-index=${index}]`).addClass('active');
     }
 
     set currentById(id) {

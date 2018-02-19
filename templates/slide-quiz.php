@@ -1,9 +1,9 @@
 <?php
 use LmsPlugin\Models\QuizResult;
 
-$id = $slide->ID;
+$id = $slide->id;
 $user_id = get_current_user_id();
-$question = $slide->post_content;
+$question = get_post_field('post_content', $id);
 $type = $slide->quiz_type;
 $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;
@@ -23,10 +23,11 @@ if ($resultCount) {
         $answers[] = $item->results;
     }
 }
-
+$randomId = uniqid('slide');
 ?>
 
 <div class="lms-slide lms-slide-quiz lms-quiz <?= $isCorrect ? 'passed' : ''; ?>"
+     id="<?= $randomId ?>"
      data-slide-id="<?= $id ?>"
      data-slide-index="<?= $slide_index ?>"
      data-type="quiz"
@@ -35,6 +36,7 @@ if ($resultCount) {
      data-quiz-type="<?= $type ?>"
      data-tolerance="<?= $tolerance ?>" data-hint="<?= $hint ?>">
 
+    <?php include 'template-parts/quiz-parts/quiz-slide-settings.php'; ?>
     <?php lms_get_template('template-parts/quiz-parts/quiz-header.php', ['slide' => $slide, 'hint' => $hint]); ?>
 
     <?php lms_get_template('template-parts/quiz-parts/quiz-question.php', ['question' => $question]); ?>
@@ -43,13 +45,13 @@ if ($resultCount) {
         <?php
         switch ($type) {
             case 'forms':
-                lms_get_template('template-parts/quiz-parts/quiz-form.php', ['slide' => $slide, 'passed' => $isPassed,'isCorrect'=>$isCorrect, 'answersDB' => $answers]);
+                lms_get_template('template-parts/quiz-parts/quiz-form.php', ['slide' => $slide, 'passed' => $isPassed, 'isCorrect' => $isCorrect, 'answersDB' => $answers]);
                 break;
             case 'drag_and_drop':
-                lms_get_template('template-parts/quiz-parts/quiz-dnd.php', ['slide' => $slide, 'passed' => $isPassed,'isCorrect'=>$isCorrect, 'answersDB' => $answers]);
+                lms_get_template('template-parts/quiz-parts/quiz-dnd.php', ['slide' => $slide, 'passed' => $isPassed, 'isCorrect' => $isCorrect, 'answersDB' => $answers]);
                 break;
             case 'puzzle':
-                lms_get_template('template-parts/quiz-parts/quiz-puzzle.php', ['slide' => $slide, 'passed' => $isPassed,'isCorrect'=>$isCorrect, 'answersDB' => $answers]);
+                lms_get_template('template-parts/quiz-parts/quiz-puzzle.php', ['slide' => $slide, 'passed' => $isPassed, 'isCorrect' => $isCorrect, 'answersDB' => $answers]);
                 break;
         }
         ?>
