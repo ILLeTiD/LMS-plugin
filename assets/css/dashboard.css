@@ -832,7 +832,7 @@ input.lms-quiz-hint {
 
 .lms-drag-and-drop-objects {
     border: 0 !important;
-    margin: 0 -12px;
+    margin: -12px;
     width: calc(100% + 24px);
     table-layout: fixed;
     white-space: nowrap;
@@ -840,9 +840,9 @@ input.lms-quiz-hint {
 
 .lms-drag-and-drop-objects .column-title,
 .lms-drag-and-drop-objects .column-type,
-.lms-drag-and-drop-objects .column-padding,
+.lms-drag-and-drop-objects .column-width,
 .lms-drag-and-drop-objects .column-drop-zone {
-    width: 120px;
+    width: 130px;
 }
 
 .lms-drag-and-drop-objects td {
@@ -851,10 +851,6 @@ input.lms-quiz-hint {
 
 .lms-drag-and-drop-objects td input {
     width: 100%;
-}
-
-.lms-drag-and-drop-objects:last-child {
-    border-top: 1px solid #EBEBEB !important;
 }
 
 .lms-drag-and-drop-objects th {

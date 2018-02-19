@@ -16,6 +16,9 @@ class QuizMetaBox extends MetaBox
     {
         $post = new Slide();
 
+        $colors = get_post_meta($post->id, 'quiz_colors', true);
+        $background = get_post_meta($post->id, 'quiz_background', true);
+
         $quizTypeOptions = [
             'forms' => 'Forms',
             'drag_and_drop' => 'Drag and Drop',
@@ -28,6 +31,15 @@ class QuizMetaBox extends MetaBox
             'loose' => 'Loose'
         ];
 
-        $this->view('meta-boxes.slide.quiz', compact('post', 'quizTypeOptions', 'quizToleranceOptions'));
+        $this->view(
+            'meta-boxes.slide.quiz',
+            compact(
+                'post',
+                'colors',
+                'background',
+                'quizTypeOptions',
+                'quizToleranceOptions'
+            )
+        );
     }
 }
