@@ -54,7 +54,8 @@ class Slide
 
                 return $terms ? $terms[0] : false;
             default:
-                return $this->post->$property;
+                return get_post_meta($this->id, $property, true);
+                // return $this->post->$property;
         }
     }
 }
