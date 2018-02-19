@@ -4,7 +4,7 @@
         <?= __('Pieces', 'lms-plugin'); ?>
     </div>
     <div class="lms-field__value">
-        <select name="quiz_tolerance" class="lms-quiz-tolerance">
+        <select name="quiz_pieces">
             <option value="6"><?= __('6 pieces', 'lms-plugin'); ?></option>
         </select>
     </div>
