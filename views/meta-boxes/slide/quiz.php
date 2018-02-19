@@ -49,7 +49,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="quiz_colors[background]"
-                       value="<?= array_get($post->quiz_colors, 'background', '#4990E2'); ?>"
+                       value="<?= array_get($colors, 'background', '#4990E2'); ?>"
                 >
                 <?= __('Background', 'lms-plugin'); ?>
             </label>
@@ -57,7 +57,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="quiz_colors[header]"
-                       value="<?= array_get($post->quiz_colors, 'header', '#F1F1F1'); ?>"
+                       value="<?= array_get($colors, 'header', '#F1F1F1'); ?>"
                 >
                 <?= __('Header', 'lms-plugin'); ?>
             </label>
@@ -65,7 +65,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="quiz_colors[text]"
-                       value="<?= array_get($post->quiz_colors, 'text', '#FFFFFF'); ?>"
+                       value="<?= array_get($colors, 'text', '#FFFFFF'); ?>"
                 >
                 <?= __('Text', 'lms-plugin'); ?>
             </label>
@@ -80,8 +80,8 @@
         <div class="lms-field__value">
             <?php component('components.image', [
                 'name' => 'quiz_background',
-                'image' => array_get($post->quiz_background, 'image'),
-                'thumbnail' => array_get($post->quiz_background, 'thumbnail')
+                'image' => array_get($background, 'image'),
+                'thumbnail' => array_get($background, 'thumbnail')
             ]); ?>
         </div>
     </div>
