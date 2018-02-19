@@ -32,14 +32,15 @@ var lms = {
         quiz: [
             '#lms_slide_quiz_meta_box',
             '#lms_slide_forms_meta_box',
-            '#lms_slide_drag_and_drop_meta_box',
+            '#lms_slide_drag_meta_box',
+            '#lms_slide_drop_meta_box',
             '#lms_slide_puzzle_meta_box'
         ]
     };
 
     var quizTypes = {
         forms: '#lms_slide_forms_meta_box',
-        drag_and_drop: '#lms_slide_drag_and_drop_meta_box',
+        drag_and_drop: '#lms_slide_drag_meta_box, #lms_slide_drop_meta_box',
         puzzle: '#lms_slide_puzzle_meta_box'
     };
 
