@@ -3,6 +3,7 @@
 namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
+use LmsPlugin\Models\Slide;
 
 class QuizMetaBox extends MetaBox
 {
@@ -13,7 +14,7 @@ class QuizMetaBox extends MetaBox
 
     public function callback()
     {
-        global $post;
+        $post = new Slide();
 
         $quizTypeOptions = [
             'forms' => 'Forms',

@@ -169,6 +169,16 @@
         </div>
         <div class="col-2">
             <?= __('Embed video player from Youtube or Vimeo', 'lms-plugin'); ?>
+            <div class="lms-slide-advanced-settings__hide-controls">
+                <label>
+                    <input type="checkbox"
+                           name="slide_content[<?= $i; ?>][hide_controls]"
+                           value="1"
+                        <?= checked(array_get($slide, 'hide_controls')); ?>
+                    >
+                    <?= __('Hide Controls', 'lms-plugin'); ?>
+                </label>
+            </div>
         </div>
     </div>
 

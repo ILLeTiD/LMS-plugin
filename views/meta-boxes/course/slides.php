@@ -44,7 +44,7 @@
                     </div>
                 </td>
 
-                <td><i><?= $slideTemplates[$slide->slide_template]; ?></i></td>
+                <td><i><?= array_get($slideTemplates,$slide->slide_template); ?></i></td>
                 <td>
                     <?= $slide->post_date == $slide->post_modified ? 'Created' : 'Updated'; ?>
                     <?= get_the_modified_date(get_option('date_format'), $slide->ID); ?>

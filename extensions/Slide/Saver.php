@@ -19,11 +19,11 @@ class Saver
         'quiz_type',
         'quiz_tolerance',
         'quiz_hint',
+        'quiz_colors',
+        'quiz_background',
         'forms_type',
         'forms_answers',
-        'drag_and_drop_layout',
-        'drag_and_drop_images',
-        'drag_and_drop_zones',
+        'drag_and_drop',
         'puzzle'
     ];
 
