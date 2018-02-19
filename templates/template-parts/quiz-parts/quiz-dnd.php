@@ -7,11 +7,9 @@ array_walk($images, function (&$item, $key) {
 });
 
 ?>
-<!--<pre>-->
-<!--    --><?php //d($drop_zones); ?>
-<!--</pre>-->
-<div class="quiz__wrapper">
-    <section class="dnd-quiz">
+
+<div class="lms-quiz__wrapper">
+    <section class="lms-dnd-quiz">
         <div class="board board-layout-<?= $dnd_layout; ?>">
             <div class="board-column initial">
                 <div class="board-column-content">
@@ -43,5 +41,5 @@ array_walk($images, function (&$item, $key) {
         </div>
 
     </section>
-    <button class="check-dnd">Check quiz</button>
+    <button class="lms-check-dnd">Check quiz</button>
 </div>

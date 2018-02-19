@@ -1,4 +1,4 @@
-<div class="lms-course-loader" id="course-loader">
+<div class="lms-course-loader" id="lms-course-loader">
     <div class="spinner">
         <div class="rect1"></div>
         <div class="rect2"></div>

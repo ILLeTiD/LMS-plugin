@@ -6,6 +6,8 @@ $title = $slide->post_title;
 $displayHeader = $slide->slide_content_display;
 $sectionsDisplay = $slide->slide_section_display;
 $sectionsCount = count($content);
+$isPassed = $slide->passed;
+$isLatest = $slide->latest;
 
 $optionsArray = ['slide' => $slide,
     'id' => $id,

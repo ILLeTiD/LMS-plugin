@@ -3,7 +3,6 @@ import Muuri from 'muuri';
 import Hint from './Hint'
 import Alert from '../utilities/Alerts'
 
-
 class Quiz {
 
     constructor(slide, type, tolerance, CourseInstance) {
@@ -11,8 +10,8 @@ class Quiz {
         this.slideId = slide.data('slide-id');
         this.type = type;
         this.tolerance = tolerance;
-        this.courseId = $('#course').data('id');
-        this.userId = $('#course').data('user-id');
+        this.courseId = $('#lms-course').data('id');
+        this.userId = $('#lms-course').data('user-id');
         this.CourseInstance = CourseInstance;
         this.passed = null;
         // //console.log('course instance', CourseInstance);
@@ -34,10 +33,10 @@ class Quiz {
 
     listeners() {
         //this.slide.find('.check-answer').on('click', this.checkOptionQuizAnswer.bind(this));
-        this.slide.find('.quiz-form-options').on('submit', this.quizSubmitOptions.bind(this));
-        this.slide.find('.quiz-form-text_field, .quiz-form-text_area').on('submit', this.quizSubmitText.bind(this));
-        this.slide.find('.check-puzzle').on('click', this.checkPuzzle.bind(this));
-        this.slide.find('.check-dnd').on('click', this.checkDnD.bind(this));
+        this.slide.find('.lms-quiz-form-options').on('submit', this.quizSubmitOptions.bind(this));
+        this.slide.find('.lms-quiz-form-text_field, .lms-quiz-form-text_area').on('submit', this.quizSubmitText.bind(this));
+        this.slide.find('.lms-check-puzzle').on('click', this.checkPuzzle.bind(this));
+        this.slide.find('.lms-check-dnd').on('click', this.checkDnD.bind(this));
     }
 
     quizSubmitOptions(e) {
@@ -45,7 +44,7 @@ class Quiz {
         //console.log('submitting option form');
         const form = $(e.target);
         const serialized = form.serializeArray();
-        const slide = form.closest('.slide');
+        const slide = form.closest('.lms-slide');
         const slideId = slide.data('slide-id');
         const correctAnswersCount = form.data('answers-count');
         const inputType = correctAnswersCount == 1 ? 'radio' : 'checkbox';
@@ -134,7 +133,7 @@ class Quiz {
         //console.log('submitting text form');
         const form = $(e.target);
         const serialized = form.serializeArray();
-        const slide = form.closest('.slide');
+        const slide = form.closest('.lms-slide');
         const slideId = slide.data('slide-id');
         const correctAnswersCount = form.data('answers-count');
         const tagType = form.data('form-type') == 'text_field' ? 'input[type="text"]' : 'textarea';
@@ -167,9 +166,8 @@ class Quiz {
         });
 
         const textAnswerAfterCheck = (isCorrect, tolerance,) => {
+            const canGo = isCorrect;
             if (tolerance === 'strict' || tolerance === 'flexible') {
-                const canGo = isCorrect;
-
                 if (canGo) {
                     this.CourseInstance.canGoNext = true;
                     this.passed = true;
@@ -182,7 +180,13 @@ class Quiz {
                     return false;
                 }
             } else {
-                new Alert('you can go to the next slide', 'info', 3000);
+                this.passed = true;
+                this.slide.addClass('passed');
+                if (canGo) {
+                    new Alert('you can go to the next slide', 'success', 3000);
+                } else {
+                    new Alert('you can go to the next slide', 'info', 3000);
+                }
             }
         };
     }
@@ -191,7 +195,6 @@ class Quiz {
     initPuzzle() {
         //Array.from(Array(10).keys())
         const gridNode = this.slide.find('.lms-puzzles-grid')[0];
-
 
         //console.log('init murri');
         //console.log('Puzzle grid node ', gridNode);
@@ -228,7 +231,7 @@ class Quiz {
     initDnD() {
         const self = this;
         const docElem = this.slide[0];
-        const dnd = document.querySelector('.dnd-quiz');
+        const dnd = document.querySelector('.lms-dnd-quiz');
         this.board = dnd.querySelector('.board');
         const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.board-column-content'));
         this.columnGrids = [];

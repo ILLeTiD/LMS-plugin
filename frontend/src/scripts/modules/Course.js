@@ -12,7 +12,6 @@ import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utiliti
 
 class Course {
     constructor() {
-        //console.log('course inited1!');
         this.slideCtr = new SlideCtr(this);
         this.urlCrl = new UrlCtr(this.slideCtr, this);
         this.canGoNext = true;
@@ -23,58 +22,48 @@ class Course {
     }
 
     init($courseEl) {
-        //console.log('init Course');
         this.courseEl = $courseEl;
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
         this.getLatestSlideFromDb();
-        this.initAudio();
+        // this.initAudio();
         initLazyLoading();
     }
 
     initAudio() {
         const self = this;
         if ($.fn.mediaelementplayer) {
-            //console.log('MEDIA ELEMENT');
+            console.log('MEDIA ELEMENT');
             this.player = $('#slide-control-player').mediaelementplayer({
                 pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                 shimScriptAccess: 'always',
                 stretching: 'responsive',
                 success: function (mediaElement, originalNode, instance) {
-                    // do things
-                    //console.log('media element ', mediaElement);
-                    //console.log('originalNode ', originalNode);
-                    //console.log('instance ', instance);
                     self.playerInstance = instance;
                 }
             });
-
-            //console.log('this player ', this.player);
         }
     }
 
     setSlideAudio() {
         const slide = this.slideCtr.current;
         // if (slide.data('type') != 'regular') return;
-        const audioBlock = slide.find(`.grid-block[data-audio-src]`).first();
+        const audioBlock = slide.find(`.lms-grid-block[data-audio-src]`).first();
         const firstAudioSrc = audioBlock.data('audio-src');
         if (firstAudioSrc) {
             //console.log('slide has audio');
-            this.courseEl.find('.slide-control-audio').addClass('audio-inited');
+            this.courseEl.find('.lms-slide-control-audio').addClass('audio-inited');
             this.playerInstance.setSrc(firstAudioSrc);
             this.playerInstance.load();
             this.playerInstance.play();
         } else {
-            this.courseEl.find('.slide-control-audio').removeClass('audio-inited');
+            this.courseEl.find('.lms-slide-control-audio').removeClass('audio-inited');
             //console.log('slide has NO audio');
-            // this.playerInstance.setSrc('');
-            // this.playerInstance.load();
             if (!this.playerInstance.paused) {
                 this.playerInstance.pause();
             }
         }
         //console.log('audio src ', firstAudioSrc);
-
     }
 
     getLatestSlideFromDb() {
@@ -96,56 +85,16 @@ class Course {
             self.passedIds = json.ids ? json.ids : [];
             self.setActiveSlideOnInit();
         });
-
     }
 
     setActiveSlideOnInit() {
-
         const initialSlideIndex = this.getinitialSlideIndex();
         this.showSlide(initialSlideIndex, initialSlideIndex + 1);
         this.listeners();
 
         //remove loader when we have slide to show
         this.courseEl.removeClass('unloaded');
-        this.courseEl.find('#course-loader').remove();
-    }
-
-    listeners() {
-        $('html').keydown((e) => {
-            //    //console.log(e);
-            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
-                this.prevSlide();
-            }
-            if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
-                if (this.navType == 'slide') {
-                    this.nextSlide();
-                } else if (this.navType == 'section') {
-                    console.log('RIGHT CLICK KEY');
-                    this.nextSection();
-                }
-            }
-
-            // if (e.keyCode == 27 && IsFullScreenCurrently()) {
-            //     e.preventDefault();
-            //     //console.log('exit fullscreen!!! Toggle!');
-            //     this.toggleFullscreen();
-            // }
-        });
-
-        //default ESC button exit fullscreen handler
-        document.addEventListener("fullscreenchange", () => {
-            if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-                this.courseEl.find('.course-controls').removeClass('option-shown');
-                this.courseEl.removeClass('fullscreen-init');
-                this.courseEl.find('.course-controls').removeClass('fullscreen-init');
-            }
-        }, false);
-
-        $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
-        $('.section-control-navigation .next').on('click', this.nextSection.bind(this));
-        $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
-        $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
-        $('.slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
+        this.courseEl.find('#lms-course-loader').remove();
     }
 
     getinitialSlideIndex() {
@@ -196,26 +145,59 @@ class Course {
         return lastSlideIndexFromDB;
     }
 
+
+    listeners() {
+        $('html').keydown((e) => {
+            //    //console.log(e);
+            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
+                this.prevSlide();
+            }
+
+            if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+                if (this.navType == 'slide') {
+                    this.nextSlide();
+                } else if (this.navType == 'section') {
+                    this.nextSection();
+                }
+            }
+        });
+
+        //default ESC button exit fullscreen handler
+        document.addEventListener("fullscreenchange", () => {
+            console.log('toggle full');
+            if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+                console.log('full esc');
+                this.courseEl.find('.lms-course-controls').removeClass('lms-option-shown');
+                this.courseEl.removeClass('lms-fullscreen-init');
+                this.courseEl.find('.lms-course-controls').removeClass('lms-fullscreen-init');
+            }
+        }, false);
+
+        $('.lms-slide-control-navigation .next').on('click', this.nextSlide.bind(this));
+        $('.lms-section-control-navigation .next').on('click', this.nextSection.bind(this));
+        $('.lms-slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
+        $('.lms-slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
+        $('.lms-slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
+    }
+
     toggleFullscreen(e) {
         if (e) e.preventDefault();
-        //console.log('toggle fullscreen!');
+        console.log('toggle fullscreen!');
         if (!IsFullScreenCurrently()) {
-            // GoInFullscreen($('html').get(0))
-            //console.log(this.courseEl);
             GoInFullscreen(this.courseEl[0]);
         } else {
             GoOutFullscreen();
-            this.courseEl.find('.course-controls').removeClass('option-shown');
+            this.courseEl.find('.lms-course-controls').removeClass('lms-option-shown');
         }
 
-        this.courseEl.toggleClass('fullscreen-init');
-        this.courseEl.find('.course-controls').toggleClass('fullscreen-init');
+        this.courseEl.toggleClass('lms-fullscreen-init');
+        this.courseEl.find('.lms-course-controls').toggleClass('lms-fullscreen-init');
     }
 
     toggleFullscreenOption(e) {
         e.preventDefault();
         //console.log('options clicked');
-        this.courseEl.find('.course-controls').toggleClass('option-shown');
+        this.courseEl.find('.lms-course-controls').toggleClass('lms-option-shown');
     }
 
     nextSlide(e) {
@@ -228,7 +210,8 @@ class Course {
 
         if (this.canGoNext) {
             //console.log('next slide index', nextSlideIndex);
-            this.showSlide(nextSlideIndex, nextSlideIndex + 1)
+            this.showSlide(nextSlideIndex, nextSlideIndex + 1);
+            this.commitActivity(currentId);
         } else {
             new Alert('Please answer the question to go next')
         }
@@ -236,6 +219,7 @@ class Course {
 
     prevSlide(e) {
         if (e) e.preventDefault();
+        this.canGoNext = true;
         const currentSlide = this.slideCtr.current;
         const prevSlideIndex = currentSlide.prev().index();
         //console.log('prev slide index', prevSlideIndex);
@@ -255,15 +239,11 @@ class Course {
             current: indexHash,
         });
 
-        this.setSlideAudio();
+        //  this.setSlideAudio();
 
         this.setSlideSectionDisplay();
 
         if (this.slideCtr.current.data('type') === 'quiz') {
-            //console.log('show quiz slide with strict/flex tolerance');
-            //console.log('tol', this.slideCtr.current.data('tolerance'));
-            //console.log('passed ids', this.passedIds);
-            //console.log('current id', this.slideCtr.current.data('slide-id'));
             if ((this.slideCtr.current.data('tolerance') === "strict" || this.slideCtr.current.data('tolerance') === "flexible") && !this.passedIds.includes(this.slideCtr.current.data('slide-id'))) {
                 this.canGoNext = false;
             }
@@ -279,19 +259,9 @@ class Course {
             if (!quizSlide.inited) {
                 quizSlide.quiz.init();
                 quizSlide.inited = true;
-                //console.log('initeed quiz', quizSlide);
-                //console.log(this.slideCtr.quizes);
             }
         }
 
-        if (this.slideCtr.current.data('type') === 'quiz' && this.slideCtr.current.data('quiz-type') === 'puzzle') {
-            //console.log('puzzle reinit');
-            // const grid = new Muuri(".lms-puzzles-grid", {
-            //     dragEnabled: true
-            //     // dragAxis: 'y'
-            // });
-        }
-        this.commitActivity(currentId);
         this.calculateProgress();
     }
 
@@ -299,7 +269,7 @@ class Course {
         if (e) e.preventDefault();
         console.log('next section handler');
         console.log('current optoins', this.currentSection, this.slideSectionsCount);
-        this.slideCtr.current.find('.grid-block').eq(this.currentSection).addClass('active');
+        this.slideCtr.current.find('.lms-grid-block').eq(this.currentSection).addClass('active');
         this.currentSection++;
         if (this.currentSection >= this.slideSectionsCount) {
             this.slideCtr.current.addClass('passed');
@@ -317,19 +287,19 @@ class Course {
      block of utility methods
      */
     disableCourseNav() {
-        this.courseEl.find('.slide-control-navigation').addClass('disabled')
+        this.courseEl.find('.lms-slide-control-navigation').addClass('disabled')
     }
 
     enableCourseNav() {
-        this.courseEl.find('.slide-control-navigation').removeClass('disabled')
+        this.courseEl.find('.lms-slide-control-navigation').removeClass('disabled')
     }
 
     disableSectionNav() {
-        this.courseEl.find('.section-control-navigation').removeClass('active')
+        this.courseEl.find('.lms-section-control-navigation').removeClass('active')
     }
 
     enableSectionNav() {
-        this.courseEl.find('.section-control-navigation').addClass('active')
+        this.courseEl.find('.lms-section-control-navigation').addClass('active')
     }
 
 
@@ -348,7 +318,7 @@ class Course {
         }
     }
 
-    commitActivity(currentId) {
+    commitActivity(currentId, commitMessage = 'finished') {
         if (!this.passedIds.includes(currentId)) this.passedIds.push(currentId);
         $.ajax(
             {
@@ -358,7 +328,8 @@ class Course {
                     action: 'progress_commit',
                     user_id: this.userId,
                     course_id: this.courseId,
-                    slide_id: currentId
+                    slide_id: currentId,
+                    commit_message: commitMessage
                 }
             }
         ).done(function (msg) {
@@ -368,21 +339,21 @@ class Course {
 
     calculateProgress(current = this.slideCtr.current.index(), amount = this.slideCtr.amount) {
         //console.log('start calculating progress');
-        const courseProgressLine = $('.course-progress');
+        const courseProgressLine = $('.lms-course-progress');
         courseProgressLine.css('width', `${((current + 1) / amount) * 100}%`);
     }
 
     checkControls() {
         if (this.slideCtr.current.is(':first-child')) {
-            $('.slide-control-navigation .prev').hide();
+            $('.lms-slide-control-navigation .prev').hide();
         } else {
-            $('.slide-control-navigation .prev').show();
+            $('.lms-slide-control-navigation .prev').show();
         }
 
         if (this.slideCtr.current.is(':last-child')) {
-            $('.slide-control-navigation .next').hide();
+            $('.lms-slide-control-navigation .next').hide();
         } else {
-            $('.slide-control-navigation .next').show();
+            $('.lms-slide-control-navigation .next').show();
         }
     }
 }

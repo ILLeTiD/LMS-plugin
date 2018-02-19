@@ -4,7 +4,7 @@ include 'slide-settings.php';
 
 <?php if ($link) : ?>
 <a href="<?= $link ?>" target="<?= $linkTarget ?>"
-   class="<?= $isFirst ?> grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+   class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> lms-grid-block-<?= $index; ?> lms-grid-block--link <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
     <?php if ($audio) : ?>
         <?= 'data-audio-src="' . $audio . '"'; ?>
     <?php endif; ?>
@@ -15,7 +15,7 @@ include 'slide-settings.php';
            background-size: cover;">
     <?php else: ?>
     <div
-            class="<?= $isFirst ?> grid-block grid-block-<?= $template; ?> grid-block-<?= $index; ?> <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+            class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> lms-grid-block-<?= $index; ?> <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>
@@ -25,16 +25,16 @@ include 'slide-settings.php';
                  background-repeat: no-repeat;
                  background-size: cover;">
         <?php endif; ?>
-        <div class="grid-block__wrapper">
+        <div class="lms-grid-block__wrapper">
             <?php if ($video) : ?>
                 <?php
                 global $wp_embed;
                 echo $wp_embed->run_shortcode('[embed]' . $video . '[/embed]');
                 ?>
             <?php elseif ($image && !$isBg) : ?>
-                <img data-src="<?= $image ?>" class="grid-block__image">
+                <img data-src="<?= $image ?>" class="lms-grid-block__image">
             <?php elseif ($text) : ?>
-                <div class="grid-block__text">
+                <div class="lms-grid-block__text">
                     <?= $text ?>
                 </div>
             <?php endif; ?>

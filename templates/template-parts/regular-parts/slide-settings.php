@@ -78,7 +78,7 @@ switch ($contentAlign) {
         }
     }
 
-    #<?= $randomId?> .grid-block__wrapper {
+    #<?= $randomId?> .lms-grid-block__wrapper {
         padding: <?=$innerPadding ?>;
         width: <?=  $innerWidth?>;
     }

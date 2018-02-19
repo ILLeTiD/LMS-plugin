@@ -1,42 +1,41 @@
-<div class="course-controls">
-    <div class="course-progress"></div>
+<div class="lms-course-controls">
+    <div class="lms-course-progress"></div>
 
-    <div class="slide-controls">
-        <button class="slide-control-fullscreen-option">
+    <div class="lms-slide-controls">
+        <button class="lms-slide-control-fullscreen-option">
             <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Optons.png"
                  alt="options">
 
         </button>
-        <button class="slide-control-fullscreen slide-fullscreen">
-            <img class="slide-control-fullscreen-in"
+        <button class="lms-slide-control-fullscreen lms-slide-fullscreen">
+            <img class="lms-slide-control-fullscreen-in"
                  src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Maximize.png"
                  alt="Go fullscreen">
-            <img class="slide-control-fullscreen-out"
+            <img class="lms-slide-control-fullscreen-out"
                  src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Minimize.png"
                  alt="Go out fullscreen">
 
         </button>
-        <div class="slide-control-audio">
-            <audio src="" id="slide-control-player"
+        <div class="lms-slide-control-audio">
+            <audio src="" id="lms-slide-control-player"
                    class="lms-audio"></audio>
         </div>
-        <div class="slide-control-navigation">
-            <div class="nav-button">
+        <div class="lms-slide-control-navigation">
+            <div class="lms-nav-button">
                 <a href="#" class="prev" rel="prev">
-
                     <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Arrow-left.png"
                          alt="back">
                 </a>
             </div>
-            <div class="nav-button">
+            <div class="lms-nav-button">
                 <a href="#" class="next" rel="next">
                     <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Arrow-right.png"
                          alt="forward">
                 </a>
             </div>
         </div>
-        <div class="section-control-navigation">
-            <div class="nav-button">
+        <div class="lms-section-control-navigation">
+            <div class="lms-nav-button">
                 <a href="#" class="next" rel="next">
                     <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Arrow-right.png"
                          alt="forward">

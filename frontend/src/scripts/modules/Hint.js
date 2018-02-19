@@ -7,7 +7,7 @@ class Hint {
         this.message = message;
         this.slide = slide;
         this.timeOut = timeOut;
-        this.hintRefference = this.slide.find('.quiz__hint');
+        this.hintRefference = this.slide.find('.lms-quiz__hint');
         this.tooltip = new Tooltip(this.hintRefference, {
             placement: "bottom right",
             title: "The hint will appear 30 seconds after starting slide",

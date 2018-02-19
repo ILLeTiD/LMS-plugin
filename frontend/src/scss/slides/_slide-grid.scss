@@ -1,11 +1,11 @@
-.slides {
+.lms-slides {
   position: relative;
   min-height: 100vh;
   width: 100%;
   //padding-bottom: 53px;
 }
 
-.slide {
+.lms-slide {
   display: none;
   height: 100vh;
   flex-direction: column;
@@ -32,12 +32,12 @@
 }
 
 @for $i from 1 through 9 {
-  .grid-block-#{$i} {
+  .lms-grid-block-#{$i} {
     order: $i*10
   }
 }
 
-.grid-container {
+.lms-grid-container {
   //height: 100vh;
   height: 100%;
 
@@ -45,7 +45,7 @@
   //  height: auto;
   //}
 
-  .grid-block {
+  .lms-grid-block {
     text-align: center;
 
     @media screen and (max-width: 1024px) {
@@ -55,35 +55,35 @@
   }
 
   &-1 {
-    .grid-block {
+    .lms-grid-block {
       height: 100%;
       width: 100%;
     }
   }
 
   &-2 {
-    .grid-block {
+    .lms-grid-block {
       height: 100%;
       width: 50%;
     }
   }
 
   &-3 {
-    .grid-block {
+    .lms-grid-block {
       height: 100%;
       width: 33.3333%;
     }
   }
 
   &-4 {
-    .grid-block {
+    .lms-grid-block {
       height: 50%;
       width: 50%;
     }
   }
 
   &-5 {
-    .grid-block {
+    .lms-grid-block {
       height: 50%;
       width: 33.333%;
 
@@ -98,14 +98,14 @@
   }
 
   &-6 {
-    .grid-block {
+    .lms-grid-block {
       height: 50%;
       width: 33.333%;
     }
   }
 
   &-7 {
-    .grid-block {
+    .lms-grid-block {
       height: 33.333%;
       width: 33.333%;
 
@@ -116,7 +116,7 @@
   }
 
   &-8 {
-    .grid-block {
+    .lms-grid-block {
       height: 33.333%;
       width: 33.333%;
 
@@ -127,14 +127,14 @@
   }
 
   &-9 {
-    .grid-block {
+    .lms-grid-block {
       height: 33.333%;
       width: 33.333%;
     }
   }
 }
 
-.grid-block {
+.lms-grid-block {
   display: block;
 
   &--link {
@@ -149,7 +149,7 @@
   }
 
   &--image {
-    .grid-block__wrapper {
+    .lms-grid-block__wrapper {
       height: 100%;
     }
   }
@@ -161,16 +161,16 @@
   }
 }
 
-.slide {
+.lms-slide {
   &-dynamic {
 
   }
 
   &-full-width {
-    .grid-container {
+    .lms-grid-container {
       flex-direction: column;
 
-      .grid-block-full-width {
+      .lms-grid-block-full-width {
         width: 100%;
         height: auto;
         flex: 1;
@@ -179,8 +179,8 @@
   }
 }
 
-.slide-section-display-once_at_a_time {
-  .grid-block {
+.lms-slide-section-display-once_at_a_time {
+  .lms-grid-block {
     display: none !important;
 
     &.active {
