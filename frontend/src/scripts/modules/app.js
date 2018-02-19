@@ -8,8 +8,8 @@ class App {
 
     init() {
         console.info('App Initialized');
-        if ($('#course').length > 0) {
-            this.course.init($('#course'));
+        if ($('#lms-course').length > 0) {
+            this.course.init($('#lms-course'));
         }
     }
 }

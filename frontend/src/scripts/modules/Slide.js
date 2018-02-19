@@ -12,7 +12,7 @@ class Slide {
         const self = this;
         let slides = [];
         let quizes = [];
-        $('#course .slide').each(function (i) {
+        $('#lms-course .lms-slide').each(function (i) {
             slides.push({
                 index: $(this).index(),
                 id: $(this).data('slide-id'),
@@ -47,19 +47,19 @@ class Slide {
     }
 
     get current() {
-        return $('.slide.active');
+        return $('.lms-slide.active');
     }
 
     set currentByIndex(index) {
         //console.log('set current by index');
-        $('.slide.active').removeClass('active');
-        $('.slide').eq(index).addClass('active');
+        $('.lms-slide.active').removeClass('active');
+        $('.lms-slide').eq(index).addClass('active');
     }
 
     set currentById(id) {
         //console.log('set current by ID');
-        $('.slide.active').removeClass('active');
-        $(`.slide[data-slide-id=${id}]`).addClass('active');
+        $('.lms-slide.active').removeClass('active');
+        $(`.lms-slide[data-slide-id=${id}]`).addClass('active');
     }
 
     goToIndex(index) {

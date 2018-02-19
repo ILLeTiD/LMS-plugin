@@ -25,7 +25,9 @@ if ($resultCount) {
 }
 
 ?>
-<div class="slide slide-quiz quiz <?= $isCorrect ? 'passed' : ''; ?>" data-slide-id="<?= $id ?>"
+
+<div class="lms-slide lms-slide-quiz lms-quiz <?= $isCorrect ? 'passed' : ''; ?>"
+     data-slide-id="<?= $id ?>"
      data-slide-index="<?= $slide_index ?>"
      data-type="quiz"
      data-passed="<?= $isPassed ?>"
@@ -37,7 +39,7 @@ if ($resultCount) {
 
     <?php lms_get_template('template-parts/quiz-parts/quiz-question.php', ['question' => $question]); ?>
 
-    <main class="quiz-main">
+    <main class="lms-quiz-main">
         <?php
         switch ($type) {
             case 'forms':

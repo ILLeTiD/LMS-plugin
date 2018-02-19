@@ -1,6 +1,6 @@
-.slide-quiz[data-quiz-type="drag_and_drop"] {
+.lms-slide-quiz[data-quiz-type="drag_and_drop"] {
   &.passed {
-    .check-dnd {
+    .lms-check-dnd {
       display: none;
     }
   }

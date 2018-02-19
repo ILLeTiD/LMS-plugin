@@ -1,11 +1,11 @@
-.slide-quiz[data-quiz-type="puzzle"] {
+.lms-slide-quiz[data-quiz-type="puzzle"] {
   &.passed {
-    .check-puzzle {
+    .lms-check-puzzle {
       display: none;
     }
   }
 
-  .check-puzzle {
+  .lms-check-puzzle {
     margin-top: 20px;
   }
 }

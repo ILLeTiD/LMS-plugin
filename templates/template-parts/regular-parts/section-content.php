@@ -1,6 +1,6 @@
 <?php if ($link) : ?>
 <a href="<?= $link ?>" target="<?= $linkTarget ?>"
-   class="grid-block grid-block--link <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+   class="lms-grid-block lms-grid-block--link <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
     <?php if ($audio) : ?>
         <?= 'data-audio-src="' . $audio . '"'; ?>
     <?php endif; ?>
@@ -11,7 +11,7 @@
            background-repeat: no-repeat;
            background-size: cover;">
     <?php else: ?>
-    <div class="grid-block <?= $image && !$isBg ? 'grid-block--image' : ''; ?>"
+    <div class="lms-grid-block <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>
@@ -22,12 +22,12 @@
                  background-repeat: no-repeat;
                  background-size: cover;">
         <?php endif; ?>
-        <div class="grid-block__wrapper">
+        <div class="lms-grid-block__wrapper">
 
             <?php if ($image && !$isBg) : ?>
-                <img data-src="<?= $image ?>" class="grid-block__image">
+                <img data-src="<?= $image ?>" class="lms-grid-block__image">
             <?php elseif ($text) : ?>
-                <div class="grid-block__text">
+                <div class="lms-grid-block__text">
                     <?= $text ?>
                 </div>
             <?php endif; ?>

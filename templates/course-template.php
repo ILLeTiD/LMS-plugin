@@ -48,13 +48,15 @@ foreach ($slides as $key => $slide) {
 }
 
 ?>
-    <section class="course unloaded" id="course" data-id="<?= $course->id; ?>"
+    <section class="lms-course unloaded"
+             id="lms-course"
+             data-id="<?= $course->id; ?>"
              data-user-id="<?= get_current_user_id() ?>">
         <?php
         lms_get_template('template-parts/course-preloader.php');
         ?>
-        <div class="course__wrapper">
-            <div id="slides" class="slides">
+        <div class="lms-course__wrapper">
+            <div id="lms-slides" class="lms-slides">
                 <?php
                 foreach ($slides as $key => $slide) {
                     if ($slide->slide_format == 'quiz') {

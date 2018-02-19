@@ -9,9 +9,9 @@ class stepsUrlControl {
     }
 
     addToUrl(part, obj = {}) {
-        const index = $('.form-step.active').index();
+        const index = $('.lms-form-step.active').index();
         const current = index + 1;
-        const amount = $('.form-step').length;
+        const amount = $('.lms-form-step').length;
 
         var stateObj;
         if ($.isEmptyObject(obj)) {

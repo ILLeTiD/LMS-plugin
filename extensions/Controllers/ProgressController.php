@@ -24,7 +24,7 @@ class ProgressController extends Controller
                 'user_id' => $_POST['user_id'],
                 'course_id' => $_POST['course_id'],
                 'slide_id' => $_POST['slide_id'],
-                'name' => 'finished'
+                'name' => $_POST['commit_message']
             ]);
 
             $activityNew->save();
