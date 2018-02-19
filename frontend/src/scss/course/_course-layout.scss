@@ -3,6 +3,10 @@
   width: 100%;
   position: relative;
 
+  &.lms-fullscreen-init {
+    overflow-y: auto;
+  }
+
   &.unloaded {
     &:after {
       content: '';

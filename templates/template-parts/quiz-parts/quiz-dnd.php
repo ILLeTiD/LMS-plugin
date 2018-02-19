@@ -1,10 +1,13 @@
 <?php
-$dnd_layout = $slide->drag_and_drop_layout;
-$images = $slide->drag_and_drop_images;
-$drop_zones = $slide->drag_and_drop_zones;
-array_walk($images, function (&$item, $key) {
+$dnd_layout = $slide->drag_and_drop_layout ? $slide->drag_and_drop_layout : null;
+$images = $slide->drag_and_drop_images ? $slide->drag_and_drop_images : null;
+
+$drop_zones = $slide->drag_and_drop['drop_zones'] ? $slide->drag_and_drop['drop_zones'] : null;
+$dragObjects = $slide->drag_and_drop['objects'] ? $slide->drag_and_drop['objects'] : null;
+array_walk($dragObjects, function (&$item, $key) {
     $item['index'] = $key;
 });
+shuffle($dragObjects);
 ?>
 
 <div class="lms-quiz__wrapper">
@@ -12,24 +15,36 @@ array_walk($images, function (&$item, $key) {
         <div class="board board-layout-<?= $dnd_layout; ?>">
             <div class="board-column initial">
                 <div class="board-column-content">
-                    <?php foreach ($images as $image): ?>
+                    <?php foreach ($dragObjects as $object): ?>
                         <div class="board-item"
-                             data-real-index="<?= $image['index'] ?>"
-                             data-dz="<?= $image["drop_zone"] ?>">
+                             data-real-index="<?= $object['index'] ?>"
+                             data-dz="<?= $object["drop_zone"] ?>">
                             <div class="board-item-content">
-                                <img src="<?= $image["thumbnail"] ?>" alt="">
+                                <?php if ($object['type'] == 'image') : ?>
+                                    <img src="<?= $object["thumbnail"] ?>" alt="">
+                                <?php else: ?>
+                                    <h4 class="board-content__text">
+                                        <?= $object["text"]; ?>
+                                    </h4>
+                                <?php endif; ?>
+
                             </div>
                         </div>
                     <?php endforeach; ?>
-
                 </div>
             </div>
             <?php
             $index = 1;
-            foreach ($drop_zones as $zone): ?>
+            foreach ($drop_zones as $key => $zone): ?>
                 <div class="board-column done">
-                    <h3>zone <?= $index; ?></h3>
-                    <!--                    <img src="--><?//= $zone['thumbnail'] ?><!--" alt="">-->
+
+                    <?php if ($zone['type'] == 'image') : ?>
+                        <img src="<?= $zone["thumbnail"] ?>" alt="">
+                    <?php else: ?>
+                        <h4 class="board-content__text">
+                            <?= $zone["text"] ?>
+                        </h4>
+                    <?php endif; ?>
                     <div class="board-column-content">
 
                     </div>

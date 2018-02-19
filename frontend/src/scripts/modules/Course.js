@@ -241,7 +241,6 @@ class Course {
         this.slideDisplayType = this.slideCtr.current.data('section-display');
         this.currentSection = 1;
 
-
         this.checkControls();
         const currentId = this.slideCtr.current.data('slide-id');
         this.urlCrl.addToUrl(indexHash, {

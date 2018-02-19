@@ -14,11 +14,11 @@ function my_scripts_method()
 
 function replace_jquery()
 {
-    if (!is_admin()) {
-        wp_deregister_script('jquery');
-        wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
-        wp_enqueue_script('jquery');
-    }
+
+    wp_deregister_script('jquery');
+    wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
+    wp_enqueue_script('jquery');
+
 }
 
 add_action('init', 'replace_jquery');
@@ -39,7 +39,7 @@ if (!function_exists('lms_locate_template')) {
         $template_lms_path = $lms_base . $path;
         $template_path = DIRECTORY_SEPARATOR . $path;
 
-        $plugin_path =lms_plugin_dir(). '/templates' . DIRECTORY_SEPARATOR . $path;
+        $plugin_path = lms_plugin_dir() . '/templates' . DIRECTORY_SEPARATOR . $path;
 
         $located = locate_template(array(
             $template_lms_path, // Search in <theme>/lms/
