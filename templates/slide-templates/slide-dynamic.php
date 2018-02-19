@@ -1,6 +1,8 @@
 <div class="slide-section-display-<?= $sectionsDisplay; ?> slide slide-<?= $template ?> slide-regular"
      data-section-display="<?= $sectionsDisplay; ?>"
      data-section-count="<?= $sectionsCount; ?>"
+     data-passed="<?= $isPassed ?>"
+     data-latest="<?= $isLatest ?>"
      data-slide-id="<?= $id ?>" data-type="regular">
     <?php if ($displayHeader == 'regular') :
         lms_get_template('template-parts/regular-parts/slide-header.php', ['title' => $title]);

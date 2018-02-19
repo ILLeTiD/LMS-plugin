@@ -106,38 +106,6 @@ class Course {
         this.courseEl.find('#course-loader').remove();
     }
 
-    listeners() {
-        $('html').keydown((e) => {
-            //    //console.log(e);
-            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
-                this.prevSlide();
-            }
-            if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
-                if (this.navType == 'slide') {
-                    this.nextSlide();
-                } else if (this.navType == 'section') {
-                    console.log('RIGHT CLICK KEY');
-                    this.nextSection();
-                }
-            }
-        });
-
-        //default ESC button exit fullscreen handler
-        document.addEventListener("fullscreenchange", () => {
-            if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-                this.courseEl.find('.course-controls').removeClass('option-shown');
-                this.courseEl.removeClass('fullscreen-init');
-                this.courseEl.find('.course-controls').removeClass('fullscreen-init');
-            }
-        }, false);
-
-        $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
-        $('.section-control-navigation .next').on('click', this.nextSection.bind(this));
-        $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
-        $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
-        $('.slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
-    }
-
     getinitialSlideIndex() {
         let initialSlideIndex = 0;
         //if user don`t have activities on this course just show 1st step
@@ -184,6 +152,39 @@ class Course {
         }
         //console.log(lastSlideIndexFromDB);
         return lastSlideIndexFromDB;
+    }
+
+
+    listeners() {
+        $('html').keydown((e) => {
+            //    //console.log(e);
+            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
+                this.prevSlide();
+            }
+
+            if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+                if (this.navType == 'slide') {
+                    this.nextSlide();
+                } else if (this.navType == 'section') {
+                    this.nextSection();
+                }
+            }
+        });
+
+        //default ESC button exit fullscreen handler
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+                this.courseEl.find('.course-controls').removeClass('option-shown');
+                this.courseEl.removeClass('fullscreen-init');
+                this.courseEl.find('.course-controls').removeClass('fullscreen-init');
+            }
+        }, false);
+
+        $('.slide-control-navigation .next').on('click', this.nextSlide.bind(this));
+        $('.section-control-navigation .next').on('click', this.nextSection.bind(this));
+        $('.slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
+        $('.slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
+        $('.slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
     }
 
     toggleFullscreen(e) {

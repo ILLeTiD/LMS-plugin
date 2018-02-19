@@ -1,7 +1,6 @@
 <?php
 
 $course = \LmsPlugin\Models\Course::find(get_the_ID());
-//$settings = \LmsPlugin\Models\Course::getSettings();
 $isEnrolled = $course->hasParticipant(get_current_user_id());
 $slides = $course->slides();
 
@@ -21,6 +20,32 @@ get_header('course');
 
 //lms_get_template('course-header.php');
 lms_get_template('course-settings.php');
+$activity = \LmsPlugin\Models\Activity::where('user_id', get_current_user_id())
+    ->where('course_id', $course->id)
+    ->where('name', 'finished')
+    ->orderBy(['date' => 'DESC'])
+    ->get();
+$ids = [];
+$activityIterator = $activity->getIterator();
+
+foreach ($activityIterator as $item) {
+    $ids[] = $item->slide->id;
+}
+foreach ($slides as $key => $slide) {
+    $index = array_search($slide->ID, $ids, true);
+
+    $slide->dbindex = $index;
+    if ($index !== false) {
+        $slide->passed = true;
+        if ($index === 0) {
+            $slide->latest = true;
+        } else {
+            $slide->latest = false;
+        }
+    } else {
+        $slide->passed = false;
+    }
+}
 
 ?>
     <section class="course unloaded" id="course" data-id="<?= $course->id; ?>"

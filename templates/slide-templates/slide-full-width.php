@@ -1,6 +1,8 @@
 <div class="slide-section-display-<?= $sectionsDisplay; ?>  slide slide-<?= $template ?> slide-regular"
      data-slide-id="<?= $id ?>"
      data-section-display="<?= $sectionsDisplay; ?>"
+     data-passed="<?= $isPassed ?>"
+     data-latest="<?= $isLatest ?>"
      data-section-count="<?= $sectionsCount; ?>"
      data-type="regular">
     <?php if ($displayHeader == 'regular') :

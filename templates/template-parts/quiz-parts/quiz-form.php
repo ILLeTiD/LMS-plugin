@@ -1,8 +1,7 @@
 <?php
 $formType = $slide->forms_type;
 $answers = $slide->forms_answers;
-//$passed
-//$answersDB
+
 $userAnswer = isset($answersDB[0]) ? $answersDB[0] : null;
 $decodedDBAnswers = json_decode($answersDB[0], true);
 if ($decodedDBAnswers) :
@@ -23,7 +22,7 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
 }, 0); ?>
 
 <div class="quiz__wrapper quiz__wrapper--small">
-    <form class="quiz-form quiz-form-<?= $formType ?>  <?= $passed ? ' quiz-passed' : '' ?>"
+    <form class="quiz-form quiz-form-<?= $formType ?>  <?= $isCorrect ? ' quiz-passed' : '' ?>"
           id="quiz-from-<?= $slide->id; ?>"
         <?= $formType == 'options' ? 'data-answers-count="' . $correctCount . '"' : ''; ?>
           data-form-type="<?= $formType ?>"
