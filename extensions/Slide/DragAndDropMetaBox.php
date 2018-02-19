@@ -3,6 +3,7 @@
 namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
+use LmsPlugin\Models\Slide;
 
 class DragAndDropMetaBox extends MetaBox
 {
@@ -13,16 +14,18 @@ class DragAndDropMetaBox extends MetaBox
 
     public function callback()
     {
-        global $post;
+        $slide = new Slide();
 
-        $dragAndDropLayoutOptions = [
-            'vertical' => 'Vertical',
-            'horizontal' => 'Horizontal'
-        ];
+        $objects = array_get($slide->drag_and_drop, 'objects');
+        $drop_zones = array_get($slide->drag_and_drop, 'drop_zones');
 
-        $images = get_post_meta($post->ID, 'drag_and_drop_images', true);
-        $zones = get_post_meta($post->ID, 'drag_and_drop_zones', true);
-
-        $this->view('meta-boxes.slide.drag-and-drop', compact('post', 'dragAndDropLayoutOptions', 'images', 'zones'));
+        $this->view(
+            'meta-boxes.slide.drag-and-drop',
+            compact(
+                'slide',
+                'objects',
+                'drop_zones'
+            )
+        );
     }
 }

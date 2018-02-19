@@ -281,6 +281,15 @@ var lms = {
             }
         })();
 
+        $('.js-change-dnd-type').on('change', function () {
+            var select = $(this),
+                type = select.val(),
+                row = select.parent().parent();
+
+            row.find('.lms-drag-and-drop__content').hide();
+            row.find('.lms-drag-and-drop__content_' + type).show();
+        });
+
     });
 
 

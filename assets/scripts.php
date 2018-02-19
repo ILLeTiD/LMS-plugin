@@ -12,6 +12,12 @@ $script->add('slide-scripts')
            return $this->getCurrentScreen()->id == 'slide';
        });
 
+$script->add('image-scripts')
+    ->source('image.js')
+    ->condition(function () {
+        return $this->getCurrentScreen()->id == 'slide';
+    });
+
 $script->add('invite-scripts')
     ->source('invite.js')
     ->dependencies(['accordion'])
