@@ -22,7 +22,7 @@
                                value="<?= array_get($objects, "{$i}.text"); ?>"
                         >
                     </div>
-                    <div class="lms-drag-and-drop__content lms-drag-and-drop__content_image <?= array_get($objects, "{$i}.type") == 'text' ? 'hidden' : ''; ?>">
+                    <div class="lms-drag-and-drop__content lms-drag-and-drop__content_image <?= array_get($objects, "{$i}.type", 'text') == 'text' ? 'hidden' : ''; ?>">
                         <?php component('components.image', [
                             'name' => "drag_and_drop[objects][{$i}]",
                             'image' => array_get($objects, "{$i}.image"),
@@ -76,7 +76,7 @@
                                    value="<?= array_get($drop_zones, "{$i}.text"); ?>"
                             >
                         </div>
-                        <div class="lms-drag-and-drop__content lms-drag-and-drop__content_image <?= array_get($drop_zones, "{$i}.type") == 'text' ? 'hidden' : ''; ?>">
+                        <div class="lms-drag-and-drop__content lms-drag-and-drop__content_image <?= array_get($drop_zones, "{$i}.type", 'text') == 'text' ? 'hidden' : ''; ?>">
                             <?php component('components.image', [
                                 'name' => "drag_and_drop[drop_zones][{$i}]",
                                 'image' => array_get($drop_zones, "{$i}.image"),
