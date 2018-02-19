@@ -832,7 +832,7 @@ input.lms-quiz-hint {
 
 .lms-drag-and-drop-objects {
     border: 0 !important;
-    margin: 0 -12px;
+    margin: -12px;
     width: calc(100% + 24px);
     table-layout: fixed;
     white-space: nowrap;
@@ -851,10 +851,6 @@ input.lms-quiz-hint {
 
 .lms-drag-and-drop-objects td input {
     width: 100%;
-}
-
-.lms-drag-and-drop-objects:last-child {
-    border-top: 1px solid #EBEBEB !important;
 }
 
 .lms-drag-and-drop-objects th {
