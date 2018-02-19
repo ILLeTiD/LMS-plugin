@@ -54,8 +54,9 @@ class Slide
 
                 return $terms ? $terms[0] : false;
             default:
-                return get_post_meta($this->id, $property, true);
-                // return $this->post->$property;
+                // Because of some WordPress filter, WP_Post object returns
+                // a value of meta field which is serialized array as string 'Array'.
+                return $this->post->$property;
         }
     }
 }
