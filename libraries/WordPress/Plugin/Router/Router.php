@@ -23,7 +23,7 @@ class Router
     {
         global $wp_query;
 
-        $this->readFile();
+        // $this->readFile();
 
         $route = $wp_query->get('route');
         $method = $_SERVER['REQUEST_METHOD'];
@@ -68,7 +68,7 @@ class Router
 
     private function readFile()
     {
-        $file = $this->plugin->getDirectory('/extensions/routes.php');
+        $file = $this->plugin->getDirectory('extensions/routes.php');
 
         if (file_exists($file)) {
             extract([

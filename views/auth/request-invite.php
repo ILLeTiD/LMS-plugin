@@ -14,7 +14,12 @@ include 'header-auth.php';
 
             <?php include('errors.php'); ?>
             <p>
-                <input type="text" required name="email" placeholder="<?= __('Email Address', 'lms-plugin'); ?>">
+                <input type="text"
+                       name="email"
+                       placeholder="<?= __('Email Address', 'lms-plugin'); ?>"
+                       value="<?= old('email'); ?>"
+                       required
+                >
             <p>
                 <button><?= __('Sign Up', 'lms-plugin'); ?></button>
         </form>

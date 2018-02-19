@@ -40,6 +40,7 @@ class Loader
     public function load()
     {
         $router = new Router($this->plugin);
+        $this->plugin->setRouter($router);
         $this->actionLoader->add('template_redirect', [$router, 'routeRequest']);
         $this->filterLoader->add('query_vars', [$router, 'whitelistRouteParameter']);
 

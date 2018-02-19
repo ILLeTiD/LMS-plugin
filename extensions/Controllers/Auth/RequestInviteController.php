@@ -37,8 +37,8 @@ class RequestInviteController extends Controller
 
         do_action('lms_event_invite_requested', $email);
 
-        // TODO: Show a success message.
-
-        wp_safe_redirect($this->redirect_to);
+        $this->view('auth.request-invite', [
+            'success' => __('A registration link as been sent to your mail. Please check you inbox to register you account.', 'lms-plugin')
+        ]);
     }
 }

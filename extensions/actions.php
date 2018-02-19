@@ -1,9 +1,11 @@
 <?php
-$action->add('activate_' . $plugin, function () {
-    (new \FishyMinds\WordPress\Plugin\Router\Router($this->plugin))->registerRoutes();
-
-    flush_rewrite_rules();
+$action->add('init', function () {
+    // $router = new \FishyMinds\WordPress\Plugin\Router\Router($this->plugin);
+    $router = $this->plugin->getRouter();
+    $router->registerRoutes();
 });
+
+$action->add('activate_' . $plugin, 'flush_rewrite_rules');
 $action->add('deactivate_' . $plugin, 'flush_rewrite_rules');
 
 $action->add('activate_' . $plugin, 'CustomRoles@add');

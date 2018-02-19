@@ -4,21 +4,22 @@ namespace LmsPlugin\Controllers\Auth;
 
 use LmsPlugin\Controllers\Controller;
 use LmsPlugin\Models\User;
+use LmsPlugin\ProfileFieldsManager;
 use WP_Error;
 
 class RegisterController extends Controller
 {
-    private $redirect_to = '/';
-
     public function showForm()
     {
         if ( ! $this->canUsersRegister()) {
             wp_safe_redirect('/request_invite');
         }
 
-        $fields = $this->plugin->getSettings('fields');
+        $fields_manager = new ProfileFieldsManager($this->plugin);
 
-        $this->view('auth.register', compact('fields'));
+        $this->view('auth.register', [
+            'fields' => $fields_manager->get()
+        ]);
     }
 
     public function register()
@@ -92,12 +93,13 @@ class RegisterController extends Controller
         // Fire user registered event.
         do_action('lms_event_user_registered', $user);
 
-        wp_signon([
-            'user_login' => $email,
-            'user_password' => $password
-        ]);
+        // wp_signon([
+        //     'user_login' => $email,
+        //     'user_password' => $password
+        // ]);
+        $success = __('Woohoo! Your accout is ready. Please login to access your courses.', 'lms-plugin');
 
-        wp_safe_redirect($this->redirect_to);
+        $this->view('auth.register', compact('success', 'fields'));
     }
 
     private function canUsersRegister()

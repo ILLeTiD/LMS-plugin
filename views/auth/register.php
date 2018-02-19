@@ -14,85 +14,83 @@ include 'header-auth.php';
         <?php include('errors.php'); ?>
 
         <form action="" method="POST">
-            <p>
-                <input type="text"
-                       name="name"
-                       placeholder="<?= __('Full Name', 'lms-plugin'); ?>"
-                       value="<?= old('name'); ?>"
-                >
-            <p>
-                <input type="email"
-                       name="email"
-                       placeholder="<?= __('Email Address', 'lms-plugin'); ?>"
-                       value="<?= old('email'); ?>"
-                >
-            <p>
-                <input type="password"
-                       name="password"
-                       placeholder="<?= __('Password', 'lms-plugin'); ?>"
-                >
+            <?php foreach ($fields as $field): ?>
+                <p>
+                <?php switch ($field['type']):
+                    case 'text': ?>
+                        <input type="text"
+                               name="<?= $field['slug']; ?>"
+                               placeholder="<?= $field['name']; ?>"
+                               value="<?= old($field['slug']); ?>"
+                               <?= array_get($field, 'required') ? 'required' : ''; ?>
+                        >
+                    <?php break; ?>
 
-            <?php if (count($fields)): ?>
-                <?php foreach ($fields as $field): ?>
-                    <p>
-                    <?php switch ($field['type']):
-                        case 'text': ?>
-                            <input type="text"
-                                   name="<?= metakey_case($field['name']); ?>"
-                                   placeholder="<?= $field['name']; ?>"
-                                   value="<?= old(metakey_case($field['name'])); ?>"
+                    <?php case 'mail': ?>
+                        <input type="email"
+                               name="<?= $field['slug']; ?>"
+                               placeholder="<?= $field['name']; ?>"
+                               value="<?= old($field['slug']); ?>"
+                               <?= array_get($field, 'required') ? 'required' : ''; ?>
+                        >
+                    <?php break; ?>
+
+                    <?php case 'password': ?>
+                        <input type="password"
+                               name="<?= $field['slug']; ?>"
+                               placeholder="<?= $field['name']; ?>"
+                               value="<?= old($field['slug']); ?>"
+                            <?= array_get($field, 'required') ? 'required' : ''; ?>
+                        >
+                    <?php break; ?>
+
+                    <?php case 'checkbox': ?>
+                        <label>
+                            <input type="checkbox"
+                                   name="<?= $field['slug']; ?>"
+                                   value="1"
+                                   <?= checked(old($field['slug'])); ?>
                                    <?= array_get($field, 'required') ? 'required' : ''; ?>
                             >
-                        <?php break; ?>
-
-                        <?php case 'checkbox': ?>
-                            <label>
-                                <input type="checkbox"
-                                       name="<?= metakey_case($field['name']); ?>"
-                                       value="1"
-                                       <?= checked(old(metakey_case($field['name']))); ?>
-                                       <?= array_get($field, 'required') ? 'required' : ''; ?>
-                                >
+                            <?= $field['name']; ?>
+                        </label>
+                    <?php break; ?>
+                    <?php case 'select': ?>
+                        <select name="<?= $field['slug']; ?>"
+                                <?= array_get($field, 'required') ? 'required' : ''; ?>
+                        >
+                            <option value="">
                                 <?= $field['name']; ?>
-                            </label>
-                        <?php break; ?>
-                        <?php case 'select': ?>
-                            <select name="<?= metakey_case($field['name']); ?>"
-                                    <?= array_get($field, 'required') ? 'required' : ''; ?>
-                            >
-                                <option value="">
-                                    <?= $field['name']; ?>
+                            </option>
+
+                            <?php foreach (array_get($field, 'options') as $option): ?>
+                                <option value="<?= kebab_case($option['value']); ?>"
+                                        <?= selected(old(kebab_case($field['slug'])), kebab_case($option['value'])); ?>
+                                >
+                                    <?= $option['value']; ?>
                                 </option>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php break; ?>
 
-                                <?php foreach (explode("\n", array_get($field, 'options')) as $option): ?>
-                                    <option value="<?= metakey_case($option); ?>"
-                                            <?= selected(old(metakey_case($field['name'])), metakey_case($option)); ?>
+                    <?php case 'radio': ?>
+                        <?= $field['name']; ?>:
+
+                            <?php foreach (array_get($field, 'options') as $option): ?>
+                                <label>
+                                    <input type="radio"
+                                           name="<?= $field['slug']; ?>"
+                                           value="<?= kebab_case($option['value']); ?>"
+                                           <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                           <?= checked(old($field['slug']), kebab_case($option['value'])); ?>
                                     >
-                                        <?= $option; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                                    <?= $option['value']; ?>
+                                </label>
+                            <?php endforeach; ?>
+                        </select>
                         <?php break; ?>
-
-                        <?php case 'radio': ?>
-                            <?= $field['name']; ?>:
-
-                                <?php foreach (explode("\n", array_get($field, 'options')) as $option): ?>
-                                    <label>
-                                        <input type="radio"
-                                               name="<?= metakey_case($field['name']); ?>"
-                                               value="<?= metakey_case($option); ?>"
-                                               <?= array_get($field, 'required') ? 'required' : ''; ?>
-                                               <?= checked(old(metakey_case($field['name'])), metakey_case($option)); ?>
-                                        >
-                                        <?= $option; ?>
-                                    </label>
-                                <?php endforeach; ?>
-                            </select>
-                            <?php break; ?>
-                    <?php endswitch; ?>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                <?php endswitch; ?>
+            <?php endforeach; ?>
 
             <p>
                 <button><?= __('Sign Up', 'lms-plugin'); ?></button>
