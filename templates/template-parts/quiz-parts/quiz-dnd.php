@@ -37,7 +37,6 @@ shuffle($dragObjects);
             $index = 1;
             foreach ($drop_zones as $key => $zone): ?>
                 <div class="board-column done">
-
                     <?php if ($zone['type'] == 'image') : ?>
                         <img src="<?= $zone["thumbnail"] ?>" alt="">
                     <?php else: ?>

@@ -16,7 +16,14 @@ $bgImage =  isset($slide->quiz_background['image']) ? $slide->quiz_background['i
     <?= $customCss; ?>
     }
 
-    #<?= $randomId?> .lms-quiz__header{
+    #<?= $randomId?>  * {
+        color:<?= $textColor ?>;
+    }
+
+    #<?= $randomId?>  .lms-quiz__header{
         background: <?= $headerColor; ?> ;
+    }
+    #<?= $randomId?> .lms-quiz__hint {
+       stroke: <?= $textColor ?>;
     }
 </style>

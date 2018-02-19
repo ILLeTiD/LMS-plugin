@@ -27,6 +27,7 @@ class Quiz {
             this.initPuzzle();
         }
         if (this.type === 'drag_and_drop') {
+            console.log("INIT DND!!!!");
             this.initDnD();
         }
     }
@@ -240,7 +241,8 @@ class Quiz {
     initDnD() {
         const self = this;
         const docElem = this.slide[0];
-        const dnd = document.querySelector('.lms-dnd-quiz');
+        console.log('Slide EL ', docElem);
+        const dnd = docElem.querySelector('.lms-dnd-quiz');
         this.board = dnd.querySelector('.board');
         const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.board-column-content'));
         this.columnGrids = [];
@@ -258,7 +260,7 @@ class Quiz {
                     return self.columnGrids;
                 },
                 dragSortInterval: 0,
-                dragContainer: document.body,
+                dragContainer: docElem,
                 dragReleaseDuration: 400,
                 dragReleaseEasing: 'ease'
             })

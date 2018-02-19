@@ -8,6 +8,10 @@
   .lms-check-puzzle {
     margin-top: 20px;
   }
+
+  .lms-quiz__wrapper {
+    max-width: 900px;
+  }
 }
 
 .lms-puzzles-grid {
@@ -18,18 +22,21 @@
   &__item {
     display: block;
     position: absolute;
-    width: 33.333%;
-    height: 75px;
-    line-height: 75px;
+    width: 33%;
+    padding-bottom: 33%;
     margin: 0px;
     text-align: center;
     z-index: 1;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
-    img {
-      //height: 100%;
-      //width: 100%;
-      //object-fit: cover;
-    }
+    //img {
+    //  position: absolute;
+    //  height: 100%;
+    //  width: 100%;
+    //  object-fit: cover;
+    //}
 
     &.muuri-item-dragging {
       z-index: 3;

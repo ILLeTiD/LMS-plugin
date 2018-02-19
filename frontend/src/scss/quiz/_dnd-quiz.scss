@@ -39,18 +39,6 @@
   cursor: move;
 }
 
-.board-column-header {
-  position: relative;
-  height: 50px;
-  line-height: 50px;
-  overflow: hidden;
-  padding: 0 20px;
-  text-align: center;
-  background: #333;
-  color: #fff;
-  border-radius: 3px 3px 0 0;
-}
-
 @media (max-width: 600px) {
   .board-column-header {
     text-indent: -1000px;
@@ -86,7 +74,7 @@
   position: relative;
   padding: 20px;
   cursor: pointer;
-  background: #fff;
+  //background: #fff;
 }
 
 @media (max-width: 600px) {

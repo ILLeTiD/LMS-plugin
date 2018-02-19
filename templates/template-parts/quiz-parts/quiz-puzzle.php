@@ -11,8 +11,12 @@ shuffle($puzzles);
 <div class="lms-quiz__wrapper">
     <div class="lms-quiz-puzzle lms-puzzles-grid">
         <?php foreach ($puzzles as $puzzle) : ?>
-            <div class="lms-puzzles-grid__item" data-index="<?= $puzzle['index'] ?>">
-                <img src="<?= $puzzle['thumbnail'] ?>" alt="">
+            <div class="lms-puzzles-grid__item"
+                 style="background-image: url(<?= $puzzle['image'] ?>);"
+                 data-index="<?= $puzzle['index'] ?>">
+                <div class="dd">
+                </div>
+                <!--                <img src="--><? //= $puzzle['thumbnail'] ?><!--" alt="">-->
             </div>
         <?php endforeach; ?>
     </div>
