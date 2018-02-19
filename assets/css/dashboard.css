@@ -840,9 +840,9 @@ input.lms-quiz-hint {
 
 .lms-drag-and-drop-objects .column-title,
 .lms-drag-and-drop-objects .column-type,
-.lms-drag-and-drop-objects .column-padding,
+.lms-drag-and-drop-objects .column-width,
 .lms-drag-and-drop-objects .column-drop-zone {
-    width: 120px;
+    width: 130px;
 }
 
 .lms-drag-and-drop-objects td {

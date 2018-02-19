@@ -5,7 +5,7 @@
             <th class="column-title"></th>
             <th><?= __('Content', 'lms-plugin'); ?></th>
             <th class="column-type"><?= __('Type', 'lms-plugin'); ?></th>
-            <th class="column-padding"><?= __('Padding', 'lms-plugin'); ?></th>
+            <th class="column-width"><?= __('Width', 'lms-plugin'); ?></th>
             <th class="column-drop-zone"><?= __('Drop Zone', 'lms-plugin'); ?></th>
         </tr>
         </thead>
@@ -46,8 +46,9 @@
 
                 <td>
                     <input type="text"
-                           name="drag_and_drop[objects][<?= $i; ?>][padding]"
-                           value="<?= array_get($objects, "{$i}.padding"); ?>"
+                           name="drag_and_drop[objects][<?= $i; ?>][width]"
+                           value="<?= array_get($objects, "{$i}.width"); ?>"
+                           placeholder="<?= __('Width (px or %)', 'lms-plugin'); ?>"
                     >
                 </td>
 
@@ -98,10 +99,11 @@
                         </select>
                     </td>
 
-                    <td class="column-padding">
+                    <td class="column-width">
                         <input type="text"
-                               name="drag_and_drop[drop_zones][<?= $i; ?>][padding]"
-                               value="<?= array_get($drop_zones, "{$i}.padding"); ?>"
+                               name="drag_and_drop[drop_zones][<?= $i; ?>][width]"
+                               value="<?= array_get($drop_zones, "{$i}.width"); ?>"
+                               placeholder="<?= __('Width (px or %)', 'lms-plugin'); ?>"
                         >
                     </td>
 
