@@ -26,7 +26,7 @@ class Course {
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
         this.getLatestSlideFromDb();
-        // this.initAudio();
+        this.initAudio();
         initLazyLoading();
     }
 
@@ -34,7 +34,7 @@ class Course {
         const self = this;
         if ($.fn.mediaelementplayer) {
             console.log('MEDIA ELEMENT');
-            this.player = $('#slide-control-player').mediaelementplayer({
+            this.player = $('#lms-slide-control-player').mediaelementplayer({
                 pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                 shimScriptAccess: 'always',
                 stretching: 'responsive',
@@ -239,7 +239,7 @@ class Course {
             current: indexHash,
         });
 
-          this.setSlideAudio();
+        this.setSlideAudio();
 
         this.setSlideSectionDisplay();
 

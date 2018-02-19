@@ -4,10 +4,12 @@ $answers = $slide->forms_answers;
 
 $userAnswer = isset($answersDB[0]) ? $answersDB[0] : null;
 
-if ($userAnswer) {
+if ($userAnswer !== null) {
     $decodedDBAnswers = json_decode($answersDB[0], true);
-    foreach ($decodedDBAnswers as $answer) {
-        $answers[$answer['index']]['checked'] = true;
+    if ($decodedDBAnswers) {
+        foreach ($decodedDBAnswers as $answer) {
+            $answers[$answer['index']]['checked'] = true;
+        }
     }
 }
 
@@ -53,8 +55,7 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
         <?php endif; ?>
 
         <button class="lms-check lms-quiz-check-button lms-quiz-check-button lms-quiz-form__check lms-button button">
-            Check your answer
+            <?php _e('Check your answer','lms') ?>
         </button>
-
     </form>
 </div>
