@@ -1,4 +1,4 @@
-import iziToast from 'izitoast'
+import iziToast from '../utilities/iziToast'
 import Popper from 'popper.js'
 import Tooltip from 'tooltip.js'
 import {selectors} from './selectors'

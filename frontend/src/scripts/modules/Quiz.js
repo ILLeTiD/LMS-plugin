@@ -5,7 +5,6 @@ import Alert from '../utilities/Alerts'
 import {selectors} from './selectors'
 
 class Quiz {
-
     constructor(slide, type, tolerance, CourseInstance) {
         this.slide = slide;
         this.slideId = slide.data('slide-id');
@@ -22,7 +21,7 @@ class Quiz {
     init() {
         this.listeners();
         this.hint = this.slide.data('hint');
-        if(this.hint) {
+        if (this.hint) {
             const hint = new Hint(this.hint, this.slide);
         }
 
@@ -172,6 +171,7 @@ class Quiz {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             //console.log(json);
             self.slide.find(self.selectors.quizForm).removeClass('quiz-passed');
+
             textAnswerAfterCheck(json.isCorrect, self.tolerance);
             if (json.isCorrect) {
                 self.slide.find(self.selectors.quizForm).addClass('quiz-passed');
@@ -226,9 +226,13 @@ class Quiz {
         const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
 
         if ((this.tolerance == 'strict' || this.tolerance == 'flexifble') && isCorrect) {
+            this.passed = true;
+            this.slide.addClass('passed');
             this.CourseInstance.canGoNext = true;
             new Alert('You can go to the next slide', 'success', 3000);
         } else {
+            this.passed = false;
+            this.slide.removeClass('passed');
             this.CourseInstance.canGoNext = false;
             new Alert('Please try again', 'error', 3000);
         }
@@ -336,20 +340,28 @@ class Quiz {
         //console.log(this.tolerance);
         if (this.tolerance == 'strict') {
             if (roundedPercentOfCorrect == 100) {
+                this.passed = true;
+                this.slide.addClass('passed');
                 this.CourseInstance.canGoNext = true;
                 new Alert('Correct. You can go next', 'success', 3000);
                 return false;
             } else {
+                this.passed = false;
+                this.slide.removeClass('passed');
                 this.CourseInstance.canGoNext = false;
                 new Alert('Please try again', 'info', 3000);
                 return false;
             }
         } else if (this.tolerance == 'flexible') {
             if (roundedPercentOfCorrect >= 50) {
+                this.passed = true;
+                this.slide.addClass('passed');
                 this.CourseInstance.canGoNext = true;
                 new Alert('Correct. You can go next', 'success', 3000);
                 return false;
             } else {
+                this.passed = false;
+                this.slide.removeClass('passed');
                 this.CourseInstance.canGoNext = false;
                 new Alert('Please try again', 'info', 3000);
                 return false;

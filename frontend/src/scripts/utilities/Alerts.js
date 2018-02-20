@@ -1,4 +1,4 @@
-import iziToast from 'izitoast'
+import iziToast from './iziToast.js'
 class Alert {
     constructor(message, type = 'error', timeOut = 5000) {
         this.message = message;
