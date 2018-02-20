@@ -4,7 +4,7 @@
         <span class="toggle-indicator" aria-hidden="true"></span>
     </button>
     <h2 class="hndle ui-sortable-handle">
-                <span><?= __('Styling', 'lms-plugin'); ?></span>
+        <span><?= __('Styling', 'lms-plugin'); ?></span>
     </h2>
     <div class="inside">
 
@@ -25,19 +25,28 @@
 
                 <label class="lms-color-picker-wrap">
                     <input type="color"
+                           name="settings[colors][text]"
+                           value="<?= array_get($settings, 'colors.text', '#FFFFFF'); ?>"
+                    >
+                    <?= __('Text', 'lms-plugin'); ?>
+                </label>
+
+                <label class="lms-color-picker-wrap">
+                    <input type="color"
+                           name="settings[colors][header_background]"
+                           value="<?= array_get($settings, 'colors.header_background', '#4990E2'); ?>"
+                    >
+                    <?= __('Header Background', 'lms-plugin'); ?>
+                </label>
+
+                <label class="lms-color-picker-wrap">
+                    <input type="color"
                            name="settings[colors][header]"
                            value="<?= array_get($settings, 'colors.header', '#F1F1F1'); ?>"
                     >
                     <?= __('Header', 'lms-plugin'); ?>
                 </label>
 
-                <label class="lms-color-picker-wrap">
-                    <input type="color"
-                           name="settings[colors][text]"
-                           value="<?= array_get($settings, 'colors.text', '#FFFFFF'); ?>"
-                    >
-                    <?= __('Text', 'lms-plugin'); ?>
-                </label>
             </div>
         </div>
 
