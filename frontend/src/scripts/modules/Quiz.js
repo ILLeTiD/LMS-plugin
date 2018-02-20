@@ -337,6 +337,7 @@ class Quiz {
             return isCorrect ? acc + percent : acc;
         }, 0);
         const roundedPercentOfCorrect = Math.round(percentOfCorrect);
+        console.log('PERCENT OF CORRECT', roundedPercentOfCorrect);
         //console.log(this.tolerance);
         if (this.tolerance == 'strict') {
             if (roundedPercentOfCorrect == 100) {
@@ -360,8 +361,9 @@ class Quiz {
                 new Alert('Correct. You can go next', 'success', 3000);
                 return false;
             } else {
-                this.passed = false;
-                this.slide.removeClass('passed');
+                console.log('LOOSE TOL');
+                this.passed = true;
+                this.slide.addClass('passed');
                 this.CourseInstance.canGoNext = false;
                 new Alert('Please try again', 'info', 3000);
                 return false;
