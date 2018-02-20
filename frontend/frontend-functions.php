@@ -4,6 +4,9 @@
 add_action('wp_enqueue_scripts', 'my_scripts_method');
 function my_scripts_method()
 {
+//    wp_deregister_script('jquery');
+//    wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
+//    wp_enqueue_script('jquery');
     wp_enqueue_script('lms-frontend', plugin_dir_url(__FILE__) . '/assets/js/main.min.js', array('jquery'), null, true);
     wp_localize_script('lms-frontend', 'lmsAjax', array(
         'ajaxurl' => admin_url('admin-ajax.php')
@@ -12,16 +15,6 @@ function my_scripts_method()
 
 }
 
-function replace_jquery()
-{
-
-    wp_deregister_script('jquery');
-    wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
-    wp_enqueue_script('jquery');
-
-}
-
-add_action('init', 'replace_jquery');
 
 function base_plugin_dir_url()
 {

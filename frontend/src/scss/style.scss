@@ -8,6 +8,7 @@
 # Pages
 --------------------------------------------------------------*/
 @import "settings";
+@import "partials/buttons";
 @import 'components/loader';
 @import 'components/mediaelement';
 @import 'components/course-navigation';
@@ -22,7 +23,6 @@
 @import 'slides/slide-dynamic';
 @import 'slides/slide-fullwidth';
 @import "course/course-layout";
-
 
 /*These border hacks make up the arrows between boxes in the grid.*/
 .arrow-down:after {

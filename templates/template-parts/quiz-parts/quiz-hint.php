@@ -4,7 +4,7 @@
             <defs>
                 <style>.cls-1, .cls-2, .cls-3 {
                         fill: none;
-                        stroke: <?= $textColor ?>;
+                        stroke: #fff;
                         stroke-linecap: round;
                         stroke-width: 3px;
                     }

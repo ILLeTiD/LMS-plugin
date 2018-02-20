@@ -3,8 +3,6 @@ import Quiz from './Quiz'
 class Slide {
     constructor(CourseInstance) {
         this.CourseInstance = CourseInstance;
-        // //console.log('slide constructed!');
-        // //console.log(CourseInstance);
         this.collectSlidesIds();
     }
 
@@ -33,8 +31,6 @@ class Slide {
                         self.CourseInstance)
 
                 });
-
-                //console.log('quiz slide');
             }
         });
 
@@ -57,7 +53,6 @@ class Slide {
     }
 
     set currentById(id) {
-        //console.log('set current by ID');
         $('.lms-slide.active').removeClass('active');
         $(`.lms-slide[data-slide-id=${id}]`).addClass('active');
     }
