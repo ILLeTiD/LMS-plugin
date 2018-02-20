@@ -1,10 +1,20 @@
-#lms-course {
-  min-height: 100vh;
-  width: 100%;
+.lms-course {
+  //min-height: 100vh;
+  min-height: 300px;
+  max-width: 1200px;
+  margin: auto;
   position: relative;
+
+  &__wrapper {
+
+  }
 
   &.lms-fullscreen-init {
     overflow-y: auto;
+    max-width: initial;
+    max-height: initial;
+    width: 100vw;
+    height: 100vh;
   }
 
   &.unloaded {
