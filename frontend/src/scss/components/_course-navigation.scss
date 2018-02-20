@@ -1,12 +1,13 @@
 .lms-course-controls {
-  //position: sticky;
+  position: sticky;
   //bottom: 10px;
-  position: fixed;
+  //position: fixed;
   z-index: 2;
   bottom: 0;
   left: 0;
   right: 0;
   height: 63px;
+  overflow-x: hidden;
   transform: translate3d(0, 0, 0);
 
   display: flex;
