@@ -39,8 +39,13 @@ class ProfileFieldsManager
 
     public function reorder($order)
     {
-        $this->fields = array_combine($order, $this->fields);
-        ksort($this->fields);
+        $reordered = [];
+
+        foreach ($order as $i) {
+            $reordered[] = array_get($this->fields, $i);
+        }
+
+        $this->fields = $reordered;
 
         return $this;
     }
