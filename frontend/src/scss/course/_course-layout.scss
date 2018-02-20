@@ -15,6 +15,11 @@
     max-height: initial;
     width: 100vw;
     height: 100vh;
+
+    .lms-slide {
+      height: initial;
+      min-height: 100vh;
+    }
   }
 
   &.unloaded {
