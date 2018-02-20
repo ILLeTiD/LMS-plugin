@@ -58,4 +58,15 @@ class ProfileFieldsManager
 
         $this->plugin->setOption('profile_fields', $this->fields);
     }
+
+    public function getCustomFieldsSlugs()
+    {
+        $custom_fields = array_filter($this->fields, function ($field) {
+            return ! array_get($field, 'standard');
+        });
+
+        return array_map(function ($field) {
+            return $field['slug'];
+        }, $custom_fields);
+    }
 }
