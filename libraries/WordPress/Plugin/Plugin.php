@@ -44,6 +44,8 @@ class Plugin
      */
     private $data;
 
+    private $router;
+
     public function __construct($file)
     {
         $this->file = $file;
@@ -198,5 +200,15 @@ class Plugin
     public function setSettings($settings)
     {
         return update_option(basename($this->slug, '.php'), $settings);
+    }
+
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    public function setRouter($router)
+    {
+        $this->router = $router;
     }
 }

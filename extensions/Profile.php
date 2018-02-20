@@ -27,4 +27,26 @@ class Profile
             'standard' => true
         ]
     ];
+
+    private $user;
+    private $fields;
+
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    public function save()
+    {
+        foreach ($this->fields as $key => $value) {
+            update_user_meta($this->user->id, $key, $value);
+        }
+    }
 }

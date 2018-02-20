@@ -39,8 +39,13 @@ class ProfileFieldsManager
 
     public function reorder($order)
     {
-        $this->fields = array_combine($order, $this->fields);
-        ksort($this->fields);
+        $reordered = [];
+
+        foreach ($order as $i) {
+            $reordered[] = array_get($this->fields, $i);
+        }
+
+        $this->fields = $reordered;
 
         return $this;
     }
@@ -52,5 +57,16 @@ class ProfileFieldsManager
         }
 
         $this->plugin->setOption('profile_fields', $this->fields);
+    }
+
+    public function getCustomFieldsSlugs()
+    {
+        $custom_fields = array_filter($this->fields, function ($field) {
+            return ! array_get($field, 'standard');
+        });
+
+        return array_map(function ($field) {
+            return $field['slug'];
+        }, $custom_fields);
     }
 }
