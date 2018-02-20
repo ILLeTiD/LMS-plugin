@@ -1,13 +1,14 @@
 import iziToast from 'izitoast'
 import Popper from 'popper.js'
 import Tooltip from 'tooltip.js'
-
+import {selectors} from './selectors'
 class Hint {
     constructor(message, slide, timeOut = 30000) {
         this.message = message;
         this.slide = slide;
         this.timeOut = timeOut;
-        this.hintRefference = this.slide.find('.lms-quiz__hint');
+        this.selectors = selectors;
+        this.hintRefference = this.slide.find(this.selectors.quizHint);
         this.tooltip = new Tooltip(this.hintRefference, {
             placement: "bottom right",
             title: "The hint will appear 30 seconds after starting slide",

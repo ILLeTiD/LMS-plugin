@@ -7,7 +7,7 @@ import Alert from '../utilities/Alerts'
 import 'hammerjs'
 import Muuri from 'muuri';
 import mediaelement from 'mediaelement';
-
+import {selectors} from './selectors'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 
 class Course {
@@ -19,22 +19,54 @@ class Course {
         this.passedIds = [];
         this.slideDisplayType = 'all_at_once';
         this.navType = 'slide';
+        this.selectors = selectors;
+        this.slides = [];
+
     }
 
     init($courseEl) {
+        console.log(this.selectors);
         this.courseEl = $courseEl;
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
         this.getLatestSlideFromDb();
         this.initAudio();
         initLazyLoading();
+        this.collectSlides();
+    }
+
+    collectSlides() {
+        const self = this;
+        $(this.selectors.slide).each(function (i) {
+            const slide = {
+                index: +$(this).data('slide-index'),
+                id: $(this).data('slide-id'),
+                type: $(this).data('type'),
+                active: false,
+                sectionDisplay: $(this).data('section-display'),
+                passed: $(this).data('passed') ? $(this).data('passed') : false,
+                latest: $(this).data('latest') ? $(this).data('latest') : false,
+            };
+
+            if ($(this).data('type') == 'quiz') {
+                slide.inited = false;
+                slide.quiz = new Quiz(
+                    $(this),
+                    $(this).data('quiz-type'),
+                    $(this).data('tolerance'),
+                    self);
+            }
+            console.log('SLIDE', slide);
+            console.log('SLIDES', self.slides);
+            self.slides.push(slide);
+        });
     }
 
     initAudio() {
         const self = this;
         if ($.fn.mediaelementplayer) {
             console.log('MEDIA ELEMENT');
-            this.player = $('#lms-slide-control-player').mediaelementplayer({
+            this.player = $(this.selectors.audioPlayerControl).mediaelementplayer({
                 pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                 shimScriptAccess: 'always',
                 stretching: 'responsive',
@@ -48,22 +80,20 @@ class Course {
     setSlideAudio() {
         const slide = this.slideCtr.current;
         // if (slide.data('type') != 'regular') return;
-        const audioBlock = slide.find(`.lms-grid-block[data-audio-src]`).first();
+        const audioBlock = slide.find(this.selectors.audioGridBlock).first();
         const firstAudioSrc = audioBlock.data('audio-src');
         if (firstAudioSrc) {
             //console.log('slide has audio');
-            this.courseEl.find('.lms-slide-control-audio').addClass('audio-inited');
+            this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');
             this.playerInstance.setSrc(firstAudioSrc);
             this.playerInstance.load();
             this.playerInstance.play();
         } else {
-            this.courseEl.find('.lms-slide-control-audio').removeClass('audio-inited');
-            //console.log('slide has NO audio');
+            this.courseEl.find(this.selectors.courseControlsAudio).removeClass('audio-inited');
             if (!this.playerInstance.paused) {
                 this.playerInstance.pause();
             }
         }
-        //console.log('audio src ', firstAudioSrc);
     }
 
     getLatestSlideFromDb() {
@@ -78,7 +108,6 @@ class Course {
             },
             error: function (request, status, error) {
                 new Alert(request.responseText);
-                //console.log(request.responseText);
             }
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
@@ -95,7 +124,7 @@ class Course {
 
         //remove loader when we have slide to show
         this.courseEl.removeClass('unloaded');
-        this.courseEl.find('#lms-course-loader').remove();
+        this.courseEl.find(this.selectors.preloader).remove();
     }
 
     getinitialSlideIndex() {
@@ -109,23 +138,15 @@ class Course {
         let hash = window.location.hash;
 
         //collect info about last step from activities
-      //  console.log(this.passedIds);
-
         let lastSlideIdFromDB = this.passedIds[0];
         let lastElIndexFromDB = this.slideCtr.slides.find(value => value.id == lastSlideIdFromDB);
         let lastSlideIndexFromDB = lastElIndexFromDB.index;
-
-      //  console.log(lastElIndexFromDB);
 
         //check if valid slide in url hash
         if (hash && hash.indexOf('#slide') != -1) {
             //extract step info from hash
             const slideToShow = parseInt(hash.substr(6));
-            const elementToShow = this.slideCtr.slides.find(value => {
-                // console.log(value);
-                // console.log(slideToShow);
-                return value.index == (slideToShow - 1);
-            });
+            const elementToShow = this.slideCtr.slides.find(value => value.index == (slideToShow - 1));
 
             const idToShow = elementToShow ? elementToShow.id : {};
             //check if user can go to this step
@@ -133,35 +154,28 @@ class Course {
                 //console.log('show slide from db by ID');
                 this.slideCtr.currentById = idToShow;
                 lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
-                //  } else if (slideToShow > +this.slideCtr.amount || slideToShow <= 0) {
             } else {
                 //user cant go to slide in hash but has some activities so show last activity
                 console.log('wrong slide11');
-                //console.log('id from DB', lastSlideIdFromDB);
-           //     console.log('index from DB11', lastSlideIndexFromDB);
                 history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
                 this.slideCtr.currentById = +lastSlideIdFromDB;
                 lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
             }
         } else {
             // user just go to course not to specific slide and has some activity in past
-         //   console.log('slide from DB', lastSlideIndexFromDB);
             history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
             this.slideCtr.currentById = +lastSlideIdFromDB;
             lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
         }
-        //console.log(lastSlideIndexFromDB);
         return lastSlideIndexFromDB;
     }
 
 
     listeners() {
         $('html').keydown((e) => {
-            //    //console.log(e);
             if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
                 this.prevSlide();
             }
-
             if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
                 if (this.navType == 'slide') {
                     this.nextSlide();
@@ -173,40 +187,37 @@ class Course {
 
         //default ESC button exit fullscreen handler
         document.addEventListener("fullscreenchange", () => {
-            console.log('toggle full');
             if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-                console.log('full esc');
-                this.courseEl.find('.lms-course-controls').removeClass('lms-option-shown');
+                this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
                 this.courseEl.removeClass('lms-fullscreen-init');
-                this.courseEl.find('.lms-course-controls').removeClass('lms-fullscreen-init');
+                this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
             }
         }, false);
 
-        $('.lms-slide-control-navigation .next').on('click', this.nextSlide.bind(this));
-        $('.lms-section-control-navigation .next').on('click', this.nextSection.bind(this));
-        $('.lms-slide-control-navigation .prev').on('click', this.prevSlide.bind(this));
-        $('.lms-slide-fullscreen').on('click', this.toggleFullscreen.bind(this));
-        $('.lms-slide-control-fullscreen-option').on('click', this.toggleFullscreenOption.bind(this));
+
+        $(this.selectors.slideNavigation).on('click', '.next', this.nextSlide.bind(this));
+        $(this.selectors.sectionNavigation).on('click', '.next', this.nextSection.bind(this));
+        $(this.selectors.slideNavigation).on('click', '.prev', this.prevSlide.bind(this));
+        $(this.selectors.courseControlsFullscreen).on('click', this.toggleFullscreen.bind(this));
+        $(this.selectors.fullscreenOptions).on('click', this.toggleFullscreenOption.bind(this));
     }
 
     toggleFullscreen(e) {
         if (e) e.preventDefault();
-        console.log('toggle fullscreen!');
         if (!IsFullScreenCurrently()) {
             GoInFullscreen(this.courseEl[0]);
         } else {
             GoOutFullscreen();
-            this.courseEl.find('.lms-course-controls').removeClass('lms-option-shown');
+            this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
         }
 
         this.courseEl.toggleClass('lms-fullscreen-init');
-        this.courseEl.find('.lms-course-controls').toggleClass('lms-fullscreen-init');
+        this.courseEl.find(this.selectors.courseControls).toggleClass('lms-fullscreen-init');
     }
 
     toggleFullscreenOption(e) {
         e.preventDefault();
-        //console.log('options clicked');
-        this.courseEl.find('.lms-course-controls').toggleClass('lms-option-shown');
+        this.courseEl.find(this.selectors.courseControls).toggleClass('lms-option-shown');
     }
 
     nextSlide(e) {
@@ -218,7 +229,6 @@ class Course {
         const nextSlideIndex = nextSlide.data('slide-index');
 
         if (this.canGoNext) {
-            //console.log('next slide index', nextSlideIndex);
             this.showSlide(nextSlideIndex, nextSlideIndex + 1);
             this.commitActivity(currentId);
         } else {
@@ -231,7 +241,6 @@ class Course {
         this.canGoNext = true;
         const currentSlide = this.slideCtr.current;
         const prevSlideIndex = currentSlide.prev().index();
-        //console.log('prev slide index', prevSlideIndex);
         this.showSlide(prevSlideIndex, prevSlideIndex + 1)
     }
 
@@ -275,9 +284,7 @@ class Course {
 
     nextSection(e) {
         if (e) e.preventDefault();
-        console.log('next section handler');
-        console.log('current optoins', this.currentSection, this.slideSectionsCount);
-        this.slideCtr.current.find('.lms-grid-block').eq(this.currentSection).addClass('active');
+        this.slideCtr.current.find(this.selectors.gridBlock).eq(this.currentSection).addClass('active');
         this.currentSection++;
         if (this.currentSection >= this.slideSectionsCount) {
             this.slideCtr.current.addClass('passed');
@@ -295,23 +302,22 @@ class Course {
      block of utility methods
      */
     disableCourseNav() {
-        this.courseEl.find('.lms-slide-control-navigation').addClass('disabled')
+        this.courseEl.find(this.selectors.slideNavigation).addClass('disabled')
     }
 
     enableCourseNav() {
-        this.courseEl.find('.lms-slide-control-navigation').removeClass('disabled')
+        this.courseEl.find(this.selectors.slideNavigation).removeClass('disabled')
     }
 
     disableSectionNav() {
-        this.courseEl.find('.lms-section-control-navigation').removeClass('active')
+        this.courseEl.find(this.selectors.sectionNavigation).removeClass('active')
     }
 
     enableSectionNav() {
-        this.courseEl.find('.lms-section-control-navigation').addClass('active')
+        this.courseEl.find(this.selectors.sectionNavigation).addClass('active')
     }
 
 
-    //@TODO add some state
     checkCourseNavigation() {
         if (this.slideDisplayType == 'once_at_a_time') {
             this.navType = 'section';
@@ -327,7 +333,6 @@ class Course {
     }
 
     commitActivity(currentId, commitMessage = 'finished') {
-        console.log('cuurent slideid ', currentId);
         if (!this.passedIds.includes(currentId)) this.passedIds.push(currentId);
         $.ajax(
             {
@@ -347,22 +352,21 @@ class Course {
     }
 
     calculateProgress(current = this.slideCtr.current.index(), amount = this.slideCtr.amount) {
-        //console.log('start calculating progress');
-        const courseProgressLine = $('.lms-course-progress');
+        const courseProgressLine = $(this.selectors.progressBar);
         courseProgressLine.css('width', `${((current + 1) / amount) * 100}%`);
     }
 
     checkControls() {
         if (this.slideCtr.current.is(':first-child')) {
-            $('.lms-slide-control-navigation .prev').hide();
+            $(`${this.selectors.slideNavigation} .prev`).hide();
         } else {
-            $('.lms-slide-control-navigation .prev').show();
+            $(`${this.selectors.slideNavigation} .prev`).show();
         }
 
         if (this.slideCtr.current.is(':last-child')) {
-            $('.lms-slide-control-navigation .next').hide();
+            $(`${this.selectors.slideNavigation} .next`).hide();
         } else {
-            $('.lms-slide-control-navigation .next').show();
+            $(`${this.selectors.slideNavigation} .next`).show();
         }
     }
 }

@@ -55,7 +55,7 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
         <?php endif; ?>
 
         <button class="lms-check lms-quiz-check-button lms-quiz-check-button lms-quiz-form__check lms-button button">
-            <?php _e('Check your answer','lms') ?>
+            <?php _e('Check your answer', 'lms') ?>
         </button>
     </form>
 </div>

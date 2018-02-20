@@ -2,6 +2,7 @@ import 'hammerjs'
 import Muuri from 'muuri';
 import Hint from './Hint'
 import Alert from '../utilities/Alerts'
+import {selectors} from './selectors'
 
 class Quiz {
 
@@ -10,8 +11,9 @@ class Quiz {
         this.slideId = slide.data('slide-id');
         this.type = type;
         this.tolerance = tolerance;
-        this.courseId = $('#lms-course').data('id');
-        this.userId = $('#lms-course').data('user-id');
+        this.selectors = selectors;
+        this.courseId = $(this.selectors.course).data('id');
+        this.userId = $(this.selectors.course).data('user-id');
         this.CourseInstance = CourseInstance;
         this.passed = null;
         // //console.log('course instance', CourseInstance);
@@ -20,8 +22,9 @@ class Quiz {
     init() {
         this.listeners();
         this.hint = this.slide.data('hint');
-        // console.info('Quiz Inited');
-        const hint = new Hint(this.hint, this.slide);
+        if(this.hint) {
+            const hint = new Hint(this.hint, this.slide);
+        }
 
         if (this.type === 'puzzle') {
             this.initPuzzle();
@@ -34,10 +37,10 @@ class Quiz {
 
     listeners() {
         //this.slide.find('.check-answer').on('click', this.checkOptionQuizAnswer.bind(this));
-        this.slide.find('.lms-quiz-form-options').on('submit', this.quizSubmitOptions.bind(this));
-        this.slide.find('.lms-quiz-form-text_field, .lms-quiz-form-text_area').on('submit', this.quizSubmitText.bind(this));
-        this.slide.find('.lms-check-puzzle').on('click', this.checkPuzzle.bind(this));
-        this.slide.find('.lms-check-dnd').on('click', this.checkDnD.bind(this));
+        this.slide.find(this.selectors.quizFormOptions).on('submit', this.quizSubmitOptions.bind(this));
+        this.slide.find(`${this.selectors.quizFormTextField}, ${this.selectors.quizFormTextArea}`).on('submit', this.quizSubmitText.bind(this));
+        this.slide.find(this.selectors.quizCheckPuzzle).on('click', this.checkPuzzle.bind(this));
+        this.slide.find(this.selectors.quizCheckDnD).on('click', this.checkDnD.bind(this));
     }
 
     quizSubmitOptions(e) {
@@ -45,7 +48,7 @@ class Quiz {
         //console.log('submitting option form');
         const form = $(e.target);
         const serialized = form.serializeArray();
-        const slide = form.closest('.lms-slide');
+        const slide = form.closest(this.selectors.slide);
         const slideId = slide.data('slide-id');
         const correctAnswersCount = form.data('answers-count');
         const inputType = correctAnswersCount == 1 ? 'radio' : 'checkbox';
@@ -139,7 +142,7 @@ class Quiz {
         //console.log('submitting text form');
         const form = $(e.target);
         const serialized = form.serializeArray();
-        const slide = form.closest('.lms-slide');
+        const slide = form.closest(this.selectors.slide);
         const slideId = slide.data('slide-id');
         const correctAnswersCount = form.data('answers-count');
         const tagType = form.data('form-type') == 'text_field' ? 'input[type="text"]' : 'textarea';
@@ -168,10 +171,10 @@ class Quiz {
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             //console.log(json);
-            self.slide.find('.quiz-form').removeClass('quiz-passed');
+            self.slide.find(self.selectors.quizForm).removeClass('quiz-passed');
             textAnswerAfterCheck(json.isCorrect, self.tolerance);
             if (json.isCorrect) {
-                self.slide.find('.quiz-form').addClass('quiz-passed');
+                self.slide.find(self.selectors.quizForm).addClass('quiz-passed');
             }
         });
 
@@ -204,10 +207,8 @@ class Quiz {
 
     initPuzzle() {
         //Array.from(Array(10).keys())
-        const gridNode = this.slide.find('.lms-puzzles-grid')[0];
+        const gridNode = this.slide.find(this.selectors.puzzleGrid)[0];
 
-        //console.log('init murri');
-        //console.log('Puzzle grid node ', gridNode);
         this.grid = new Muuri(gridNode, {
             dragEnabled: true
             // dragAxis: 'y'
@@ -217,7 +218,7 @@ class Quiz {
     checkPuzzle(e) {
         e.preventDefault();
         //make array with numbers from 1 to puzzles length
-        const rightPuzzle = [...Array(this.slide.find('.lms-puzzles-grid__item').length).keys()];
+        const rightPuzzle = [...Array(this.slide.find(this.selectors.puzzleGridItem).length).keys()];
         const muuriItems = this.grid.getItems();
         const realIndexes = muuriItems.map(i => {
             return $(i._element).data('index');
@@ -242,7 +243,7 @@ class Quiz {
         const self = this;
         const docElem = this.slide[0];
         console.log('Slide EL ', docElem);
-        const dnd = docElem.querySelector('.lms-dnd-quiz');
+        const dnd = docElem.querySelector(this.selectors.dndQuiz);
         this.board = dnd.querySelector('.board');
         const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.board-column-content'));
         this.columnGrids = [];
