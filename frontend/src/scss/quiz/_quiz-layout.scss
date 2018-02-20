@@ -5,16 +5,20 @@
   &__wrapper {
     max-width: 1300px;
     margin: auto;
-    padding: 40px 30px;
+    padding: 10px 30px;
     position: relative;
 
     @media screen and (max-width: 991px) {
-      padding: 30px 15px;
+      padding: 5px 15px;
     }
 
     &--small {
       max-width: 800px;
     }
+  }
+
+  &__title {
+    margin-bottom: 0;
   }
 
   &__header {
@@ -48,7 +52,7 @@
 
   &__hint {
     position: absolute;
-    top: 40px;
+    top: 4px;
     right: 120px;
     height: 60px;
     width: 60px;
