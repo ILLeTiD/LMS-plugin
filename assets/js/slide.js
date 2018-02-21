@@ -2,7 +2,8 @@ var lms = {
     editor : {
         settings: {
             tinymce: {
-                toolbar1: 'formatselect bold italic bullist numlist blockquote alignleft aligncenter alignright link wp_more wp_adv dfw',
+                plugins: 'charmap, colorpicker, hr, lists, paste, tabfocus, textcolor, fullscreen, wordpress, wpautoresize, wpeditimage, wpemoji, wpgallery, wplink, wptextpattern, wplms',
+                toolbar1: 'formatselect bold italic bullist numlist blockquote alignleft aligncenter alignright link wp_more wp_adv dfw previous_slide next_slide courses restart',
                 toolbar2: 'strikethrough hr forecolor pastetext removeformat charmap outdent indent undo redo wp_help'
             },
             quicktags: true
