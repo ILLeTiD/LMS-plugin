@@ -155,3 +155,13 @@ $action->add('phpmailer_init', function ($phpmailer) {
     $phpmailer->From = 'noreply@fishy-minds.localhost';
     $phpmailer->FromName = 'WP DEV';
 });
+
+/**
+ * Shortcodes.
+ */
+add_shortcode('button', function ($attributes) {
+    $action = array_get($attributes, 'action');
+    $text = array_get($attributes, 'value');
+
+    return "<button class='lms-shortcode-button lms-shortcode-{$action}'>{$text}</button>";
+});

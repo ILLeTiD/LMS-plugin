@@ -34,9 +34,24 @@ $filter->add('wp_prepare_attachment_for_js', function ($response, $attachment, $
     return $response;
 });
 
-// $filter->add('query_vars', function ($query_vars) {
-//     $query_vars[] = 'route';
-//
-//     return $query_vars;
-// });
+$filter->add('mce_external_plugins', function ($plugins) {
+    $plugins['wplms'] = $this->plugin->getUrl() . '/assets/js/shortcodes.js';
+
+    return $plugins;
+});
+
+$filter->add('mce_buttons', function ($buttons) {
+    global $post;
+
+    if ($post && $post->post_type == 'slide') {
+        array_push($buttons, 'previous_slide', 'next_slide', 'courses', 'restart');
+    }
+
+    if ($post && $post->post_type == 'course') {
+        array_push($buttons, 'courses', 'restart');
+    }
+
+    return $buttons;
+});
+
 
