@@ -881,6 +881,10 @@ input.lms-quiz-hint {
     text-decoration: underline;
 }
 
+.lms-puzzle-piece input {
+    min-width: 90px;
+}
+
 .lms-puzzle-piece .slide-image__help {
     font-size: 12px;
     text-align: center;
