@@ -56,18 +56,26 @@
 
             <label class="lms-color-picker-wrap">
                 <input type="color"
-                       name="quiz_colors[header]"
-                       value="<?= array_get($colors, 'header', '#F1F1F1'); ?>"
-                >
-                <?= __('Header', 'lms-plugin'); ?>
-            </label>
-
-            <label class="lms-color-picker-wrap">
-                <input type="color"
                        name="quiz_colors[text]"
                        value="<?= array_get($colors, 'text', '#FFFFFF'); ?>"
                 >
                 <?= __('Text', 'lms-plugin'); ?>
+            </label>
+
+            <label class="lms-color-picker-wrap">
+                <input type="color"
+                       name="quiz_colors[header_background]"
+                       value="<?= array_get($colors, 'header_background', '#4990E2'); ?>"
+                >
+                <?= __('Header Background', 'lms-plugin'); ?>
+            </label>
+
+            <label class="lms-color-picker-wrap">
+                <input type="color"
+                       name="quiz_colors[header]"
+                       value="<?= array_get($colors, 'header', '#F1F1F1'); ?>"
+                >
+                <?= __('Header', 'lms-plugin'); ?>
             </label>
         </div>
     </div>
