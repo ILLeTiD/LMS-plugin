@@ -9,13 +9,6 @@
             <?php
             the_post();
             the_content(); ?>
-            <?php echo apply_filters('the_content', get_post_field('post_content', get_the_ID())); ?>
-            <a href="#" class="button">
-                Fake button
-            </a>
-            <a href="#" class="button">
-                Fake button
-            </a>
         </div>
     </div>
 </section>

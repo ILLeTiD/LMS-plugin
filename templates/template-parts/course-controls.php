@@ -5,7 +5,6 @@
         <button class="lms-slide-control-fullscreen-option">
             <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Optons.png"
                  alt="options">
-
         </button>
         <button class="lms-slide-control-fullscreen lms-slide-fullscreen">
             <img class="lms-slide-control-fullscreen-in"
@@ -50,3 +49,4 @@
         </div>
     </div>
 </div>
+
