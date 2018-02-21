@@ -37,22 +37,21 @@ shuffle($dragObjects);
             $index = 1;
             foreach ($drop_zones as $key => $zone): ?>
                 <div class="board-column done">
-                    <?php if ($zone['type'] == 'image') : ?>
-                        <img src="<?= $zone["thumbnail"] ?>" alt="">
-                    <?php else: ?>
+                    <?php if ($zone['type'] == 'text') : ?>
                         <h4 class="board-content__text">
                             <?= $zone["text"] ?>
                         </h4>
                     <?php endif; ?>
                     <div class="board-column-content">
-
+                        <?php if ($zone['type'] == 'image') : ?>
+                            <img src="<?= $zone["thumbnail"] ?>" alt="">
+                        <?php endif; ?>
                     </div>
                 </div>
                 <?php
                 $index++;
             endforeach; ?>
         </div>
-
     </section>
     <button class="lms-check lms-quiz-check-button lms-check-dnd">Check quiz</button>
 </div>

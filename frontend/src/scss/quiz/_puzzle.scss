@@ -24,6 +24,7 @@
     position: absolute;
     width: 33%;
     padding-bottom: 33%;
+    float: left;
     margin: 0px;
     text-align: center;
     z-index: 1;
@@ -31,12 +32,19 @@
     background-repeat: no-repeat;
     background-size: cover;
 
-    //img {
-    //  position: absolute;
-    //  height: 100%;
-    //  width: 100%;
-    //  object-fit: cover;
-    //}
+    &-wrapper {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      //object-fit: cover;
+    }
+    &-image {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      left: 0;
+    }
 
     &.muuri-item-dragging {
       z-index: 3;

@@ -13,9 +13,9 @@ include 'slide-settings.php';
    style=" background-position: 50%;
            background-repeat: no-repeat;
            background-size: cover;">
-    <?php else: ?>
-    <div
-            class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> lms-grid-block-<?= $index; ?> <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
+<?php else: ?>
+<div
+  class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> lms-grid-block-<?= $index; ?> <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>
@@ -35,7 +35,7 @@ include 'slide-settings.php';
                 <img data-src="<?= $image ?>" class="lms-grid-block__image">
             <?php elseif ($text) : ?>
                 <div class="lms-grid-block__text">
-                    <?= $text ?>
+                    <?= apply_filters('the_content', $text); ?>
                 </div>
             <?php endif; ?>
         </div>
