@@ -21,15 +21,21 @@
                    class="lms-audio"></audio>
         </div>
         <div class="lms-slide-control-navigation">
-            <div class="lms-nav-button">
+            <div class="lms-nav-button lms-nav-button--next">
                 <a href="#" class="prev" rel="prev">
                     <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Arrow-left.png"
                          alt="back">
                 </a>
             </div>
-            <div class="lms-nav-button">
+            <div class="lms-nav-button lms-nav-button--prev">
                 <a href="#" class="next" rel="next">
                     <img src="<?php echo lms_plugin_url() ?>/assets/icons/PNG/Arrow-right.png"
+                         alt="forward">
+                </a>
+            </div>
+            <div class="lms-nav-button lms-nav-button--check">
+                <a href="#" class="" rel="next">
+                    <img src="<?php echo lms_plugin_url() ?>/assets/icons/SVG/Quiz-check.svg"
                          alt="forward">
                 </a>
             </div>

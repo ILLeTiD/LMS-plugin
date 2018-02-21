@@ -79,7 +79,6 @@ class Course {
 
     setSlideAudio() {
         const slide = this.slideCtr.current;
-        // if (slide.data('type') != 'regular') return;
         const audioBlock = slide.find(this.selectors.audioGridBlock).first();
         const firstAudioSrc = audioBlock.data('audio-src');
         if (firstAudioSrc) {
@@ -147,11 +146,9 @@ class Course {
             //extract step info from hash
             const slideToShow = parseInt(hash.substr(6));
             const elementToShow = this.slideCtr.slides.find(value => value.index == (slideToShow - 1));
-
             const idToShow = elementToShow ? elementToShow.id : {};
             //check if user can go to this step
             if (this.passedIds.includes(idToShow) && !(slideToShow > +this.slideCtr.amount || slideToShow <= 0)) {
-                //console.log('show slide from db by ID');
                 this.slideCtr.currentById = idToShow;
                 lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
             } else {
@@ -257,7 +254,6 @@ class Course {
         });
 
         this.setSlideAudio();
-
         this.setSlideSectionDisplay();
 
         if (this.slideCtr.current.data('type') === 'quiz') {
@@ -275,6 +271,8 @@ class Course {
 
             if (!quizSlide.inited) {
                 quizSlide.quiz.init();
+                this.canGoNext = true;
+                this.courseEl.find(this.selectors.slideNavigation).addClass('quiz-unpassed')
                 quizSlide.inited = true;
             }
         }

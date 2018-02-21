@@ -165,14 +165,33 @@
   //background: #fff;
 }
 
-.lms-nav-button > a > img {
-  float: right;
-  max-width: 53px;
-  max-height: 53px;
-}
-
 .lms-nav-button {
   padding-right: 10px;
+
+  &--prev {
+    &.disabled {
+      display: none;
+    }
+  }
+
+  & > a > img {
+    float: right;
+    max-width: 53px;
+    max-height: 53px;
+  }
+
+  &--check {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+
+    a img {
+      height: 150px;
+      width: 150px;
+    }
+  }
 }
 
 .lms-section-control {

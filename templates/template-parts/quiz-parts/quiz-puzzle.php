@@ -21,5 +21,5 @@ shuffle($puzzles);
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <button class="lms-check-puzzle lms-quiz-check-button">Check puzzle</button>
+    <button class="lms-check lms-check-puzzle lms-quiz-check-button">Check puzzle</button>
 </div>

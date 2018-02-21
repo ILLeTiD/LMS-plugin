@@ -54,5 +54,5 @@ shuffle($dragObjects);
         </div>
 
     </section>
-    <button class="lms-quiz-check-button lms-check-dnd">Check quiz</button>
+    <button class="lms-check lms-quiz-check-button lms-check-dnd">Check quiz</button>
 </div>
