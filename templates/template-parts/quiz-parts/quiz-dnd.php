@@ -27,7 +27,6 @@ shuffle($dragObjects);
                                         <?= $object["text"]; ?>
                                     </h4>
                                 <?php endif; ?>
-
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -44,7 +43,9 @@ shuffle($dragObjects);
                     <?php endif; ?>
                     <div class="board-column-content">
                         <?php if ($zone['type'] == 'image') : ?>
-                            <img src="<?= $zone["thumbnail"] ?>" alt="">
+                            <div class="board-column-content-placeholder">
+                                <img src="<?= $zone["image"] ?>" alt="">
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>

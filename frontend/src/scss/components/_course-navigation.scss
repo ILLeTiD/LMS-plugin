@@ -168,7 +168,7 @@
 .lms-nav-button {
   padding-right: 10px;
 
-  &--prev {
+  &--prev, &--next {
     &.disabled {
       display: none;
     }

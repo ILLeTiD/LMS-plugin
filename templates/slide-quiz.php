@@ -3,7 +3,7 @@ use LmsPlugin\Models\QuizResult;
 
 $id = $slide->id;
 $user_id = get_current_user_id();
-$question = get_post_field('post_content', $id);
+$question = apply_filters('the_content', get_post_field('post_content', $id));
 $type = $slide->quiz_type;
 $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;

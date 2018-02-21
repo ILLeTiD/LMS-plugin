@@ -22,4 +22,7 @@ export const selectors = {
     puzzleGrid : '.lms-puzzles-grid',
     puzzleGridItem : '.lms-puzzles-grid__item',
     dndQuiz : '.lms-dnd-quiz',
+    shortcodeBackToCourses: '.lms-shortcode-courses',
+    shortcodeNext :'.lms-shortcode-next' ,
+    shortcodePrev : '.lms-shortcode-prev',
 };

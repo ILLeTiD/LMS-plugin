@@ -192,11 +192,26 @@ class Course {
         }, false);
 
 
+        $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
+        $(this.selectors.shortcodePrev).on('click', this.prevSlide.bind(this));
+        $(this.selectors.shortcodeNext).on('click', this.nextSlide.bind(this));
+        $('.lms-nav-button--check').on('click', this.checkQuiz.bind(this));
         $(this.selectors.slideNavigation).on('click', '.next', this.nextSlide.bind(this));
         $(this.selectors.sectionNavigation).on('click', '.next', this.nextSection.bind(this));
         $(this.selectors.slideNavigation).on('click', '.prev', this.prevSlide.bind(this));
         $(this.selectors.courseControlsFullscreen).on('click', this.toggleFullscreen.bind(this));
         $(this.selectors.fullscreenOptions).on('click', this.toggleFullscreenOption.bind(this));
+    }
+
+    checkQuiz(e) {
+        if (e) e.preventDefault();
+        this.slideCtr.current.find('.lms-quiz-check-button').click();
+    }
+
+    shortcodeBackToCourses(e) {
+        if (e) e.preventDefault();
+        console.log(lmsAjax.coursesLink);
+        window.location.href = lmsAjax.coursesLink;
     }
 
     toggleFullscreen(e) {
@@ -257,7 +272,11 @@ class Course {
         this.setSlideSectionDisplay();
 
         if (this.slideCtr.current.data('type') === 'quiz') {
-            if ((this.slideCtr.current.data('tolerance') === "strict" || this.slideCtr.current.data('tolerance') === "flexible") && !this.passedIds.includes(this.slideCtr.current.data('slide-id'))) {
+            console.log('IS SLIDE QUIZ');
+            if (!this.passedIds.includes(this.slideCtr.current.data('slide-id'))) {
+                console.log('IS SLIDE QUIZ FIRST TIME');
+                $('.lms-nav-button--prev').addClass('disabled');
+                $('.lms-nav-button--check').addClass('active');
                 this.canGoNext = false;
             }
             //init current quiz
@@ -271,8 +290,8 @@ class Course {
 
             if (!quizSlide.inited) {
                 quizSlide.quiz.init();
-                this.canGoNext = true;
-                this.courseEl.find(this.selectors.slideNavigation).addClass('quiz-unpassed')
+                // this.canGoNext = true;
+                this.courseEl.find(this.selectors.slideNavigation).addClass('quiz-unpassed');
                 quizSlide.inited = true;
             }
         }

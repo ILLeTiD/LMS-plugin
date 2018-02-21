@@ -42,6 +42,24 @@ class Quiz {
         this.slide.find(this.selectors.quizCheckDnD).on('click', this.checkDnD.bind(this));
     }
 
+    afterQuizPassed() {
+        this.CourseInstance.canGoNext = true;
+        this.passed = true;
+        this.slide.addClass('passed');
+        $('.lms-nav-button--prev').removeClass('disabled');
+        $('.lms-nav-button--check').removeClass('active');
+        new Alert('You can go to the next slide', 'success', 3000);
+        return true;
+    }
+
+    afterQuizFailed() {
+        this.CourseInstance.canGoNext = false;
+        new Alert('Please try again', 'info', 3000);
+        $('.lms-nav-button--prev').addClass('disabled');
+        $('.lms-nav-button--check').addClass('active');
+        return false;
+    }
+
     quizSubmitOptions(e) {
         e.preventDefault();
         //console.log('submitting option form');
@@ -92,15 +110,9 @@ class Quiz {
                 });
 
                 if (canGo) {
-                    this.CourseInstance.canGoNext = true;
-                    this.passed = true;
-                    this.slide.addClass('passed');
-                    new Alert('You can go to the next slide', 'success', 3000);
-                    return true;
+                    this.afterQuizPassed();
                 } else {
-                    this.CourseInstance.canGoNext = false;
-                    new Alert('Please try again', 'info', 3000);
-                    return false;
+                    this.afterQuizFailed();
                 }
             } else if (tolerance === 'flexible') {
                 // correctAnswersCount
@@ -112,15 +124,9 @@ class Quiz {
                 const percentOfCorrect = Math.round((answeredCorrect / correctAnswersCount) * 100);
 
                 if (percentOfCorrect >= this.flexThreshold) {
-                    this.CourseInstance.canGoNext = true;
-                    this.passed = true;
-                    this.slide.addClass('passed');
-                    new Alert('You can go to the next slide', 'success', 3000);
-                    return true;
+                    this.afterQuizPassed();
                 } else {
-                    this.CourseInstance.canGoNext = false;
-                    new Alert('Please try again', 'info', 3000);
-                    return false;
+                    this.afterQuizFailed();
                 }
             } else {
                 new Alert('You can go to the next slide', 'info', 3000);
@@ -182,15 +188,9 @@ class Quiz {
             const canGo = isCorrect;
             if (tolerance === 'strict' || tolerance === 'flexible') {
                 if (canGo) {
-                    this.CourseInstance.canGoNext = true;
-                    this.passed = true;
-                    this.slide.addClass('passed');
-                    new Alert('you can go to the next slide', 'success', 3000);
-                    return true;
+                    this.afterQuizPassed();
                 } else {
-                    this.CourseInstance.canGoNext = false;
-                    new Alert('Please try again', 'info', 3000);
-                    return false;
+                    this.afterQuizFailed();
                 }
             } else {
                 this.passed = true;
@@ -226,15 +226,9 @@ class Quiz {
         const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
 
         if ((this.tolerance == 'strict' || this.tolerance == 'flexifble') && isCorrect) {
-            this.passed = true;
-            this.slide.addClass('passed');
-            this.CourseInstance.canGoNext = true;
-            new Alert('You can go to the next slide', 'success', 3000);
+            this.afterQuizPassed();
         } else {
-            this.passed = false;
-            this.slide.removeClass('passed');
-            this.CourseInstance.canGoNext = false;
-            new Alert('Please try again', 'error', 3000);
+            this.afterQuizFailed();
         }
         //console.log('Is puzzle correct? ', isCorrect)
     }
@@ -341,33 +335,18 @@ class Quiz {
         //console.log(this.tolerance);
         if (this.tolerance == 'strict') {
             if (roundedPercentOfCorrect == 100) {
-                this.passed = true;
-                this.slide.addClass('passed');
-                this.CourseInstance.canGoNext = true;
-                new Alert('Correct. You can go next', 'success', 3000);
-                return false;
+                this.afterQuizPassed();
             } else {
-                this.passed = false;
-                this.slide.removeClass('passed');
-                this.CourseInstance.canGoNext = false;
-                new Alert('Please try again', 'info', 3000);
-                return false;
+                this.afterQuizFailed();
             }
         } else if (this.tolerance == 'flexible') {
             if (roundedPercentOfCorrect >= 50) {
-                this.passed = true;
-                this.slide.addClass('passed');
-                this.CourseInstance.canGoNext = true;
-                new Alert('Correct. You can go next', 'success', 3000);
-                return false;
+                this.afterQuizPassed();
             } else {
-                console.log('LOOSE TOL');
-                this.passed = true;
-                this.slide.addClass('passed');
-                this.CourseInstance.canGoNext = false;
-                new Alert('Please try again', 'info', 3000);
-                return false;
+                this.afterQuizFailed();
             }
+        } else {
+            this.afterQuizPassed();
         }
         //console.log('Rounded percent of correct answers', roundedPercentOfCorrect);
     }

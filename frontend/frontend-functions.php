@@ -9,8 +9,9 @@ function my_scripts_method()
 //    wp_enqueue_script('jquery');
     wp_enqueue_script('lms-frontend', plugin_dir_url(__FILE__) . '/assets/js/main.min.js', array('jquery'), null, true);
     wp_localize_script('lms-frontend', 'lmsAjax', array(
-        'ajaxurl' => admin_url('admin-ajax.php')
-    ));
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'coursesLink' => get_post_type_archive_link( 'course' )
+));
     wp_enqueue_style('lms-css', plugin_dir_url(__FILE__) . '/assets/css/style.min.css', array(), '', 'all');
 
 }

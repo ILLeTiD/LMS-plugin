@@ -14,7 +14,6 @@ shuffle($puzzles);
             <div class="lms-puzzles-grid__item"
                  data-index="<?= $puzzle['index'] ?>">
                 <img class="lms-puzzles-grid__item-image"
-                    <?= $puzzle['width'] ? 'style=" width:' . $puzzle['width'] . '%;"' : ''; ?>
                      src="<?= $puzzle['image'] ?>" alt="">
             </div>
         <?php endforeach; ?>
