@@ -36,9 +36,9 @@
 
         <div class="clear"></div>
 
-        <p class="submit">
-            <input type="submit" name="submit" id="submit" class="button button-primary" value="<?= __('Save Changes', 'lms-plugin'); ?>">
-        </p>
+        <div class="lms-align-right">
+            <input type="submit" name="submit" id="submit" class="button button-primary" value="<?= __('Save', 'lms-plugin'); ?>">
+        </div>
 
     </form>
 

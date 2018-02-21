@@ -9,6 +9,7 @@
             <div class="accordion-section-content">
                 <input type="text"
                        name="settings[notifications][quiz_success][title]"
+                       class="lms-settings-notification__title"
                        value="<?= array_get($settings, 'notifications.quiz_success.title'); ?>"
                        placeholder="<?= __('Title', 'lms-plugin'); ?>"
                 >
@@ -24,6 +25,7 @@
             <div class="accordion-section-content">
                 <input type="text"
                        name="settings[notifications][quiz_fail][title]"
+                       class="lms-settings-notification__title"
                        value="<?= array_get($settings, 'notifications.quiz_fail.title'); ?>"
                        placeholder="<?= __('Title', 'lms-plugin'); ?>"
                 >
@@ -39,6 +41,7 @@
             <div class="accordion-section-content">
                 <input type="text"
                        name="settings[notifications][error][title]"
+                       class="lms-settings-notification__title"
                        value="<?= array_get($settings, 'notifications.error.title'); ?>"
                        placeholder="<?= __('Title', 'lms-plugin'); ?>"
                 >

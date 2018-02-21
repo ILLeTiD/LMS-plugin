@@ -1,10 +1,14 @@
+<h2 class="lms-settings-section__title">
+    <?= __('Styling', 'lms-plugin'); ?>
+</h2>
+
 <div id="lms_settings_styling_meta_box" class="postbox">
     <button type="button" class="handlediv" aria-expanded="true">
         <span class="screen-reader-text">Toggle panel: Styling</span>
         <span class="toggle-indicator" aria-hidden="true"></span>
     </button>
     <h2 class="hndle ui-sortable-handle">
-        <span><?= __('Styling', 'lms-plugin'); ?></span>
+        <span><?= __('Colors', 'lms-plugin'); ?></span>
     </h2>
     <div class="inside">
 
