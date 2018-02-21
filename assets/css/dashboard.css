@@ -881,6 +881,10 @@ input.lms-quiz-hint {
     text-decoration: underline;
 }
 
+.lms-puzzle-piece input {
+    min-width: 90px;
+}
+
 .lms-puzzle-piece .slide-image__help {
     font-size: 12px;
     text-align: center;
@@ -892,4 +896,35 @@ input.lms-quiz-hint {
 
 .muted {
     color: #C2C2C2 !important;
+}
+
+/**
+ * Settings.
+ */
+.lms-settings__shortcode {
+    color: #B5B5B5;
+}
+
+.lms-settings__shortcode h4 {
+    margin: 0;
+    font-size: 13px;
+}
+
+.lms-settings__shortcode p {
+    margin: 0 0 15px;
+    font-size: 12px;
+}
+
+.lms-settings-notification__title {
+    width: 55% !important;
+}
+
+.lms-settings-section__title {
+    position: relative;
+}
+
+.lms-settings-section__title .button {
+    position: absolute;
+    top: 3px;
+    right: 0;
 }
