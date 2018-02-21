@@ -21,10 +21,12 @@
                 'thumbnail' => array_get($puzzle, "{$i}.thumbnail")
             ]); ?>
 
-            <input type="text"
+            <input type="number"
                    name="puzzle[<?= $i; ?>][width]"
                    value="<?= array_get($puzzle, "{$i}.width"); ?>"
-                   placeholder="<?= __('Width (px or %)', 'lms-plugin'); ?>"
+                   min="30"
+                   max="100"
+                   placeholder="<?= __('Width (%)', 'lms-plugin'); ?>"
             >
         </div>
     <?php endfor; ?>

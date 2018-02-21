@@ -45,10 +45,12 @@
                     </td>
 
                     <td>
-                        <input type="text"
+                        <input type="number"
                                name="drag_and_drop[drop_zones][<?= $i; ?>][width]"
                                value="<?= array_get($drop_zones, "{$i}.width"); ?>"
-                               placeholder="<?= __('Width (px or %)', 'lms-plugin'); ?>"
+                               min="30"
+                               max="100"
+                               placeholder="<?= __('Width (%)', 'lms-plugin'); ?>"
                         >
                     </td>
 
