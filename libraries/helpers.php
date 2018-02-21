@@ -1,5 +1,7 @@
 <?php
 
+use LmsPlugin\Models\User;
+
 if (!function_exists('studly_case')) {
     /**
      * Convert a value to studly caps case.
@@ -379,5 +381,16 @@ if (!function_exists('lms_get_options')) {
     {
         $lms_options = get_option('lms-plugin');
         return $lms_options[$option] ? $lms_options[$option] : null;
+    }
+}
+
+if ( ! function_exists('lms_user')) {
+    /**
+     * Return currently logged in user.
+     *
+     * @return \LmsPlugin\Models\User
+     */
+    function lms_user() {
+       return new User(wp_get_current_user());
     }
 }
