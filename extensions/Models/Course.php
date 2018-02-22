@@ -53,10 +53,15 @@ class Course
                 return User::find($this->post->post_author);
             case 'name':
                 return $this->post->post_title;
+            case 'content':
+                return apply_filters('the_content', $this->post_content);
+            case 'excerpt':
+                return get_the_excerpt($this->id);
             case 'category':
                 $terms = get_the_terms($this->id, 'course_category');
 
                 return $terms ? $terms[0] : false;
+            case 'participants':
             case 'enrollments':
                 return $this->enrollments()->get();
             default:
@@ -106,6 +111,16 @@ class Course
     public function enrollments()
     {
         return Enrollment::where(['course_id' => $this->id]);
+    }
+
+    /**
+     * Alias for enrollments.
+     *
+     * @return \FishyMinds\QueryBuilder
+     */
+    public function participants()
+    {
+        return $this->enrollments();
     }
 
     public function hasParticipant($ID)
