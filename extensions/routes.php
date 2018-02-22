@@ -10,3 +10,6 @@ $route->get('login', 'Auth/LoginController@showForm');
 $route->post('login', 'Auth/LoginController@login');
 $route->get('logout', 'Auth/LoginController@logout');
 
+$route->get('reset_password', 'Auth/ResetPasswordController@showForm');
+$route->post('reset_password', 'Auth/ResetPasswordController@resetPassword');
+
