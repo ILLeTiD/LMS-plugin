@@ -113,6 +113,7 @@ $action->add('lms_event_invite_requested', function ($email) {
 });
 
 $action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
+$action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handle');
 
 /**
  * For test purposes.

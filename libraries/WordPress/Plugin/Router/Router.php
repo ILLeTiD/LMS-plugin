@@ -2,7 +2,9 @@
 
 namespace FishyMinds\WordPress\Plugin\Router;
 
+use FishyMinds\Request;
 use FishyMinds\WordPress\Plugin\HasPlugin;
+use ReflectionClass;
 
 class Router
 {
@@ -42,20 +44,20 @@ class Router
 
         $controller = $this->plugin->getNamespace() . '\\Controllers\\' . $controller;
 
-        if ( ! class_exists($controller)) {
-            // Controller not found.
+        try {
+            $controllerReflection = new ReflectionClass($controller);
+            $controller = new $controller($this->plugin);
+            $actionReflection = $controllerReflection->getMethod($action);
+
+            if ($actionReflection->getNumberOfParameters()) {
+                $controller->$action(new Request($_REQUEST));
+            } else {
+                $controller->$action();
+            }
+        } catch (\ReflectionException $exception) {
             $this->routeNotFound();
         }
 
-        $controller = new $controller($this->plugin);
-
-        if ( ! method_exists($controller, $action)) {
-            // Action not found.
-            $this->routeNotFound();
-        }
-
-
-        $controller->$action();
         die;
     }
 
