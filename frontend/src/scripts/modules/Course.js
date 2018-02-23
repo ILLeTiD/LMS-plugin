@@ -56,8 +56,8 @@ class Course {
                     $(this).data('tolerance'),
                     self);
             }
-            console.log('SLIDE', slide);
-            console.log('SLIDES', self.slides);
+            // console.log('SLIDE', slide);
+            // console.log('SLIDES', self.slides);
             self.slides.push(slide);
         });
     }
@@ -182,20 +182,23 @@ class Course {
             }
         });
 
-        //default ESC button exit fullscreen handler
-        document.addEventListener("fullscreenchange", () => {
-            if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-                this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
-                this.courseEl.removeClass('lms-fullscreen-init');
-                this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
-            }
-        }, false);
-
+        $(window).on('load', () => {
+            //default ESC button exit fullscreen handler
+            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', () => {
+                if (!IsFullScreenCurrently()) {
+                    console.log('exit from fullscreen');
+                    this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
+                    this.courseEl.removeClass('lms-fullscreen-init');
+                    this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
+                    this.fullscreenPaintNavButtons(true);
+                }
+            });
+        });
 
         $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
         $(this.selectors.shortcodePrev).on('click', this.prevSlide.bind(this));
         $(this.selectors.shortcodeNext).on('click', this.nextSlide.bind(this));
-        $('.lms-nav-button--check').on('click', this.checkQuiz.bind(this));
+        $(this.selectors.quizCheckButton).on('click', this.checkQuiz.bind(this));
         $(this.selectors.slideNavigation).on('click', '.next', this.nextSlide.bind(this));
         $(this.selectors.sectionNavigation).on('click', '.next', this.nextSection.bind(this));
         $(this.selectors.slideNavigation).on('click', '.prev', this.prevSlide.bind(this));
@@ -210,26 +213,54 @@ class Course {
 
     shortcodeBackToCourses(e) {
         if (e) e.preventDefault();
-        console.log(lmsAjax.coursesLink);
         window.location.href = lmsAjax.coursesLink;
     }
 
     toggleFullscreen(e) {
         if (e) e.preventDefault();
+        console.log('TOGGLE FULLSCREEN');
+        console.log('is', IsFullScreenCurrently());
         if (!IsFullScreenCurrently()) {
             GoInFullscreen(this.courseEl[0]);
+            this.courseEl.addClass('lms-fullscreen-init');
+            this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
+            this.fullscreenPaintNavButtons(true);
         } else {
             GoOutFullscreen();
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
+            this.courseEl.removeClass('lms-fullscreen-init');
+            this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
+            //this.fullscreenPaintNavButtons(true);
         }
-
-        this.courseEl.toggleClass('lms-fullscreen-init');
-        this.courseEl.find(this.selectors.courseControls).toggleClass('lms-fullscreen-init');
     }
 
     toggleFullscreenOption(e) {
         e.preventDefault();
         this.courseEl.find(this.selectors.courseControls).toggleClass('lms-option-shown');
+    }
+
+    fullscreenPaintNavButtons(onCangeFullscreen = false) {
+        const getColor = () => {
+            const slide = this.slideCtr.current;
+            const type = slide.data('type');
+            let color = '#fff';
+            if (type == 'quiz') {
+                color = slide.data('icon-color');
+            } else {
+                color = slide.find('.lms-grid-block').first().data('data-icon-color');
+            }
+            if (onCangeFullscreen) {
+                return !IsFullScreenCurrently() ? color : '#fff';
+            } else {
+                return IsFullScreenCurrently() ? color : '#fff';
+            }
+
+        };
+        console.log('COLOR', getColor());
+        console.log('IS FULLSCREEN?', IsFullScreenCurrently());
+        $('.lms-course-controls svg .cls-1, .lms-course-controls svg .cls-2').each(function (i) {
+            $(this).css('stroke', getColor());
+        });
     }
 
     nextSlide(e) {
@@ -256,18 +287,20 @@ class Course {
         this.showSlide(prevSlideIndex, prevSlideIndex + 1)
     }
 
-    showSlide(indexSlide, indexHash) {
+    showSlide(indexSlide, indexHash, changeUrl = true) {
         this.slideCtr.currentByIndex = indexSlide;
         this.slideSectionsCount = this.slideCtr.current.data('section-count');
         this.slideDisplayType = this.slideCtr.current.data('section-display');
         this.currentSection = 1;
 
         this.checkControls();
+        this.fullscreenPaintNavButtons();
         const currentId = this.slideCtr.current.data('slide-id');
-        this.urlCrl.addToUrl(indexHash, {
-            current: indexHash,
-        });
-
+        if (changeUrl) {
+            this.urlCrl.addToUrl(indexHash, {
+                current: indexHash,
+            });
+        }
         this.setSlideAudio();
         this.setSlideSectionDisplay();
 
@@ -278,6 +311,9 @@ class Course {
                 $('.lms-nav-button--prev').addClass('disabled');
                 $('.lms-nav-button--check').addClass('active');
                 this.canGoNext = false;
+            } else {
+                $('.lms-nav-button--prev').removeClass('disabled');
+                $('.lms-nav-button--check').removeClass('active');
             }
             //init current quiz
             const quizSlide = this.slideCtr.quizes.find(e => e.id == currentId);
