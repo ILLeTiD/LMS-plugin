@@ -47,7 +47,6 @@ class Slide {
     }
 
     set currentByIndex(index) {
-        //console.log('set current by index');
         $('.lms-slide.active').removeClass('active');
         $(`.lms-slide[data-slide-index=${index}]`).addClass('active');
     }

@@ -18,6 +18,7 @@ export const selectors = {
     quizFormTextArea : '.lms-quiz-form-text_area',
     quizCheckPuzzle : '.lms-check-puzzle',
     quizCheckDnD : '.lms-check-dnd',
+    quizCheckButton : '.lms-nav-button--check',
     quizForm : '.quiz-form',
     puzzleGrid : '.lms-puzzles-grid',
     puzzleGridItem : '.lms-puzzles-grid__item',
@@ -25,4 +26,5 @@ export const selectors = {
     shortcodeBackToCourses: '.lms-shortcode-courses',
     shortcodeNext :'.lms-shortcode-next' ,
     shortcodePrev : '.lms-shortcode-prev',
+
 };

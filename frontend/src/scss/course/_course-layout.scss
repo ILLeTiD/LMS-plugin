@@ -18,7 +18,12 @@
 
     .lms-slide {
       height: initial;
-      min-height: 100vh;
+      height: 100vh;
+
+      @media screen and (max-width: 1023px) {
+        height: initial;
+        min-height: 100vh;
+      }
     }
   }
 

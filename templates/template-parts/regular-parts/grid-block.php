@@ -9,6 +9,7 @@ include 'slide-settings.php';
         <?= 'data-audio-src="' . $audio . '"'; ?>
     <?php endif; ?>
    id="<?= $randomId; ?>"
+   data-icon-color="<?= $textC? $textC : '#fff' ?>"
    data-bg-src="<?= $backgroundStyle ? $backgroundStyle : '' ?>"
    style=" background-position: 50%;
            background-repeat: no-repeat;
@@ -19,7 +20,8 @@ include 'slide-settings.php';
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
         <?php endif; ?>
-            id="<?= $randomId; ?>"
+        id="<?= $randomId; ?>"
+        data-icon-color="<?= $textC? $textC : '#fff' ?>"
         <?= $isBg ? 'data-src="' . $backgroundStyle . '"' : '' ?>
             style=" background-position: 50%;
                  background-repeat: no-repeat;

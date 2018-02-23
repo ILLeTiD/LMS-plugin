@@ -9,7 +9,7 @@ $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;
 $isPassed = $slide->passed;
 $isLatest = $slide->latest;
-
+$textColor = isset($slide->quiz_colors['text']) ? $slide->quiz_colors['text'] : '#fff';
 $result = QuizResult::where('user_id', get_current_user_id())
     ->where('slide_id', intval($slide->ID));
 $resultCollection = $result->get();
@@ -31,6 +31,7 @@ $randomId = uniqid('slide');
      data-slide-id="<?= $id ?>"
      data-slide-index="<?= $slide_index ?>"
      data-type="quiz"
+     data-icon-color="<?= $textColor ?>"
      data-passed="<?= $isPassed ?>"
      data-latest="<?= $isLatest ?>"
      data-quiz-type="<?= $type ?>"

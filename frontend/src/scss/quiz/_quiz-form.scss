@@ -1,7 +1,8 @@
 .lms-quiz-form {
   padding-top: 50px;
 
-  input[type="text"] {
+  input[type="text"],
+  textarea {
     //background: rgba(255, 255, 255, 0.5);
     color: #333 !important;
   }
