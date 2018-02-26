@@ -12,6 +12,8 @@ class Saver
         'slide_template',
         'slide_content_display',
         'slide_section_display',
+        'slide_colors',
+        'slide_background',
         'slide_format',
         'slide_content',
         'slide_custom_css',
