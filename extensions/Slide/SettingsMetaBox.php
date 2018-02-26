@@ -14,11 +14,14 @@ class SettingsMetaBox extends MetaBox
 
     public function callback()
     {
-        global $post;
+        $post = new Slide();
 
         $slideSectionDisplayOptions = Slide::SECTION_DISPLAY_OPTIONS;
         $slideTemplateOptions = Slide::TEMPLATE_OPTIONS;
         $slideDisplayHeaderOptions = Slide::DISPLAY_HEADER_OPTIONS;
+
+        $colors = get_post_meta($post->id, 'slide_colors', true);
+        $background = get_post_meta($post->id, 'slide_background', true);
 
         $weight = $post->slide_weight ?: PHP_INT_MAX;
 
@@ -26,6 +29,8 @@ class SettingsMetaBox extends MetaBox
             'slideSectionDisplayOptions',
             'slideDisplayHeaderOptions',
             'slideTemplateOptions',
+            'background',
+            'colors',
             'weight',
             'post'
         ));

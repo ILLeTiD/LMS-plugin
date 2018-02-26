@@ -394,3 +394,46 @@ if ( ! function_exists('lms_user')) {
        return new User(wp_get_current_user());
     }
 }
+
+if ( ! function_exists('lms_restart_course')) {
+
+    /**
+     * Restart a course for a specific user.
+     *
+     * @param $user_id
+     * @param $course_id
+     */
+    function lms_restart_course($user_id, $course_id)
+    {
+        global $wpdb;
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_activities',
+            [
+                'user_id' => $user_id,
+                'course_id' => $course_id
+            ],
+            ['%d', '%d']
+        );
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_quiz_results',
+            [
+                'user_id' => $user_id,
+                'course_id' => $course_id
+            ],
+            ['%d', '%d']
+        );
+
+        $wpdb->update(
+            $wpdb->prefix . 'lms_enrollments',
+            ['status' => 'in_progress'],
+            [
+                'user_id' => $user_id,
+                'course_id' => $course_id
+            ],
+            ['%s'],
+            ['%d', '%d']
+        );
+    }
+}
