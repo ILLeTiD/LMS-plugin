@@ -221,6 +221,7 @@ class Course {
         });
 
         $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
+        $(this.selectors.shortcodeRestart).on('click', this.shortcodeRestart.bind(this));
         $(this.selectors.shortcodePrev).on('click', this.prevSlide.bind(this));
         $(this.selectors.shortcodeNext).on('click', this.nextSlide.bind(this));
         $(this.selectors.quizCheckButton).on('click', this.checkQuiz.bind(this));
@@ -241,10 +242,29 @@ class Course {
         window.location.href = lmsAjax.coursesLink;
     }
 
+    shortcodeRestart(e) {
+        if (e) e.preventDefault();
+        // $.ajax(
+        //     {
+        //         method: "POST",
+        //         url: lmsAjax.ajaxurl,
+        //         data: {
+        //             action: '',
+        //             user_id: this.userId,
+        //             course_id: this.courseId,
+        //             slide_id: currentId,
+        //             commit_message: commitMessage
+        //         }
+        //     }
+        // ).done(function (msg) {
+        //     console.log('commited slide activity ', msg);
+        // });
+    }
+
     toggleFullscreen(e) {
         if (e) e.preventDefault();
-        console.log('TOGGLE FULLSCREEN');
-        console.log('is', IsFullScreenCurrently());
+
+        // console.log('is', IsFullScreenCurrently());
         if (!IsFullScreenCurrently()) {
             GoInFullscreen(this.courseEl[0]);
             this.courseEl.addClass('lms-fullscreen-init');
@@ -281,8 +301,8 @@ class Course {
             }
 
         };
-        console.log('COLOR', getColor());
-        console.log('IS FULLSCREEN?', IsFullScreenCurrently());
+        // console.log('COLOR', getColor());
+        // console.log('IS FULLSCREEN?', IsFullScreenCurrently());
         $('.lms-course-controls svg .cls-1, .lms-course-controls svg .cls-2').each(function (i) {
             $(this).css('stroke', getColor());
         });
