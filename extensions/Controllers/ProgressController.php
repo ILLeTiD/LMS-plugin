@@ -14,7 +14,7 @@ class ProgressController extends Controller
             ->where('slide_id', intval($_REQUEST['slide_id']))
             ->where('name', 'finished')
             ->count();
-        
+
         $activityBool = !!$activity;
 
         if (!$activityBool) {
@@ -32,6 +32,19 @@ class ProgressController extends Controller
         wp_send_json(['reached_step' => $activityBool,
             'newStep' => $activityNew,
             'post' => $_POST]);
+    }
+
+    public function restart()
+    {
+        $user_id = $_POST['user_id'];
+        $courseId = $_POST['course_id'];
+        try {
+            lms_restart_course($user_id, $courseId);
+            wp_send_json(['message' => 'course data deleted', 'post' => $_POST]);
+        } catch (\Exception $e) {
+            wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);
+        }
+
     }
 
     public function getStep()

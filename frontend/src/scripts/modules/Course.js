@@ -244,21 +244,21 @@ class Course {
 
     shortcodeRestart(e) {
         if (e) e.preventDefault();
-        // $.ajax(
-        //     {
-        //         method: "POST",
-        //         url: lmsAjax.ajaxurl,
-        //         data: {
-        //             action: '',
-        //             user_id: this.userId,
-        //             course_id: this.courseId,
-        //             slide_id: currentId,
-        //             commit_message: commitMessage
-        //         }
-        //     }
-        // ).done(function (msg) {
-        //     console.log('commited slide activity ', msg);
-        // });
+        console.log('START DELETEING');
+        $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'progress_restart',
+                    user_id: this.userId,
+                    course_id: this.courseId,
+                }
+            }
+        ).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            window.location.reload();
+        });
     }
 
     toggleFullscreen(e) {

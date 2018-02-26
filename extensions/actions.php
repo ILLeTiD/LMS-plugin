@@ -87,6 +87,8 @@ $action->add('wp_ajax_print_version', 'Controllers\PrintReportController@printRe
 
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
+$action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restart');
+$action->add('wp_ajax_nopriv_progress_restart', 'Controllers\ProgressController@restart');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
