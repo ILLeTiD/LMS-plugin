@@ -62,6 +62,8 @@ class RegisterController extends Controller
         }
 
         $user = User::find($user_id);
+        // $user->remove_role(get_option('default_role'));
+
         $profile = new Profile($user);
 
         $profile->setFields(

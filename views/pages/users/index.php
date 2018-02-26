@@ -45,7 +45,7 @@
 
 </div>
 
-<div class="lms-delete-confirmation lms-accept-popup hidden">
+<div class="lms-popup lms-accept-popup hidden">
     <h1><?= __('Accept Registry / Registries', 'lms-plugin'); ?></h1>
     <div>
         <select name="role">
@@ -54,6 +54,17 @@
         </select>
     </div>
     <div class="lms-accept-popup__error"></div>
-    <button type="button" class="js-delete-confirmation__yes"><?= __('Cancel', 'lms-plugin'); ?></button>
-    <button type="button" class="js-delete-confirmation__no"><?= __('Accept', 'lms-plugin'); ?></button>
+    <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
+    <button type="button" class="js-accept"><?= __('Accept', 'lms-plugin'); ?></button>
+</div>
+
+<div class="lms-popup lms-deny-popup hidden">
+    <h1><?= __('Deny Registry / Registries', 'lms-plugin'); ?></h1>
+    <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
+    <button type="button" class="js-deny"><?= __('Deny', 'lms-plugin'); ?></button>
+</div>
+
+<div class="lms-popup lms-success-popup hidden">
+    <h1 class="lms-success-popup__title"></h1>
+    <button type="button" class="js-close"><?= __('Ok', 'lms-plugin'); ?></button>
 </div>

@@ -63,7 +63,7 @@ class UsersPageController extends Controller
                 'label' => __('Invited', 'lms-plugin'),
                 'link' => 'users.php?page=users&view=invited',
                 'arguments' => [
-                    'meta_key' => 'status',
+                    'meta_key' => 'lms_status',
                     'meta_value' => 'invited'
                 ]
             ],
@@ -71,7 +71,7 @@ class UsersPageController extends Controller
                 'label' => __('Suspended', 'lms-plugin'),
                 'link' => 'users.php?page=users&view=suspended',
                 'arguments' => [
-                    'meta_key' => 'status',
+                    'meta_key' => 'lms_status',
                     'meta_value' => ['denied', 'uninvited'],
                     'meta_compare' => 'IN'
                 ]
@@ -109,6 +109,47 @@ class UsersPageController extends Controller
             $arguments['meta_value'] = 'invited';
         }
 
+        if ($current_view == 'suspended') {
+            $arguments['meta_key'] = 'lms_status';
+            $arguments['meta_value'] = ['denied', 'uninvited'];
+            $arguments['meta_compare'] = 'IN';
+        }
+
         return $arguments;
+    }
+
+    public function accept() {
+        $role = array_get($_POST, 'role');
+        $user_id = array_get($_POST, 'user');
+
+        if (empty($role)) {
+            wp_send_json([
+                'status' => 'error',
+                'message' => __('Role needs to be selected.', 'lms-plugin')
+            ]);
+        }
+
+        $user = new \WP_User($user_id);
+
+        $user->add_role($role);
+        update_user_meta($user_id, 'lms_status', 'accepted');
+        update_user_meta($user_id, 'lms_last_activity', time());
+
+        wp_send_json([
+            'status' => 'success',
+            'message' => __('The user registration is completed.', 'lms-plugin')
+        ]);
+    }
+
+    public function deny() {
+        $user_id = array_get($_POST, 'user');
+
+        update_user_meta($user_id, 'lms_status', 'denied');
+        update_user_meta($user_id, 'lms_last_activity', time());
+
+        wp_send_json([
+            'status' => 'success',
+            'message' => __('The user registration is suspended.', 'lms-plugin')
+        ]);
     }
 }
