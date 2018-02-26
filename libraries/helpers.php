@@ -394,3 +394,25 @@ if ( ! function_exists('lms_user')) {
        return new User(wp_get_current_user());
     }
 }
+
+if ( ! function_exists('lms_role_list')) {
+    function lms_role_list($user)
+    {
+        $roles = wp_roles();
+
+        $role_list = [];
+
+        foreach ($user->roles as $role) {
+            if (array_key_exists($role, $roles->role_names)) {
+                $role_list[$role] = translate_user_role($roles->role_names[$role]);
+            }
+        }
+
+        if (empty($role_list)) {
+            $role_list['none'] = '-';
+        }
+
+        return $role_list;
+    }
+}
+

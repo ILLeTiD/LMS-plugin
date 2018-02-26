@@ -46,3 +46,8 @@ $script->add('profile-fields-scripts')
 $script->add('print-scripts')
     ->source('print.js');
 
+$script->add('users-scripts')
+    ->source('users.js')
+    ->condition(function () {
+        return $this->getCurrentScreen()->id == 'users_page_users';
+    });

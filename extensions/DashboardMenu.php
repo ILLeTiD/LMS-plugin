@@ -75,21 +75,21 @@ class DashboardMenu
         );
 
         $this->addPage(
-            'users&filter=waiting',
+            'users&view=waiting',
             __('Registrations', 'lms-plugin'),
             'UsersPageController@index',
             'users.php'
         );
 
         $this->addPage(
-            'users&filter=invited',
+            'users&view=invited',
             __('Invites', 'lms-plugin'),
             'UsersPageController@index',
             'users.php'
         );
 
         $this->addPage(
-            'users&filter=suspended',
+            'users&view=suspended',
             __('Suspensions', 'lms-plugin'),
             'UsersPageController@index',
             'users.php'
