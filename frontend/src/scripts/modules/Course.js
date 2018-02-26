@@ -355,6 +355,10 @@ class Course {
                 this.courseEl.find(this.selectors.slideNavigation).addClass('quiz-unpassed');
                 quizSlide.inited = true;
             }
+        } else {
+            console.log('remove CHECK');
+            $('.lms-nav-button--prev').removeClass('disabled');
+            $('.lms-nav-button--check').removeClass('active');
         }
 
         this.calculateProgress();
