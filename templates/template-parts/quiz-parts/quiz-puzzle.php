@@ -4,7 +4,10 @@ $puzzles = $slide->puzzle;
 array_walk($puzzles, function (&$item, $key) {
     $item['index'] = $key;
 });
-shuffle($puzzles);
+
+if (!$passed) {
+    shuffle($puzzles);
+}
 ?>
 
 <?php if ($puzzles) : ?>

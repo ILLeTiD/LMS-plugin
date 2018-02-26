@@ -8,9 +8,9 @@
     padding: 10px 30px;
     position: relative;
 
-    @media screen and (max-width: 991px) {
-      padding: 5px 15px;
-    }
+    //@media screen and (max-width: 991px) {
+    //  padding: 5px 15px;
+    //}
 
     &--small {
       max-width: 800px;
@@ -84,7 +84,9 @@
   }
 
   &-main {
-
+    @media screen and (max-width: 1024px) {
+      padding: 35px 0;
+    }
   }
 
   &__check {
@@ -95,11 +97,12 @@
     display: none;
   }
   &-passed {
-    input[type="text"],
-    textarea {
-      border-color: #3c763d;
-      border-width: 2px;
+    .lms-quiz-form {
+      input[type="text"],
+      textarea {
+        border-color: #3c763d;
+        border-width: 2px;
+      }
     }
-
   }
 }

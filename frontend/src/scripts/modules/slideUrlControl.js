@@ -29,7 +29,7 @@ class stepsUrlControl {
             var state = e.state;
 
             try {
-                this.Course.showSlide(state.current, state.current, false);
+                this.Course.showSlide(state.current - 1, state.current, false);
             } catch (e) {
                 this.SlideCtrl.currentByIndex = 0;
             }

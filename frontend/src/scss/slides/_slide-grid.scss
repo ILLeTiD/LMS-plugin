@@ -186,7 +186,13 @@
     display: none !important;
 
     &.active {
-      display: flex !important;;
+      display: flex !important;
+    }
+  }
+
+  &.passed {
+    .lms-grid-block {
+      display: flex !important;
     }
   }
 }

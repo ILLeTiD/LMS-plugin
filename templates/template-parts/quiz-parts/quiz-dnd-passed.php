@@ -7,30 +7,18 @@ $dragObjects = $slide->drag_and_drop['objects'] ? $slide->drag_and_drop['objects
 array_walk($dragObjects, function (&$item, $key) {
     $item['index'] = $key;
 });
+
 if (!$passed) {
     shuffle($dragObjects);
 }
 ?>
-
 <div class="lms-quiz__wrapper">
     <section class="lms-dnd-quiz">
         <div class="board board-layout-<?= $dnd_layout; ?>">
             <div class="board-column initial">
                 <div class="board-column-content">
                     <?php foreach ($dragObjects as $object): ?>
-                        <div class="board-item"
-                             data-real-index="<?= $object['index'] ?>"
-                             data-dz="<?= $object["drop_zone"] ?>">
-                            <div class="board-item-content">
-                                <?php if ($object['type'] == 'image') : ?>
-                                    <img src="<?= $object["thumbnail"] ?>" alt="">
-                                <?php else: ?>
-                                    <h4 class="board-content__text">
-                                        <?= $object["text"]; ?>
-                                    </h4>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -46,9 +34,26 @@ if (!$passed) {
                     <div class="board-column-content">
                         <?php if ($zone['type'] == 'image') : ?>
                             <div class="board-column-content-placeholder">
-                                <img src="<?= $zone["image"] ?>" alt="">
+                                <img src="<?= $zone["image"] ?>"
+                                     style="width:<?= $zone["width"] ? $zone["width"] . '%' : ''; ?>;"
+                                     alt="">
                             </div>
                         <?php endif; ?>
+                        <div class="board-item"
+                             data-real-index="<?= $dragObjects[$index - 1]['index'] ?>"
+                             data-dz="<?= $dragObjects[$index - 1]["drop_zone"] ?>">
+                            <div class="board-item-content drag">
+                                 <?php if ($dragObjects[$index - 1]['type'] == 'image') : ?>
+                                    <img src="<?= $dragObjects[$index - 1]["image"] ?>"
+                                         style="width:<?= $dragObjects[$index - 1]["width"] ? $dragObjects[$index - 1]["width"] . '%' : ''; ?>;">
+                                 <?php else: ?>
+                                    <h4 class="board-content__text"
+                                        style="width:<?= $dragObjects[$index - 1]["width"] ? $dragObjects[$index - 1]["width"] . '%' : ''; ?>;">
+                                    <?= $dragObjects[$index - 1]["text"]; ?>
+                                    </h4>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php

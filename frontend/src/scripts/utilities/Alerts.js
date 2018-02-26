@@ -1,9 +1,10 @@
 import iziToast from './iziToast.js'
 class Alert {
-    constructor(message, type = 'error', timeOut = 5000) {
+    constructor(message, title = '', type = 'error', timeOut = 5000) {
         this.message = message;
         this.timeOut = timeOut;
         this.type = type;
+        this.title = title;
         this.showAlert();
     }
 
@@ -11,28 +12,28 @@ class Alert {
         switch (this.type) {
             case 'error' :
                 iziToast.error({
-                    title: 'Error',
+                    title: this.title ? this.title : lmsAjax.notificationMessages.error.title,
                     message: this.message,
                     position: 'topRight',
                 });
                 break;
             case 'success' :
                 iziToast.success({
-                    title: 'OK',
+                    title: this.title ? this.title : 'OK',
                     message: this.message,
                     position: 'topRight',
                 });
                 break;
             case 'warning' :
                 iziToast.warning({
-                    title: 'Caution',
+                    title: this.title ? this.title : 'Caution',
                     message: this.message,
                     position: 'topRight',
                 });
                 break;
             case 'info' :
                 iziToast.warning({
-                    title: 'Info',
+                    title: this.title ? this.title : 'Info',
                     message: this.message,
                     position: 'topRight',
                 });

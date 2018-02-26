@@ -23,6 +23,7 @@
 
 .lms-fullscreen-init {
   flex-direction: column-reverse;
+  margin-top: -63px;
 
   .lms-slide-control-fullscreen-out {
     display: block;
@@ -64,14 +65,16 @@
   }
 }
 
+
 .lms-fullscreen-init.lms-option-shown {
   .lms-slide-controls {
-    //background: #000;
+    background: #000;
   }
 
-  //.slide-controls > * {
-  //  display: block;
-  //}
+  svg .cls-1,
+  svg .cls-2 {
+    stroke: #fff !important;
+  }
 
   .lms-slide-control-audio.audio-inited {
     display: block;
@@ -209,6 +212,10 @@
       width: 150px;
     }
   }
+}
+
+.lms-option-shown {
+
 }
 
 .lms-section-control {

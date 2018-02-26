@@ -22,7 +22,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class('auth-template'); ?>>
+<body <?php body_class('auth-template auth'); ?>>
 <header id="masthead" class="auth-header" role="banner">
     <div class="wrap">
         <?php if (has_custom_logo()) : ?>

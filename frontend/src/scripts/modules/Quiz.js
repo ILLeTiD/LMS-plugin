@@ -48,13 +48,13 @@ class Quiz {
         this.slide.addClass('passed');
         $('.lms-nav-button--prev').removeClass('disabled');
         $('.lms-nav-button--check').removeClass('active');
-        new Alert('You can go to the next slide', 'success', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
         return true;
     }
 
     afterQuizFailed() {
         this.CourseInstance.canGoNext = false;
-        new Alert('Please try again', 'info', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
         $('.lms-nav-button--prev').addClass('disabled');
         $('.lms-nav-button--check').addClass('active');
         return false;
@@ -288,9 +288,6 @@ class Quiz {
             self.columnGrids.push(muuri);
 
         });
-        //console.log(this);
-        //console.log('this ', this.columnGrids);
-        //console.log('self ', self.columnGrids);
 
         boardGrid = new Muuri(this.board, {
             layoutDuration: 400,

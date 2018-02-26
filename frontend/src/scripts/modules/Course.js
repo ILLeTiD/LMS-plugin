@@ -1,5 +1,4 @@
 import SlideCtr from './Slide';
-import UrlCtr from './slideUrlControl'
 import Hint from './Hint'
 import Quiz from './Quiz'
 import {initLazyLoading} from '../utilities/lazy-loading';
@@ -13,7 +12,7 @@ import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utiliti
 class Course {
     constructor() {
         this.slideCtr = new SlideCtr(this);
-        this.urlCrl = new UrlCtr(this.slideCtr, this);
+        // this.urlCrl = new UrlCtr(this.slideCtr, this);
         this.canGoNext = true;
         this.flexThreshold = 50;
         this.passedIds = [];
@@ -56,8 +55,6 @@ class Course {
                     $(this).data('tolerance'),
                     self);
             }
-            // console.log('SLIDE', slide);
-            // console.log('SLIDES', self.slides);
             self.slides.push(slide);
         });
     }
@@ -69,6 +66,7 @@ class Course {
             this.player = $(this.selectors.audioPlayerControl).mediaelementplayer({
                 pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                 shimScriptAccess: 'always',
+                features: ['playpause', 'volume'],
                 stretching: 'responsive',
                 success: function (mediaElement, originalNode, instance) {
                     self.playerInstance = instance;
@@ -167,6 +165,22 @@ class Course {
         return lastSlideIndexFromDB;
     }
 
+    addToUrl(part, obj = {}) {
+        const index = this.slideCtr.current.index();
+        const current = index + 1;
+
+        var stateObj;
+        if ($.isEmptyObject(obj)) {
+            stateObj = {
+                current: current,
+            };
+        } else {
+            stateObj = obj;
+        }
+
+        history.pushState(stateObj, `Step ${part}`, `#slide${part}`);
+    }
+
 
     listeners() {
         $('html').keydown((e) => {
@@ -179,6 +193,17 @@ class Course {
                 } else if (this.navType == 'section') {
                     this.nextSection();
                 }
+            }
+        });
+
+        window.addEventListener('popstate', (e) => {
+            console.log('CHANGE URL LISTENER');
+            var state = e.state;
+
+            try {
+                this.showSlide(state.current - 1, state.current, false);
+            } catch (e) {
+                this.slideCtr.currentByIndex = 0;
             }
         });
 
@@ -247,7 +272,7 @@ class Course {
             if (type == 'quiz') {
                 color = slide.data('icon-color');
             } else {
-                color = slide.find('.lms-grid-block').first().data('data-icon-color');
+                color = slide.find('.lms-grid-block').first().data('icon-color');
             }
             if (onCangeFullscreen) {
                 return !IsFullScreenCurrently() ? color : '#fff';
@@ -297,7 +322,7 @@ class Course {
         this.fullscreenPaintNavButtons();
         const currentId = this.slideCtr.current.data('slide-id');
         if (changeUrl) {
-            this.urlCrl.addToUrl(indexHash, {
+            this.addToUrl(indexHash, {
                 current: indexHash,
             });
         }
