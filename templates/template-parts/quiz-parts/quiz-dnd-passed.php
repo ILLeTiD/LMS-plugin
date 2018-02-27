@@ -25,7 +25,7 @@ if (!$passed) {
             <?php
             $index = 1;
             foreach ($drop_zones as $key => $zone): ?>
-                <div class="board-column done">
+                <div class="board-column">
                     <?php if ($zone['type'] == 'text') : ?>
                         <h4 class="board-content__text">
                             <?= $zone["text"] ?>
