@@ -85,6 +85,10 @@ $action->add('wp_ajax_add_profile_field_option', 'Controllers\ProfileFieldsPageC
 
 $action->add('wp_ajax_print_version', 'Controllers\PrintReportController@printReport');
 
+$action->add('wp_ajax_accept_user', 'Controllers\UsersPageController@accept');
+$action->add('wp_ajax_deny_user', 'Controllers\UsersPageController@deny');
+$action->add('wp_ajax_invite_user', 'Controllers\UsersPageController@invite');
+
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
 $action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restart');

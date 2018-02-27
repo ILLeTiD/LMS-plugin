@@ -29,7 +29,12 @@ class LoginController extends Controller
         ]);
 
         if (! is_wp_error($user)) {
-            wp_safe_redirect($this->redirect_to);
+            if ($user->lms_status == 'accepted') {
+                wp_safe_redirect($this->redirect_to);
+            }
+
+            $user = new WP_Error;
+            $user->add('user.inactive', __('Your account is inactive.', 'lms-plugin'));
         }
 
         $errors = $user;

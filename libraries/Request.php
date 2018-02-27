@@ -11,9 +11,9 @@ class Request
         $this->parameters = $parameters;
     }
 
-    public function get($parameter)
+    public function get($parameter, $default = null)
     {
-        return array_get($this->parameters, $parameter);
+        return array_get($this->parameters, $parameter, $default);
     }
 
     public function only($parameters)

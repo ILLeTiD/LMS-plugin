@@ -928,3 +928,23 @@ input.lms-quiz-hint {
     top: 3px;
     right: 0;
 }
+
+/**
+ * Users.
+ */
+.lms-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background-color: #F0F0F0;
+    padding: 20px 30px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #DDD;
+}
+
+.lms-accept-popup {
+    padding: 40px 50px;
+}

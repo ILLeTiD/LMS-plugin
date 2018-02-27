@@ -30,6 +30,25 @@
             </div>
         </div>
 
+        <!-- Membership Moderation -->
+        <div class="row">
+            <div class="col-2">
+                <h4 class="field__title">
+                    <?= __('Account moderation', 'lms-plugin'); ?>
+                </h4>
+            </div>
+            <div class="col-3">
+                <label>
+                    <input type="checkbox"
+                           name="settings[account_moderation]"
+                           <?= checked(array_get($settings, 'account_moderation')); ?>
+                           value="1"
+                    >
+                    <?= __('Admin moderates accounts.', 'lms-plugin'); ?>
+                </label>
+            </div>
+        </div>
+
         <!-- User Restriction -->
         <div class="row">
             <div class="col-2">

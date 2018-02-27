@@ -2,12 +2,8 @@
 
 namespace LmsPlugin;
 
+use FishyMinds\Request;
 use FishyMinds\WordPress\Plugin\HasPlugin;
-use LmsPlugin\Controllers\ParticipantsPageController;
-use LmsPlugin\Controllers\ParticipantPageController;
-use LmsPlugin\Controllers\ProfileFieldsPageController;
-use LmsPlugin\Controllers\SettingsPageController;
-use LmsPlugin\Controllers\StatisticsPageController;
 
 class DashboardMenu
 {
@@ -15,92 +11,120 @@ class DashboardMenu
 
     public function create()
     {
-        $participantsPageController = new ParticipantsPageController($this->plugin);
-        $participantPageController = new ParticipantPageController($this->plugin);
-        $statisticsPageController = new StatisticsPageController($this->plugin);
-        $settingsPageController = new SettingsPageController($this->plugin);
-        $profileFieldsPageController = new ProfileFieldsPageController($this->plugin);
-
-        add_submenu_page(
-            'edit.php?post_type=course',
-            __('Participants', 'lms-plugin'),
-            __('Participants', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'all_participants',
-            [$participantsPageController, 'all']
+            __('Participants', 'lms-plugin'),
+            'ParticipantsPageController@all',
+            'edit.php?post_type=course'
         );
 
-        add_submenu_page(
-            null,
-            __('Participants', 'lms-plugin'),
-            __('Participants', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'course_participants',
-            [$participantsPageController, 'course']
+            __('Participants', 'lms-plugin'),
+            'ParticipantsPageController@course'
         );
 
-        add_submenu_page(
-            'edit.php?post_type=course',
-            __('Statistics', 'lms-plugin'),
-            __('Statistics', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'statistics',
-            [$statisticsPageController, 'index']
+            __('Statistics', 'lms-plugin'),
+            'StatisticsPageController@index',
+            'edit.php?post_type=course'
         );
 
-        add_submenu_page(
-            'edit.php?post_type=course',
-            __('Settings', 'lms-plugin'),
-            __('Settings', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'settings',
-            [$settingsPageController, 'index']
+            __('Settings', 'lms-plugin'),
+            'SettingsPageController@index',
+            'edit.php?post_type=course'
         );
 
-        add_submenu_page(
-            null,
-            __('Participant', 'lms-plugin'),
-            __('Participant', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'participant',
-            [$participantPageController, 'index']
+            __('Participant', 'lms-plugin'),
+            'ParticipantPageController@index'
         );
 
-        add_submenu_page(
-            null,
-            __('Participant Courses', 'lms-plugin'),
-            __('Participant Courses', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'participant_courses',
-            [$participantPageController, 'courses']
+            __('Participant Courses', 'lms-plugin'),
+            'ParticipantPageController@courses'
         );
 
-        add_submenu_page(
-            null,
-            __('Participant Activities', 'lms-plugin'),
-            __('Participant Activities', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'participant_activities',
-            [$participantPageController, 'activities']
+            __('Participant Activities', 'lms-plugin'),
+            'ParticipantPageController@activities'
         );
 
-        add_submenu_page(
-            null,
-            __('Create Profile Field', 'lms-plugin'),
-            __('Create Profile Field', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'profile_field.create',
-            [$profileFieldsPageController, 'create']
+            __('Create Profile Field', 'lms-plugin'),
+            'ProfileFieldsPageController@create'
         );
 
-        add_submenu_page(
-            null,
-            __('Store Profile Field', 'lms-plugin'),
-            __('Store Profile Field', 'lms-plugin'),
-            'manage_options',
+        $this->addPage(
             'profile_field.edit',
-            [$profileFieldsPageController, 'edit']
+            __('Edit Profile Field', 'lms-plugin'),
+            'ProfileFieldsPageController@edit'
         );
+
+        $this->addPage(
+            'users',
+            __('Users', 'lms-plugin'),
+            'UsersPageController@index'
+        );
+
+        $this->addPage(
+            'users&view=waiting',
+            __('Registrations', 'lms-plugin'),
+            'UsersPageController@index',
+            'users.php'
+        );
+
+        $this->addPage(
+            'users&view=invited',
+            __('Invites', 'lms-plugin'),
+            'UsersPageController@index',
+            'users.php'
+        );
+
+        $this->addPage(
+            'users&view=suspended',
+            __('Suspensions', 'lms-plugin'),
+            'UsersPageController@index',
+            'users.php'
+        );
+    }
+
+    private function addPage($name, $title, $handler, $parent = null)
+    {
+        list($controller, $action) = explode('@', $handler);
+
+        $controller = $this->createControllerObject($controller);
+
+        if (! method_exists($controller, $action)) {
+            throw new \InvalidArgumentException('Action not found.');
+        }
+
+        add_submenu_page(
+            $parent,
+            $title,
+            $title,
+            'manage_options',
+            $name,
+            [$controller, $action]
+        );
+    }
+
+    private function createControllerObject($class)
+    {
+        $class = $this->plugin->getNamespace() . '\\Controllers\\' . $class;
+
+        if (! class_exists($class)) {
+            throw new \InvalidArgumentException('Controller\'s class not found.');
+        }
+
+        return new $class($this->plugin, new Request($_REQUEST));
     }
 
     public function changeOrder($menuOrder)

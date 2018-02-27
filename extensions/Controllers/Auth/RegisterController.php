@@ -23,7 +23,7 @@ class RegisterController extends Controller
     public function showForm()
     {
         if ( ! $this->canUsersRegister()) {
-            wp_safe_redirect('/request_invite');
+            wp_safe_redirect('/login');
         }
 
         $this->view('auth.register', [
@@ -62,6 +62,8 @@ class RegisterController extends Controller
         }
 
         $user = User::find($user_id);
+        $user->remove_role(get_option('default_role'));
+
         $profile = new Profile($user);
 
         $profile->setFields(
@@ -70,6 +72,10 @@ class RegisterController extends Controller
                 $this->fields_manager->getCustomFieldsSlugs()
             )
         )->save();
+
+        $moderation = $this->plugin->getSettings('account_moderation');
+        update_user_meta($user->id, 'lms_status', $moderation ? 'waiting' : 'accepted');
+        update_user_meta($user->id, 'lms_last_activity', time());
 
         // Fire user registered event.
         do_action('lms_event_user_registered', $user);
