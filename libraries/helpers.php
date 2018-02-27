@@ -416,3 +416,39 @@ if ( ! function_exists('lms_role_list')) {
     }
 }
 
+if ( ! function_exists('lms_parse_invitee')) {
+    function lms_parse_invitee($input)
+    {
+        $email = '(?<email>[\-0-9a-zA-Z\.\+_]+@[\-0-9a-zA-Z\.\+_]+\.[a-zA-Z]{2,4})';
+        $email_with_name = "((?<name>\w+ \w+) ?<{$email}>)";
+
+        $found = preg_match("/^{$email_with_name}$/", $input, $matches);
+
+        if ($found) {
+            return $matches;
+        }
+
+        $found = preg_match("/^{$email}$/", $input, $matches);
+
+        return $found ? $matches : false;
+    }
+}
+
+
+if ( ! function_exists('lms_parse_invitees')) {
+    function lms_parse_invitees($input)
+    {
+        $result = [];
+        $invitees = preg_split('/, ?/', $input);
+
+        foreach ($invitees as $invitee) {
+            $data = lms_parse_invitee($invitee);
+            if ( ! $data) {
+                return false;
+            }
+            $result[] = array_only($data, ['name', 'email']);
+        }
+
+        return $result;
+    }
+}
