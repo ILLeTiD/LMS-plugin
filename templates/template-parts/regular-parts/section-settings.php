@@ -9,6 +9,11 @@ $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 
 $linkedTo = isset($block['connect_to'])&&$block['connect_to']  ? intval($block['connect_to']) +1 : null;
+$useArrow = array_get($block, 'arrow');
+$arrowClass = '';
+if($linkedTo && $useArrow) {
+    $arrowClass = 'lms-grid-block-arrow-to-'.$linkedTo;
+}
 
 $bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
 $headerC = isset($block['colors']['header']) ? $block['colors']['header'] : null;
@@ -73,8 +78,8 @@ switch ($contentAlign) {
     }
 
     @media screen and (max-width: 1024px){
-        #<?= $randomId?> {
-            order:<?= $linkedTo*10 +1 ?>;
+       .lms-grid-block:nth-of-type(<?= $linkedTo; ?>){
+            order:<?= $index*10 +1 ?>!important;
         }
     }
 

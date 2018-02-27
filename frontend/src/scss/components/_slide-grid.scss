@@ -25,12 +25,12 @@
 }
 
 @for $i from 1 through 9 {
-  .grid-block-#{$i} {
+  .lms-grid-block-#{$i} {
     order: $i*10
   }
 }
 
-.grid-container {
+.lms-grid-container {
   //height: 100vh;
   height: 100%;
 
@@ -38,7 +38,7 @@
   //  height: auto;
   //}
 
-  .grid-block {
+  .lms-grid-block {
     text-align: center;
 
     @media screen and (max-width: 1024px) {
@@ -48,35 +48,35 @@
   }
 
   &-1 {
-    .grid-block {
+    .lms-grid-block {
       height: 100%;
       width: 100%;
     }
   }
 
   &-2 {
-    .grid-block {
+    .lms-grid-block {
       height: 100%;
       width: 50%;
     }
   }
 
   &-3 {
-    .grid-block {
+    .lms-grid-block {
       height: 100%;
       width: 33.3333%;
     }
   }
 
   &-4 {
-    .grid-block {
+    .lms-grid-block {
       height: 50%;
       width: 50%;
     }
   }
 
   &-5 {
-    .grid-block {
+    .lms-grid-block {
       height: 50%;
       width: 33.333%;
 
@@ -91,14 +91,14 @@
   }
 
   &-6 {
-    .grid-block {
+    .lms-grid-block {
       height: 50%;
       width: 33.333%;
     }
   }
 
   &-7 {
-    .grid-block {
+    .lms-grid-block {
       height: 33.333%;
       width: 33.333%;
 
@@ -109,7 +109,7 @@
   }
 
   &-8 {
-    .grid-block {
+    .lms-grid-block {
       height: 33.333%;
       width: 33.333%;
 
@@ -120,14 +120,14 @@
   }
 
   &-9 {
-    .grid-block {
+    .lms-grid-block {
       height: 33.333%;
       width: 33.333%;
     }
   }
 }
 
-.grid-block {
+.lms-grid-block {
   display: block;
 
   &--link {
