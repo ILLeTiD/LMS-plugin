@@ -1,12 +1,12 @@
 <div class="lms-popup lms-accept-popup hidden">
     <h1><?= __('Accept Registry / Registries', 'lms-plugin'); ?></h1>
-    <div>
+    <div class="lms-accept-popup__body">
         <select name="role">
             <option><?= __('Select Role', 'lms-plugin'); ?></option>
             <?php wp_dropdown_roles(); ?>
         </select>
+        <div class="lms-accept-popup__error"></div>
     </div>
-    <div class="lms-accept-popup__error"></div>
     <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
     <button type="button" class="js-accept"><?= __('Accept', 'lms-plugin'); ?></button>
 </div>

@@ -939,12 +939,32 @@ input.lms-quiz-hint {
     transform: translate(-50%, -50%);
     z-index: 999;
     background-color: #F0F0F0;
-    padding: 20px 30px;
+    padding: 40px 70px;
     font-weight: bold;
     text-align: center;
     border: 1px solid #DDD;
 }
 
-.lms-accept-popup {
-    padding: 40px 50px;
+.lms-popup select {
+    min-width: 200px;
 }
+
+.lms-popup button {
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.lms-popup__error {
+    color: #BA3B3C;
+}
+
+.lms-accept-popup__body {
+    padding: 10px 0 30px;
+}
+
+.lms-deny-popup h1,
+.lms-success-popup h1 {
+    margin-bottom: 40px;
+}
+
