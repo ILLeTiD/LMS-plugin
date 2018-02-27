@@ -1,4 +1,5 @@
 <div class="lms-slide-section-display-<?= $sectionsDisplay; ?>  lms-slide lms-slide-<?= $template ?> lms-slide-regular <?= $isPassed ? 'passed' : '' ?>"
+     id="slide-<?= $id ?>"
      data-slide-id="<?= $id ?>"
      data-section-display="<?= $sectionsDisplay; ?>"
      data-passed="<?= $isPassed ? 'true' : 'false' ?>"
@@ -6,6 +7,9 @@
      data-latest="<?= $isLatest ?>"
      data-section-count="<?= $sectionsCount; ?>"
      data-type="regular">
+    <?php
+    include 'slide-settings.php';
+    ?>
     <?php if ($displayHeader == 'regular') :
         lms_get_template('template-parts/regular-parts/slide-header.php', ['title' => $title]);
     endif; ?>

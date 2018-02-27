@@ -5,7 +5,13 @@
         <button class="lms-slide-control-fullscreen-option">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                 <defs>
-                    <style>.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;}</style>
+                    <style>.cls-1 {
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-miterlimit: 10;
+                            stroke-width: 3px;
+                        }</style>
                 </defs>
                 <title>Optons</title>
                 <g id="Home">
@@ -17,10 +23,23 @@
         </button>
         <button class="lms-slide-control-fullscreen lms-slide-fullscreen">
             <svg class="lms-slide-control-fullscreen-in"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                 <defs>
                     <style>
-                        .cls-1,.cls-2{fill:none;stroke:#fff;stroke-linecap:round;stroke-width:3px;}.cls-1{stroke-linejoin:round;}.cls-2{stroke-miterlimit:10;}
+                        .cls-1, .cls-2 {
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-width: 3px;
+                        }
+
+                        .cls-1 {
+                            stroke-linejoin: round;
+                        }
+
+                        .cls-2 {
+                            stroke-miterlimit: 10;
+                        }
                     </style>
                 </defs>
                 <title>Maximize</title>
@@ -40,7 +59,20 @@
                  viewBox="0 0 80 80">
                 <defs>
                     <style>
-                        .cls-1,.cls-2{fill:none;stroke:#fff;stroke-linecap:round;stroke-width:3px;}.cls-1{stroke-linejoin:round;}.cls-2{stroke-miterlimit:10;}
+                        .cls-1, .cls-2 {
+                            fill: none;
+                            stroke: #fff;
+                            stroke-linecap: round;
+                            stroke-width: 3px;
+                        }
+
+                        .cls-1 {
+                            stroke-linejoin: round;
+                        }
+
+                        .cls-2 {
+                            stroke-miterlimit: 10;
+                        }
                     </style>
                 </defs>
                 <title>Minimize</title>
@@ -65,21 +97,32 @@
                 <a href="#" class="prev" rel="prev">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                         <defs>
-                            <style>.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>
+                            <style>.cls-1 {
+                                    fill: none;
+                                    stroke: #fff;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-width: 3px;
+                                }</style>
                         </defs>
                         <title>Arrow-left</title>
                         <g id="Arrow-right">
                             <polyline class="cls-1" points="47.13 27.2 32.87 40.17 47.13 53.14"/>
                         </g>
                     </svg>
-
                 </a>
             </div>
             <div class="lms-nav-button lms-nav-button--prev">
                 <a href="#" class="next" rel="next">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                         <defs>
-                            <style>.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>
+                            <style>.cls-1 {
+                                    fill: none;
+                                    stroke: #fff;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-width: 3px;
+                                }</style>
                         </defs>
                         <title>Arrow-right</title>
                         <g id="Arrow-right">
@@ -92,7 +135,13 @@
                 <a href="#" class="" rel="next">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                         <defs>
-                            <style>.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>
+                            <style>.cls-1 {
+                                    fill: none;
+                                    stroke: #fff;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-width: 3px;
+                                }</style>
                         </defs>
                         <title>Help copy</title>
                         <g id="Arrow-right">
@@ -107,7 +156,13 @@
                 <a href="#" class="next" rel="next">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                         <defs>
-                            <style>.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>
+                            <style>.cls-1 {
+                                    fill: none;
+                                    stroke: #fff;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-width: 3px;
+                                }</style>
                         </defs>
                         <title>Arrow-right</title>
                         <g id="Arrow-right">

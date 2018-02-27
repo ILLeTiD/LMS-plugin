@@ -1,10 +1,16 @@
+
 <div class="lms-slide-section-display-<?= $sectionsDisplay; ?> lms-slide lms-slide-<?= $template ?> <?= $isPassed ? 'passed' : '' ?> lms-slide-regular"
+     id="slide-<?= $id ?>"
      data-section-display="<?= $sectionsDisplay; ?>"
      data-section-count="<?= $sectionsCount; ?>"
      data-passed="<?= $isPassed ? 'true' : 'false' ?>"
      data-slide-index="<?= $slide_index ?>"
      data-latest="<?= $isLatest ?>"
-     data-slide-id="<?= $id ?>" data-type="regular">
+     data-slide-id="<?= $id ?>"
+     data-type="regular">
+    <?php
+    include 'slide-settings.php';
+    ?>
     <?php if ($displayHeader == 'regular') :
         lms_get_template('template-parts/regular-parts/slide-header.php', ['title' => $title]);
     endif; ?>
