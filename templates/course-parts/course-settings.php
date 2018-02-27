@@ -12,7 +12,7 @@ $textColor = $colors["text"] ? $colors["text"] : null;
         color: <?= $headerColor ?>;
     }
 
-    .lms-grid-block, .lms-course {
+    .lms-slide, .lms-course {
         color: <?= $textColor ?>;
         background: <?= $backgroundColor; ?>;
     }

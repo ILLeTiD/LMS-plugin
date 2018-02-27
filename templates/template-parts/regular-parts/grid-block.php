@@ -1,5 +1,5 @@
 <?php
-include 'slide-settings.php';
+include 'section-settings.php';
 ?>
 
 <?php if ($link) : ?>

@@ -3,11 +3,15 @@
  */
 // var $ = require('jquery');
 var $ = window.jQuery;
+import "babel-polyfill";
+import './utilities/nodeListForEach'
+import "web-animations-js"
+require('intersection-observer');
+import objectFitImages from 'object-fit-images';
 // import  'mediaelement';
 // Import libraries
 import 'izimodal';
-require('intersection-observer');
-import objectFitImages from 'object-fit-images';
+// import './utilities/arrayFind'
 // Import custom modules
 import App from'./modules/app.js';
 
