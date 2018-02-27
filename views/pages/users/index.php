@@ -3,7 +3,11 @@
         <?= __('Registration - Waiting', 'lms-plugin'); ?>
     </h1>
 
-<!--    <a href="http://fishy-minds.test/wp-admin/user-new.php" class="page-title-action">Add New</a>-->
+    <?php if ($current_view == 'invited'): ?>
+        <a href="#"
+           class="page-title-action js-invite-user"
+        ><?= __('Invite User(s)', 'lms-plugin'); ?></a>
+    <?php endif; ?>
 
     <hr class="wp-header-end">
 
@@ -45,26 +49,5 @@
 
 </div>
 
-<div class="lms-popup lms-accept-popup hidden">
-    <h1><?= __('Accept Registry / Registries', 'lms-plugin'); ?></h1>
-    <div>
-        <select name="role">
-            <option><?= __('Select Role', 'lms-plugin'); ?></option>
-            <?php wp_dropdown_roles(); ?>
-        </select>
-    </div>
-    <div class="lms-accept-popup__error"></div>
-    <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
-    <button type="button" class="js-accept"><?= __('Accept', 'lms-plugin'); ?></button>
-</div>
+<?php include ('components/popups.php'); ?>
 
-<div class="lms-popup lms-deny-popup hidden">
-    <h1><?= __('Deny Registry / Registries', 'lms-plugin'); ?></h1>
-    <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
-    <button type="button" class="js-deny"><?= __('Deny', 'lms-plugin'); ?></button>
-</div>
-
-<div class="lms-popup lms-success-popup hidden">
-    <h1 class="lms-success-popup__title"></h1>
-    <button type="button" class="js-close"><?= __('Ok', 'lms-plugin'); ?></button>
-</div>

@@ -65,7 +65,6 @@
                 }
             }).done(function (response) {
                 if (response.status === 'error') {
-                    console.log(popup.error);
                     popup.error.text(response.message);
                     popup.error.show();
                 } else {
@@ -123,9 +122,72 @@
         return DenyPopup;
     }();
 
+    var InvitePopup = function () {
+        function InvitePopup(element) {
+            var that = this;
+
+            this.element = $(element);
+            this.error = this.element.find('.lms-invite-popup__error');
+
+            this.element.find('select').on('change', function () {
+                that.role = $(this).val();
+                that.error.hide();
+            });
+
+            this.element.find('textarea').on('change', function () {
+                that.emails = $(this).val();
+                that.error.hide();
+            });
+
+            this.element.find('.js-invite').on('click', function () {
+                that.invite();
+            });
+        }
+
+        InvitePopup.prototype.show = function () {
+            this.element.fadeIn();
+        };
+
+        InvitePopup.prototype.close = function () {
+            this.element.fadeOut();
+        };
+
+        InvitePopup.prototype.invite = function () {
+            var popup = this;
+
+            $.ajax({
+                method: 'POST',
+                url: ajaxurl + '?action=invite_user',
+                data: {
+                    role: this.role,
+                    emails: this.emails
+                }
+            }).done(function (response) {
+                if (response.status === 'error') {
+                    console.log(popup.error);
+                    popup.error.text(response.message);
+                    popup.error.show();
+                } else {
+                    var successPopup = new SuccessPopup('.lms-success-popup', response.message);
+                    popup.close();
+                    successPopup.show();
+                }
+            });
+        };
+
+        return InvitePopup;
+    }();
+
     $(function () {
-        var acceptPopup = new AcceptPopup('.lms-accept-popup'),
+        var invitePopup = new InvitePopup('.lms-invite-popup'),
+            acceptPopup = new AcceptPopup('.lms-accept-popup'),
             denyPopup = new DenyPopup('.lms-deny-popup');
+
+        $('.js-invite-user').on('click', function (event) {
+            invitePopup.show();
+
+            event.preventDefault();
+        });
 
         $('.js-accept-user').on('click', function (event) {
             acceptPopup.user = $(this).data('user');

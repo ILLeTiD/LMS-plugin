@@ -118,7 +118,8 @@ class UsersPageController extends Controller
         return $arguments;
     }
 
-    public function accept() {
+    public function accept()
+    {
         $role = array_get($_POST, 'role');
         $user_id = array_get($_POST, 'user');
 
@@ -141,7 +142,8 @@ class UsersPageController extends Controller
         ]);
     }
 
-    public function deny() {
+    public function deny()
+    {
         $user_id = array_get($_POST, 'user');
 
         update_user_meta($user_id, 'lms_status', 'denied');
@@ -150,6 +152,42 @@ class UsersPageController extends Controller
         wp_send_json([
             'status' => 'success',
             'message' => __('The user registration is suspended.', 'lms-plugin')
+        ]);
+    }
+
+    public function invite()
+    {
+        $role = array_get($_POST, 'role');
+        $emails = array_get($_POST, 'emails');
+
+        if (empty($role)) {
+            wp_send_json([
+                'status' => 'error',
+                'message' => __('Role needs to be selected.', 'lms-plugin')
+            ]);
+        }
+
+        if (empty($emails)) {
+            wp_send_json([
+                'status' => 'error',
+                'message' => __('Email(s) required.', 'lms-plugin')
+            ]);
+        }
+
+        $email_pattern = '[\-0-9a-zA-Z\.\+_]+@[\-0-9a-zA-Z\.\+_]+\.[a-zA-Z]{2,4}';
+        $pattern = "/^((({$email_pattern})|(\w+ \w+ <{$email_pattern}>)),? ?)+$/";
+        $emails_valid = preg_match($pattern, $emails);
+
+        if ( ! $emails_valid) {
+            wp_send_json([
+                'status' => 'error',
+                'message' => __('Email(s) not valid.', 'lms-plugin')
+            ]);
+        }
+
+        wp_send_json([
+            'status' => 'success',
+            'message' => __('User(s) invited.', 'lms-plugin')
         ]);
     }
 }

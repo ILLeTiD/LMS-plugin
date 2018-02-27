@@ -58,6 +58,11 @@ class User
         }
     }
 
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array([$this->wp_user, $method], $arguments);
+    }
+
     public function enrollments()
     {
         return Enrollment::where(['user_id' => $this->id]);
