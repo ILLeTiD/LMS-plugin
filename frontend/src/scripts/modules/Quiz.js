@@ -135,10 +135,15 @@ class Quiz {
         };
 
         const inputsCheck = (checkedAnswers) => {
-            checkedAnswers.forEach(item => {
-                const className = item['correct'] ? 'correct' : 'error';
-                form.find(`input[data-index="${item.index}"]`).addClass(className);
-            });
+            if (checkedAnswers) {
+                checkedAnswers.forEach(item => {
+                    const className = item['correct'] ? 'correct' : 'error';
+                    form.find(`input[data-index="${item.index}"]`).addClass(className);
+                });
+            } else {
+                new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
+            }
+
         };
     }
 
