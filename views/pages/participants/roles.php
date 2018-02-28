@@ -9,13 +9,13 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($roles as $name => $r): ?>
+    <?php foreach ($roles as $name => $label): ?>
         <tr>
             <td>
                 <input class="lms-checkbox-role" type="checkbox" name="roles[]" value="<?= $name; ?>">
             </td>
             <td>
-                <?= $r['label']; ?>
+                <?= $label; ?>
             </td>
             <td class="lms-align-right"></td>
         </tr>

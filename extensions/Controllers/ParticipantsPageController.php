@@ -24,10 +24,11 @@ class ParticipantsPageController extends Controller
         $from = array_get($_GET, 'from');
         $to = array_get($_GET, 'to');
 
-        $roles = CustomRoles::roles();
+        $roles = wp_roles()->role_names;
 
         $arguments = [
-            'role__in' => array_keys(CustomRoles::roles())
+            // 'role__in' => array_keys(CustomRoles::roles())
+            'role__not_in' => ['administrator']
         ];
 
         if ($search) {
@@ -91,7 +92,7 @@ class ParticipantsPageController extends Controller
         $to = array_get($_GET, 'to');
 
         $course = Course::find($cid);
-        $roles = CustomRoles::roles();
+        $roles = wp_roles()->role_names;
 
         $arguments = [
             'role__in' => array_keys(CustomRoles::roles()),
@@ -164,7 +165,7 @@ class ParticipantsPageController extends Controller
         $search = sprintf('*%s*', $_POST['search'] ?: '');
 
         $users = new WP_User_Query([
-            'role__in' => ['backoffice', 'technicians', 'sales'],
+            // 'role__in' => ['backoffice', 'technicians', 'sales'],
             'search' => $search,
         ]);
 

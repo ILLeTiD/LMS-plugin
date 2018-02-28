@@ -455,6 +455,7 @@
 
  .lms-invite-roles__content {
      height: 300px;
+     overflow: scroll;
  }
 
  .lms-invite-users {

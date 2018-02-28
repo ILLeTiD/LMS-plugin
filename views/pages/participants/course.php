@@ -173,14 +173,14 @@
                                     </a> |
                                 </span>
                                 <span class="fail trash">
-                                    <a href="#" aria-label="<?= __('Fail', 'lms-plugin'); ?> “<?= $user->display_name; ?>”">
+                                    <a href="#" aria-label="<?= __('Fail', 'lms-plugin'); ?> “<?= $enrollment->user->display_name; ?>”">
                                         <?= __('Fail', 'lms-plugin'); ?>
                                     </a>
                                 </span>
                             </div>
                         </td>
                         <td class="role column-role" data-colname="Role">
-                            <a href="#"><?= $roles[$enrollment->user->roles[0]]['label']; ?></a>
+                            <a href="#"><?= $roles[$enrollment->user->roles[0]]; ?></a>
                         </td>
                         <td class="enrollment-date column-enrollment-date" data-colname="<?= __('Enrollment Date', 'lms-plugin'); ?>">
                             <?= $enrollment->created_at; ?>
