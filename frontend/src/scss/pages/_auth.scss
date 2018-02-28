@@ -1,6 +1,10 @@
 .auth {
   &-html {
     background: #fff;
+
+    a {
+      text-decoration: none;
+    }
   }
 
   &__logo {
@@ -54,11 +58,26 @@
       }
     }
 
+    label,
+    p {
+      margin-bottom: 20px;
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      width: 100%;
+      display: block;
+      //max-width: 436px;
+      padding: 0 5px;
+      height: 40px;
+      line-height: 40px;
+    }
+
     button,
     input[type=submit] {
       width: 100%;
     }
-
   }
 
   &-error {
@@ -67,7 +86,7 @@
     strong {
       background: none;
       color: #000;
-      font-weight:500;
+      font-weight: 500;
     }
   }
   .alert {

@@ -10,6 +10,7 @@ include 'section-settings.php';
    class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> <?= $arrowClass ?> lms-grid-block-<?= $index; ?> lms-grid-block--link <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
     <?php if ($audio) : ?>
         <?= 'data-audio-src="' . $audio . '"'; ?>
+        <?= 'data-audio-loop="' . $audioIsLoop . '"'; ?>
     <?php endif; ?>
    id="<?= $randomId; ?>"
    data-icon-color="<?= $textC ? $textC : '#fff' ?>"
@@ -24,6 +25,7 @@ include 'section-settings.php';
             class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> <?= $arrowClass ?> lms-grid-block-<?= $index; ?> <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
+            <?= 'data-audio-loop="' . $audioIsLoop . '"'; ?>
         <?php endif; ?>
             id="<?= $randomId; ?>"
             data-icon-color="<?= $textC ? $textC : '#fff' ?>"

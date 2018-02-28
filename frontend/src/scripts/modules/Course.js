@@ -79,9 +79,16 @@ class Course {
         const slide = this.slideCtr.current;
         const audioBlock = slide.find(this.selectors.audioGridBlock).first();
         const firstAudioSrc = audioBlock.data('audio-src');
+        const isLoop = audioBlock.data('audio-loop');
         if (firstAudioSrc) {
+            console.log('IS LOOP?', isLoop);
+            console.log(this.playerInstance);
             //console.log('slide has audio');
             this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');
+            if (isLoop) {
+                this.playerInstance.options.loop = true;
+            }
+
             this.playerInstance.setSrc(firstAudioSrc);
             this.playerInstance.load();
             this.playerInstance.play();
@@ -289,11 +296,12 @@ class Course {
             const slide = this.slideCtr.current;
             const type = slide.data('type');
             let color = '#fff';
-            if (type == 'quiz') {
-                color = slide.data('icon-color');
-            } else {
-                color = slide.find('.lms-grid-block').first().data('icon-color');
-            }
+            color = slide.data('icon-color');
+            // if (type == 'quiz') {
+            //     color = slide.data('icon-color');
+            // } else {
+            //     color = slide.find('.lms-grid-block').first().data('icon-color');
+            // }
             if (onCangeFullscreen) {
                 return !IsFullScreenCurrently() ? color : '#fff';
             } else {

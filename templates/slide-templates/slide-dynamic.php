@@ -6,6 +6,7 @@
      data-passed="<?= $isPassed ? 'true' : 'false' ?>"
      data-slide-index="<?= $slide_index ?>"
      data-latest="<?= $isLatest ?>"
+     data-icon-color="<?= array_get($colors,"text",'#fff'); ?>"
      data-slide-id="<?= $id ?>"
      data-type="regular">
     <?php
