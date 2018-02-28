@@ -1,5 +1,5 @@
 var lms = {
-    editor : {
+    editor: {
         settings: {
             tinymce: {
                 plugins: 'charmap, colorpicker, hr, lists, paste, tabfocus, textcolor, fullscreen, wordpress, wpautoresize, wpeditimage, wpemoji, wpgallery, wplink, wptextpattern, wplms',
@@ -149,8 +149,8 @@ var lms = {
             e.preventDefault();
 
             var container = $('.lms-slide-sections');
-                sections = container.find('.lms-slide-section');
-                newSectionIndex = sections.length;
+            sections = container.find('.lms-slide-section');
+            newSectionIndex = sections.length;
 
             $.get(ajaxurl, {
                 action: 'new_slide_section',
@@ -290,6 +290,17 @@ var lms = {
 
             row.find('.lms-drag-and-drop__content').hide();
             row.find('.lms-drag-and-drop__content_' + type).show();
+        });
+
+        $('.lms-section-color-trigger').each(function (i) {
+            if ($(this).is(':checked')) {
+                $(this).closest('label').siblings('.lms-color-picker-wrap').show();
+            } else {
+                $(this).closest('label').siblings('.lms-color-picker-wrap').hide();
+            }
+        });
+        $('.lms-section-color-trigger').on('change', function (e) {
+            $(this).closest('label').siblings('.lms-color-picker-wrap').toggle();
         });
 
     });
