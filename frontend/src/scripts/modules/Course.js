@@ -79,9 +79,16 @@ class Course {
         const slide = this.slideCtr.current;
         const audioBlock = slide.find(this.selectors.audioGridBlock).first();
         const firstAudioSrc = audioBlock.data('audio-src');
+        const isLoop = audioBlock.data('audio-loop');
         if (firstAudioSrc) {
+            console.log('IS LOOP?', isLoop);
+            console.log(this.playerInstance);
             //console.log('slide has audio');
             this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');
+            if (isLoop) {
+                this.playerInstance.options.loop = true;
+            }
+
             this.playerInstance.setSrc(firstAudioSrc);
             this.playerInstance.load();
             this.playerInstance.play();

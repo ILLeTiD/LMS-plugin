@@ -4,6 +4,7 @@ $text = isset($block['text']) ? $block['text'] : null;
 $thumbnail = isset($block['thumbnail']) ? $block['thumbnail'] : null;
 $image = isset($block['image']) ? $block['image'] : null;
 $audio = isset($block['audio']) ? $block['audio'] : null;
+$audioIsLoop = isset($block['loop']) ? $block['loop'] : null;
 $video = isset($block['embed_video']) ? $block['embed_video'] : null;
 $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
