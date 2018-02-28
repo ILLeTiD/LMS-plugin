@@ -289,11 +289,12 @@ class Course {
             const slide = this.slideCtr.current;
             const type = slide.data('type');
             let color = '#fff';
-            if (type == 'quiz') {
-                color = slide.data('icon-color');
-            } else {
-                color = slide.find('.lms-grid-block').first().data('icon-color');
-            }
+            color = slide.data('icon-color');
+            // if (type == 'quiz') {
+            //     color = slide.data('icon-color');
+            // } else {
+            //     color = slide.find('.lms-grid-block').first().data('icon-color');
+            // }
             if (onCangeFullscreen) {
                 return !IsFullScreenCurrently() ? color : '#fff';
             } else {
