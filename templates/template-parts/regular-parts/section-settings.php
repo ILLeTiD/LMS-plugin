@@ -11,8 +11,10 @@ $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 $linkedTo = isset($block['connect_to'])&&$block['connect_to']  ? intval($block['connect_to']) +1 : null;
 $useArrow = array_get($block, 'arrow');
 $arrowClass = '';
+
+
 if($linkedTo && $useArrow) {
-    $arrowClass = 'lms-grid-block-arrow-to-'.$linkedTo;
+    $arrowClass = ' lms-grid-block-arrow lms-grid-block-arrow-to-'.$linkedTo;
 }
 
 $bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
@@ -71,6 +73,7 @@ switch ($contentAlign) {
     #<?= $randomId?> {
         color:<?= $textC ?>;
         background-color:<?= $bgC ?>;
+        border-color:<?= $bgC ?>;
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;

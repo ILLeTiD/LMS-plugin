@@ -11,6 +11,7 @@ import objectFitImages from 'object-fit-images';
 // import  'mediaelement';
 // Import libraries
 import 'izimodal';
+import {showArrow} from './utilities/checkIfArrowAllowed'
 // import './utilities/arrayFind'
 // Import custom modules
 import App from'./modules/app.js';
@@ -19,6 +20,7 @@ import App from'./modules/app.js';
     IntersectionObserver.prototype.POLL_INTERVAL = 100;
     objectFitImages();
     const app = new App();
+    showArrow();
     //var player = new MediaElementPlayer('#slide-control-player');
 })($);
 
