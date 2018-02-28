@@ -162,6 +162,10 @@
     height: auto;
     max-width: 100%;
     max-height: 100%;
+
+    @media screen and (max-width: 1024px) {
+      max-height: 300px;
+    }
   }
 }
 
@@ -216,6 +220,105 @@
       .lms-grid-block {
         display: flex !important;
         visibility: visible !important;
+      }
+    }
+  }
+}
+
+.lms-slide:not(.lms-slide-full-width) {
+  .lms-grid-block-arrow {
+    position: relative;
+    &-right {
+      &:after {
+        left: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-left-color: inherit;
+        border-width: 15px;
+        margin-top: -15px;
+        z-index: 10;
+      }
+    }
+
+    &-bottom {
+      &:after {
+        top: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-top-color: inherit;
+        border-width: 15px;
+        margin-left: -15px;
+        z-index: 10;
+      }
+    }
+
+    &-top {
+      &:after {
+        bottom: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-bottom-color: inherit;
+        border-width: 15px;
+        margin-left: -15px;
+        z-index: 10;
+      }
+    }
+
+    &-left {
+      &:after {
+        right: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-right-color: inherit;
+        border-width: 15px;
+        margin-top: -15px;
+        z-index: 10;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .lms-grid-block-arrow {
+      &-left,
+      &-right,
+      &-top,
+      &-bottom {
+        &:after {
+          top: 100%;
+          left: 50%;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+          /*border-color: rgb(31, 77, 150, 0);*/
+          border-top-color: inherit;
+          border-width: 15px;
+          margin-left: -15px;
+          margin-top: auto;
+          z-index: 10;
+        }
       }
     }
   }

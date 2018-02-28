@@ -8,6 +8,15 @@
             </h4>
         </div>
         <div class="col-10">
+            <label class="">
+                <input type="checkbox"
+                       name="slide_content[<?= $i; ?>][use_section_colors]"
+                       class="lms-section-color-trigger"
+                       value="1"
+                    <?= checked(array_get($slide, 'use_section_colors')); ?>
+                >
+                <?= __('Customize colors?', 'lms-plugin'); ?>
+            </label>
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][background]"
@@ -121,7 +130,7 @@
                 <?php foreach ($connectedToOptions as $value => $label): ?>
                     <?php if ($value == $i) continue; ?>
                     <option value="<?= $value; ?>"
-                            <?= selected($value, array_get($slide, 'connect_to')); ?>>
+                        <?= selected($value, array_get($slide, 'connect_to')); ?>>
                         <?= $label; ?>
                     </option>
                 <?php endforeach; ?>
@@ -174,7 +183,8 @@
             <h4 class="field__title"><?= __('Embed Video', 'lms-plugin'); ?></h4>
         </div>
         <div class="col-8">
-            <textarea name="slide_content[<?= $i; ?>][embed_video]" rows="5"><?= array_get($slide, 'embed_video'); ?></textarea>
+            <textarea name="slide_content[<?= $i; ?>][embed_video]"
+                      rows="5"><?= array_get($slide, 'embed_video'); ?></textarea>
         </div>
         <div class="col-2">
             <?= __('Embed video player from Youtube or Vimeo', 'lms-plugin'); ?>
@@ -263,7 +273,8 @@
             <h4 class="field__title"><?= __('Custom CSS', 'lms-plugin'); ?></h4>
         </div>
         <div class="col-8">
-            <textarea name="slide_content[<?= $i; ?>][custom_css]" rows="5"><?= array_get($slide, 'custom_css'); ?></textarea>
+            <textarea name="slide_content[<?= $i; ?>][custom_css]"
+                      rows="5"><?= array_get($slide, 'custom_css'); ?></textarea>
         </div>
         <div class="col-2">
             <?= __('This CSS overrides the Slide Custom CSS', 'lms-plugin'); ?>

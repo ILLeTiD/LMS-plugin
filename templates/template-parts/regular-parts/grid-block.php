@@ -1,6 +1,9 @@
 <?php
 include 'section-settings.php';
+
 ?>
+
+
 
 <?php if ($link) : ?>
 <a href="<?= $link ?>" target="<?= $linkTarget ?>"
@@ -10,6 +13,8 @@ include 'section-settings.php';
     <?php endif; ?>
    id="<?= $randomId; ?>"
    data-icon-color="<?= $textC ? $textC : '#fff' ?>"
+   data-section-number="<?= $index; ?>"
+    <?= $linkedTo ? 'data-linked-to="' . $linkedTo . '"' : '' ?>
    data-bg-src="<?= $backgroundStyle ? $backgroundStyle : '' ?>"
    style=" background-position: 50%;
            background-repeat: no-repeat;
@@ -22,6 +27,8 @@ include 'section-settings.php';
         <?php endif; ?>
             id="<?= $randomId; ?>"
             data-icon-color="<?= $textC ? $textC : '#fff' ?>"
+            data-section-number="<?= $index; ?>"
+        <?= $linkedTo ? 'data-linked-to="' . $linkedTo . '"' : ''; ?>
         <?= $isBg ? 'data-src="' . $backgroundStyle . '"' : '' ?>
             style=" background-position: 50%;
                  background-repeat: no-repeat;
