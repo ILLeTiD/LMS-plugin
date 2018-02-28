@@ -394,7 +394,18 @@ class Course {
 
     nextSection(e) {
         if (e) e.preventDefault();
-        this.slideCtr.current.find(this.selectors.gridBlock).eq(this.currentSection).addClass('active');
+        const slide = this.slideCtr.current;
+        const section = this.slideCtr.current.find(this.selectors.gridBlock).eq(this.currentSection);
+        const firstAudioBlock = slide.find(this.selectors.audioGridBlock).first();
+        section.addClass('active');
+
+        if (section.data('audio-src') && section[0] != firstAudioBlock[0]) {
+            this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');
+
+            this.playerInstance.setSrc(section.data('audio-src'));
+            this.playerInstance.load();
+            this.playerInstance.play();
+        }
         this.currentSection++;
         if (this.currentSection >= this.slideSectionsCount) {
             this.slideCtr.current.addClass('passed');
