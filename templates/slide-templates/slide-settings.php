@@ -8,6 +8,10 @@
         background-size: cover;
     }
 
+    #slide-<?= $id ?> .lms-grid-block-arrow {
+        border-color: <?= array_get($colors,"background"); ?>;
+    }
+
     #slide-<?= $id ?> .lms-slide-header {
         background-color: <?= array_get($colors,"header_background"); ?>;
         color: <?= array_get($colors,"header"); ?>;

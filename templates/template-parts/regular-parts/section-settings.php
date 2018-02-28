@@ -8,15 +8,16 @@ $video = isset($block['embed_video']) ? $block['embed_video'] : null;
 $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 
+
 $linkedTo = isset($block['connect_to'])&&$block['connect_to']  ? intval($block['connect_to']) +1 : null;
 $useArrow = array_get($block, 'arrow');
 $arrowClass = '';
-
 
 if($linkedTo && $useArrow) {
     $arrowClass = ' lms-grid-block-arrow lms-grid-block-arrow-to-'.$linkedTo;
 }
 
+$useColors = array_get($block, 'use_section_colors', false);
 $bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
 $headerC = isset($block['colors']['header']) ? $block['colors']['header'] : null;
 $textC = isset($block['colors']['text']) ? $block['colors']['text'] : null;
@@ -67,13 +68,17 @@ switch ($contentAlign) {
         $justifyContent = 'flex-end';
         break;
 }
-?>
 
+ob_start();
+?>
+color:<?= $textC ?>;
+background-color:<?= $bgC ?>;
+border-color:<?= $bgC ?>!important;
+<?php $colorStyles = ob_get_clean();
+?>
 <style>
     #<?= $randomId?> {
-        color:<?= $textC ?>;
-        background-color:<?= $bgC ?>;
-        border-color:<?= $bgC ?>;
+        <?= $useColors? $colorStyles : ''; ?>
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
