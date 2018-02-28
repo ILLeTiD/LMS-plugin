@@ -26,9 +26,25 @@
 @import "course/course-layout";
 @import "course/course-page";
 
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /*16:9*/
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 /*Ipad pro width is 1024px (portrait)*/
 @media screen and (max-width: 1024px) {
-
   .lms-grid-container {
     //height: 4000px;
     background-color: inherit;
@@ -40,5 +56,4 @@
     position: fixed;
   }
 }
-
 /*End of responsive 1024px block*/

@@ -153,6 +153,10 @@
   &--image {
     .lms-grid-block__wrapper {
       height: 100%;
+      display: flex;
+      flex-direction: inherit;
+      align-items: inherit;
+      justify-content: inherit;
     }
   }
 

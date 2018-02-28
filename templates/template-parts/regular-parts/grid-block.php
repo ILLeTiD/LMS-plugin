@@ -35,11 +35,14 @@ include 'section-settings.php';
                  background-size: cover;">
         <?php endif; ?>
         <div class="lms-grid-block__wrapper">
+
             <?php if ($video) : ?>
-                <?php
-                global $wp_embed;
-                echo $wp_embed->run_shortcode('[embed]' . $video . '[/embed]');
-                ?>
+                <div class="video-container">
+                    <?php
+                    global $wp_embed;
+                    echo $wp_embed->run_shortcode('[embed]' . $video . '[/embed]');
+                    ?>
+                </div>
             <?php elseif ($image && !$isBg) : ?>
                 <img data-src="<?= $image ?>" class="lms-grid-block__image">
             <?php elseif ($text) : ?>
