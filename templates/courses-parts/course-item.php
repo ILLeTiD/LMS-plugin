@@ -1,4 +1,6 @@
-<div class="lms-courses-list__item lms-list-course lms-courses-course"
+<div class="lms-courses-list__item lms-list-course lms-courses-course lms-courses-course--<?= $enrollment->status; ?>"
+     data-course-status="<?= $enrollment->status; ?>"
+     data-item-index="<?= $courseIndex; ?>"
      data-course-id="<?= $theCourse->id; ?>">
 
     <?php lms_get_template('courses-parts/course-item-thumbnail.php', ['theCourse' => $theCourse]); ?>

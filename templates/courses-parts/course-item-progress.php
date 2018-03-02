@@ -1,7 +1,9 @@
+
 <div class="lms-courses-course__progress">
     <div class="lms-courses-course__done" id="done<?php echo $courseIndex ?>">
         <div class="lms-courses-course__progress-text">
             <p>
+
                 <style>
                     <?php echo '#done'.$courseIndex ?>
                     {
@@ -12,7 +14,7 @@
 
                 <?php
                 // Determine if the course is done, not started or in progress
-                if ($enrollment->progress == 0) {
+                if ($enrollment->status == 'invited') {
                     echo "Not started";
                     ?>
                     <!-- Style the progressbar according to user progress -->
@@ -29,12 +31,18 @@
                     </style>
 
                     <?php
-                } elseif ($enrollment->progress == 100) {
-                    echo "Completed";
+                } elseif ($enrollment->status == 'completed') { ?>
+                <style>
+                    <?php echo '#done'.$courseIndex ?>
+                    {
+                        width:100%;
+                        flex: none;
+                    }
+                </style>
+                   <?php echo "Completed";
                 } else {
                     echo $enrollment->progress . '%';
                 }
-
                 $currentCourseNo++; ?></p>
         </div>
     </div>

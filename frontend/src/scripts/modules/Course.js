@@ -8,7 +8,7 @@ import Muuri from 'muuri';
 import mediaelement from 'mediaelement';
 import {selectors} from './selectors'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
-
+import {showArrow} from '../utilities/checkIfArrowAllowed'
 class Course {
     constructor() {
         this.slideCtr = new SlideCtr(this);
@@ -32,6 +32,7 @@ class Course {
         this.initAudio();
         initLazyLoading();
         this.collectSlides();
+        showArrow();
     }
 
     collectSlides() {

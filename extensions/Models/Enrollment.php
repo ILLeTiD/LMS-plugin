@@ -39,6 +39,8 @@ class Enrollment extends Model
                     get_option('date_format'),
                     strtotime($this->attributes['updated_at'])
                 );
+            case 'raw_updated_at':
+                return $this->attributes['updated_at'];
             case 'progress':
                 return $this->computeProgress();
         }

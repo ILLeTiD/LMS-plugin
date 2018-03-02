@@ -1,7 +1,8 @@
+
 <div class="lms-courses-course__stats">
     <div class="lms-courses-course__activity">
         <!-- Display the last activity -->
-        <p><?php _e('Last activity:', 'lms-plugin') ?> <span class="lms-date"><?php
+        <p><?php _e('Last activity:', 'lms-plugin') ?> <span data-timestamp="<?= $enrollment->raw_updated_at ?>" class="lms-date"><?php
                 echo $enrollment->updated_at;
                 ?></span></p>
     </div>

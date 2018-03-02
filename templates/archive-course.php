@@ -53,9 +53,4 @@ get_header();
 
     </section>
 
-    <script>
-        // Hide the 'read more' buttons that isn't needed
-        hideRedundantButtons(<?php echo $courseIndex; ?>);
-    </script>
-
 <?php get_footer(); ?>
