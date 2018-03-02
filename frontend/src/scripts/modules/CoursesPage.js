@@ -1,4 +1,5 @@
 import moment from 'moment';
+import  'moment/locale/sv'
 import {Activity} from './ActivityLogger'
 class CoursesPage {
     constructor() {
@@ -48,6 +49,8 @@ class CoursesPage {
     }
 
     formatDate() {
+        moment.locale($('html').attr('lang'));
+        console.log($('html').attr('lang'));
         $('.lms-date').each(function (i) {
             const formatted = moment($(this).data('timestamp')).fromNow();
             $(this).text(formatted);
