@@ -77,7 +77,6 @@ if (!function_exists('lms_page_template')) {
     function lms_page_template($single)
     {
         global $wp_query, $post;
-        //@TODO change to plugin path variable
         if ($post->post_type == 'course') {
             if (file_exists(get_template_directory() . '/templates/course-template.php')) {
                 return get_template_directory() . '/templates/course-template.php';
@@ -97,4 +96,21 @@ if (!function_exists('lms_page_template')) {
     }
 
     add_filter('single_template', 'lms_page_template');
+}
+if (!function_exists('lms_get_archive_template')) {
+    function lms_get_archive_template($archive_template)
+    {
+        global $post;
+
+        if (is_post_type_archive('course')) {
+            if (file_exists(get_template_directory() . '/templates/archive-course.php')) {
+                return get_template_directory() . '/templates/archive-course.php';
+            } elseif (lms_plugin_dir() . '/templates/archive-course.php') {
+                return lms_plugin_dir() . '/templates/archive-course.php';
+            }
+        }
+        return $archive_template;
+    }
+
+    add_filter('archive_template', 'lms_get_archive_template');
 }

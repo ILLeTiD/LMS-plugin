@@ -71,9 +71,9 @@ SQL;
         $sql = $wpdb->prepare($sql, $values);
         $completed_slides = $wpdb->get_var($sql);
 
-        $rate = $slides->count() * $completed_slides;
+        $rate = ($completed_slides / $slides->count()) * 100;
 
-        return $rate ? round(100 / $rate) : 0;
+        return $rate ? round($rate) : 0;
     }
 
     protected function insert()
