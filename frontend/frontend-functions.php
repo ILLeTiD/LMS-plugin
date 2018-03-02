@@ -114,3 +114,4 @@ if (!function_exists('lms_get_archive_template')) {
 
     add_filter('archive_template', 'lms_get_archive_template');
 }
+

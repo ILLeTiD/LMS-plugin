@@ -68,6 +68,32 @@ class ProgressController extends Controller
         wp_send_json(['enrollment' => $enrollment->status]);
     }
 
+    public function rejectInvite()
+    {
+        if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+        $userID = $_POST['user_id'];
+        $courseID = $_POST['course_id'];
+        $user = User::find($userID);
+        $enrollment = $user->enrollments()
+            ->where('course_id', '=', $courseID)
+            ->first();
+
+        $dbRowId = $enrollment->id;
+        global $wpdb;
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_enrollments',
+            [
+                'id' => $dbRowId
+            ],
+            ['%d']
+        );
+
+        wp_send_json(['deleted' => $dbRowId]);
+    }
+
     public function restartCourse()
     {
         $user_id = $_POST['user_id'];

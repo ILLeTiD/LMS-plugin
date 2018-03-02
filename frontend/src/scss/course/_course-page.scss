@@ -1,7 +1,15 @@
-.lms-course-page-content {
-  &__wrapper {
-    max-width: 1000px;
-    margin: auto;
-    padding: 30px 15px;
+.lms-course-page {
+  &-thumbnail {
+    height: 400px;
+    width: 100%;
+    background-position: 50%;
+  }
+
+  &-content {
+    &__wrapper {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 15px;
+    }
   }
 }

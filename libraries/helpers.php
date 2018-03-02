@@ -126,7 +126,7 @@ if (!function_exists('array_get')) {
     }
 }
 
-if ( ! function_exists('array_only')) {
+if (!function_exists('array_only')) {
     /**
      * Get a subset of the items from the given array.
      *
@@ -136,17 +136,17 @@ if ( ! function_exists('array_only')) {
      */
     function array_only($array, $keys)
     {
-        return array_intersect_key($array, array_flip((array) $keys));
+        return array_intersect_key($array, array_flip((array)$keys));
     }
 }
 
-if ( ! function_exists('array_pull')) {
+if (!function_exists('array_pull')) {
     /**
      * Get a value from the array, and remove it.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  array $array
+     * @param  string $key
+     * @param  mixed $default
      * @return mixed
      */
     function array_pull(&$array, $key, $default = null)
@@ -157,23 +157,21 @@ if ( ! function_exists('array_pull')) {
     }
 }
 
-if ( ! function_exists('get')) {
+if (!function_exists('get')) {
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  array $array
+     * @param  string $key
+     * @param  mixed $default
      * @return mixed
      */
     function get($array, $key, $default = null)
     {
         if (is_null($key)) return $array;
         if (isset($array[$key])) return $array[$key];
-        foreach (explode('.', $key) as $segment)
-        {
-            if ( ! is_array($array) || ! array_key_exists($segment, $array))
-            {
+        foreach (explode('.', $key) as $segment) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return value($default);
             }
             $array = $array[$segment];
@@ -182,25 +180,22 @@ if ( ! function_exists('get')) {
     }
 }
 
-if ( ! function_exists('forget')) {
+if (!function_exists('forget')) {
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
+     * @param  array $array
+     * @param  array|string $keys
      * @return void
      */
     function forget(&$array, $keys)
     {
         $original =& $array;
-        foreach ((array) $keys as $key)
-        {
+        foreach ((array)$keys as $key) {
             $parts = explode('.', $key);
-            while (count($parts) > 1)
-            {
+            while (count($parts) > 1) {
                 $part = array_shift($parts);
-                if (isset($array[$part]) && is_array($array[$part]))
-                {
+                if (isset($array[$part]) && is_array($array[$part])) {
                     $array =& $array[$part];
                 }
             }
@@ -384,18 +379,19 @@ if (!function_exists('lms_get_options')) {
     }
 }
 
-if ( ! function_exists('lms_user')) {
+if (!function_exists('lms_user')) {
     /**
      * Return currently logged in user.
      *
      * @return \LmsPlugin\Models\User
      */
-    function lms_user() {
-       return new User(wp_get_current_user());
+    function lms_user()
+    {
+        return new User(wp_get_current_user());
     }
 }
 
-if ( ! function_exists('lms_restart_course')) {
+if (!function_exists('lms_restart_course')) {
     /**
      * Restart a course for a specific user.
      *
@@ -437,7 +433,7 @@ if ( ! function_exists('lms_restart_course')) {
     }
 }
 
-if ( ! function_exists('lms_role_list')) {
+if (!function_exists('lms_role_list')) {
     function lms_role_list($user)
     {
         $roles = wp_roles();
@@ -455,5 +451,17 @@ if ( ! function_exists('lms_role_list')) {
         }
 
         return $role_list;
+    }
+}
+
+if (!function_exists('lms_get_the_excerpt')) {
+    function lms_get_the_excerpt($post_id)
+    {
+        global $post;
+        $save_post = $post;
+        $post = get_post($post_id);
+        $output = get_the_excerpt();
+        $post = $save_post;
+        return $output;
     }
 }

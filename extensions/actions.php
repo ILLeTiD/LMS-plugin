@@ -95,6 +95,9 @@ $action->add('wp_ajax_activity_commit', 'Controllers\ProgressController@commitAc
 $action->add('wp_ajax_nopriv_activity_commit', 'Controllers\ProgressController@commitActivity');
 $action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
 $action->add('wp_ajax_nopriv_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
+$action->add('wp_ajax_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
+$action->add('wp_ajax_nopriv_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
+
 $action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_nopriv_progress_restart', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
