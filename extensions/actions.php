@@ -89,10 +89,14 @@ $action->add('wp_ajax_accept_user', 'Controllers\UsersPageController@accept');
 $action->add('wp_ajax_deny_user', 'Controllers\UsersPageController@deny');
 $action->add('wp_ajax_invite_user', 'Controllers\UsersPageController@invite');
 
-$action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
-$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
-$action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restart');
-$action->add('wp_ajax_nopriv_progress_restart', 'Controllers\ProgressController@restart');
+$action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
+$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commitProgress');
+$action->add('wp_ajax_activity_commit', 'Controllers\ProgressController@commitActivity');
+$action->add('wp_ajax_nopriv_activity_commit', 'Controllers\ProgressController@commitActivity');
+$action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
+$action->add('wp_ajax_nopriv_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
+$action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restartCourse');
+$action->add('wp_ajax_nopriv_progress_restart', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');

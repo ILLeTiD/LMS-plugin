@@ -465,7 +465,8 @@ class Course {
                     user_id: this.userId,
                     course_id: this.courseId,
                     slide_id: currentId,
-                    commit_message: commitMessage
+                    commit_message: commitMessage,
+                    commit_description: 'Completed',
                 }
             }
         ).done(function (msg) {

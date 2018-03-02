@@ -4,10 +4,12 @@ namespace LmsPlugin\Controllers;
 
 
 use LmsPlugin\Models\Activity;
+use LmsPlugin\Models\Enrollment;
+use LmsPlugin\Models\User;
 
 class ProgressController extends Controller
 {
-    public function commit()
+    public function commitProgress()
     {
         $activity = Activity::where('user_id', $_REQUEST['user_id'])
             ->where('course_id', $_REQUEST['course_id'])
@@ -24,7 +26,7 @@ class ProgressController extends Controller
                 'course_id' => $_POST['course_id'],
                 'slide_id' => $_POST['slide_id'],
                 'name' => $_POST['commit_message'],
-                'description' => 'Completed'
+                'description' => $_POST['commit_description']
             ]);
 
             $activityNew->save();
@@ -35,7 +37,38 @@ class ProgressController extends Controller
             'post' => $_POST]);
     }
 
-    public function restart()
+    public function commitActivity()
+    {
+        $activityNew = new Activity([
+            'user_id' => $_POST['user_id'],
+            'course_id' => $_POST['course_id'],
+            'name' => $_POST['commit_message'],
+            'description' => $_POST['commit_message'],
+        ]);
+
+        $activityNew->save();
+        wp_send_json([
+            'post' => $_POST]);
+    }
+
+    public function acceptInvite()
+    {
+        if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+        $userID = $_POST['user_id'];
+        $courseID = $_POST['course_id'];
+        $user = User::find($userID);
+        $enrollment = $user->enrollments()
+            ->where('course_id', '=', $courseID)
+            ->first();
+        $enrollment->status = 'in_progress';
+
+        $enrollment->save();
+        wp_send_json(['enrollment' => $enrollment->status]);
+    }
+
+    public function restartCourse()
     {
         $user_id = $_POST['user_id'];
         $courseId = $_POST['course_id'];
