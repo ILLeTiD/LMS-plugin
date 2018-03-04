@@ -87,7 +87,7 @@ gulp.task('js', function () {
         return browserify({
             entries: [jsSRC + entry]
         })
-            .transform(babelify, {presets: ['env']})
+            .transform(babelify, {presets: ['env', 'stage-0']})
             .bundle()
             .pipe(source(entry))
             .pipe(rename({

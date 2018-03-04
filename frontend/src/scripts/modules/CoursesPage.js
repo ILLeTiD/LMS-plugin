@@ -9,8 +9,6 @@ class CoursesPage {
     init() {
         this.listeners();
         this.formatDate();
-
-        console.log('COURSES PAGE INIT');
     }
 
 

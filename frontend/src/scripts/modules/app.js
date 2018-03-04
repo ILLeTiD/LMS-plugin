@@ -1,5 +1,6 @@
 import Course from './Course';
 import CoursesPage from './CoursesPage';
+import ActivityPage from './ActivityPage';
 import {selectors} from './selectors'
 import moment from 'moment'
 class App {
@@ -7,6 +8,7 @@ class App {
     constructor() {
         this.course = new Course();
         this.coursesPage = new CoursesPage();
+        this.actvityPage = new ActivityPage();
         this.init();
     }
 
@@ -18,6 +20,10 @@ class App {
 
         if ($('body').hasClass('post-type-archive-course') || $('body').hasClass('single-course')) {
             this.coursesPage.init();
+        }
+        if ($('.lms-activity-page').length) {
+            console.log('acitivity!!!');
+            this.actvityPage.init();
         }
         // $(selectors.shortcodeBackToCourses).on('click', shortcodeBackToCourses);
         // $(selectors.shortcodeRestart).on('click', shortcodeRestart);

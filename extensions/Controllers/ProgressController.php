@@ -140,4 +140,30 @@ class ProgressController extends Controller
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);
         }
     }
+
+    public function loadUserActivity()
+    {
+        if (!isset($_POST['filters'])) {
+            wp_send_json(['error' => 'Wrong arguments', 'post' => $_POST]);
+        }
+        $filters = $_POST['filters'];
+        $userID = $filters['user_id'];
+        $fromDate = $filters['from_date'] ? $filters['from_date'] : null;
+        $toDate = $filters['to_date'] ? $filters['to_date'] : null;
+
+        if (!$fromDate && !$toDate) {
+            $activity = Activity::where('user_id', $userID)->get();
+        }
+        //  d($activity);
+
+        $filteredActivity = [];
+        foreach ($activity as $item) {
+            $filteredActivity[] = [
+                'id' => $item->id,
+                'type' => $item->name,
+                'text' => $item->description
+            ];
+        }
+        wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);
+    }
 }

@@ -11,9 +11,10 @@ function my_scripts_method()
     wp_enqueue_script('lms-frontend', plugin_dir_url(__FILE__) . '/assets/js/main.min.js', array('jquery'), null, true);
     wp_localize_script('lms-frontend', 'lmsAjax', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
-        'coursesLink' => get_post_type_archive_link( 'course' ),
+        'userID' => get_current_user_id(),
+        'coursesLink' => get_post_type_archive_link('course'),
         'notificationMessages' => $alertMessages
-));
+    ));
     wp_enqueue_style('lms-css', plugin_dir_url(__FILE__) . '/assets/css/style.min.css', array(), '', 'all');
 
 }
@@ -73,10 +74,29 @@ if (!function_exists('lms_get_template')) {
     }
 }
 
+if (!function_exists('lms_override_page_template')) {
+    add_filter('template_include', 'lms_override_page_template', 99);
+
+    function lms_override_page_template($template)
+    {
+
+        if (is_page('activity')) {
+            $new_template = lms_locate_template('activity.php');
+            if ('' != $new_template) {
+                return $new_template;
+            }
+        }
+
+        return $template;
+    }
+}
 if (!function_exists('lms_page_template')) {
     function lms_page_template($single)
     {
         global $wp_query, $post;
+        if (get_page_template_slug($post->ID) == 'activities') {
+
+        }
         if ($post->post_type == 'course') {
             if (file_exists(get_template_directory() . '/templates/course-template.php')) {
                 return get_template_directory() . '/templates/course-template.php';

@@ -3,6 +3,7 @@
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
 @import '../../node_modules/izitoast/dist/css/iziToast.css';
+@import '../../node_modules/flatpickr/dist/flatpickr.css';
 //@import '../../node_modules/mediaelement/src/css/mediaelementplayer.css';
 /*--------------------------------------------------------------
 # Pages
@@ -27,6 +28,7 @@
 @import "course/course-layout";
 @import "course/course-page";
 @import 'pages/course-archive';
+@import 'pages/activity-page';
 
 .video-container {
   position: relative;
