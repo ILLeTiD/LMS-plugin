@@ -17,7 +17,7 @@ class ActivityPage {
     @observable items = [];
 
     init() {
-        moment.locale($('html').attr('lang'));
+        //  moment.locale($('html').attr('lang'));
         //using mobX to manage state more at https://mobx.js.org/refguide/autorun.html
         autorun(
             () => {
@@ -69,7 +69,8 @@ class ActivityPage {
 
     initDatePickers() {
         $(".lms-activity-filter-datepicked").flatpickr({
-            maxDate: "today"
+            maxDate: "today",
+            dateFormat: "F j, Y",
         });
     }
 
@@ -125,7 +126,7 @@ class ActivityPage {
                         <div class="lms-activity-item__message">
                             ${message}
                         </div>
-                        <div class="lms-activity-item__date">
+                        <div class="lms-activity-item__date" data-date="${date}">
                             ${moment(date).fromNow()}
                         </div>
                     </div>

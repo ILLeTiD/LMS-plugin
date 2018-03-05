@@ -156,15 +156,36 @@ class ProgressController extends Controller
         if ($type && $type != 'all') {
             $activity->where('name', $type);
         }
-
+        $activity = $activity->get();
+        $filteredActivity = [];
+        foreach ($activity as $item) {
+            $filteredActivity[] = [
+                'id' => $item->id,
+                'type' => $item->name,
+                'text' => $item->description,
+                'date' => $item->date,
+                'time' => $item->time
+            ];
+        }
+        usort($filteredActivity, function ($a, $b) {
+            return strtotime($a['date']) < strtotime($b['date']);
+        });
         if ($fromDate) {
-            $activity->where('date', '>=', $fromDate);
+            // $activity->where('date', '>=', $fromDate);
+            $filteredActivity = array_filter($filteredActivity, function ($item) use ($fromDate) {
+//                d(strtotime($fromDate));
+//                d(strtotime($item['date']));
+                return strtotime($item['date']) >= strtotime($fromDate);
+            });
         }
 
         if ($toDate) {
-            $activity->where('date', '<=', $toDate);
+            // $activity->where('date', '<=', $toDate);
+            $filteredActivity = array_filter($filteredActivity, function ($item) use ($toDate) {
+                return strtotime($item['date']) <= strtotime($toDate);
+            });
         }
-        $activity = $activity->get();
+
 //        if (!$fromDate && !$toDate && $type == 'all') {
 //            $activity = $activity->get();
 //        } else {
@@ -177,18 +198,7 @@ class ProgressController extends Controller
 
         //   d($activity);
 
-        $filteredActivity = [];
-        foreach ($activity as $item) {
-            $filteredActivity[] = [
-                'id' => $item->id,
-                'type' => $item->name,
-                'text' => $item->description,
-                'date' => $item->date
-            ];
-        }
-        usort($filteredActivity, function ($a, $b) {
-            return $a['date'] < $b['date'];
-        });
+
         // Define the custom sort function
 
         wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);

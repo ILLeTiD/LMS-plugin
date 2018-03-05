@@ -38,6 +38,8 @@ class Activity extends Model
                     get_option('date_format'),
                     strtotime($this->attributes['date'])
                 );
+            case 'raw_date':
+                return strtotime($this->attributes['date']);
             case 'time':
                 return date(
                     get_option('time_format'),
