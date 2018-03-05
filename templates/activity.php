@@ -8,9 +8,8 @@ get_header('activity');
         <div class="lms-activity-page__wrapper">
             <?php lms_get_template('activity-parts/activity-header.php'); ?>
             <?php lms_get_template('activity-parts/activity-filters.php'); ?>
-            <div class="lms-activity-list">
-                <?php lms_get_template('activity-parts/activity-item.php'); ?>
-            </div>
+            <div class="lms-activity-list"></div>
+            <?php lms_get_template('activity-parts/activity-item.php'); ?>
         </div>
     </section>
 <?php

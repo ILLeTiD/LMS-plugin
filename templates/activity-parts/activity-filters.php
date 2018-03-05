@@ -8,11 +8,11 @@
     </div>
     <div class="lms-activity-filter lms-activity-filter--type">
         <select name="activity-filter-type" id="activity-filter-type">
-            <option value="1">
+            <option value="all" selected>
                 All activity
             </option>
-            <option value="2">
-                Typed Activity
+            <option value="course_invite_accepted">
+                Invite accepted
             </option>
         </select>
     </div>

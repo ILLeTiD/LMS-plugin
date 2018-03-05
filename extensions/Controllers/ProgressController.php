@@ -148,22 +148,38 @@ class ProgressController extends Controller
         }
         $filters = $_POST['filters'];
         $userID = $filters['user_id'];
+        $type = $filters['type'] ? $filters['type'] : null;
         $fromDate = $filters['from_date'] ? $filters['from_date'] : null;
         $toDate = $filters['to_date'] ? $filters['to_date'] : null;
+        $activity = Activity::where('user_id', $userID);
+        if (!$fromDate && !$toDate && $type == 'all') {
+            $activity = $activity->get();
+        } else {
 
-        if (!$fromDate && !$toDate) {
-            $activity = Activity::where('user_id', $userID)->get();
+            if ($type && $type != 'all') {
+                $activity->where('name', $type);
+            }
+
+            $activity = $activity->get();
         }
-        //  d($activity);
+
+
+        //   d($activity);
 
         $filteredActivity = [];
         foreach ($activity as $item) {
             $filteredActivity[] = [
                 'id' => $item->id,
                 'type' => $item->name,
-                'text' => $item->description
+                'text' => $item->description,
+                'date' => $item->date
             ];
         }
+        usort($filteredActivity, function ($a, $b) {
+            return $a['date'] < $b['date'];
+        });
+        // Define the custom sort function
+
         wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);
     }
 }
