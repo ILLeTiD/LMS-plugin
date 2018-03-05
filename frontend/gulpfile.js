@@ -39,7 +39,8 @@ var mapURL = './';
 var jsSRC = './src/scripts/';
 var jsFront = 'main.js';
 var jsAdmin = 'admin.js';
-var jsFiles = [jsFront, jsAdmin];
+var jsActivity = 'activity.js';
+var jsFiles = [jsFront, jsActivity];
 var jsURL = './assets/js/';
 
 var imgSRC = './src/images/**/*';

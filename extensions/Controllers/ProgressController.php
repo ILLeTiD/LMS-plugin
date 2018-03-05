@@ -152,16 +152,27 @@ class ProgressController extends Controller
         $fromDate = $filters['from_date'] ? $filters['from_date'] : null;
         $toDate = $filters['to_date'] ? $filters['to_date'] : null;
         $activity = Activity::where('user_id', $userID);
-        if (!$fromDate && !$toDate && $type == 'all') {
-            $activity = $activity->get();
-        } else {
 
-            if ($type && $type != 'all') {
-                $activity->where('name', $type);
-            }
-
-            $activity = $activity->get();
+        if ($type && $type != 'all') {
+            $activity->where('name', $type);
         }
+
+        if ($fromDate) {
+            $activity->where('date', '>=', $fromDate);
+        }
+
+        if ($toDate) {
+            $activity->where('date', '<=', $toDate);
+        }
+        $activity = $activity->get();
+//        if (!$fromDate && !$toDate && $type == 'all') {
+//            $activity = $activity->get();
+//        } else {
+//
+//
+//
+//            $activity = $activity->get();
+//        }
 
 
         //   d($activity);

@@ -52,45 +52,104 @@
   }
 
   &-list {
+    padding-bottom: 20px;
+
     &:empty {
       margin: auto;
       width: 100%;
+      margin-top: 40px;
       height: 600px; /* change height to see repeat-y behavior */
 
-      background-image: radial-gradient(circle 50px at 50px 50px, lightgray 99%, transparent 0),
+      background-image: radial-gradient(circle 35px at 35px 35px, lightgray 99%, transparent 0),
       linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
-      linear-gradient(lightgray 20px, transparent 0),
-      linear-gradient(lightgray 20px, transparent 0),
-      linear-gradient(lightgray 20px, transparent 0),
       linear-gradient(lightgray 20px, transparent 0);
 
       background-repeat: repeat-y;
 
-      background-size: 100px 200px, /* circle */
-      50px 200px, /* highlight */
-      150px 200px,
-      350px 200px,
-      300px 200px,
-      250px 200px;
+      background-size: 100px 150px, /* circle */
+      50px 150px, /* highlight */
+      240px 150px;
 
-      background-position: 0 0, /* circle */
-      0 0, /* highlight */
-      120px 0,
-      120px 40px,
-      120px 80px,
-      120px 120px;
+      background-position: 20px 0, /* circle */
+      20px 0, /* highlight */
+      130px 30px;
 
       animation: shine 1s infinite;
 
       @keyframes shine {
         to {
-          background-position: 0 0,
+          background-position: 20px 0,
           100% 0, /* move highlight to right */
-          120px 0,
-          120px 40px,
-          120px 80px,
-          120px 120px;
+          130px 30px;
         }
+      }
+    }
+  }
+
+  &-item {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    color: #C3C3C3;
+
+    @media screen and (max-width: 1024px) {
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    &--course_invite_accepted {
+      .lms-activity-item__ico {
+        background: #335984;
+      }
+
+      .lms-profile-course-ico {
+        display: block;
+      }
+    }
+
+    &--finished {
+      .lms-activity-item__ico {
+        background: #4D91DF;
+      }
+
+      .lms-activity-course-ico {
+        display: block;
+      }
+    }
+
+    &--not-found {
+      .lms-help-ico {
+        display: block;
+      }
+    }
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    &__date {
+      margin-left: auto;
+      padding-left: 10px;
+    }
+
+    &__ico {
+      border-radius: 50%;
+      height: 70px;
+      width: 70px;
+      background: #4D91DF;
+      margin-right: 20px;
+
+      @media screen and (max-width: 1024px) {
+        height: 60px;
+        width: 60px;
+      }
+
+      svg {
+        display: none;
+        height: 100%;
+        width: 100%;
       }
     }
   }

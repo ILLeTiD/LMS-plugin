@@ -1,7 +1,7 @@
 /**
  * Manage global libraries like jQuery or THREE from the package.json file
  */
-// var $ = require('jquery');
+// var $ =  window.jQuery= require('jquery');
 var $ = window.jQuery;
 import "babel-polyfill";
 import './utilities/nodeListForEach'

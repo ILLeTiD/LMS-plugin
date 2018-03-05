@@ -15,6 +15,9 @@ $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 
+$action->add('activate_' . $plugin, 'CustomPages@addActivity');
+$action->add('deactivate_' . $plugin, 'CustomPages@removeActivity');
+
 /**
  * Session.
  */

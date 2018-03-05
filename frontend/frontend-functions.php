@@ -4,19 +4,29 @@
 add_action('wp_enqueue_scripts', 'my_scripts_method');
 function my_scripts_method()
 {
-//    wp_deregister_script('jquery');
-//    wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
-//    wp_enqueue_script('jquery');
+    wp_deregister_script('jquery');
+    wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
+    wp_enqueue_script('jquery');
     $alertMessages = lms_get_options('notifications');
-    wp_enqueue_script('lms-frontend', plugin_dir_url(__FILE__) . '/assets/js/main.min.js', array('jquery'), null, true);
-    wp_localize_script('lms-frontend', 'lmsAjax', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
-        'userID' => get_current_user_id(),
-        'coursesLink' => get_post_type_archive_link('course'),
-        'notificationMessages' => $alertMessages
-    ));
-    wp_enqueue_style('lms-css', plugin_dir_url(__FILE__) . '/assets/css/style.min.css', array(), '', 'all');
 
+    if (is_page('lms-activity')) {
+        wp_enqueue_script('lms-frontend-activity', plugin_dir_url(__FILE__) . '/assets/js/activity.min.js', array('jquery'), null, true);
+        wp_localize_script('lms-frontend-activity', 'lmsAjax', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'userID' => get_current_user_id(),
+            'coursesLink' => get_post_type_archive_link('course'),
+            'notificationMessages' => $alertMessages
+        ));
+    } else {
+        wp_enqueue_script('lms-frontend', plugin_dir_url(__FILE__) . '/assets/js/main.min.js', array('jquery'), null, true);
+        wp_localize_script('lms-frontend', 'lmsAjax', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'userID' => get_current_user_id(),
+            'coursesLink' => get_post_type_archive_link('course'),
+            'notificationMessages' => $alertMessages
+        ));
+    }
+    wp_enqueue_style('lms-css', plugin_dir_url(__FILE__) . '/assets/css/style.min.css', array(), '', 'all');
 }
 
 
@@ -80,7 +90,7 @@ if (!function_exists('lms_override_page_template')) {
     function lms_override_page_template($template)
     {
 
-        if (is_page('activity')) {
+        if (is_page('lms-activity')) {
             $new_template = lms_locate_template('activity.php');
             if ('' != $new_template) {
                 return $new_template;
