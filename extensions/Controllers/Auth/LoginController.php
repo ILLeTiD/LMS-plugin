@@ -7,12 +7,12 @@ use WP_Error;
 
 class LoginController extends Controller
 {
-    private $redirect_to = '/';
+    private $redirect_to = '/course';
 
     public function showForm()
     {
         if (is_user_logged_in()) {
-            wp_safe_redirect($this->redirect_to);
+            wp_redirect($this->redirect_to);
         }
 
         $this->view('auth.login');
@@ -28,18 +28,23 @@ class LoginController extends Controller
             'user_password' => $password
         ]);
 
-        if (! is_wp_error($user)) {
-            if ($user->lms_status == 'accepted') {
-                wp_safe_redirect($this->redirect_to);
-            }
-
-            $user = new WP_Error;
-            $user->add('user.inactive', __('Your account is inactive.', 'lms-plugin'));
+        if (is_wp_error($user)) {
+            $this->view('auth.login', [
+                'email' => $email,
+                'errors' => $user
+            ]);
         }
 
-        $errors = $user;
+        if (isset($user->lms_status) && $user->lms_status != 'accepted') {
+            wp_logout();
 
-        $this->view('auth.login', compact('email', 'errors'));
+            $errors = new WP_Error;
+            $errors->add('user.inactive', __('Your account is inactive.', 'lms-plugin'));
+
+            $this->view('auth.login', compact('email', 'errors'));
+        }
+
+        wp_redirect($this->redirect_to);
     }
 
     public function logout()

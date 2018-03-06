@@ -21,14 +21,9 @@ $action->add('deactivate_' . $plugin, 'CustomPages@removeActivity');
 /**
  * Session.
  */
-// $action->add('init', 'session_start', 1);
 $action->add('init', function () {
     session_start();
 }, 1);
-
-$action->add('wp_login', 'session_destroy');
-$action->add('wp_logout', 'session_destroy');
-
 
 $action->add('admin_menu', 'DashboardMenu@create');
 
