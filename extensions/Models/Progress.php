@@ -2,11 +2,11 @@
 
 namespace LmsPlugin\Models;
 
-class Activity extends Model
+class Progress extends Model
 {
-    const TABLE = 'lms_activities';
+    const TABLE = 'lms_progress';
 
-    private $fillable = ['user_id', 'course_id', 'type', 'name'];
+    private $fillable = ['user_id', 'course_id', 'slide_id', 'name'];
 
     /**
      * Activity constructor.

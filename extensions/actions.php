@@ -1,4 +1,5 @@
 <?php
+
 $action->add('init', function () {
     // $router = new \FishyMinds\WordPress\Plugin\Router\Router($this->plugin);
     $router = $this->plugin->getRouter();
@@ -12,8 +13,10 @@ $action->add('activate_' . $plugin, 'CustomRoles@add');
 $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
 $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
+$action->add('deactivate_' . $plugin, 'DataBase\CreateActivitiesTable@down');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
+$action->add('activate_' . $plugin, 'DataBase\CreateProgressTable@up');
 
 /**
  * Session.
@@ -124,14 +127,19 @@ $action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handl
  */
 
 $action->add('wp_ajax_test', function () {
-    $message = 'Welcome [first name] [last name]! [full-name] your role is [role]. Job Title: [job-title]. Phone: [phone]';
-    $user = \LmsPlugin\Models\User::find(1);
+    (new \LmsPlugin\Models\Activity([
+        'user_id' => 1,
+        'course_id' => 412,
+        'type' => 'course',
+        'name' => 'finished'
+    ]))->save();
 
-    $shortcoder = new \LmsPlugin\Shortcoder($this->plugin);
-    $message = $shortcoder->replace($message, compact('user'));
-
-    wp_mail($user->email, 'Test', $message);
-    dd($message);
+    (new \LmsPlugin\Models\Progress([
+        'user_id' => 1,
+        'course_id' => 412,
+        'slide_id' => 444,
+        'name' => 'finished'
+    ]))->save();
 });
 
 $action->add('phpmailer_init', function ($phpmailer) {

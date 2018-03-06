@@ -48,32 +48,18 @@ class Enrollment extends Model
 
     public function computeProgress()
     {
-        global $wpdb;
+        $total = $this->course->slides()->count();
 
-        $slides = $this->course->slides();
-
-        if (!$slides->count()) {
+        if ( ! $total) {
             return 0;
         }
 
-        $slide_ids_placeholder = implode(', ', array_fill(0, $slides->count(), '%d'));
-        $sql = <<<SQL
-          SELECT COUNT(*)
-          FROM {$wpdb->prefix}lms_activities
-          WHERE course_id = %d
-                AND slide_id IN ({$slide_ids_placeholder})
-                AND description = 'Completed';
-SQL;
+        $finished = Progress::where('user_id', $this->user->id)
+                            ->where('course_id', $this->course_id)
+                            ->where('name', 'finished')
+                            ->count();
 
-        $values = $slides->pluck('id');
-        array_unshift($values, $this->course->id);
-
-        $sql = $wpdb->prepare($sql, $values);
-        $completed_slides = $wpdb->get_var($sql);
-
-        $rate = $slides->count() * $completed_slides;
-
-        return $rate ? round(100 / $rate) : 0;
+        return 100 * $finished / $total;
     }
 
     protected function insert()

@@ -2,28 +2,30 @@
 
 namespace LmsPlugin\DataBase;
 
-class CreateActivitiesTable
+class CreateActivitiesTable extends CreateTable
 {
+    const TABLE = 'lms_activities';
+
     public function up()
     {
-        global $wpdb;
-
-        $table_name = $wpdb->prefix . 'lms_activities';
-        $charset_collate = $wpdb->get_charset_collate();
-
         $sql = <<<SQL
-            CREATE TABLE IF NOT EXISTS {$table_name} (
+            CREATE TABLE IF NOT EXISTS {$this->table} (
               id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
               user_id BIGINT NOT NULL,
-              course_id BIGINT NOT NULL,
-              slide_id BIGINT,
+              course_id BIGINT,
+              type ENUM('course', 'account') NOT NULL DEFAULT 'account',
               name VARCHAR(255) NOT NULL,
-              description VARCHAR(255),
-              date DATETIME DEFAULT CURRENT_TIMESTAMP
-            ) {$charset_collate};
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) {$this->charset_collate};
 SQL;
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+        $this->db->query($sql);
+    }
+
+    public function down()
+    {
+        $sql = "DROP TABLE IF EXISTS {$this->table}";
+
+        $this->db->query($sql);
     }
 }
