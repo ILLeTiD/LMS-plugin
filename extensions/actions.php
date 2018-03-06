@@ -13,7 +13,7 @@ $action->add('activate_' . $plugin, 'CustomRoles@add');
 $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
 $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
-$action->add('deactivate_' . $plugin, 'DataBase\CreateActivitiesTable@down');
+// $action->add('deactivate_' . $plugin, 'DataBase\CreateActivitiesTable@down');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateProgressTable@up');
