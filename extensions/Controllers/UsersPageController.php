@@ -174,16 +174,16 @@ class UsersPageController extends Controller
             ]);
         }
 
-        $email_pattern = '[\-0-9a-zA-Z\.\+_]+@[\-0-9a-zA-Z\.\+_]+\.[a-zA-Z]{2,4}';
-        $pattern = "/^((({$email_pattern})|(\w+ \w+ <{$email_pattern}>)),? ?)+$/";
-        $emails_valid = preg_match($pattern, $emails);
+        $invitees = lms_parse_invitees($emails);
 
-        if ( ! $emails_valid) {
+        if ( ! $invitees) {
             wp_send_json([
                 'status' => 'error',
                 'message' => __('Email(s) not valid.', 'lms-plugin')
             ]);
         }
+
+        wp_send_json($invitees);
 
         wp_send_json([
             'status' => 'success',
