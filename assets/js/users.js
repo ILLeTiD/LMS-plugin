@@ -202,5 +202,7 @@
 
             event.preventDefault();
         });
+
+        $('.lms-has-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
     });
 })(jQuery);

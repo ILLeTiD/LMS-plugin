@@ -3,7 +3,6 @@
 namespace LmsPlugin\Controllers;
 
 use FishyMinds\WordPress\Pagination;
-use LmsPlugin\UsersListTable;
 
 class UsersPageController extends Controller
 {
@@ -152,42 +151,6 @@ class UsersPageController extends Controller
         wp_send_json([
             'status' => 'success',
             'message' => __('The user registration is suspended.', 'lms-plugin')
-        ]);
-    }
-
-    public function invite()
-    {
-        $role = array_get($_POST, 'role');
-        $emails = array_get($_POST, 'emails');
-
-        if (empty($role)) {
-            wp_send_json([
-                'status' => 'error',
-                'message' => __('Role needs to be selected.', 'lms-plugin')
-            ]);
-        }
-
-        if (empty($emails)) {
-            wp_send_json([
-                'status' => 'error',
-                'message' => __('Email(s) required.', 'lms-plugin')
-            ]);
-        }
-
-        $invitees = lms_parse_invitees($emails);
-
-        if ( ! $invitees) {
-            wp_send_json([
-                'status' => 'error',
-                'message' => __('Email(s) not valid.', 'lms-plugin')
-            ]);
-        }
-
-        wp_send_json($invitees);
-
-        wp_send_json([
-            'status' => 'success',
-            'message' => __('User(s) invited.', 'lms-plugin')
         ]);
     }
 }

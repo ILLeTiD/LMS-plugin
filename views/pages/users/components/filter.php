@@ -1,41 +1,12 @@
 <div class="alignleft actions">
     <label>
-        From:
-        <input type="text" id="from" name="from" value="" class="hasDatepicker">
+        <?= __('From', 'lms-plugin'); ?>:
+        <input type="text" class="lms-has-datepicker" name="from" value="">
     </label>
     <label>
-        To:
-        <input type="text" id="to" name="to" value="" class="hasDatepicker">
+        <?= __('To', 'lms-plugin'); ?>:
+        <input type="text" class="lms-has-datepicker" name="to" value="">
     </label>
-
-    <script>
-        (function ($) {
-
-            $(function () {
-                var dateFormat = 'yy-mm-dd',
-                    from = $('#from').datepicker({dateFormat: dateFormat})
-                        .on('change', function () {
-                            to.datepicker('option', 'minDate', getDate(this));
-                        }),
-                    to = $('#to').datepicker({dateFormat: dateFormat})
-                        .on('change', function () {
-                            from.datepicker('option', 'maxDate', getDate(this));
-                        });
-
-                function getDate(element) {
-                    var date;
-                    try {
-                        date = $.datepicker.parseDate(dateFormat, element.value);
-                    } catch (error) {
-                        date = null;
-                    }
-
-                    return date;
-                }
-            });
-        })(jQuery);
-    </script>
-
 </div>
 <div class="alignleft actions">
     <select name="role">
