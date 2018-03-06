@@ -33,6 +33,8 @@ class User
                 return isset($this->wp_user->display_name);
             case 'enrollments':
                 return $this->enrollments()->get();
+            case 'activities':
+                return $this->activities()->get();
             case 'role':
                 return isset($this->wp_user->roles[0]);
             default:
@@ -53,6 +55,8 @@ class User
                 return $this->enrollments()->get();
             case 'role':
                 return $this->wp_user->roles[0];
+            case 'activities':
+                return $this->activities()->get();
             default:
                 return $this->wp_user->$property;
         }
@@ -70,6 +74,6 @@ class User
 
     public function activities()
     {
-        return Activity::where(['user_id' => $this->id])->get();
+        return Activity::where(['user_id' => $this->id]);
     }
 }

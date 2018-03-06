@@ -40,5 +40,7 @@ class Controller
             ->template($name)
             ->with($variables)
             ->display();
+
+        die;
     }
 }

@@ -183,4 +183,11 @@ class QueryBuilder
 
         return $row;
     }
+
+    public function take($number)
+    {
+        $this->limit = $number;
+
+        return $this->get();
+    }
 }
