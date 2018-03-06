@@ -2,11 +2,11 @@
 
 namespace LmsPlugin\Models;
 
-class Activity extends Model
+class Progress extends Model
 {
-    const TABLE = 'lms_activities';
+    const TABLE = 'lms_progress';
 
-    private $fillable = ['user_id', 'course_id', 'type', 'name'];
+    private $fillable = ['user_id', 'course_id', 'slide_id', 'name'];
 
     /**
      * Activity constructor.
@@ -26,7 +26,7 @@ class Activity extends Model
         }
 
         if (array_key_exists('slide_id', $this->attributes)) {
-            $this->attributes['slide'] = !is_null($this->attributes['slide_id']) ? Slide::find($this->attributes['slide_id']) : null;
+            $this->attributes['slide'] = ! is_null($this->attributes['slide_id']) ? Slide::find($this->attributes['slide_id']) : null;
         }
     }
 
@@ -38,8 +38,6 @@ class Activity extends Model
                     get_option('date_format'),
                     strtotime($this->attributes['created_at'])
                 );
-            case 'raw_date':
-                return strtotime($this->attributes['date']);
             case 'time':
                 return date(
                     get_option('time_format'),

@@ -39,8 +39,6 @@ class Enrollment extends Model
                     get_option('date_format'),
                     strtotime($this->attributes['updated_at'])
                 );
-            case 'raw_updated_at':
-                return $this->attributes['updated_at'];
             case 'progress':
                 return $this->computeProgress();
         }
@@ -50,32 +48,18 @@ class Enrollment extends Model
 
     public function computeProgress()
     {
-        global $wpdb;
+        $total = $this->course->slides()->count();
 
-        $slides = $this->course->slides();
-
-        if (!$slides->count()) {
+        if ( ! $total) {
             return 0;
         }
 
-        $slide_ids_placeholder = implode(', ', array_fill(0, $slides->count(), '%d'));
-        $sql = <<<SQL
-          SELECT COUNT(*)
-          FROM {$wpdb->prefix}lms_activities
-          WHERE course_id = %d
-                AND slide_id IN ({$slide_ids_placeholder})
-                AND description = 'Completed';
-SQL;
+        $finished = Progress::where('user_id', $this->user->id)
+                            ->where('course_id', $this->course_id)
+                            ->where('name', 'finished')
+                            ->count();
 
-        $values = $slides->pluck('id');
-        array_unshift($values, $this->course->id);
-
-        $sql = $wpdb->prepare($sql, $values);
-        $completed_slides = $wpdb->get_var($sql);
-
-        $rate = ($completed_slides / $slides->count()) * 100;
-
-        return $rate ? round($rate) : 0;
+        return 100 * $finished / $total;
     }
 
     protected function insert()

@@ -2,9 +2,9 @@
 
 namespace LmsPlugin\DataBase;
 
-class CreateQuizResultsTable extends CreateTable
+class CreateProgressTable extends CreateTable
 {
-    const TABLE = 'lms_quiz_results';
+    const TABLE = 'lms_progress';
 
     public function up()
     {
@@ -13,10 +13,9 @@ class CreateQuizResultsTable extends CreateTable
               id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
               user_id BIGINT NOT NULL,
               course_id BIGINT NOT NULL,
-              slide_id BIGINT NOT NULL,
-              results LONGTEXT,
-              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+              slide_id BIGINT,
+              name VARCHAR(255) NOT NULL,
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             ) {$this->charset_collate};
 SQL;
 

@@ -3,7 +3,7 @@
     <tr>
         <td id="cb" class="manage-column column-cb check-column"></td>
         <th class="column-activity"><?= __('Activity', 'lms-plugin'); ?></th>
-        <th class="column-action"><?= __('Action', 'lms-plugin'); ?></th>
+        <th class="column-action"><?= __('Type', 'lms-plugin'); ?></th>
         <th class="column-course"><?= __('Course', 'lms-plugin'); ?></th>
     </tr>
     </thead>
@@ -18,25 +18,25 @@
                     <?= __('at', 'lms-plugin'); ?>
                     <?= $activity->time;  ?>
                     <div>
-                        <?= $activity->description;  ?>
-                        <?php if ($activity->slide): ?>
-                            <a href="<?= edit_slide_url($activity->slide); ?>">
-                                <?= $activity->slide->name; ?>
-                            </a>
-                        <?php else: ?>
+                        <?= $activity->name; ?>
+                        <?php if ($activity->type == 'course'): ?>
                             <a href="<?= edit_course_url($activity->course); ?>">
                                 <?= $activity->course->name; ?>
                             </a>
-                        <?php endif;?>
+                        <?php endif; ?>
                     </div>
                 </td>
                 <td>
-                    <?= $activity->name;  ?>
+                    <?= $activity->type;  ?>
                 </td>
                 <td>
-                    <a href="<?= edit_course_url($activity->course); ?>">
-                        <?= $activity->course->name; ?>
-                    </a>
+                    <?php if ($activity->type == 'course'): ?>
+                        <a href="<?= edit_course_url($activity->course); ?>">
+                            <?= $activity->course->name; ?>
+                        </a>
+                    <?php else: ?>
+                        —
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
