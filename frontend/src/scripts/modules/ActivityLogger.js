@@ -1,3 +1,5 @@
+import Alert from '../utilities/Alerts'
+
 export const Activity = {
     acceptInvite(userId, courseId){
         $.ajax(
@@ -32,7 +34,7 @@ export const Activity = {
             window.location.href = lmsAjax.coursesLink;
         });
     },
-    commit(userId, courseId, activityType, commitMessage) {
+    commit(user_id, course_id, activity_type, activity_name) {
         console.log('COMMIT !');
         $.ajax(
             {
@@ -40,10 +42,10 @@ export const Activity = {
                 url: lmsAjax.ajaxurl,
                 data: {
                     action: 'activity_commit',
-                    user_id: userId,
-                    course_id: courseId,
-                    commit_message: activityType,
-                    commit_description: commitMessage,
+                    user_id,
+                    course_id,
+                    activity_type,
+                    activity_name,
                 }
             }
         ).done(function (msg) {

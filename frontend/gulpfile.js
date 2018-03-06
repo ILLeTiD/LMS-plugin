@@ -76,7 +76,9 @@ gulp.task('styles', function () {
         }))
         .on('error', console.error.bind(console))
         .pipe(autoprefixer({browsers: ['last 2 versions', '> 5%', 'Firefox ESR']}))
-        .pipe(cssimport(cssImportOptions))
+        .pipe(cssimport({
+            matchPattern: "*.css"
+        }))
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write(mapURL))
         .pipe(gulp.dest(styleURL))

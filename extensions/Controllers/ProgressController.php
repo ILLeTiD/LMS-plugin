@@ -4,6 +4,7 @@ namespace LmsPlugin\Controllers;
 
 
 use LmsPlugin\Models\Activity;
+use LmsPlugin\Models\Progress;
 use LmsPlugin\Models\Enrollment;
 use LmsPlugin\Models\User;
 
@@ -11,29 +12,27 @@ class ProgressController extends Controller
 {
     public function commitProgress()
     {
-        $activity = Activity::where('user_id', $_REQUEST['user_id'])
+        $progress = Progress::where('user_id', $_REQUEST['user_id'])
             ->where('course_id', $_REQUEST['course_id'])
             ->where('slide_id', intval($_REQUEST['slide_id']))
-            ->where('name', 'finished')
+            ->where('name', $_REQUEST['name'])
             ->count();
 
-        $activityBool = !!$activity;
+        $progressBool = !!$progress;
 
-        if (!$activityBool) {
-
-            $activityNew = new Activity([
+        if (!$progressBool) {
+            $progressNew = new Progress([
                 'user_id' => $_POST['user_id'],
                 'course_id' => $_POST['course_id'],
                 'slide_id' => $_POST['slide_id'],
-                'name' => $_POST['commit_message'],
-                'description' => $_POST['commit_description']
+                'name' => $_POST['name'],
             ]);
 
-            $activityNew->save();
+            $progressNew->save();
         }
 
-        wp_send_json(['reached_step' => $activityBool,
-            'newStep' => $activityNew,
+        wp_send_json(['reached_step' => $progressBool,
+            'newStep' => $progressNew,
             'post' => $_POST]);
     }
 
@@ -42,8 +41,8 @@ class ProgressController extends Controller
         $activityNew = new Activity([
             'user_id' => $_POST['user_id'],
             'course_id' => $_POST['course_id'],
-            'name' => $_POST['commit_message'],
-            'description' => $_POST['commit_message'],
+            'type' => $_POST['activity_type'],
+            'name' => $_POST['activity_name']
         ]);
 
         $activityNew->save();
@@ -125,16 +124,18 @@ class ProgressController extends Controller
     public function getAllUserSteps()
     {
         try {
-            $activity = Activity::where('user_id', $_POST['user_id'])
+            $activity = Progress::where('user_id', $_POST['user_id'])
                 ->where('course_id', $_POST['course_id'])
                 ->where('name', 'finished')
-                ->orderBy(['date' => 'DESC'])
+                ->orderBy(['created_at' => 'DESC'])
                 ->get();
+
             $passedSlides = [];
 
             foreach ($activity as $item) {
                 $passedSlides[] = $item->slide->id;
             }
+           // d($passedSlides);
             wp_send_json(['ids' => $passedSlides, 'post' => $_POST]);
         } catch (\Exception $e) {
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);

@@ -7,6 +7,7 @@ import 'hammerjs'
 import Muuri from 'muuri';
 import mediaelement from 'mediaelement';
 import {selectors} from './selectors'
+import {ProgressLogger} from './CourseProgressLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
 
@@ -326,7 +327,7 @@ class Course {
 
         if (this.canGoNext) {
             this.showSlide(nextSlideIndex, nextSlideIndex + 1);
-            this.commitActivity(currentId);
+            ProgressLogger.commitProgress(this.userId, this.courseId, currentId, 'finished')
         } else {
             new Alert('Please answer the question to go next')
         }
@@ -451,26 +452,6 @@ class Course {
             this.enableCourseNav();
             this.disableSectionNav();
         }
-    }
-
-    commitActivity(currentId, commitMessage = 'finished') {
-        if (!this.passedIds.includes(currentId)) this.passedIds.push(currentId);
-        $.ajax(
-            {
-                method: "POST",
-                url: lmsAjax.ajaxurl,
-                data: {
-                    action: 'progress_commit',
-                    user_id: this.userId,
-                    course_id: this.courseId,
-                    slide_id: currentId,
-                    commit_message: commitMessage,
-                    commit_description: 'Completed',
-                }
-            }
-        ).done(function (msg) {
-            console.log('commited slide activity ', msg);
-        });
     }
 
     calculateProgress(current = this.slideCtr.current.index(), amount = this.slideCtr.amount) {

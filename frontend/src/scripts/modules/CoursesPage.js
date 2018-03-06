@@ -24,7 +24,7 @@ class CoursesPage {
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
         Activity.acceptInvite(userID, courseID);
-        Activity.commit(userID, courseID, 'course_invite_accepted', `User ${userID} started course ${courseID}`);
+        Activity.commit(userID, courseID, 'course', 'enrolled');
     }
 
     rejectEnrollment(e) {
@@ -34,7 +34,7 @@ class CoursesPage {
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
         Activity.rejectInvite(userID, courseID);
-        Activity.commit(userID, courseID, 'course_invite_rejected', `User ${userID} rejected course ${courseID}`);
+        Activity.commit(userID, courseID, 'course', 'rejected_invite');
     }
 
     archiveEnrollment(e) {
@@ -43,7 +43,7 @@ class CoursesPage {
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
         Activity.rejectInvite(userID, courseID);
-        Activity.commit(userID, courseID, 'course_archived', `User ${userID} archived course ${courseID}`);
+        Activity.commit(userID, courseID, 'course', 'archived_course');
     }
 
     formatDate() {
