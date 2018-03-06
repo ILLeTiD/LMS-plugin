@@ -165,17 +165,6 @@ class ProgressController extends Controller
             $activity->where('date', '<=', $toDate);
         }
         $activity = $activity->get();
-//        if (!$fromDate && !$toDate && $type == 'all') {
-//            $activity = $activity->get();
-//        } else {
-//
-//
-//
-//            $activity = $activity->get();
-//        }
-
-
-        //   d($activity);
 
         $filteredActivity = [];
         foreach ($activity as $item) {
@@ -189,7 +178,6 @@ class ProgressController extends Controller
         usort($filteredActivity, function ($a, $b) {
             return $a['date'] < $b['date'];
         });
-        // Define the custom sort function
 
         wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);
     }

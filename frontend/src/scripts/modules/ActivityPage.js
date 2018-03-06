@@ -125,7 +125,7 @@ class ActivityPage {
                         <div class="lms-activity-item__message">
                             ${message}
                         </div>
-                        <div class="lms-activity-item__date">
+                        <div class="lms-activity-item__date"  data-date="${date}">
                             ${moment(date).fromNow()}
                         </div>
                     </div>

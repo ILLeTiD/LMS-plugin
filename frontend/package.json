@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.26.0",
+    "dragula": "^3.7.2",
     "flatpickr": "^4.3.2",
     "gulp-cssimport": "^6.0.0",
     "hammerjs": "^2.0.8",

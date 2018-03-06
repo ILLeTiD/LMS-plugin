@@ -9,10 +9,10 @@ import mediaelement from 'mediaelement';
 import {selectors} from './selectors'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
+
 class Course {
     constructor() {
         this.slideCtr = new SlideCtr(this);
-        // this.urlCrl = new UrlCtr(this.slideCtr, this);
         this.canGoNext = true;
         this.flexThreshold = 50;
         this.passedIds = [];
@@ -20,7 +20,6 @@ class Course {
         this.navType = 'slide';
         this.selectors = selectors;
         this.slides = [];
-
     }
 
     init($courseEl) {
