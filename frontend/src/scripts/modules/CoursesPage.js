@@ -15,6 +15,7 @@ class CoursesPage {
     listeners() {
         $('.lms-course-begin-button').on('click', this.acceptInvite.bind(this));
         $('.lms-course-reject-button').on('click', this.rejectEnrollment.bind(this));
+        $('.lms-course-redo-button').on('click', this.redoCourse.bind(this));
         $('.lms-course-archive-button').on('click', this.archiveEnrollment.bind(this));
     }
 
@@ -24,7 +25,7 @@ class CoursesPage {
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
         Activity.acceptInvite(userID, courseID);
-        Activity.commit(userID, courseID, 'course', 'enrolled');
+        Activity.commit(userID, 'course', 'enrolled', courseID);
     }
 
     rejectEnrollment(e) {
@@ -34,7 +35,7 @@ class CoursesPage {
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
         Activity.rejectInvite(userID, courseID);
-        Activity.commit(userID, courseID, 'course', 'rejected_invite');
+        Activity.commit(userID, 'course', 'rejected', courseID);
     }
 
     archiveEnrollment(e) {
@@ -43,7 +44,16 @@ class CoursesPage {
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
         Activity.rejectInvite(userID, courseID);
-        Activity.commit(userID, courseID, 'course', 'archived_course');
+        Activity.commit(userID, 'course', 'archived_course', courseID);
+    }
+
+    redoCourse(e) {
+        if (e) e.preventDefault();
+        const $button = $(e.target);
+        const courseID = $button.data('course-id');
+        const userID = $button.data('user-id');
+        Activity.redoCourse(userID, courseID);
+        Activity.commit(userID, 'course', 'restarted', courseID);
     }
 
     formatDate() {

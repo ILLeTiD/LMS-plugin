@@ -99,7 +99,7 @@ class ProgressController extends Controller
         $courseId = $_POST['course_id'];
         try {
             lms_restart_course($user_id, $courseId);
-            wp_send_json(['message' => 'course data deleted', 'post' => $_POST]);
+            wp_send_json(['message' => 'course data deleted', 'course_link' => get_the_permalink($courseId), 'post' => $_POST]);
         } catch (\Exception $e) {
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);
         }
@@ -134,7 +134,7 @@ class ProgressController extends Controller
             foreach ($activity as $item) {
                 $passedSlides[] = $item->slide->id;
             }
-           // d($passedSlides);
+            // d($passedSlides);
             wp_send_json(['ids' => $passedSlides, 'post' => $_POST]);
         } catch (\Exception $e) {
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);
@@ -164,20 +164,23 @@ class ProgressController extends Controller
         if ($toDate) {
             $activity->where('date', '<=', $toDate);
         }
-        $activity = $activity->get();
+        $activity = $activity->orderBy('created_at', 'DESC')->get();
+
+
+        $messages = require($this->plugin->getDirectory('/templates/activity-parts/activity-message.php'));
+
 
         $filteredActivity = [];
         foreach ($activity as $item) {
+            $link = sprintf('<a href="%s">%s</a>', get_the_permalink($item->course_id), get_the_title($item->course_id));
+            $text = sprintf($messages[$item->name], $link);
             $filteredActivity[] = [
                 'id' => $item->id,
-                'type' => $item->name,
-                'text' => $item->description,
-                'date' => $item->date
+                'type' => $item->type,
+                'text' => $text,
+                'date' => $item->raw_date
             ];
         }
-        usort($filteredActivity, function ($a, $b) {
-            return $a['date'] < $b['date'];
-        });
 
         wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);
     }

@@ -39,7 +39,7 @@ class Activity extends Model
                     strtotime($this->attributes['created_at'])
                 );
             case 'raw_date':
-                return strtotime($this->attributes['date']);
+                return $this->attributes['created_at'];
             case 'time':
                 return date(
                     get_option('time_format'),

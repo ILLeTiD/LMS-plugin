@@ -98,6 +98,8 @@ $action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@a
 $action->add('wp_ajax_nopriv_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
 $action->add('wp_ajax_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
 $action->add('wp_ajax_nopriv_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
+$action->add('wp_ajax_activity_redo_course', 'Controllers\ProgressController@restartCourse');
+$action->add('wp_ajax_nopriv_activity_redo_course', 'Controllers\ProgressController@restartCourse');
 
 $action->add('wp_ajax_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
 $action->add('wp_ajax_nopriv_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
@@ -131,6 +133,8 @@ $action->add('lms_event_invite_requested', function ($email) {
 
 $action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
 $action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handle');
+$action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
+
 
 /**
  * For test purposes.

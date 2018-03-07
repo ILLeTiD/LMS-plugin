@@ -109,11 +109,11 @@ class ParticipantsPageController extends Controller
         $user_ids = UserRepository::get($arguments)->pluck('id');
 
         $participants = $course->enrollments()
-                               ->whereIn('user_id', $user_ids)
-                               ->where('status', $status)
-                               ->where('created_at', '>=', $from)
-                               ->where('created_at', '<', empty($to) ? $to : date(get_option('date_format'), strtotime($to) + 3600 * 24))
-                               ->get();
+            ->whereIn('user_id', $user_ids)
+            ->where('status', $status)
+            ->where('created_at', '>=', $from)
+            ->where('created_at', '<', empty($to) ? $to : date(get_option('date_format'), strtotime($to) + 3600 * 24))
+            ->get();
 
         $statuses = [
             'invited' => __('Invited', 'lms-plugin'),
@@ -183,6 +183,7 @@ class ParticipantsPageController extends Controller
 
         foreach ($enrollments as $enrollment) {
             $enrollment->save();
+            do_action('lms_event_user_activity', $enrollment->user->id, 'course', 'invited', $enrollment->course->id);
         }
     }
 }

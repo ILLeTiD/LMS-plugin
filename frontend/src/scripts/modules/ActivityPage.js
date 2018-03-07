@@ -1,6 +1,7 @@
 import flatpickr from "flatpickr";
 import {observable, autorun} from 'mobx';
 import moment from 'moment';
+import tippy from 'tippy.js'
 // import  'moment/locale/sv'
 import Alert from '../utilities/Alerts'
 class ActivityPage {
@@ -18,6 +19,7 @@ class ActivityPage {
 
     init() {
         moment.locale($('html').attr('lang'));
+        tippy('.btn')
         //using mobX to manage state more at https://mobx.js.org/refguide/autorun.html
         autorun(
             () => {
@@ -28,7 +30,7 @@ class ActivityPage {
             () => {
                 $('.lms-activity-list').html('');
                 if (this.items.length > 0) {
-                    return this.items.forEach(item => this.renderActivityItem(item.type, item.text, item.date))
+                    return this.items.forEach(item => this.renderActivityItem(item.type, item.text, item.date));
                 } else {
                     $('.lms-activity-list').append(`
                      <div class="lms-activity-item lms-activity-item--not-found">
@@ -126,7 +128,7 @@ class ActivityPage {
                         <div class="lms-activity-item__message">
                             ${message}
                         </div>
-                        <div class="lms-activity-item__date"  data-date="${date}">
+                        <div class="lms-activity-item__date"  title="${date}">
                             ${moment(date).fromNow()}
                         </div>
                     </div>
@@ -137,6 +139,9 @@ class ActivityPage {
         // $item.find('.lms-activity-item__message').text(message);
         // $item.find('.lms-activity-item__date').text(moment(date).fromNow());
         $('.lms-activity-list').append($item);
+        tippy('.lms-activity-item__date', {
+            placement: 'bottom',
+        });
 
     }
 

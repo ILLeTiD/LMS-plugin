@@ -31,6 +31,7 @@
     "popper.js": "^1.13.0",
     "scrollreveal": "^3.3.5",
     "sweet-dropdown": "^1.0.0",
+    "tippy.js": "^2.2.3",
     "tooltip.js": "^1.1.7",
     "web-animations-js": "^2.3.1"
   },
