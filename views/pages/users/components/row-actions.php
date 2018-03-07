@@ -17,5 +17,18 @@
         </span>
     </span>
     <?php endif; ?>
+
+    <?php if ($current_view == 'invited'): ?>
+        <span class="accept">
+            <a href="#" class="js-resend-invite" data-user="<?= $user->ID; ?>">
+                <?= __('Resend invite', 'lms-plugin'); ?>
+            </a> |
+        <span class="delete">
+            <a href="#" class="js-uninvite" data-user="<?= $user->ID; ?>">
+                <?= __('Uninvite', 'lms-plugin'); ?>
+            </a>
+        </span>
+    </span>
+    <?php endif; ?>
 </div>
 
