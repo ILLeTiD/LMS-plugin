@@ -95,7 +95,7 @@ class ParticipantsPageController extends Controller
         $roles = wp_roles()->role_names;
 
         $arguments = [
-            'role__in' => array_keys(CustomRoles::roles()),
+            '' => ''
         ];
 
         if ($search) {
