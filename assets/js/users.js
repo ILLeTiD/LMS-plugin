@@ -163,14 +163,13 @@
                     emails: this.emails
                 }
             }).done(function (response) {
-                if (response.status === 'error') {
-                    console.log(popup.error);
-                    popup.error.text(response.message);
-                    popup.error.show();
-                } else {
-                    var successPopup = new SuccessPopup('.lms-success-popup', response.message);
+                if (response.success) {
+                    var successPopup = new SuccessPopup('.lms-success-popup', response.data.message);
                     popup.close();
                     successPopup.show();
+                } else {
+                    popup.error.text(response.data.message);
+                    popup.error.show();
                 }
             });
         };
