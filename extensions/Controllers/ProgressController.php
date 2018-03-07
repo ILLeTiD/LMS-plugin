@@ -158,12 +158,13 @@ class ProgressController extends Controller
         }
 
         if ($fromDate) {
-            $activity->where('date', '>=', $fromDate);
+            $activity->where('created_at', '>=', $fromDate . ' 00:00:01');
         }
 
         if ($toDate) {
-            $activity->where('date', '<=', $toDate);
+            $activity->where('created_at', '<=', $toDate . ' 23:59:59');
         }
+
         $activity = $activity->orderBy('created_at', 'DESC')->get();
 
 
@@ -181,6 +182,9 @@ class ProgressController extends Controller
                 'date' => $item->raw_date
             ];
         }
+        usort($filteredActivity, function ($a, $b) {
+            return $a['date'] < $b['date'];
+        });
 
         wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);
     }
