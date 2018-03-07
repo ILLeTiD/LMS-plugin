@@ -103,7 +103,6 @@ class ProgressController extends Controller
         } catch (\Exception $e) {
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);
         }
-
     }
 
     public function getStep()

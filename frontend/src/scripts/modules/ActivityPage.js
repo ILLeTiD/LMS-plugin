@@ -69,7 +69,8 @@ class ActivityPage {
 
     initDatePickers() {
         $(".lms-activity-filter-datepicked").flatpickr({
-            maxDate: "today"
+            maxDate: "today",
+            dateFormat: lmsAjax.timeFormat,
         });
     }
 

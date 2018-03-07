@@ -51,8 +51,13 @@
 
       min-height: 200px;
 
+      &-content {
+        min-height: 170px;
+      }
+
       &-text {
         pointer-events: none;
+        margin: 0;
       }
 
       &-placeholder {

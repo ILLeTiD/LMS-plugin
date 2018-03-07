@@ -59,7 +59,7 @@ class Enrollment extends Model
                             ->where('name', 'finished')
                             ->count();
 
-        return 100 * $finished / $total;
+        return round(100 * $finished / $total);
     }
 
     protected function insert()
