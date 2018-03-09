@@ -1,3 +1,8 @@
+<?php
+$singleGridVideoClass = '';
+if ($sectionsCount == 1 && ($content[0]["embed_video"] || $content[0]["video_media"])) {
+    $singleGridVideoClass = 'lms-grid-container--single-video';
+} ?>
 <style>
     #slide-<?= $id ?> {
         background-color: <?= array_get($colors,"background"); ?>;

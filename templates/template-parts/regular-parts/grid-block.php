@@ -22,7 +22,7 @@ include 'section-settings.php';
            background-size: cover;">
     <?php else: ?>
     <div
-            class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?> <?= $arrowClass ?> lms-grid-block-<?= $index; ?> <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
+            class="<?= $isFirst ?> lms-grid-block lms-grid-block-<?= $template; ?>  <?= $arrowClass ?> lms-grid-block-<?= $index; ?> <?= $image && !$isBg ? 'lms-grid-block--image' : ''; ?>"
         <?php if ($audio) : ?>
             <?= 'data-audio-src="' . $audio . '"'; ?>
             <?= 'data-audio-loop="' . $audioIsLoop . '"'; ?>

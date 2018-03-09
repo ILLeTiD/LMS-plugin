@@ -82,12 +82,19 @@ border-color:<?= $bgC ?>!important;
 <?php $colorStyles = ob_get_clean();
 ?>
 <style>
-    #<?= $randomId?> {
+    #
+    <?= $randomId?>
+    {
     <?= $useColors? $colorStyles : ''; ?>
-        display: flex;
-        justify-content:<?= $justifyContent ?>;
-        align-items:<?=  $alignItems?>;
-        <?= $customCss; ?>
+        display: flex
+    ;
+        justify-content:
+    <?= $justifyContent ?>
+    ;
+        align-items:
+    <?=  $alignItems?>
+    ;
+    <?= $customCss; ?>
     }
 
     @media screen and (max-width: 1024px) {
@@ -96,17 +103,36 @@ border-color:<?= $bgC ?>!important;
         }
     }
 
-    #<?= $randomId?>  .lms-grid-block__wrapper {
+    #
+    <?= $randomId?>
+    .lms-grid-block__wrapper {
         padding: <?=$innerPadding ?>;
         width: <?=  $innerWidth?>;
     }
 
-    #<?= $randomId?> h1,
-    #<?= $randomId?> h2,
-    #<?= $randomId?> h3,
-    #<?= $randomId?> h4,
-    #<?= $randomId?> h5,
-    #<?= $randomId?> h6 {
+    #
+    <?= $randomId?>
+    h1,
+
+    #
+    <?= $randomId?>
+    h2,
+
+    #
+    <?= $randomId?>
+    h3,
+
+    #
+    <?= $randomId?>
+    h4,
+
+    #
+    <?= $randomId?>
+    h5,
+
+    #
+    <?= $randomId?>
+    h6 {
         color: <?= $headerC ?>;
     }
 </style>
