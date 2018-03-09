@@ -37,23 +37,23 @@ include 'section-settings.php';
                  background-size: cover;">
         <?php endif; ?>
         <div class="lms-grid-block__wrapper">
-
-
             <?php
             if ($videoEmbed || $videoMedia) : ?>
-
                 <?php
                 if ($videoType) : ?>
-                    <div class="video-container">
-                        <?php global $wp_embed;
-                        echo $wp_embed->run_shortcode('[embed]' . $videoEmbed . '[/embed]');
-                        ?>
-                    </div>
-                <?php else :
-                    echo wp_video_shortcode(['src' => $videoMedia]);
+                    <video
+                            src="<?= $videoEmbed ?>"
+                            style="max-width: 100%"
+                            class="lms-video-player   <?= $videoAutoplay ? 'autoplay' : ''; ?> <?= $videoHideControls ? 'lms-video-player--disabled' : ''; ?>"></video>
+                <?php else : ?>
+                    <video src="<?= $videoMedia; ?>"
+                           style="max-width: 100%"
+                           class="lms-video-player    <?= $videoAutoplay ? 'autoplay' : ''; ?><?= $videoHideControls ? 'lms-video-player--disabled' : ''; ?>"></video>
+
+                    <?php
+                    // echo wp_video_shortcode(['src' => $videoMedia]);
                 endif;
                 ?>
-
             <?php elseif ($image && !$isBg) : ?>
                 <img data-src="<?= $image ?>" class="lms-grid-block__image">
             <?php elseif ($text) : ?>

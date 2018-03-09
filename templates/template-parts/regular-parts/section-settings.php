@@ -9,6 +9,7 @@ $videoType = isset($block['video_type']) ? $block['video_type'] : null;
 $videoEmbed = isset($block['embed_video']) ? $block['embed_video'] : null;
 $videoMedia = isset($block['video_media']) ? $block['video_media'] : null;
 $videoHideControls = isset($block['hide_controls']) ? $block['hide_controls'] : null;
+$videoAutoplay = isset($block['video_autoplay']) ? $block['video_autoplay'] : null;
 $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 

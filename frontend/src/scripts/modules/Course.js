@@ -5,7 +5,8 @@ import {initLazyLoading} from '../utilities/lazy-loading';
 import Alert from '../utilities/Alerts'
 import 'hammerjs'
 import Muuri from 'muuri';
-import mediaelement from 'mediaelement';
+// import mediaelement from 'mediaelement';
+import 'mediaelement/full';
 import {selectors} from './selectors'
 import {ProgressLogger} from './CourseProgressLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
@@ -21,6 +22,7 @@ class Course {
         this.navType = 'slide';
         this.selectors = selectors;
         this.slides = [];
+        this.initedVideos = [];
     }
 
     init($courseEl) {
@@ -30,6 +32,7 @@ class Course {
         this.userId = $courseEl.data('user-id');
         this.getLatestSlideFromDb();
         this.initAudio();
+
         initLazyLoading();
         this.collectSlides();
         showArrow();
@@ -58,6 +61,54 @@ class Course {
             }
             self.slides.push(slide);
         });
+    }
+
+    initVideo() {
+        const self = this;
+        if ($.fn.mediaelementplayer) {
+            // console.log('MEDIA ELEMENT', this.slideCtr.current);
+            this.slideCtr.current.find('.lms-video-player').each(function (i) {
+                const isHiddenControls = $(this).hasClass('lms-video-player--disabled');
+                const isAutoplay = $(this).hasClass('autoplay');
+                if (isHiddenControls) {
+                    $(this).mediaelementplayer({
+                        pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
+                        shimScriptAccess: 'always',
+                        alwaysShowControls: false,
+                        stretching: 'responsive',
+                        features: ['current', 'duration', 'tracks', 'volume', 'fullscreen'],
+                        success: function (mediaElement, originalNode, instance) {
+                            if (isAutoplay) {
+                                console.log('IS AUTOPLAY');
+                                instance.play();
+                            }
+                            self.initedVideos.push({
+                                slideIndex: self.slideCtr.current.data('slide-index'),
+                                player: instance
+                            });
+                        }
+                    });
+                } else {
+                    $(this).mediaelementplayer({
+                        pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
+                        shimScriptAccess: 'always',
+                        alwaysShowControls: false,
+                        stretching: 'responsive',
+                        success: function (mediaElement, originalNode, instance) {
+                            if (isAutoplay) {
+                                console.log('IS AUTOPLAY');
+                                instance.play();
+                            }
+                            self.initedVideos.push({
+                                slideIndex: self.slideCtr.current.data('slide-index'),
+                                player: instance
+                            });
+                        }
+                    });
+                }
+
+            });
+        }
     }
 
     initAudio() {
@@ -343,6 +394,7 @@ class Course {
 
     showSlide(indexSlide, indexHash, changeUrl = true) {
         this.slideCtr.currentByIndex = indexSlide;
+
         this.slideSectionsCount = this.slideCtr.current.data('section-count');
         this.slideDisplayType = this.slideCtr.current.data('section-display');
         this.currentSection = 1;
@@ -388,6 +440,17 @@ class Course {
             console.log('remove CHECK');
             $('.lms-nav-button--prev').removeClass('disabled');
             $('.lms-nav-button--check').removeClass('active');
+
+
+            if (!this.initedVideos.find(i => i.slideIndex == indexSlide)) {
+                this.initVideo();
+            }
+
+            this.initedVideos.forEach(i => {
+                if (i.slideIndex != indexSlide) {
+                    i.player.pause();
+                }
+            });
         }
 
         this.calculateProgress();

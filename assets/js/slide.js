@@ -229,8 +229,6 @@ var lms = {
         });
 
         $('.lms-slide-video-type').each(function (i) {
-            console.log($(this));
-            console.log('IS CHECKED?', $(this).is(':checked'));
             if ($(this).is(':checked')) {
                 $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--gallery').hide();
                 $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').show();
@@ -240,7 +238,6 @@ var lms = {
             }
         });
         $('.lms-slide-video-type').on('change', function (e) {
-            console.log($(this));
             $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--gallery').toggle();
             $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').toggle();
         });
