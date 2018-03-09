@@ -178,7 +178,8 @@
     </div>
 
     <!-- Embed Video -->
-    <div class="row">
+
+    <div class="row lms-slide-video-type--embed">
         <div class="col-2">
             <h4 class="field__title"><?= __('Embed Video', 'lms-plugin'); ?></h4>
         </div>
@@ -200,7 +201,67 @@
             </div>
         </div>
     </div>
+    <div class="row lms-slide-video-type--gallery">
+        <div class="col-2">
+            <h4 class="field__title"><?= __('Video from gallery', 'lms-plugin'); ?></h4>
+        </div>
+        <div class="col-8">
+            <div class="wp-media-buttons <?= array_get($slide, 'video_media') ? 'hidden' : ''; ?>">
+                <button type="button"
+                        id="insert-media-button"
+                        class="button insert-media add_media js-add-section-video"
+                        data-editor="content">
+                    <span class="wp-media-buttons-icon"></span> <?= __('Add Media', 'lms-plugin'); ?>
+                </button>
+            </div>
+            <video width="320" height="240" controls
+                   class="<?= array_get($slide, 'video_media') ? '' : 'hidden'; ?>"
+            >
+                <source src="<?= array_get($slide, 'video_media'); ?>" type="video/mp4">
+                <?= __('Your browser does not support the video element.', 'lms-plugin'); ?>
+            </video>
 
+            <a href="#"
+               class="js-remove-section-video <?= array_get($slide, 'video_media') ? '' : 'hidden'; ?>"
+            >
+                <?= __('Remove video', 'lms-plugin'); ?>
+            </a>
+
+            <input type="hidden"
+                   name="slide_content[<?= $i; ?>][video_media]"
+                   class="section-video" value="<?= array_get($slide, 'video_media'); ?>"
+            >
+
+        </div>
+        <div class="col-2">
+            <?= __('Use viedo from wordpress gallery', 'lms-plugin'); ?>
+            <div class="lms-slide-advanced-settings__hide-controls">
+                <label>
+                    <input type="checkbox"
+                           name="slide_content[<?= $i; ?>][hide_controls]"
+                           value="1"
+                        <?= checked(array_get($slide, 'hide_controls')); ?>
+                    >
+                    <?= __('Hide Controls', 'lms-plugin'); ?>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label>
+                <?= __('Use embeded from youtube, vimeo?', 'lms-plugin'); ?>
+
+                <input type="checkbox"
+                       class="lms-slide-video-type"
+                       value="1"
+                    <?= checked(array_get($slide, 'video_type')); ?>
+                       name="slide_content[<?= $i; ?>][video_type]"
+                >
+            </label>
+            <br>
+        </div>
+    </div>
     <hr>
 
     <!-- Audio File -->

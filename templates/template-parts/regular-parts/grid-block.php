@@ -38,13 +38,22 @@ include 'section-settings.php';
         <?php endif; ?>
         <div class="lms-grid-block__wrapper">
 
-            <?php if ($video) : ?>
-                <div class="video-container">
-                    <?php
-                    global $wp_embed;
-                    echo $wp_embed->run_shortcode('[embed]' . $video . '[/embed]');
-                    ?>
-                </div>
+
+            <?php
+            if ($videoEmbed || $videoMedia) : ?>
+
+                <?php
+                if ($videoType) : ?>
+                    <div class="video-container">
+                        <?php global $wp_embed;
+                        echo $wp_embed->run_shortcode('[embed]' . $videoEmbed . '[/embed]');
+                        ?>
+                    </div>
+                <?php else :
+                    echo wp_video_shortcode(['src' => $videoMedia]);
+                endif;
+                ?>
+
             <?php elseif ($image && !$isBg) : ?>
                 <img data-src="<?= $image ?>" class="lms-grid-block__image">
             <?php elseif ($text) : ?>

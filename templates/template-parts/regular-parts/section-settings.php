@@ -5,17 +5,20 @@ $thumbnail = isset($block['thumbnail']) ? $block['thumbnail'] : null;
 $image = isset($block['image']) ? $block['image'] : null;
 $audio = isset($block['audio']) ? $block['audio'] : null;
 $audioIsLoop = isset($block['loop']) ? $block['loop'] : null;
-$video = isset($block['embed_video']) ? $block['embed_video'] : null;
+$videoType = isset($block['video_type']) ? $block['video_type'] : null;
+$videoEmbed = isset($block['embed_video']) ? $block['embed_video'] : null;
+$videoMedia = isset($block['video_media']) ? $block['video_media'] : null;
+$videoHideControls = isset($block['hide_controls']) ? $block['hide_controls'] : null;
 $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 
 
-$linkedTo = isset($block['connect_to'])&&$block['connect_to']  ? intval($block['connect_to']) +1 : null;
+$linkedTo = isset($block['connect_to']) && $block['connect_to'] ? intval($block['connect_to']) + 1 : null;
 $useArrow = array_get($block, 'arrow');
 $arrowClass = '';
 
-if($linkedTo && $useArrow) {
-    $arrowClass = ' lms-grid-block-arrow lms-grid-block-arrow-to-'.$linkedTo;
+if ($linkedTo && $useArrow) {
+    $arrowClass = ' lms-grid-block-arrow lms-grid-block-arrow-to-' . $linkedTo;
 }
 
 $useColors = array_get($block, 'use_section_colors', false);
@@ -79,20 +82,20 @@ border-color:<?= $bgC ?>!important;
 ?>
 <style>
     #<?= $randomId?> {
-        <?= $useColors? $colorStyles : ''; ?>
+    <?= $useColors? $colorStyles : ''; ?>
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
         <?= $customCss; ?>
     }
 
-    @media screen and (max-width: 1024px){
-       .lms-grid-block:nth-of-type(<?= $linkedTo; ?>){
-            order:<?= $index*10 +1 ?>!important;
+    @media screen and (max-width: 1024px) {
+        .lms-grid-block:nth-of-type(<?= $linkedTo; ?>) {
+            order: <?= $index*10 +1 ?> !important;
         }
     }
 
-    #<?= $randomId?> .lms-grid-block__wrapper {
+    #<?= $randomId?>  .lms-grid-block__wrapper {
         padding: <?=$innerPadding ?>;
         width: <?=  $innerWidth?>;
     }
@@ -103,6 +106,6 @@ border-color:<?= $bgC ?>!important;
     #<?= $randomId?> h4,
     #<?= $randomId?> h5,
     #<?= $randomId?> h6 {
-                         color: <?= $headerC ?>;
-                     }
+        color: <?= $headerC ?>;
+    }
 </style>
