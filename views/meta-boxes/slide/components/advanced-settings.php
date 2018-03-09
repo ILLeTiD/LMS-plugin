@@ -183,11 +183,11 @@
         <div class="col-2">
             <h4 class="field__title"><?= __('Video', 'lms-plugin'); ?></h4>
         </div>
-        <div class="col-8 lms-slide-video-type--embed">
+        <div class="col-8 lms-slide-video-type--embed" style="display: none;">
             <textarea name="slide_content[<?= $i; ?>][embed_video]"
                       rows="5"><?= array_get($slide, 'embed_video'); ?></textarea>
         </div>
-        <div class="col-8 lms-slide-video-type--gallery">
+        <div class="col-8 lms-slide-video-type--gallery" style="display: block;">
             <div class="wp-media-buttons <?= array_get($slide, 'video_media') ? 'hidden' : ''; ?>">
                 <button type="button"
                         id="insert-media-button"

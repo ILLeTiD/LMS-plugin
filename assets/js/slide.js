@@ -237,13 +237,12 @@ var lms = {
                 $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').hide();
             }
         });
-        $('.lms-slide-video-type').on('change', function (e) {
+        $(document).on('change', '.lms-slide-video-type', function (e) {
             $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--gallery').toggle();
             $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').toggle();
         });
 
-        $('.js-add-section-video').on('click', function () {
-            console.log('clicked');
+        $(document).on('click', '.js-add-section-video', function () {
             var $button = $(this),
                 $buttonHolder = $button.parent(),
                 $video = $buttonHolder.siblings('video'),
@@ -253,7 +252,7 @@ var lms = {
 
             wp.media.editor.send.attachment = function (props, attachment) {
                 $buttonHolder.addClass('hidden');
-                $video.find('source').attr('src', attachment.url);
+                $video.find('source').prop('src', attachment.url);
                 $video.find('source').prop('type', attachment.mime);
                 $video.removeClass('hidden');
                 $input.val(attachment.url);
@@ -285,7 +284,7 @@ var lms = {
         });
 
 
-        $('.js-add-section-audio').on('click', function () {
+        $(document).on('click', '.js-add-section-audio', function () {
             var $button = $(this),
                 $buttonHolder = $button.parent(),
                 $audio = $buttonHolder.siblings('audio'),
