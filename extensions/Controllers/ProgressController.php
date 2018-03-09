@@ -105,6 +105,23 @@ class ProgressController extends Controller
         }
     }
 
+    public function completeCourse()
+    {
+        if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+        $userID = $_POST['user_id'];
+        $courseID = $_POST['course_id'];
+        $user = User::find($userID);
+        $enrollment = $user->enrollments()
+            ->where('course_id', '=', $courseID)
+            ->first();
+        $enrollment->status = 'completed';
+
+        $enrollment->save();
+        wp_send_json(['enrollment' => $enrollment->status]);
+    }
+
     public function getStep()
     {
         $activity = Activity::where('user_id', $_POST['user_id'])

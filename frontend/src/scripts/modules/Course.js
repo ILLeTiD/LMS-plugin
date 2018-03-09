@@ -9,6 +9,7 @@ import Muuri from 'muuri';
 import 'mediaelement/full';
 import {selectors} from './selectors'
 import {ProgressLogger} from './CourseProgressLogger'
+import {Activity} from './ActivityLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
 
@@ -23,6 +24,8 @@ class Course {
         this.selectors = selectors;
         this.slides = [];
         this.initedVideos = [];
+        this.isEnd = false;
+        this.isStart = false;
     }
 
     init($courseEl) {
@@ -522,6 +525,21 @@ class Course {
         courseProgressLine.css('width', `${((current + 1) / amount) * 100}%`);
     }
 
+    endOfCourse() {
+        console.log('END OF COURSE!!');
+        $('.lms-course-controls-end').addClass('is-active');
+        $('.lms-slide-control-navigation').hide();
+        $('.lms-button-complete-course').on('click', this.confirmCompletionCourse.bind(this))
+    }
+
+    confirmCompletionCourse(e) {
+        if (e) e.preventDefault();
+        console.log('COMPLETE OF COURSE ');
+
+        Activity.completeCourse(this.userId, this.courseId);
+        Activity.commit(this.userId, 'course', 'completed', this.courseId);
+    }
+
     checkControls() {
         if (this.slideCtr.current.is(':first-child')) {
             $(`${this.selectors.slideNavigation} .prev`).hide();
@@ -529,10 +547,14 @@ class Course {
             $(`${this.selectors.slideNavigation} .prev`).show();
         }
 
+        // if (this.slideCtr.current.is(':last-child')) {
+        //     $(`${this.selectors.slideNavigation} .next`).hide();
+        // } else {
+        //     $(`${this.selectors.slideNavigation} .next`).show();
+        // }
         if (this.slideCtr.current.is(':last-child')) {
-            $(`${this.selectors.slideNavigation} .next`).hide();
-        } else {
-            $(`${this.selectors.slideNavigation} .next`).show();
+            this.canGoNext = false;
+            this.endOfCourse();
         }
     }
 }

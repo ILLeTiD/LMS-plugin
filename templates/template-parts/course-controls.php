@@ -172,6 +172,12 @@
                 </a>
             </div>
         </div>
+        <div class="lms-course-controls-end">
+            <button class="lms-button-complete-course"><?php _e('Complete') ?></button>
+        </div>
+        <div class="lms-course-controls-start">
+            <button class="lms-button-complete-course"><?php _e('Start') ?></button>
+        </div>
     </div>
 </div>
 

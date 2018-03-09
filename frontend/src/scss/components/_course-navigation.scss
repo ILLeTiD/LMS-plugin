@@ -19,6 +19,36 @@
       stroke: #fff !important;
     }
   }
+
+  &-end {
+    display: none;
+    &.is-active {
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      right: 0;
+      top: 15px;
+      width: 128px;
+      padding: 0px;
+      padding-bottom: 0px;
+      z-index: 22;
+    }
+  }
+
+  &-start {
+    display: none;
+    &.is-active {
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      right: 0;
+      top: 10px;
+      width: 128px;
+      padding: 0px;
+      padding-bottom: 0px;
+      z-index: 22;
+    }
+  }
 }
 
 .lms-fullscreen-init {
@@ -65,7 +95,6 @@
     top: 5px;
   }
 }
-
 
 .lms-fullscreen-init.lms-option-shown {
   .lms-slide-controls {

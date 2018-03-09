@@ -6,6 +6,12 @@
   }
 }
 
+.lms-dnd-dragula {
+  width: 100%;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+
 .lms-dnd-quiz {
   &-board {
 
@@ -39,6 +45,10 @@
         }
       }
     }
+
+    &__object {
+      cursor: pointer;
+    }
   }
 
   &-drop {
@@ -46,13 +56,19 @@
 
     &__zone {
       &-outher {
-        width: 33%;
+        width: 33.3333%;
       }
 
       min-height: 200px;
 
       &-content {
-        min-height: 170px;
+        min-height: 200px;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
 
       &-text {
@@ -72,8 +88,3 @@
   }
 }
 
-.lms-dnd-dragula {
-  width: 100%;
-  padding: 10px 0;
-  margin: 10px 0;
-}
