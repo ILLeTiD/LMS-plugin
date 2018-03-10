@@ -87,7 +87,9 @@ border-color:<?= $bgC ?>!important;
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
+        z-index: <?= 10 - $index; ?>;
         <?= $customCss; ?>
+
     }
 
     @media screen and (max-width: 1024px) {

@@ -199,12 +199,13 @@
 
 .lms-slide-section-display-once_at_a_time {
   .lms-grid-block {
-    //display: none !important;
     visibility: hidden !important;
+    transform: translateX(-100%);
+    transition: all 1s ease;
 
     &.active {
-      //display: flex !important;
       visibility: visible !important;
+      transform: translateX(0);
     }
   }
 

@@ -44,12 +44,26 @@ class Course {
     collectSlides() {
         const self = this;
         $(this.selectors.slide).each(function (i) {
+
+            let sectionsOrder = [];
+            if ($(this).data('section-display') == 'once_at_a_time') {
+                $(this).find('.lms-grid-block').each((i, val) => {
+                    sectionsOrder.push(i);
+                    if ($(val).data('linked-to')) {
+                        sectionsOrder.push($(val).data('linked-to') - 1);
+                    }
+                });
+            }
+            sectionsOrder = [...new Set(sectionsOrder)];
+            sectionsOrder.shift();
+            console.log('UNIQUE ', sectionsOrder);
             const slide = {
                 index: +$(this).data('slide-index'),
                 id: $(this).data('slide-id'),
                 type: $(this).data('type'),
                 active: false,
                 sectionDisplay: $(this).data('section-display'),
+                sectionOrder: sectionsOrder,
                 passed: $(this).data('passed') ? $(this).data('passed') : false,
                 latest: $(this).data('latest') ? $(this).data('latest') : false,
             };
@@ -109,7 +123,6 @@ class Course {
                         }
                     });
                 }
-
             });
         }
     }
@@ -136,9 +149,7 @@ class Course {
         const firstAudioSrc = audioBlock.data('audio-src');
         const isLoop = audioBlock.data('audio-loop');
         if (firstAudioSrc) {
-            console.log('IS LOOP?', isLoop);
-            console.log(this.playerInstance);
-            //console.log('slide has audio');
+
             this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');
             if (isLoop) {
                 this.playerInstance.options.loop = true;
@@ -243,20 +254,22 @@ class Course {
         history.pushState(stateObj, `Step ${part}`, `#slide${part}`);
     }
 
+    keyboardArrowHandler(e) {
+        if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
+            this.prevSlide();
+        }
+        if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+            if (this.navType == 'slide') {
+                this.nextSlide();
+            } else if (this.navType == 'section') {
+                this.nextSection();
+            }
+        }
+    }
 
     listeners() {
-        $('html').keydown((e) => {
-            if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
-                this.prevSlide();
-            }
-            if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
-                if (this.navType == 'slide') {
-                    this.nextSlide();
-                } else if (this.navType == 'section') {
-                    this.nextSection();
-                }
-            }
-        });
+        $('html').on('keydown', this.keyboardArrowHandler.bind(this));
+        //$('html').keydown();
 
         window.addEventListener('popstate', (e) => {
             console.log('CHANGE URL LISTENER');
@@ -269,17 +282,15 @@ class Course {
             }
         });
 
-        $(window).on('load', () => {
-            //default ESC button exit fullscreen handler
-            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', () => {
-                if (!IsFullScreenCurrently()) {
-                    console.log('exit from fullscreen');
-                    this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
-                    this.courseEl.removeClass('lms-fullscreen-init');
-                    this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
-                    this.fullscreenPaintNavButtons(true);
-                }
-            });
+        console.log('init fullscreen events');
+        //default ESC button exit fullscreen handler
+        $('.lms-course').on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', () => {
+            if (!IsFullScreenCurrently()) {
+                this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
+                this.courseEl.removeClass('lms-fullscreen-init');
+                this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
+                this.fullscreenPaintNavButtons(true);
+            }
         });
 
         $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
@@ -352,11 +363,7 @@ class Course {
             const type = slide.data('type');
             let color = '#fff';
             color = slide.data('icon-color');
-            // if (type == 'quiz') {
-            //     color = slide.data('icon-color');
-            // } else {
-            //     color = slide.find('.lms-grid-block').first().data('icon-color');
-            // }
+
             if (onCangeFullscreen) {
                 return !IsFullScreenCurrently() ? color : '#fff';
             } else {
@@ -461,20 +468,24 @@ class Course {
 
     nextSection(e) {
         if (e) e.preventDefault();
-        const slide = this.slideCtr.current;
-        const section = this.slideCtr.current.find(this.selectors.gridBlock).eq(this.currentSection);
-        const firstAudioBlock = slide.find(this.selectors.audioGridBlock).first();
+        const slideIndex = this.slideCtr.currentIndex;
+        const slide = this.slides.find(i => i.index == slideIndex);
+        const slideNode = this.slideCtr.current;
+        const nextSectionIndex = slide.sectionOrder.shift();
+        const section = this.slideCtr.current.find(this.selectors.gridBlock).eq(nextSectionIndex);
+        const firstAudioBlock = slideNode.find(this.selectors.audioGridBlock).first();
+        console.log(section);
         section.addClass('active');
 
         if (section.data('audio-src') && section[0] != firstAudioBlock[0]) {
             this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');
-
             this.playerInstance.setSrc(section.data('audio-src'));
             this.playerInstance.load();
             this.playerInstance.play();
         }
-        this.currentSection++;
-        if (this.currentSection >= this.slideSectionsCount) {
+
+
+        if (slide.sectionOrder.length <= 0) {
             this.slideCtr.current.addClass('passed');
             this.navType = 'slide';
             this.enableCourseNav();
@@ -529,7 +540,10 @@ class Course {
         console.log('END OF COURSE!!');
         $('.lms-course-controls-end').addClass('is-active');
         $('.lms-slide-control-navigation').hide();
-        $('.lms-button-complete-course').on('click', this.confirmCompletionCourse.bind(this))
+        $('.lms-button-complete-course').on('click', this.confirmCompletionCourse.bind(this));
+
+        //unbind all event listeners
+        $('html').off('keydown');
     }
 
     confirmCompletionCourse(e) {

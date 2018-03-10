@@ -46,6 +46,10 @@ class Slide {
         return $('.lms-slide.active');
     }
 
+    get currentIndex() {
+        return $('.lms-slide.active').data('slide-index');
+    }
+
     set currentByIndex(index) {
         $('.lms-slide.active').removeClass('active');
         $(`.lms-slide[data-slide-index=${index}]`).addClass('active');
