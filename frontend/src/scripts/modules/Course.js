@@ -2,6 +2,7 @@ import SlideCtr from './Slide';
 import Hint from './Hint'
 import Quiz from './Quiz'
 import {initLazyLoading} from '../utilities/lazy-loading';
+import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 import Alert from '../utilities/Alerts'
 import 'hammerjs'
 import Muuri from 'muuri';
@@ -72,7 +73,7 @@ class Course {
 
             if ($(this).data('type') == 'quiz') {
                 slide.inited = false;
-                slide.quiz =quizFactory(
+                slide.quiz = quizFactory(
                     $(this),
                     $(this).data('quiz-type'),
                     $(this).data('tolerance'),
@@ -170,6 +171,9 @@ class Course {
 
     getLatestSlideFromDb() {
         const self = this;
+
+        console.log('USER ', this.userId);
+        console.log('USER ', this.courseId);
         $.ajax({
             method: "POST",
             url: lmsAjax.ajaxurl,
@@ -179,12 +183,18 @@ class Course {
                 course_id: this.courseId,
             },
             error: function (request, status, error) {
-                new Alert(request.responseText);
+                // new Alert(request.responseText, 'error');
+                console.log('alert');
+                console.log('alert');
+                console.log('alert');
+                console.log('alert');
             }
         }).done(function (json) {
-            if (json.error) new Alert(`"${json.error}" please reload page`);
+            if (json.error) {
+                new Alert(`"${json.error}" please reload page`, 'error');
+            }
             console.log(json);
-            self.passedIds = json.ids  ? json.ids : [];
+            self.passedIds = json.ids ? json.ids : [];
             self.setActiveSlideOnInit();
         });
     }
@@ -321,20 +331,26 @@ class Course {
     shortcodeRestart(e) {
         if (e) e.preventDefault();
         console.log('START DELETEING');
-        $.ajax(
-            {
-                method: "POST",
-                url: lmsAjax.ajaxurl,
-                data: {
-                    action: 'progress_restart',
-                    user_id: this.userId,
-                    course_id: this.courseId,
+        lmsConfirmAlert({
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }, () => {
+            $.ajax(
+                {
+                    method: "POST",
+                    url: lmsAjax.ajaxurl,
+                    data: {
+                        action: 'progress_restart',
+                        user_id: this.userId,
+                        course_id: this.courseId,
+                    }
                 }
-            }
-        ).done(function (json) {
-            if (json.error) new Alert(`"${json.error}" please reload page`);
-            window.location.reload();
+            ).done(function (json) {
+                if (json.error) new Alert(`"${json.error}" please reload page`);
+                window.location.reload();
+            });
         });
+
     }
 
     toggleFullscreen(e) {

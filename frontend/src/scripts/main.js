@@ -20,7 +20,6 @@ import App from'./modules/app.js';
     IntersectionObserver.prototype.POLL_INTERVAL = 100;
     objectFitImages();
     const app = new App();
-
     //var player = new MediaElementPlayer('#slide-control-player');
 })($);
 

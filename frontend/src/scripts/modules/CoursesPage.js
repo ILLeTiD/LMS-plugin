@@ -1,5 +1,6 @@
 import moment from 'moment';
 import  'moment/locale/sv'
+import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 import {Activity} from './ActivityLogger'
 class CoursesPage {
     constructor() {
@@ -50,10 +51,16 @@ class CoursesPage {
     redoCourse(e) {
         if (e) e.preventDefault();
         const $button = $(e.target);
-        const courseID = $button.data('course-id');
-        const userID = $button.data('user-id');
-        Activity.redoCourse(userID, courseID);
-        Activity.commit(userID, 'course', 'restarted', courseID);
+        lmsConfirmAlert({
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }, () => {
+            //var player = new MediaElementPlayer('#slide-control-player');
+            const courseID = $button.data('course-id');
+            const userID = $button.data('user-id');
+            Activity.redoCourse(userID, courseID);
+            Activity.commit(userID, 'course', 'restarted', courseID);
+        });
     }
 
     formatDate() {

@@ -124,7 +124,7 @@ class ProgressController extends Controller
 
     public function getStep()
     {
-        $activity = Activity::where('user_id', $_POST['user_id'])
+        $activity = Progress::where('user_id', $_POST['user_id'])
             ->where('course_id', $_POST['course_id'])
             ->where('name', 'finished')
             ->orderBy(['created_at' => 'DESC'])
@@ -151,7 +151,7 @@ class ProgressController extends Controller
             foreach ($activity as $item) {
                 $passedSlides[] = $item->slide->id;
             }
-            // d($passedSlides);
+
             wp_send_json(['ids' => $passedSlides, 'post' => $_POST]);
         } catch (\Exception $e) {
             wp_send_json(['error' => $e->getMessage(), 'post' => $_POST]);

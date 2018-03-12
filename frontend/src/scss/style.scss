@@ -3,6 +3,7 @@
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
 @import '../../node_modules/izitoast/dist/css/iziToast.css';
+@import '../../node_modules/sweetalert2/dist/sweetalert2.css';
 @import '../../node_modules/flatpickr/dist/flatpickr.css';
 @import "../../node_modules/dragula/dist/dragula.css";
 //@import '../../node_modules/mediaelement/src/css/mediaelementplayer.css';
@@ -12,6 +13,7 @@
 @import "settings";
 @import "partials/buttons";
 @import 'components/loader';
+@import 'components/modifiedIziToast';
 @import 'components/mediaelement';
 @import 'components/course-navigation';
 //@import 'pages/course';
@@ -80,6 +82,19 @@
     background: #fff;
     color: #333;
     font-family: 'Open Sans', sans-serif;
+  }
+}
+
+.swal2-container .swal2-popup {
+  border-radius: 0;
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.5);
+
+  .swal2-title {
+    color: #000;
+  }
+
+  .swal2-content {
+    color: #000;
   }
 }
 
