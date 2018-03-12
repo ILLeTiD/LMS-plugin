@@ -173,14 +173,29 @@ class ProgressController extends Controller
         if ($type && $type != 'all') {
             $activity->where('name', $type);
         }
-
+        $activity = $activity->get();
+        $filteredActivity = [];
+        foreach ($activity as $item) {
+            $filteredActivity[] = [
+                'id' => $item->id,
+                'type' => $item->name,
+                'text' => $item->description,
+                'date' => $item->date,
+                'time' => $item->time
+            ];
+        }
+        usort($filteredActivity, function ($a, $b) {
+            return strtotime($a['date']) < strtotime($b['date']);
+        });
         if ($fromDate) {
+
             $activity->where('created_at', '>=', $fromDate . ' 00:00:01');
         }
 
         if ($toDate) {
             $activity->where('created_at', '<=', $toDate . ' 23:59:59');
         }
+
 
         $activity = $activity->orderBy('created_at', 'DESC')->get();
 
@@ -202,6 +217,7 @@ class ProgressController extends Controller
         usort($filteredActivity, function ($a, $b) {
             return $a['date'] < $b['date'];
         });
+
 
         wp_send_json(['items' => $filteredActivity, 'from' => $fromDate, 'to' => $toDate, 'post' => $_POST]);
     }
