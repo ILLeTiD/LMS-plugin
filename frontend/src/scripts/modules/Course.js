@@ -12,6 +12,7 @@ import {ProgressLogger} from './CourseProgressLogger'
 import {Activity} from './ActivityLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
+import quizFactory from './quiz-functions/quizFactory'
 
 class Course {
     constructor() {
@@ -41,6 +42,7 @@ class Course {
         showArrow();
     }
 
+    //@TODO rework slides , remove slides from here, add mobx to track slide changes
     collectSlides() {
         const self = this;
         $(this.selectors.slide).each(function (i) {
@@ -56,7 +58,7 @@ class Course {
             }
             sectionsOrder = [...new Set(sectionsOrder)];
             sectionsOrder.shift();
-            console.log('UNIQUE ', sectionsOrder);
+
             const slide = {
                 index: +$(this).data('slide-index'),
                 id: $(this).data('slide-id'),
@@ -70,11 +72,11 @@ class Course {
 
             if ($(this).data('type') == 'quiz') {
                 slide.inited = false;
-                slide.quiz = new Quiz(
+                slide.quiz =quizFactory(
                     $(this),
                     $(this).data('quiz-type'),
                     $(this).data('tolerance'),
-                    self);
+                    self.CourseInstance);
             }
             self.slides.push(slide);
         });
@@ -83,7 +85,7 @@ class Course {
     initVideo() {
         const self = this;
         if ($.fn.mediaelementplayer) {
-            // console.log('MEDIA ELEMENT', this.slideCtr.current);
+
             this.slideCtr.current.find('.lms-video-player').each(function (i) {
                 const isHiddenControls = $(this).hasClass('lms-video-player--disabled');
                 const isAutoplay = $(this).hasClass('autoplay');
@@ -182,7 +184,7 @@ class Course {
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log(json);
-            self.passedIds = json.ids ? json.ids : [];
+            self.passedIds = json.ids  ? json.ids : [];
             self.setActiveSlideOnInit();
         });
     }

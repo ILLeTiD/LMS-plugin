@@ -1,6 +1,9 @@
 <?php
+$hasVideoMedia = isset($content[0]["video_media"]) ? $content[0]["video_media"] : null;
+$hasVideoEmbed = isset($content[0]["embed_video"]) ? $content[0]["embed_video"] : null;
+
 $singleGridVideoClass = '';
-if ($sectionsCount == 1 && ($content[0]["embed_video"] || $content[0]["video_media"])) {
+if ($sectionsCount == 1 && ($hasVideoEmbed || $hasVideoMedia)) {
     $singleGridVideoClass = 'lms-grid-container--single-video';
 } ?>
 <style>

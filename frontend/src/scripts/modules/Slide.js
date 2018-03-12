@@ -1,5 +1,5 @@
 import Quiz from './Quiz'
-
+import quizFactory from './quiz-functions/quizFactory'
 class Slide {
     constructor(CourseInstance) {
         this.CourseInstance = CourseInstance;
@@ -24,7 +24,7 @@ class Slide {
                     id: $(this).data('slide-id'),
                     inited: false,
                     passed: false,
-                    quiz: new Quiz(
+                    quiz: quizFactory(
                         $(this),
                         $(this).data('quiz-type'),
                         $(this).data('tolerance'),

@@ -20,6 +20,7 @@ get_header();
             <?php $course = new WP_Query($course_args); ?>
             <?php if ($course->have_posts()) : ?>
                 <?php while ($course->have_posts()) : $course->the_post();
+                    $theCourse = get_post(get_the_ID());
                     ?>
                     <div class="lms-courses-list">
                         <div class="lms-courses-list__item lms-list-course lms-courses-course"

@@ -5,7 +5,7 @@ lms_get_template('course-parts/course-settings.php');
 $activity = \LmsPlugin\Models\Activity::where('user_id', get_current_user_id())
     ->where('course_id', $course->id)
     ->where('name', 'finished')
-    ->orderBy(['date' => 'DESC'])
+    ->orderBy(['created_at' => 'DESC'])
     ->get();
 $ids = [];
 

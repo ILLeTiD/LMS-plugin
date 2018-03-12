@@ -127,7 +127,7 @@ class ProgressController extends Controller
         $activity = Activity::where('user_id', $_POST['user_id'])
             ->where('course_id', $_POST['course_id'])
             ->where('name', 'finished')
-            ->orderBy(['date' => 'DESC'])
+            ->orderBy(['created_at' => 'DESC'])
             ->first();
 
         try {
