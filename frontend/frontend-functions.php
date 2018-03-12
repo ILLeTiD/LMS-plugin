@@ -1,7 +1,31 @@
 <?php
 
 
+add_action('after_setup_theme', 'remove_admin_bar');
+
+function remove_admin_bar()
+{
+    if (!current_user_can('administrator') && !is_admin()) {
+        show_admin_bar(false);
+    }
+}
+
+add_action('admin_init', 'disable_dashboard');
+
+function disable_dashboard()
+{
+    if (!is_user_logged_in()) {
+        return null;
+    }
+    if (!current_user_can('administrator') && is_admin()) {
+        wp_redirect(home_url());
+        exit;
+    }
+}
+
 add_action('wp_enqueue_scripts', 'my_scripts_method');
+
+
 function my_scripts_method()
 {
     wp_deregister_script('jquery');
