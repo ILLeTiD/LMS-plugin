@@ -302,6 +302,7 @@ class Course {
         $(this.selectors.quizCheckButton).on('click', this.checkQuiz.bind(this));
         $(this.selectors.slideNavigation).on('click', '.next', this.nextSlide.bind(this));
         $(this.selectors.sectionNavigation).on('click', '.next', this.nextSection.bind(this));
+        $(this.selectors.sectionNavigation).on('click', '.prev', this.prevSlide.bind(this));
         $(this.selectors.slideNavigation).on('click', '.prev', this.prevSlide.bind(this));
         $(this.selectors.courseControlsFullscreen).on('click', this.toggleFullscreen.bind(this));
         $(this.selectors.fullscreenOptions).on('click', this.toggleFullscreenOption.bind(this));
@@ -377,6 +378,9 @@ class Course {
         // console.log('IS FULLSCREEN?', IsFullScreenCurrently());
         $('.lms-course-controls svg .cls-1, .lms-course-controls svg .cls-2').each(function (i) {
             $(this).css('stroke', getColor());
+        });
+        $('.lms-course-controls svg .cls-fill').each(function (i) {
+            $(this).css('fill', getColor());
         });
     }
 

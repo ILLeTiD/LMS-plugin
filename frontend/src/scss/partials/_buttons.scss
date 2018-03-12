@@ -23,3 +23,413 @@ button, .button {
   }
 }
 
+/*
+* iziToast | v1.2.0
+* http://izitoast.marcelodolce.com
+* by Marcelo Dolce.
+*/
+.iziToast {
+  min-width: 200px;
+  padding: 8px 20px 9px 0;
+}
+
+.iziToast-overlay {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  z-index: 997;
+}
+
+.iziToast > .iziToast-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  padding: 0;
+  opacity: 0.6;
+  width: 20px;
+  height: 100%;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAJPAAACTwBcGfW0QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAD3SURBVFiF1ZdtDoMgDEBfdi4PwAX8vLFn0qT7wxantojKupmQmCi8R4tSACpgjC2ICCUbEBa8ingjsU1AXRBeR8aLN64FiknswN8CYefBBDQ3whuFESy7WyQMeC0ipEI0A+0FeBvHUFN8xPaUhAH/iKoWsnXHGegy4J0yxialOfaHJAz4bhRzQzgDvdGnz4GbAonZbCQMuBm1K/kcFu8Mp1N2cFFpsxsMuJqqbIGExGl4loARajU1twskJLLhIsID7+tvUoDnIjTg5T9DPH9EBrz8rxjPzciAl9+O8SxI8CzJ8CxKFfh3ynK8Dyb8wNHM/XDqejx/AtNyPO87tNybAAAAAElFTkSuQmCC") no-repeat 50% 30%;
+  background-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.iziToast > .iziToast-close:hover {
+  opacity: 1;
+}
+
+.iziToast > .iziToast-body {
+  position: relative;
+  padding: 0 0 0 10px;
+  height: auto;
+  min-height: 36px;
+  margin: 0 0 0 15px;
+  text-align: left;
+}
+
+.iziToast > .iziToast-body::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.iziToast > .iziToast-body .iziToast-texts {
+  margin: 10px 0 0 0;
+  display: inline-block;
+  float: left;
+  font-weight: 400;
+}
+
+.iziToast > .iziToast-body .iziToast-buttons {
+  min-height: 17px;
+  float: left;
+  margin: 4px -2px;
+}
+
+.iziToast > .iziToast-body .iziToast-buttons > a,
+.iziToast > .iziToast-body .iziToast-buttons > button,
+.iziToast > .iziToast-body .iziToast-buttons > input {
+  position: relative;
+  display: inline-block;
+  margin: 2px;
+  border-radius: 0px;
+  border: 0;
+  padding: 5px 10px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.iziToast > .iziToast-body .iziToast-buttons > a:hover,
+.iziToast > .iziToast-body .iziToast-buttons > button:hover,
+.iziToast > .iziToast-body .iziToast-buttons > input:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.iziToast > .iziToast-body .iziToast-buttons > a:focus,
+.iziToast > .iziToast-body .iziToast-buttons > button:focus,
+.iziToast > .iziToast-body .iziToast-buttons > input:focus {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.iziToast > .iziToast-body .iziToast-buttons > a:active,
+.iziToast > .iziToast-body .iziToast-buttons > button:active,
+.iziToast > .iziToast-body .iziToast-buttons > input:active {
+  top: 1px;
+}
+
+.iziToast > .iziToast-body .iziToast-icon {
+  display: none;
+}
+
+.iziToast > .iziToast-body .iziToast-icon.ico-info {
+  display: none;
+}
+
+.iziToast > .iziToast-body .iziToast-icon.ico-warning {
+  display: none;
+}
+
+.iziToast > .iziToast-body .iziToast-icon.ico-error {
+  display: none;
+}
+
+.iziToast > .iziToast-body .iziToast-icon.ico-success {
+  display: none;
+}
+
+.iziToast > .iziToast-body .iziToast-icon.ico-question {
+  display: none;
+}
+
+.iziToast > .iziToast-body .iziToast-title {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+  line-height: 16px;
+  display: block;
+  font-size: 16px;
+  text-align: left;
+  float: none;
+  color: #000;
+  white-space: normal;
+}
+
+.iziToast > .iziToast-body .iziToast-message {
+  padding: 0;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: left;
+  float: left;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: normal;
+  font-weight: 400;
+}
+
+.iziToast.iziToast-animateInside .iziToast-title,
+.iziToast.iziToast-animateInside .iziToast-message,
+.iziToast.iziToast-animateInside .iziToast-icon,
+.iziToast.iziToast-animateInside .iziToast-buttons-child {
+  opacity: 0;
+}
+
+.iziToast-target {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.iziToast-target .iziToast-capsule {
+  overflow: hidden;
+}
+
+.iziToast-target .iziToast-capsule:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.iziToast-target .iziToast-capsule .iziToast {
+  width: 100%;
+  float: left;
+}
+
+.iziToast-wrapper {
+  z-index: 99999;
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.iziToast-wrapper .iziToast.iziToast-balloon:before {
+  border-right: 0 solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 10px solid #000;
+  border-top-color: inherit;
+  right: 8px;
+  left: auto;
+}
+
+.iziToast-wrapper-bottomLeft {
+  left: 0;
+  bottom: 0;
+}
+
+.iziToast-wrapper-bottomLeft .iziToast.iziToast-balloon:before {
+  border-right: 15px solid transparent;
+  border-left: 0 solid transparent;
+  right: auto;
+  left: 8px;
+}
+
+.iziToast-wrapper-bottomRight {
+  right: 0;
+  bottom: 0;
+  text-align: right;
+}
+
+.iziToast-wrapper-topLeft {
+  left: 0;
+  top: 0;
+}
+
+.iziToast-wrapper-topLeft .iziToast.iziToast-balloon:before {
+  border-right: 15px solid transparent;
+  border-left: 0 solid transparent;
+  right: auto;
+  left: 8px;
+}
+
+.iziToast-wrapper-topRight {
+  top: 0;
+  right: 0;
+  text-align: right;
+}
+
+.iziToast-wrapper-topCenter {
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.iziToast-wrapper-bottomCenter {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.iziToast-wrapper-center {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  justify-content: center;
+  flex-flow: column;
+  align-items: center;
+}
+
+.iziToast-rtl {
+  direction: rtl;
+  padding: 8px 0 9px 45px;
+  font-family: Tahoma, 'Lato', Arial;
+}
+
+.iziToast-rtl .iziToast-cover {
+  left: auto;
+  right: 0;
+}
+
+.iziToast-rtl .iziToast-close {
+  right: auto;
+  left: 0;
+}
+
+.iziToast-rtl .iziToast-body {
+  padding: 0 10px 0 0;
+  margin: 0 16px 0 0;
+  text-align: right;
+}
+
+.iziToast-rtl .iziToast-body .iziToast-buttons,
+.iziToast-rtl .iziToast-body .iziToast-texts,
+.iziToast-rtl .iziToast-body .iziToast-title,
+.iziToast-rtl .iziToast-body .iziToast-message {
+  float: right;
+  text-align: right;
+}
+
+.iziToast-rtl .iziToast-body .iziToast-icon {
+  left: auto;
+  right: 0;
+}
+
+@media only screen and (min-width: 568px) {
+  .iziToast-wrapper {
+    padding: 10px 15px;
+  }
+  .iziToast-cover {
+    border-radius: 0;
+  }
+  .iziToast {
+    margin: 10px;
+    border-radius: 0px;
+    width: auto;
+  }
+  .iziToast::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  .iziToast.iziToast-balloon .iziToast-progressbar {
+    background: transparent;
+  }
+
+}
+
+.iziToast.iziToast-theme-dark {
+  background: #565c70;
+  border-color: #565c70;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-title {
+  color: #fff;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-message {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-close {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfgCR4OIQIPSao6AAAAwElEQVRIx72VUQ6EIAwFmz2XB+AConhjzqTJ7JeGKhLYlyx/BGdoBVpjIpMJNjgIZDKTkQHYmYfwmR2AfAqGFBcO2QjXZCd24bEggvd1KBx+xlwoDpYmvnBUUy68DYXD77ESr8WDtYqvxRex7a8oHP4Wo1Mkt5I68Mc+qYqv1h5OsZmZsQ3gj/02h6cO/KEYx29hu3R+VTTwz6D3TymIP1E8RvEiiVdZfEzicxYLiljSxKIqlnW5seitTW6uYnv/Aqh4whX3mEUrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE2LTA5LTMwVDE0OjMzOjAyKzAyOjAwl6RMVgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNi0wOS0zMFQxNDozMzowMiswMjowMOb59OoAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC") no-repeat 50% 50%;
+  background-size: 8px;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-icon {
+  color: #fff;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-icon.ico-info {
+  background: none;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-icon.ico-warning {
+  background: none;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-icon.ico-error {
+  background: none;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-icon.ico-success {
+  background: none;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-icon.ico-question {
+  background: none;
+}
+
+.iziToast.iziToast-theme-dark .iziToast-buttons > a,
+.iziToast.iziToast-theme-dark .iziToast-buttons > button,
+.iziToast.iziToast-theme-dark .iziToast-buttons > input {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.iziToast.iziToast-theme-dark .iziToast-buttons > a:hover,
+.iziToast.iziToast-theme-dark .iziToast-buttons > button:hover,
+.iziToast.iziToast-theme-dark .iziToast-buttons > input:hover {
+  //background: rgba(255, 255, 255, 0.2);
+}
+
+.iziToast.iziToast-theme-dark .iziToast-buttons > a:focus,
+.iziToast.iziToast-theme-dark .iziToast-buttons > button:focus,
+.iziToast.iziToast-theme-dark .iziToast-buttons > input:focus {
+  //box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.iziToast.iziToast-color-red {
+  background: #fff;
+}
+
+.iziToast.iziToast-color-orange {
+
+  background: #fff;
+}
+
+.iziToast.iziToast-color-yellow {
+  background: #fff;
+}
+
+.iziToast.iziToast-color-blue {
+  background: #fff;
+}
+
+.iziToast.iziToast-color-green {
+  background: #fff;
+}
+
+.iziToast.iziToast-layout2 .iziToast-body .iziToast-message {
+  width: 100%;
+}

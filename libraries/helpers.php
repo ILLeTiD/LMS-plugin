@@ -402,14 +402,6 @@ if (!function_exists('lms_restart_course')) {
     {
         global $wpdb;
 
-        $wpdb->delete(
-            $wpdb->prefix . 'lms_activities',
-            [
-                'user_id' => $user_id,
-                'course_id' => $course_id
-            ],
-            ['%d', '%d']
-        );
 
         $wpdb->delete(
             $wpdb->prefix . 'lms_quiz_results',
@@ -419,7 +411,14 @@ if (!function_exists('lms_restart_course')) {
             ],
             ['%d', '%d']
         );
-
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_progress',
+            [
+                'user_id' => $user_id,
+                'course_id' => $course_id
+            ],
+            ['%d', '%d']
+        );
         $wpdb->update(
             $wpdb->prefix . 'lms_enrollments',
             ['status' => 'in_progress'],
@@ -466,7 +465,7 @@ if (!function_exists('lms_get_the_excerpt')) {
     }
 }
 
-if ( ! function_exists('lms_parse_invitee')) {
+if (!function_exists('lms_parse_invitee')) {
     function lms_parse_invitee($input)
     {
         $email = '(?<email>[\-0-9a-zA-Z\.\+_]+@[\-0-9a-zA-Z\.\+_]+\.[a-zA-Z]{2,4})';
@@ -484,7 +483,7 @@ if ( ! function_exists('lms_parse_invitee')) {
     }
 }
 
-if ( ! function_exists('lms_parse_invitees')) {
+if (!function_exists('lms_parse_invitees')) {
     function lms_parse_invitees($input)
     {
         $result = [];
@@ -492,7 +491,7 @@ if ( ! function_exists('lms_parse_invitees')) {
 
         foreach ($invitees as $invitee) {
             $data = lms_parse_invitee($invitee);
-            if ( ! $data) {
+            if (!$data) {
                 return false;
             }
             $result[] = array_only($data, ['name', 'email']);

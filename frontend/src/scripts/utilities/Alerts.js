@@ -1,6 +1,7 @@
 import iziToast from './iziToast.js'
+
 class Alert {
-    constructor(message, title = '', type = 'error', timeOut = 5000) {
+    constructor(message, title = '', type = 'error', timeOut = 50000) {
         this.message = message;
         this.timeOut = timeOut;
         this.type = type;

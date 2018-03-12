@@ -4,9 +4,9 @@
  * by Marcelo Dolce.
  */
 (function (root, factory) {
-    if(typeof define === 'function' && define.amd) {
+    if (typeof define === 'function' && define.amd) {
         define([], factory(root));
-    } else if(typeof exports === 'object') {
+    } else if (typeof exports === 'object') {
         module.exports = factory(root);
     } else {
         root.iziToast = factory(root);
@@ -25,7 +25,7 @@
         ISCHROME = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
         ISFIREFOX = typeof InstallTrigger !== 'undefined',
         ACCEPTSTOUCH = 'ontouchstart' in document.documentElement,
-        POSITIONS = ['bottomRight','bottomLeft','bottomCenter','topRight','topLeft','topCenter','center'],
+        POSITIONS = ['bottomRight', 'bottomLeft', 'bottomCenter', 'topRight', 'topLeft', 'topCenter', 'center'],
         THEMES = {
             info: {
                 color: 'blue',
@@ -99,10 +99,14 @@
         transitionInMobile: 'fadeInUp',
         transitionOutMobile: 'fadeOutDown',
         buttons: {},
-        onOpening: function () {},
-        onOpened: function () {},
-        onClosing: function () {},
-        onClosed: function () {}
+        onOpening: function () {
+        },
+        onOpened: function () {
+        },
+        onClosing: function () {
+        },
+        onClosed: function () {
+        }
     };
 
     //
@@ -113,9 +117,9 @@
     /**
      * Polyfill for remove() method
      */
-    if(!('remove' in Element.prototype)) {
-        Element.prototype.remove = function() {
-            if(this.parentNode) {
+    if (!('remove' in Element.prototype)) {
+        Element.prototype.remove = function () {
+            if (this.parentNode) {
                 this.parentNode.removeChild(this);
             }
         };
@@ -125,9 +129,9 @@
      * Polyfill for CustomEvent for IE >= 9
      * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill
      */
-    if(typeof window.CustomEvent !== 'function') {
+    if (typeof window.CustomEvent !== 'function') {
         var CustomEventPolyfill = function (event, params) {
-            params = params || { bubbles: false, cancelable: false, detail: undefined };
+            params = params || {bubbles: false, cancelable: false, detail: undefined};
             var evt = document.createEvent('CustomEvent');
             evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
             return evt;
@@ -146,14 +150,14 @@
      * @param {Array|Object|NodeList} scope Object/NodeList/Array that forEach is iterating over (aka `this`)
      */
     var forEach = function (collection, callback, scope) {
-        if(Object.prototype.toString.call(collection) === '[object Object]') {
+        if (Object.prototype.toString.call(collection) === '[object Object]') {
             for (var prop in collection) {
-                if(Object.prototype.hasOwnProperty.call(collection, prop)) {
+                if (Object.prototype.hasOwnProperty.call(collection, prop)) {
                     callback.call(scope, collection[prop], prop, collection);
                 }
             }
         } else {
-            if(collection){
+            if (collection) {
                 for (var i = 0, len = collection.length; i < len; i++) {
                     callback.call(scope, collection[i], i, collection);
                 }
@@ -184,7 +188,7 @@
      * Create a fragment DOM elements
      * @private
      */
-    var createFragElem = function(htmlStr) {
+    var createFragElem = function (htmlStr) {
         var frag = document.createDocumentFragment(),
             temp = document.createElement('div');
         temp.innerHTML = htmlStr;
@@ -199,8 +203,8 @@
      * Check if is a color
      * @private
      */
-    var isColor = function(color){
-        if( color.substring(0,1) == '#' || color.substring(0,3) == 'rgb' || color.substring(0,3) == 'hsl' ){
+    var isColor = function (color) {
+        if (color.substring(0, 1) == '#' || color.substring(0, 3) == 'rgb' || color.substring(0, 3) == 'hsl') {
             return true;
         } else {
             return false;
@@ -212,7 +216,7 @@
      * Check if is a Base64 string
      * @private
      */
-    var isBase64 = function(str) {
+    var isBase64 = function (str) {
         try {
             return btoa(atob(str)) == str;
         } catch (err) {
@@ -225,38 +229,44 @@
      * Drag method of toasts
      * @private
      */
-    var drag = function() {
+    var drag = function () {
 
         return {
-            move: function(toast, instance, settings, xpos) {
+            move: function (toast, instance, settings, xpos) {
 
                 var opacity,
                     opacityRange = 0.3,
                     distance = 180;
 
-                if(xpos !== 0){
+                if (xpos !== 0) {
 
-                    toast.classList.add(PLUGIN_NAME+'-dragged');
+                    toast.classList.add(PLUGIN_NAME + '-dragged');
 
-                    toast.style.transform = 'translateX('+xpos + 'px)';
+                    toast.style.transform = 'translateX(' + xpos + 'px)';
 
-                    if(xpos > 0){
-                        opacity = (distance-xpos) / distance;
-                        if(opacity < opacityRange){
-                            instance.hide(toast, extend(settings, { transitionOut: 'fadeOutRight', transitionOutMobile: 'fadeOutRight' }), 'drag');
+                    if (xpos > 0) {
+                        opacity = (distance - xpos) / distance;
+                        if (opacity < opacityRange) {
+                            instance.hide(toast, extend(settings, {
+                                transitionOut: 'fadeOutRight',
+                                transitionOutMobile: 'fadeOutRight'
+                            }), 'drag');
                         }
                     } else {
-                        opacity = (distance+xpos) / distance;
-                        if(opacity < opacityRange){
-                            instance.hide(toast, extend(settings, { transitionOut: 'fadeOutLeft', transitionOutMobile: 'fadeOutLeft' }), 'drag');
+                        opacity = (distance + xpos) / distance;
+                        if (opacity < opacityRange) {
+                            instance.hide(toast, extend(settings, {
+                                transitionOut: 'fadeOutLeft',
+                                transitionOutMobile: 'fadeOutLeft'
+                            }), 'drag');
                         }
                     }
                     toast.style.opacity = opacity;
 
-                    if(opacity < opacityRange){
+                    if (opacity < opacityRange) {
 
-                        if(ISCHROME || ISFIREFOX)
-                            toast.style.left = xpos+'px';
+                        if (ISCHROME || ISFIREFOX)
+                            toast.style.left = xpos + 'px';
 
                         toast.parentNode.style.opacity = opacityRange;
 
@@ -266,7 +276,7 @@
 
 
             },
-            startMoving: function(toast, instance, settings, e) {
+            startMoving: function (toast, instance, settings, e) {
 
                 e = e || window.event;
                 var posX = ((ACCEPTSTOUCH) ? e.touches[0].clientX : e.clientX),
@@ -278,8 +288,8 @@
                 toast.classList.remove(settings.transitionInMobile);
                 toast.style.transition = '';
 
-                if(ACCEPTSTOUCH) {
-                    document.ontouchmove = function(e) {
+                if (ACCEPTSTOUCH) {
+                    document.ontouchmove = function (e) {
                         e.preventDefault();
                         e = e || window.event;
                         var posX = e.touches[0].clientX,
@@ -287,7 +297,7 @@
                         drag.move(toast, instance, settings, finalX);
                     };
                 } else {
-                    document.onmousemove = function(e) {
+                    document.onmousemove = function (e) {
                         e.preventDefault();
                         e = e || window.event;
                         var posX = e.clientX,
@@ -297,23 +307,25 @@
                 }
 
             },
-            stopMoving: function(toast, e) {
+            stopMoving: function (toast, e) {
 
-                if(ACCEPTSTOUCH) {
-                    document.ontouchmove = function() {};
+                if (ACCEPTSTOUCH) {
+                    document.ontouchmove = function () {
+                    };
                 } else {
-                    document.onmousemove = function() {};
+                    document.onmousemove = function () {
+                    };
                 }
 
                 toast.style.opacity = '';
                 toast.style.transform = '';
 
-                if(toast.classList.contains(PLUGIN_NAME+'-dragged')){
+                if (toast.classList.contains(PLUGIN_NAME + '-dragged')) {
 
-                    toast.classList.remove(PLUGIN_NAME+'-dragged');
+                    toast.classList.remove(PLUGIN_NAME + '-dragged');
 
                     toast.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
-                    setTimeout(function() {
+                    setTimeout(function () {
                         toast.style.transition = '';
                     }, 400);
                 }
@@ -330,19 +342,19 @@
      */
     $iziToast.destroy = function () {
 
-        forEach(document.querySelectorAll('.'+PLUGIN_NAME+'-wrapper'), function(element, index) {
+        forEach(document.querySelectorAll('.' + PLUGIN_NAME + '-wrapper'), function (element, index) {
             element.remove();
         });
 
-        forEach(document.querySelectorAll('.'+PLUGIN_NAME), function(element, index) {
+        forEach(document.querySelectorAll('.' + PLUGIN_NAME), function (element, index) {
             element.remove();
         });
 
         // Remove event listeners
-        document.removeEventListener(PLUGIN_NAME+'-opened', {}, false);
-        document.removeEventListener(PLUGIN_NAME+'-opening', {}, false);
-        document.removeEventListener(PLUGIN_NAME+'-closing', {}, false);
-        document.removeEventListener(PLUGIN_NAME+'-closed', {}, false);
+        document.removeEventListener(PLUGIN_NAME + '-opened', {}, false);
+        document.removeEventListener(PLUGIN_NAME + '-opening', {}, false);
+        document.removeEventListener(PLUGIN_NAME + '-closing', {}, false);
+        document.removeEventListener(PLUGIN_NAME + '-closed', {}, false);
         document.removeEventListener('keyup', {}, false);
 
         // Reset variables
@@ -390,26 +402,26 @@
 
         var that = this,
             settings = extend(that.settings, options || {}),
-            $elem = $toast.querySelector('.'+PLUGIN_NAME+'-progressbar div');
+            $elem = $toast.querySelector('.' + PLUGIN_NAME + '-progressbar div');
 
         return {
-            start: function() {
+            start: function () {
 
-                if($elem !== null){
-                    $elem.style.transition = 'width '+ settings.timeout +'ms '+settings.progressBarEasing;
+                if ($elem !== null) {
+                    $elem.style.transition = 'width ' + settings.timeout + 'ms ' + settings.progressBarEasing;
                     $elem.style.width = '0%';
                 }
                 settings.TIME.START = new Date().getTime();
                 settings.TIME.END = settings.TIME.START + settings.timeout;
-                settings.TIME.TIMER = setTimeout(function() {
+                settings.TIME.TIMER = setTimeout(function () {
 
                     clearTimeout(settings.TIME.TIMER);
 
-                    if(!$toast.classList.contains(PLUGIN_NAME+'-closing')){
+                    if (!$toast.classList.contains(PLUGIN_NAME + '-closing')) {
 
                         that.hide($toast, settings, 'timeout');
 
-                        if(typeof callback === 'function'){
+                        if (typeof callback === 'function') {
                             callback.apply(that);
                         }
                     }
@@ -417,13 +429,13 @@
                 }, settings.timeout);
 
             },
-            pause: function() {
+            pause: function () {
 
                 settings.TIME.REMAINING = settings.TIME.END - new Date().getTime();
 
                 clearTimeout(settings.TIME.TIMER);
 
-                if($elem !== null){
+                if ($elem !== null) {
                     var computedStyle = window.getComputedStyle($elem),
                         propertyWidth = computedStyle.getPropertyValue('width');
 
@@ -431,30 +443,30 @@
                     $elem.style.width = propertyWidth;
                 }
 
-                if(typeof callback === 'function'){
-                    setTimeout(function() {
+                if (typeof callback === 'function') {
+                    setTimeout(function () {
                         callback.apply(that);
                     }, 10);
                 }
 
             },
-            resume: function() {
+            resume: function () {
 
-                if($elem !== null){
-                    $elem.style.transition = 'width '+ settings.TIME.REMAINING +'ms '+settings.progressBarEasing;
+                if ($elem !== null) {
+                    $elem.style.transition = 'width ' + settings.TIME.REMAINING + 'ms ' + settings.progressBarEasing;
                     $elem.style.width = '0%';
                 }
 
                 settings.TIME.END = new Date().getTime() + settings.TIME.REMAINING;
-                settings.TIME.TIMER = setTimeout(function() {
+                settings.TIME.TIMER = setTimeout(function () {
 
                     clearTimeout(settings.TIME.TIMER);
 
-                    if(!$toast.classList.contains(PLUGIN_NAME+'-closing')){
+                    if (!$toast.classList.contains(PLUGIN_NAME + '-closing')) {
 
                         that.hide($toast, settings, 'timeout');
 
-                        if(typeof callback === 'function'){
+                        if (typeof callback === 'function') {
                             callback.apply(that);
                         }
                     }
@@ -463,17 +475,17 @@
                 }, settings.TIME.REMAINING);
 
             },
-            reset: function(){
+            reset: function () {
 
                 clearTimeout(settings.TIME.TIMER);
 
-                if($elem !== null){
+                if ($elem !== null) {
                     $elem.style.transition = 'none';
                     $elem.style.width = '100%';
                 }
 
-                if(typeof callback === 'function'){
-                    setTimeout(function() {
+                if (typeof callback === 'function') {
+                    setTimeout(function () {
                         callback.apply(that);
                     }, 10);
                 }
@@ -494,33 +506,33 @@
         var settings = extend(this.settings, options || {});
         closedBy = closedBy || null;
 
-        if(typeof $toast != 'object'){
+        if (typeof $toast != 'object') {
             $toast = document.querySelector($toast);
         }
 
-        $toast.classList.add(PLUGIN_NAME+'-closing');
+        $toast.classList.add(PLUGIN_NAME + '-closing');
 
         settings.closedBy = closedBy;
         settings.REF = $toast.getAttribute('data-iziToast-ref');
 
         // Overlay
-        (function(){
+        (function () {
 
-            var $overlay = document.querySelector('.'+PLUGIN_NAME+'-overlay');
-            if($overlay !== null){
+            var $overlay = document.querySelector('.' + PLUGIN_NAME + '-overlay');
+            if ($overlay !== null) {
                 var refs = $overlay.getAttribute('data-iziToast-ref');
                 refs = refs.split(',');
                 var index = refs.indexOf(settings.REF);
 
-                if(index !== -1){
+                if (index !== -1) {
                     refs.splice(index, 1);
                 }
                 $overlay.setAttribute('data-iziToast-ref', refs.join());
 
-                if(refs.length === 0){
+                if (refs.length === 0) {
                     $overlay.classList.remove('fadeIn');
                     $overlay.classList.add('fadeOut');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $overlay.remove();
                     }, 700);
                 }
@@ -528,51 +540,55 @@
 
         })();
 
-        if(settings.transitionIn || settings.transitionInMobile){
+        if (settings.transitionIn || settings.transitionInMobile) {
             $toast.classList.remove(settings.transitionIn);
             $toast.classList.remove(settings.transitionInMobile);
         }
 
-        if(ISMOBILE || window.innerWidth <= MOBILEWIDTH){
-            if(settings.transitionOutMobile)
+        if (ISMOBILE || window.innerWidth <= MOBILEWIDTH) {
+            if (settings.transitionOutMobile)
                 $toast.classList.add(settings.transitionOutMobile);
         } else {
-            if(settings.transitionOut)
+            if (settings.transitionOut)
                 $toast.classList.add(settings.transitionOut);
         }
         var H = $toast.parentNode.offsetHeight;
-        $toast.parentNode.style.height = H+'px';
+        $toast.parentNode.style.height = H + 'px';
         $toast.style.pointerEvents = 'none';
 
-        if(!ISMOBILE || window.innerWidth > MOBILEWIDTH){
+        if (!ISMOBILE || window.innerWidth > MOBILEWIDTH) {
             $toast.parentNode.style.transitionDelay = '0.2s';
         }
 
         try {
             settings.closedBy = closedBy;
-            var event = new CustomEvent(PLUGIN_NAME+'-closing', {detail: settings, bubbles: true, cancelable: true});
+            var event = new CustomEvent(PLUGIN_NAME + '-closing', {detail: settings, bubbles: true, cancelable: true});
             document.dispatchEvent(event);
-        } catch(ex){
+        } catch (ex) {
             console.warn(ex);
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             $toast.parentNode.style.height = '0px';
             $toast.parentNode.style.overflow = '';
 
-            setTimeout(function(){
+            setTimeout(function () {
 
                 $toast.parentNode.remove();
                 try {
                     settings.closedBy = closedBy;
-                    var event = new CustomEvent(PLUGIN_NAME+'-closed', {detail: settings, bubbles: true, cancelable: true});
+                    var event = new CustomEvent(PLUGIN_NAME + '-closed', {
+                        detail: settings,
+                        bubbles: true,
+                        cancelable: true
+                    });
                     document.dispatchEvent(event);
-                } catch(ex){
+                } catch (ex) {
                     console.warn(ex);
                 }
 
-                if(typeof settings.onClosed !== 'undefined'){
+                if (typeof settings.onClosed !== 'undefined') {
                     settings.onClosed.apply(null, [settings, $toast, closedBy]);
                 }
 
@@ -580,7 +596,7 @@
         }, 200);
 
 
-        if(typeof settings.onClosing !== 'undefined'){
+        if (typeof settings.onClosing !== 'undefined') {
             settings.onClosing.apply(null, [settings, $toast, closedBy]);
         }
     };
@@ -600,7 +616,7 @@
 
         settings.TIME = {};
 
-        if(settings.toastOnce && settings.id && document.querySelectorAll('.'+PLUGIN_NAME+'#'+settings.id).length > 0){
+        if (settings.toastOnce && settings.id && document.querySelectorAll('.' + PLUGIN_NAME + '#' + settings.id).length > 0) {
             return false;
         }
 
@@ -624,80 +640,88 @@
         $DOM.toastCapsule.appendChild($DOM.toast);
 
         // CSS Settings
-        (function(){
+        (function () {
 
             $DOM.toast.classList.add(PLUGIN_NAME);
-            $DOM.toast.classList.add(PLUGIN_NAME+'-opening');
-            $DOM.toastCapsule.classList.add(PLUGIN_NAME+'-capsule');
+            $DOM.toast.classList.add(PLUGIN_NAME + '-opening');
+            $DOM.toastCapsule.classList.add(PLUGIN_NAME + '-capsule');
             $DOM.toastBody.classList.add(PLUGIN_NAME + '-body');
             $DOM.toastTexts.classList.add(PLUGIN_NAME + '-texts');
 
-            if(ISMOBILE || window.innerWidth <= MOBILEWIDTH){
-                if(settings.transitionInMobile)
+            if (ISMOBILE || window.innerWidth <= MOBILEWIDTH) {
+                if (settings.transitionInMobile)
                     $DOM.toast.classList.add(settings.transitionInMobile);
             } else {
-                if(settings.transitionIn)
+                if (settings.transitionIn)
                     $DOM.toast.classList.add(settings.transitionIn);
             }
 
-            if(settings.class){
+            if (settings.class) {
                 var classes = settings.class.split(' ');
                 forEach(classes, function (value, index) {
                     $DOM.toast.classList.add(value);
                 });
             }
 
-            if(settings.id){ $DOM.toast.id = settings.id; }
+            if (settings.id) {
+                $DOM.toast.id = settings.id;
+            }
 
-            if(settings.rtl){ $DOM.toast.classList.add(PLUGIN_NAME + '-rtl'); }
+            if (settings.rtl) {
+                $DOM.toast.classList.add(PLUGIN_NAME + '-rtl');
+            }
 
-            if(settings.layout > 1){ $DOM.toast.classList.add(PLUGIN_NAME+'-layout'+settings.layout); }
+            if (settings.layout > 1) {
+                $DOM.toast.classList.add(PLUGIN_NAME + '-layout' + settings.layout);
+            }
 
-            if(settings.balloon){ $DOM.toast.classList.add(PLUGIN_NAME+'-balloon'); }
+            if (settings.balloon) {
+                $DOM.toast.classList.add(PLUGIN_NAME + '-balloon');
+            }
 
-            if(settings.maxWidth){
-                if( !isNaN(settings.maxWidth) ){
-                    $DOM.toast.style.maxWidth = settings.maxWidth+'px';
+            if (settings.maxWidth) {
+                if (!isNaN(settings.maxWidth)) {
+                    $DOM.toast.style.maxWidth = settings.maxWidth + 'px';
                 } else {
                     $DOM.toast.style.maxWidth = settings.maxWidth;
                 }
             }
 
-            if(settings.theme !== '' || settings.theme !== 'light') {
+            if (settings.theme !== '' || settings.theme !== 'light') {
 
-                $DOM.toast.classList.add(PLUGIN_NAME+'-theme-'+settings.theme);
+                $DOM.toast.classList.add(PLUGIN_NAME + '-theme-' + settings.theme);
             }
 
-            if(settings.color) { //#, rgb, rgba, hsl
+            if (settings.color) { //#, rgb, rgba, hsl
 
-                if( isColor(settings.color) ){
+                if (isColor(settings.color)) {
                     $DOM.toast.style.background = settings.color;
                 } else {
-                    $DOM.toast.classList.add(PLUGIN_NAME+'-color-'+settings.color);
+                    $DOM.toast.classList.add(PLUGIN_NAME + '-color-' + settings.color);
                 }
             }
 
-            if(settings.backgroundColor) {
+            if (settings.backgroundColor) {
                 $DOM.toast.style.background = settings.backgroundColor;
-                if(settings.balloon){
+                if (settings.balloon) {
                     $DOM.toast.style.borderColor = settings.backgroundColor;
                 }
             }
         })();
 
         // Cover image
-        (function(){
-            if(settings.image) {
+        (function () {
+            if (settings.image) {
                 $DOM.cover.classList.add(PLUGIN_NAME + '-cover');
                 $DOM.cover.style.width = settings.imageWidth + 'px';
 
-                if(isBase64(settings.image.replace(/ /g,''))){
-                    $DOM.cover.style.backgroundImage = 'url(data:image/png;base64,' + settings.image.replace(/ /g,'') + ')';
+                if (isBase64(settings.image.replace(/ /g, ''))) {
+                    $DOM.cover.style.backgroundImage = 'url(data:image/png;base64,' + settings.image.replace(/ /g, '') + ')';
                 } else {
                     $DOM.cover.style.backgroundImage = 'url(' + settings.image + ')';
                 }
 
-                if(settings.rtl){
+                if (settings.rtl) {
                     $DOM.toastBody.style.marginRight = (settings.imageWidth + 10) + 'px';
                 } else {
                     $DOM.toastBody.style.marginLeft = (settings.imageWidth + 10) + 'px';
@@ -707,8 +731,8 @@
         })();
 
         // Button close
-        (function(){
-            if(settings.close){
+        (function () {
+            if (settings.close) {
 
                 $DOM.buttonClose = document.createElement('button');
 
@@ -719,7 +743,7 @@
                 });
                 $DOM.toast.appendChild($DOM.buttonClose);
             } else {
-                if(settings.rtl){
+                if (settings.rtl) {
                     $DOM.toast.style.paddingLeft = '20px';
                 } else {
                     $DOM.toast.style.paddingRight = '20px';
@@ -728,10 +752,10 @@
         })();
 
         // Progress Bar & Timeout
-        (function(){
-            if(settings.timeout) {
+        (function () {
+            if (settings.timeout) {
 
-                if(settings.progressBar){
+                if (settings.progressBar) {
                     $DOM.progressBar = document.createElement('div');
                     $DOM.progressBarDiv = document.createElement('div');
                     $DOM.progressBar.classList.add(PLUGIN_NAME + '-progressbar');
@@ -740,29 +764,29 @@
                     $DOM.toast.appendChild($DOM.progressBar);
                 }
 
-                if(settings.pauseOnHover && !settings.resetOnHover){
+                if (settings.pauseOnHover && !settings.resetOnHover) {
 
                     $DOM.toast.addEventListener('mouseenter', function (e) {
-                        this.classList.add(PLUGIN_NAME+'-paused');
+                        this.classList.add(PLUGIN_NAME + '-paused');
 
                         that.progress($DOM.toast, settings).pause();
                     });
                     $DOM.toast.addEventListener('mouseleave', function (e) {
-                        this.classList.remove(PLUGIN_NAME+'-paused');
+                        this.classList.remove(PLUGIN_NAME + '-paused');
 
                         that.progress($DOM.toast, settings).resume();
                     });
                 }
 
-                if(settings.resetOnHover){
+                if (settings.resetOnHover) {
 
                     $DOM.toast.addEventListener('mouseenter', function (e) {
-                        this.classList.add(PLUGIN_NAME+'-reseted');
+                        this.classList.add(PLUGIN_NAME + '-reseted');
 
                         that.progress($DOM.toast, settings).reset();
                     });
                     $DOM.toast.addEventListener('mouseleave', function (e) {
-                        this.classList.remove(PLUGIN_NAME+'-reseted');
+                        this.classList.remove(PLUGIN_NAME + '-reseted');
 
                         that.progress($DOM.toast, settings).start();
                     });
@@ -771,21 +795,21 @@
         })();
 
         // Icon
-        (function(){
-            if(settings.icon) {
+        (function () {
+            if (settings.icon) {
                 $DOM.icon.setAttribute('class', PLUGIN_NAME + '-icon ' + settings.icon);
 
-                if(settings.iconText){
+                if (settings.iconText) {
                     $DOM.icon.appendChild(document.createTextNode(settings.iconText));
                 }
 
-                if(settings.rtl){
-                    $DOM.toastBody.style.paddingRight = '33px';
+                if (settings.rtl) {
+                    $DOM.toastBody.style.paddingRight = '0px';
                 } else {
-                    $DOM.toastBody.style.paddingLeft = '33px';
+                    $DOM.toastBody.style.paddingLeft = '0px';
                 }
 
-                if(settings.iconColor){
+                if (settings.iconColor) {
                     $DOM.icon.style.color = settings.iconColor;
                 }
                 $DOM.toastBody.appendChild($DOM.icon);
@@ -793,27 +817,27 @@
         })();
 
         // Title
-        (function(){
-            if(settings.title.length > 0) {
+        (function () {
+            if (settings.title.length > 0) {
 
                 $DOM.strong = document.createElement('strong');
                 $DOM.strong.classList.add(PLUGIN_NAME + '-title');
                 $DOM.strong.appendChild(createFragElem(settings.title));
                 $DOM.toastTexts.appendChild($DOM.strong);
 
-                if(settings.titleColor) {
+                if (settings.titleColor) {
                     $DOM.strong.style.color = settings.titleColor;
                 }
-                if(settings.titleSize) {
-                    if( !isNaN(settings.titleSize) ){
-                        $DOM.strong.style.fontSize = settings.titleSize+'px';
+                if (settings.titleSize) {
+                    if (!isNaN(settings.titleSize)) {
+                        $DOM.strong.style.fontSize = settings.titleSize + 'px';
                     } else {
                         $DOM.strong.style.fontSize = settings.titleSize;
                     }
                 }
-                if(settings.titleLineHeight) {
-                    if( !isNaN(settings.titleSize) ){
-                        $DOM.strong.style.lineHeight = settings.titleLineHeight+'px';
+                if (settings.titleLineHeight) {
+                    if (!isNaN(settings.titleSize)) {
+                        $DOM.strong.style.lineHeight = settings.titleLineHeight + 'px';
                     } else {
                         $DOM.strong.style.lineHeight = settings.titleLineHeight;
                     }
@@ -822,28 +846,28 @@
         })();
 
         // Message
-        (function(){
-            if(settings.message.length > 0) {
+        (function () {
+            if (settings.message.length > 0) {
 
                 $DOM.p = document.createElement('p');
                 $DOM.p.classList.add(PLUGIN_NAME + '-message');
                 $DOM.p.appendChild(createFragElem(settings.message));
                 $DOM.toastTexts.appendChild($DOM.p);
 
-                if(settings.messageColor) {
+                if (settings.messageColor) {
                     $DOM.p.style.color = settings.messageColor;
                 }
-                if(settings.messageSize) {
-                    if( !isNaN(settings.titleSize) ){
-                        $DOM.p.style.fontSize = settings.messageSize+'px';
+                if (settings.messageSize) {
+                    if (!isNaN(settings.titleSize)) {
+                        $DOM.p.style.fontSize = settings.messageSize + 'px';
                     } else {
                         $DOM.p.style.fontSize = settings.messageSize;
                     }
                 }
-                if(settings.messageLineHeight) {
+                if (settings.messageLineHeight) {
 
-                    if( !isNaN(settings.titleSize) ){
-                        $DOM.p.style.lineHeight = settings.messageLineHeight+'px';
+                    if (!isNaN(settings.titleSize)) {
+                        $DOM.p.style.lineHeight = settings.messageLineHeight + 'px';
                     } else {
                         $DOM.p.style.lineHeight = settings.messageLineHeight;
                     }
@@ -851,10 +875,10 @@
             }
         })();
 
-        if(settings.title.length > 0 && settings.message.length > 0) {
-            if(settings.rtl){
+        if (settings.title.length > 0 && settings.message.length > 0) {
+            if (settings.rtl) {
                 $DOM.strong.style.marginLeft = '10px';
-            } else if(settings.layout !== 2 && !settings.rtl) {
+            } else if (settings.layout !== 2 && !settings.rtl) {
                 $DOM.strong.style.marginRight = '10px';
             }
         }
@@ -862,20 +886,20 @@
         $DOM.toastBody.appendChild($DOM.toastTexts);
 
         // Buttons
-        (function(){
-            if(settings.buttons.length > 0) {
+        (function () {
+            if (settings.buttons.length > 0) {
 
                 $DOM.buttons.classList.add(PLUGIN_NAME + '-buttons');
 
-                if(settings.title.length > 0 && settings.message.length === 0) {
-                    if(settings.rtl){
+                if (settings.title.length > 0 && settings.message.length === 0) {
+                    if (settings.rtl) {
                         $DOM.strong.style.marginLeft = '15px';
                     } else {
                         $DOM.strong.style.marginRight = '15px';
                     }
                 }
-                if(settings.message.length > 0) {
-                    if(settings.rtl){
+                if (settings.message.length > 0) {
+                    if (settings.rtl) {
                         $DOM.p.style.marginLeft = '15px';
                     } else {
                         $DOM.p.style.marginRight = '15px';
@@ -890,8 +914,8 @@
 
                     $btns[index].classList.add(PLUGIN_NAME + '-buttons-child');
 
-                    if(value[2]){
-                        setTimeout(function() {
+                    if (value[2]) {
+                        setTimeout(function () {
                             $btns[index].focus();
                         }, 300);
                     }
@@ -907,9 +931,9 @@
         })();
 
         // Target
-        (function(){
+        (function () {
             $DOM.toastCapsule.style.visibility = 'hidden';
-            setTimeout(function() {
+            setTimeout(function () {
                 var H = $DOM.toast.offsetHeight;
                 var style = $DOM.toast.currentStyle || window.getComputedStyle($DOM.toast);
                 var marginTop = style.marginTop;
@@ -920,31 +944,31 @@
                 marginBottom = parseInt(marginBottom[0]);
 
                 $DOM.toastCapsule.style.visibility = '';
-                $DOM.toastCapsule.style.height = (H+marginBottom+marginTop)+'px';
+                $DOM.toastCapsule.style.height = (H + marginBottom + marginTop) + 'px';
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $DOM.toastCapsule.style.height = 'auto';
-                    if(settings.target){
+                    if (settings.target) {
                         $DOM.toastCapsule.style.overflow = 'visible';
                     }
                 }, 500);
 
-                if(settings.timeout) {
+                if (settings.timeout) {
                     that.progress($DOM.toast, settings).start();
                 }
             }, 100);
         })();
 
         // Target
-        (function(){
+        (function () {
             var position = settings.position;
 
-            if(settings.target){
+            if (settings.target) {
 
                 $DOM.wrapper = document.querySelector(settings.target);
                 $DOM.wrapper.classList.add(PLUGIN_NAME + '-target');
 
-                if(settings.targetFirst) {
+                if (settings.targetFirst) {
                     $DOM.wrapper.insertBefore($DOM.toastCapsule, $DOM.wrapper.firstChild);
                 } else {
                     $DOM.wrapper.appendChild($DOM.toastCapsule);
@@ -952,72 +976,72 @@
 
             } else {
 
-                if( POSITIONS.indexOf(settings.position) == -1 ){
-                    console.warn('['+PLUGIN_NAME+'] Incorrect position.\nIt can be › ' + POSITIONS);
+                if (POSITIONS.indexOf(settings.position) == -1) {
+                    console.warn('[' + PLUGIN_NAME + '] Incorrect position.\nIt can be › ' + POSITIONS);
                     return;
                 }
 
-                if(ISMOBILE || window.innerWidth <= MOBILEWIDTH){
-                    if(settings.position == 'bottomLeft' || settings.position == 'bottomRight' || settings.position == 'bottomCenter'){
-                        position = PLUGIN_NAME+'-wrapper-bottomCenter';
+                if (ISMOBILE || window.innerWidth <= MOBILEWIDTH) {
+                    if (settings.position == 'bottomLeft' || settings.position == 'bottomRight' || settings.position == 'bottomCenter') {
+                        position = PLUGIN_NAME + '-wrapper-bottomCenter';
                     }
-                    else if(settings.position == 'topLeft' || settings.position == 'topRight' || settings.position == 'topCenter'){
-                        position = PLUGIN_NAME+'-wrapper-topCenter';
+                    else if (settings.position == 'topLeft' || settings.position == 'topRight' || settings.position == 'topCenter') {
+                        position = PLUGIN_NAME + '-wrapper-topCenter';
                     }
                     else {
-                        position = PLUGIN_NAME+'-wrapper-center';
+                        position = PLUGIN_NAME + '-wrapper-center';
                     }
                 } else {
-                    position = PLUGIN_NAME+'-wrapper-'+position;
+                    position = PLUGIN_NAME + '-wrapper-' + position;
                 }
-                $DOM.wrapper = document.querySelector('.' + PLUGIN_NAME + '-wrapper.'+position);
+                $DOM.wrapper = document.querySelector('.' + PLUGIN_NAME + '-wrapper.' + position);
 
-                if(!$DOM.wrapper) {
+                if (!$DOM.wrapper) {
                     $DOM.wrapper = document.createElement('div');
                     $DOM.wrapper.classList.add(PLUGIN_NAME + '-wrapper');
                     $DOM.wrapper.classList.add(position);
                     $DOM.body.appendChild($DOM.wrapper);
                 }
-                if(settings.position == 'topLeft' || settings.position == 'topCenter' || settings.position == 'topRight'){
+                if (settings.position == 'topLeft' || settings.position == 'topCenter' || settings.position == 'topRight') {
                     $DOM.wrapper.insertBefore($DOM.toastCapsule, $DOM.wrapper.firstChild);
                 } else {
                     $DOM.wrapper.appendChild($DOM.toastCapsule);
                 }
             }
 
-            if(!isNaN(settings.zindex)) {
+            if (!isNaN(settings.zindex)) {
                 $DOM.wrapper.style.zIndex = settings.zindex;
             } else {
-                console.warn('['+PLUGIN_NAME+'] Invalid zIndex.');
+                console.warn('[' + PLUGIN_NAME + '] Invalid zIndex.');
             }
         })();
 
         // Overlay
-        (function(){
+        (function () {
 
-            if(settings.overlay) {
+            if (settings.overlay) {
 
-                if( document.querySelector('.'+PLUGIN_NAME+'-overlay.fadeIn') !== null ){
+                if (document.querySelector('.' + PLUGIN_NAME + '-overlay.fadeIn') !== null) {
 
-                    $DOM.overlay = document.querySelector('.'+PLUGIN_NAME+'-overlay');
+                    $DOM.overlay = document.querySelector('.' + PLUGIN_NAME + '-overlay');
                     $DOM.overlay.setAttribute('data-iziToast-ref', $DOM.overlay.getAttribute('data-iziToast-ref') + ',' + settings.REF);
 
-                    if(!isNaN(settings.zindex) && settings.zindex !== null) {
-                        $DOM.overlay.style.zIndex = settings.zindex-1;
+                    if (!isNaN(settings.zindex) && settings.zindex !== null) {
+                        $DOM.overlay.style.zIndex = settings.zindex - 1;
                     }
                 } else {
 
-                    $DOM.overlay.classList.add(PLUGIN_NAME+'-overlay');
+                    $DOM.overlay.classList.add(PLUGIN_NAME + '-overlay');
                     $DOM.overlay.classList.add('fadeIn');
                     $DOM.overlay.style.background = settings.overlayColor;
                     $DOM.overlay.setAttribute('data-iziToast-ref', settings.REF);
-                    if(!isNaN(settings.zindex) && settings.zindex !== null) {
-                        $DOM.overlay.style.zIndex = settings.zindex-1;
+                    if (!isNaN(settings.zindex) && settings.zindex !== null) {
+                        $DOM.overlay.style.zIndex = settings.zindex - 1;
                     }
                     $DOM.body.appendChild($DOM.overlay);
                 }
 
-                if(settings.overlayClose) {
+                if (settings.overlayClose) {
 
                     $DOM.overlay.removeEventListener('click', {});
                     $DOM.overlay.addEventListener('click', function (e) {
@@ -1032,38 +1056,38 @@
         })();
 
         // Inside animations
-        (function(){
-            if(settings.animateInside){
-                $DOM.toast.classList.add(PLUGIN_NAME+'-animateInside');
+        (function () {
+            if (settings.animateInside) {
+                $DOM.toast.classList.add(PLUGIN_NAME + '-animateInside');
 
                 var animationTimes = [200, 100, 300];
-                if(settings.transitionIn == 'bounceInLeft'){
+                if (settings.transitionIn == 'bounceInLeft') {
                     animationTimes = [400, 200, 400];
                 }
 
-                if(settings.title.length > 0) {
-                    setTimeout(function(){
+                if (settings.title.length > 0) {
+                    setTimeout(function () {
                         $DOM.strong.classList.add('slideIn');
                     }, animationTimes[0]);
                 }
 
-                if(settings.message.length > 0) {
-                    setTimeout(function(){
+                if (settings.message.length > 0) {
+                    setTimeout(function () {
                         $DOM.p.classList.add('slideIn');
                     }, animationTimes[1]);
                 }
 
-                if(settings.icon) {
-                    setTimeout(function(){
+                if (settings.icon) {
+                    setTimeout(function () {
                         $DOM.icon.classList.add('revealIn');
                     }, animationTimes[2]);
                 }
 
-                if(settings.buttons.length > 0 && $DOM.buttons) {
+                if (settings.buttons.length > 0 && $DOM.buttons) {
                     var counter = 150;
-                    forEach($DOM.buttons.childNodes, function(element, index) {
+                    forEach($DOM.buttons.childNodes, function (element, index) {
 
-                        setTimeout(function(){
+                        setTimeout(function () {
                             element.classList.add('revealIn');
                         }, counter);
                         counter = counter + 150;
@@ -1077,55 +1101,59 @@
         try {
             var event = new CustomEvent(PLUGIN_NAME + '-opening', {detail: settings, bubbles: true, cancelable: true});
             document.dispatchEvent(event);
-        } catch(ex){
+        } catch (ex) {
             console.warn(ex);
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
 
-            $DOM.toast.classList.remove(PLUGIN_NAME+'-opening');
-            $DOM.toast.classList.add(PLUGIN_NAME+'-opened');
+            $DOM.toast.classList.remove(PLUGIN_NAME + '-opening');
+            $DOM.toast.classList.add(PLUGIN_NAME + '-opened');
 
             try {
-                var event = new CustomEvent(PLUGIN_NAME + '-opened', {detail: settings, bubbles: true, cancelable: true});
+                var event = new CustomEvent(PLUGIN_NAME + '-opened', {
+                    detail: settings,
+                    bubbles: true,
+                    cancelable: true
+                });
                 document.dispatchEvent(event);
-            } catch(ex){
+            } catch (ex) {
                 console.warn(ex);
             }
 
             settings.onOpened.apply(null, [settings, $DOM.toast]);
         }, 1000);
 
-        if(settings.drag){
+        if (settings.drag) {
 
-            if(ACCEPTSTOUCH) {
+            if (ACCEPTSTOUCH) {
 
-                $DOM.toast.addEventListener('touchstart', function(e) {
+                $DOM.toast.addEventListener('touchstart', function (e) {
                     drag.startMoving(this, that, settings, e);
                 }, false);
 
-                $DOM.toast.addEventListener('touchend', function(e) {
+                $DOM.toast.addEventListener('touchend', function (e) {
                     drag.stopMoving(this, e);
                 }, false);
             } else {
 
-                $DOM.toast.addEventListener('mousedown', function(e) {
+                $DOM.toast.addEventListener('mousedown', function (e) {
                     e.preventDefault();
                     drag.startMoving(this, that, settings, e);
                 }, false);
 
-                $DOM.toast.addEventListener('mouseup', function(e) {
+                $DOM.toast.addEventListener('mouseup', function (e) {
                     e.preventDefault();
                     drag.stopMoving(this, e);
                 }, false);
             }
         }
 
-        if(settings.closeOnEscape) {
+        if (settings.closeOnEscape) {
 
             document.addEventListener('keyup', function (evt) {
                 evt = evt || window.event;
-                if(evt.keyCode == 27) {
+                if (evt.keyCode == 27) {
                     that.hide($DOM.toast, settings, 'esc');
                 }
             });

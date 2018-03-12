@@ -152,8 +152,8 @@
             </div>
         </div>
         <div class="lms-section-control-navigation">
-            <div class="lms-nav-button">
-                <a href="#" class="next" rel="next">
+            <div class="lms-nav-button lms-nav-button--next">
+                <a href="#" class="prev" rel="prev">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                         <defs>
                             <style>.cls-1 {
@@ -164,9 +164,28 @@
                                     stroke-width: 3px;
                                 }</style>
                         </defs>
-                        <title>Arrow-right</title>
+                        <title>Arrow-left</title>
                         <g id="Arrow-right">
-                            <polyline class="cls-1" points="32.87 53.14 47.13 40.17 32.87 27.2"/>
+                            <polyline class="cls-1" points="47.13 27.2 32.87 40.17 47.13 53.14"/>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+            <div class="lms-nav-button">
+                <a href="#" class="next" rel="next">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 53 53">
+                        <defs>
+                            <style>
+                                .cls-fill {
+                                    fill: #fff;
+                                }
+                            </style>
+                        </defs>
+                        <title>More</title>
+                        <g id="Menu">
+                            <circle class="cls-fill" cx="20" cy="27" r="3"/>
+                            <circle class="cls-fill" cx="33" cy="27" r="3"/>
+                            <circle class="cls-fill" cx="7" cy="27" r="3"/>
                         </g>
                     </svg>
                 </a>
