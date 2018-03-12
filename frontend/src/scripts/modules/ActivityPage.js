@@ -20,7 +20,7 @@ class ActivityPage {
     init() {
 
         moment.locale($('html').attr('lang'));
-        tippy('.btn')
+
 
         //using mobX to manage state more at https://mobx.js.org/refguide/autorun.html
         autorun(
