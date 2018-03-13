@@ -30,6 +30,7 @@
     "object-fit-images": "^3.2.3",
     "popper.js": "^1.13.0",
     "scrollreveal": "^3.3.5",
+    "stickyfilljs": "^2.0.3",
     "sweet-dropdown": "^1.0.0",
     "sweetalert2": "^7.15.1",
     "tippy.js": "^2.2.3",

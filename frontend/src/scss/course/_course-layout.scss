@@ -1,17 +1,25 @@
 .lms-course {
-  //min-height: 100vh;
   min-height: 300px;
   max-width: 1200px;
   margin: auto;
   position: relative;
   overflow-x: hidden;
 
+  @media screen and (min-width: 1200px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 697px;
+  }
+
   &__outher {
     background: #F0F0F0;
   }
 
   &__wrapper {
-
+    //display: flex;
+    //justify-content: flex-end;
+    //flex-direction: column;
   }
 
   &.lms-fullscreen-init {

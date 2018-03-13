@@ -20,6 +20,9 @@ $customCss = isset($slide->slide_custom_css) ? $slide->slide_custom_css : null;
     #<?= $randomId?>  * {
         color:<?= $textColor ?>;
     }
+    #<?= $randomId?> .lms-dnd-quiz-drag__item--empty {
+        border-color:<?= $textColor ?>;
+    }
 
     #<?= $randomId?>  .lms-quiz__header{
         background: <?= $headerBgColor; ?> ;

@@ -2,7 +2,6 @@
 
 namespace LmsPlugin\Controllers;
 
-
 use LmsPlugin\Models\Activity;
 use LmsPlugin\Models\Progress;
 use LmsPlugin\Models\Enrollment;
@@ -65,7 +64,7 @@ class ProgressController extends Controller
 
         $enrollment->save();
         $link = get_the_permalink($courseID);
-        wp_send_json(['enrollment' => $enrollment->status, 'course_link' =>$link]);
+        wp_send_json(['enrollment' => $enrollment->status, 'course_link' => $link]);
     }
 
     public function startCourse()
@@ -83,7 +82,7 @@ class ProgressController extends Controller
 
         $enrollment->save();
         $link = get_the_permalink($courseID);
-        wp_send_json(['enrollment' => $enrollment->status, 'course_link' =>$link]);
+        wp_send_json(['enrollment' => $enrollment->status, 'course_link' => $link]);
     }
 
     public function rejectInvite()
@@ -190,7 +189,7 @@ class ProgressController extends Controller
         $activity = Activity::where('user_id', $userID);
 
         if ($type && $type != 'all') {
-            $activity->where('name', $type);
+            $activity->where('type', $type);
         }
 
         if ($fromDate) {

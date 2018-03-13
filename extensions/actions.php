@@ -18,8 +18,8 @@ $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateProgressTable@up');
 
-$action->add('activate_' . $plugin, 'CustomPages@addActivity');
-$action->add('deactivate_' . $plugin, 'CustomPages@removeActivity');
+$action->add('activate_' . $plugin, 'CustomPages@addLmsPages');
+$action->add('deactivate_' . $plugin, 'CustomPages@removeLmsPages');
 
 /**
  * Session.
@@ -195,4 +195,13 @@ add_shortcode('button', function ($attributes) {
     $text = array_get($attributes, 'value');
 
     return "<button class='lms-shortcode-button lms-shortcode-{$action}'>{$text}</button>";
+});
+
+
+add_shortcode('lms-courses-list', function ($attributes) {
+    if (!is_user_logged_in()) return '';
+    ob_start();
+    lms_get_template('archive-course-content.php');
+    $coursesList = ob_get_clean();
+    return $coursesList;
 });

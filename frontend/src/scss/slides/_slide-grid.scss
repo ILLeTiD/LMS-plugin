@@ -27,6 +27,9 @@
   &.active {
     display: flex;
   }
+  &.show-on-start {
+    display: flex;
+  }
 }
 
 .site-content {

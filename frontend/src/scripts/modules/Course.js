@@ -1,12 +1,8 @@
 import SlideCtr from './Slide';
-import Hint from './Hint'
-import Quiz from './Quiz'
 import {initLazyLoading} from '../utilities/lazy-loading';
 import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 import Alert from '../utilities/Alerts'
 import 'hammerjs'
-import Muuri from 'muuri';
-// import mediaelement from 'mediaelement';
 import 'mediaelement/full';
 import {selectors} from './selectors'
 import {ProgressLogger} from './CourseProgressLogger'
@@ -14,7 +10,7 @@ import {Activity} from './ActivityLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
 import quizFactory from './quiz-functions/quizFactory'
-
+import Stickyfill from 'stickyfilljs'
 class Course {
     constructor() {
         this.slideCtr = new SlideCtr(this);
@@ -35,6 +31,42 @@ class Course {
         this.courseEl = $courseEl;
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
+
+        var elements = $('.lms-course-controls');
+        Stickyfill.add(elements);
+
+        this.checkStartStatus();
+    }
+
+    checkStartStatus() {
+        console.log('check START');
+        if (this.courseEl.data('enrollment-status') == 'enrolled') {
+            this.beforeStarted();
+        } else {
+            this.afterStarted();
+        }
+    }
+
+    beforeStarted() {
+        this.isStart = true;
+        this.removePreoader();
+        $('.lms-course-controls-start').show();
+        $('.lms-slide-control-navigation').addClass('disabled');
+        $('.lms-slide').addClass('hide-on-start');
+        $('.lms-slide[data-slide-index=0]').addClass('show-on-start');
+        $('.lms-button-start-course').on('click', (e) => {
+            if (e) e.preventDefault();
+            Activity.startCourse(this.userId, this.courseId, false);
+            this.afterStarted();
+        });
+
+    }
+
+    afterStarted() {
+        $('.lms-slide[data-slide-index=0]').removeClass('show-on-start');
+        $('.lms-slide-control-navigation').removeClass('disabled');
+        $('.lms-course-controls-start').remove();
+        console.log('after started');
         this.getLatestSlideFromDb();
         this.initAudio();
 
@@ -205,6 +237,11 @@ class Course {
         this.listeners();
 
         //remove loader when we have slide to show
+        this.removePreoader();
+    }
+
+    removePreoader() {
+        console.log('REMOVE PRELOADRER')
         this.courseEl.removeClass('unloaded');
         this.courseEl.find(this.selectors.preloader).remove();
     }
@@ -337,20 +374,6 @@ class Course {
             text: '',
         }, () => {
             Activity.redoCourse(this.userId, this.courseId);
-            // $.ajax(
-            //     {
-            //         method: "POST",
-            //         url: lmsAjax.ajaxurl,
-            //         data: {
-            //             action: 'progress_restart',
-            //             user_id: this.userId,
-            //             course_id: this.courseId,
-            //         }
-            //     }
-            // ).done(function (json) {
-            //     if (json.error) new Alert(`"${json.error}" please reload page`);
-            //     window.location.reload();
-            // });
         });
 
     }

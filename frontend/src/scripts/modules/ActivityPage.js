@@ -99,7 +99,7 @@ class ActivityPage {
                 <path class="cls-1" d="M50.94,38.39v7.06c0,4.1-4.89,7.41-10.91,7.41s-10.92-3.31-10.92-7.41V38.39"/>
                 <line class="cls-1" x1="56.38" y1="35.49" x2="56.38" y2="47.75"/>
             </svg>
-                            <svg class="lms-profile-course-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+                            <svg class="lms-activity-account-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                 <defs>
                     <style>.cls-1 {
                             fill: none;

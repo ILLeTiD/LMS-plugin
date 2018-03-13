@@ -16,12 +16,12 @@ export const Activity = {
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log('course started ', json);
-            $.when(self.defferedCommit(userId, 'course', 'started', courseId)).then(function (data, textStatus, jqXHR) {
+            $.when(self.defferedCommit(userId, 'course', 'enrolled', courseId)).then(function (data, textStatus, jqXHR) {
                 window.location.href = json.course_link;
             });
         });
     },
-    startCourse(userId, courseId) {
+    startCourse(userId, courseId, reloadPage = true) {
         const self = this;
         $.ajax(
             {
@@ -38,7 +38,9 @@ export const Activity = {
             console.log('course started ', json);
 
             $.when(self.defferedCommit(userId, 'course', 'started', courseId)).then(function (data, textStatus, jqXHR) {
-                window.location.href = json.course_link;
+                if (reloadPage) {
+                    window.location.href = json.course_link;
+                }
             });
         });
     },
@@ -108,7 +110,7 @@ export const Activity = {
 
         });
     },
-    completeCourse(userId, courseId){
+    completeCourse(userId, courseId, reloadPage = true){
         const self = this;
         $.ajax(
             {
@@ -125,7 +127,9 @@ export const Activity = {
             console.log('course restarted', json);
 
             $.when(self.defferedCommit(userId, 'course', 'completed', courseId)).then(function (data, textStatus, jqXHR) {
-                window.location.href = lmsAjax.coursesLink;
+                if (reloadPage) {
+                    window.location.href = lmsAjax.coursesLink;
+                }
             });
         });
     },

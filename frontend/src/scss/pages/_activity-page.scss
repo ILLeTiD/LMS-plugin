@@ -102,7 +102,7 @@
         background: #335984;
       }
 
-      .lms-profile-course-ico {
+      .lms-activity-course-ico {
         display: block;
       }
     }
@@ -112,7 +112,7 @@
         background: #4D91DF;
       }
 
-      .lms-activity-course-ico {
+      .lms-activity-account-ico {
         display: block;
       }
     }
@@ -150,6 +150,13 @@
         display: none;
         height: 100%;
         width: 100%;
+      }
+    }
+
+    &__message {
+      a {
+        text-decoration: none;
+        color: #5c8fdc;
       }
     }
   }

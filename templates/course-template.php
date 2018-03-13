@@ -39,8 +39,8 @@ get_header('course');
             switch ($enrollmentStatus) {
                 case 'in_progress':
                 case 'enrolled':
-                    lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides,'enrollmentStatus'=> $enrollment->status]);
-                    lms_get_template('course-parts/course-page-content.php',['enrollmentStatus'=> $enrollment->status]);
+                    lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides, 'enrollmentStatus' => $enrollment->status]);
+                    lms_get_template('course-parts/course-page-content.php', ['enrollmentStatus' => $enrollment->status]);
                     break;
                 case 'invited':
                     lms_get_template('course-parts/course-content-invited.php', ['course' => $course, 'enrollment' => $enrollment, 'slides' => $slides]);
