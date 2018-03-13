@@ -15,7 +15,7 @@
                 <?php
                 // Determine if the course is done, not started or in progress
                 if ($enrollment->status == 'invited') {
-                    echo "Not started";
+                    echo "Invited";
                     ?>
                     <!-- Style the progressbar according to user progress -->
                     <style>
@@ -30,8 +30,22 @@
                         }
                     </style>
 
-                    <?php
-                } elseif ($enrollment->status == 'completed') { ?>
+                    <?php } elseif ($enrollment->status == 'enrolled') { ?>
+                 <?php   echo "Not started";
+                    ?>
+                    <!-- Style the progressbar according to user progress -->
+                    <style>
+                        <?php echo '#done'.$courseIndex ?>
+                        {
+                            width: 100%;
+                            background-color: #ffffff;
+                        }
+                        <?php echo '#done'.$courseIndex ?>
+                        p {
+                            color: #bfbfbf;
+                        }
+                    </style>
+                <?php } elseif ($enrollment->status == 'completed') { ?>
                 <style>
                     <?php echo '#done'.$courseIndex ?>
                     {

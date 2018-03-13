@@ -102,6 +102,8 @@ $action->add('wp_ajax_activity_redo_course', 'Controllers\ProgressController@res
 $action->add('wp_ajax_nopriv_activity_redo_course', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_activity_complete_course', 'Controllers\ProgressController@completeCourse');
 $action->add('wp_ajax_nopriv_activity_complete_course', 'Controllers\ProgressController@completeCourse');
+$action->add('wp_ajax_activity_start_course', 'Controllers\ProgressController@startCourse');
+$action->add('wp_ajax_nopriv_activity_start_course', 'Controllers\ProgressController@startCourse');
 
 $action->add('wp_ajax_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
 $action->add('wp_ajax_nopriv_load_user_activity', 'Controllers\ProgressController@loadUserActivity');

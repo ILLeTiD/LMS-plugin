@@ -61,10 +61,29 @@ class ProgressController extends Controller
         $enrollment = $user->enrollments()
             ->where('course_id', '=', $courseID)
             ->first();
+        $enrollment->status = 'enrolled';
+
+        $enrollment->save();
+        $link = get_the_permalink($courseID);
+        wp_send_json(['enrollment' => $enrollment->status, 'course_link' =>$link]);
+    }
+
+    public function startCourse()
+    {
+        if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+        $userID = $_POST['user_id'];
+        $courseID = $_POST['course_id'];
+        $user = User::find($userID);
+        $enrollment = $user->enrollments()
+            ->where('course_id', '=', $courseID)
+            ->first();
         $enrollment->status = 'in_progress';
 
         $enrollment->save();
-        wp_send_json(['enrollment' => $enrollment->status]);
+        $link = get_the_permalink($courseID);
+        wp_send_json(['enrollment' => $enrollment->status, 'course_link' =>$link]);
     }
 
     public function rejectInvite()

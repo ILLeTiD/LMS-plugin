@@ -8,20 +8,17 @@ $isEnrolled = $course->hasParticipant($userID);
 $slides = $course->slides();
 
 
-if (!is_user_logged_in()) {
-    wp_redirect(home_url());
-    exit;
-}
+//if (!is_user_logged_in()) {
+//    wp_redirect(home_url());
+//    exit;
+//}
+//
+//if (!$isEnrolled && !current_user_can('administrator')) {
+//    wp_redirect(home_url());
+//    exit;
+//}
 
-if (!$isEnrolled && !current_user_can('administrator')) {
-    wp_redirect(home_url());
-    exit;
-}
 
-$enrollment = $user->enrollments()
-    ->where('course_id', '=', $courseID)
-    ->first();
-$enrollmentStatus = $enrollment->status;
 get_header('course');
 ?>
 
@@ -31,12 +28,19 @@ get_header('course');
             lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides]);
             lms_get_template('course-parts/course-page-content.php');
             ?>
+        <?php elseif (!is_user_logged_in() || !$isEnrolled) : ?>
+            <?php lms_get_template('course-parts/course-content-not-invited.php'); ?>
         <?php else : ?>
             <?php
+            $enrollment = $user->enrollments()
+                ->where('course_id', '=', $courseID)
+                ->first();
+            $enrollmentStatus = $enrollment->status;
             switch ($enrollmentStatus) {
                 case 'in_progress':
-                    lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides]);
-                    lms_get_template('course-parts/course-page-content.php');
+                case 'enrolled':
+                    lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides,'enrollmentStatus'=> $enrollment->status]);
+                    lms_get_template('course-parts/course-page-content.php',['enrollmentStatus'=> $enrollment->status]);
                     break;
                 case 'invited':
                     lms_get_template('course-parts/course-content-invited.php', ['course' => $course, 'enrollment' => $enrollment, 'slides' => $slides]);

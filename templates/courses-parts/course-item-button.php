@@ -3,12 +3,19 @@ $buttonClass = '';
 switch ($enrollment->status) {
     case 'in_progress':
         $buttonClass = "lms-course-continue-button";
+        $buttonText = __("Continue", "lms-plugin");
         break;
     case 'completed':
         $buttonClass = "lms-course-redo-button";
+        $buttonText = __('Redo course', "lms-plugin");
+        break;
+    case 'enrolled':
+        $buttonClass = "lms-course-start-button";
+        $buttonText = __("Start course", "lms-plugin");;
         break;
     case 'invited':
         $buttonClass = 'lms-course-begin-button';
+        $buttonText = __('Enroll to course', "lms-plugin");
         break;
 }
 ?>
@@ -20,13 +27,7 @@ switch ($enrollment->status) {
                 data-user-id="<?= get_current_user_id() ?>"
         >
             <?php
-            if ($enrollment->status == 'completed') {
-                _e('Redo course', "lms-plugin");
-            } else if ($enrollment->status == 'invited') {
-                _e("Start course", "lms-plugin");
-            } else {
-                _e("Continue", "lms-plugin");
-            }
+            echo $buttonText;
             ?>
         </button>
     </a>

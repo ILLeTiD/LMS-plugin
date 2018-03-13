@@ -573,7 +573,6 @@ class Course {
         console.log('COMPLETE OF COURSE ');
 
         Activity.completeCourse(this.userId, this.courseId);
-        Activity.commit(this.userId, 'course', 'completed', this.courseId);
     }
 
     checkControls() {

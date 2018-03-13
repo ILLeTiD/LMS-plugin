@@ -31,6 +31,7 @@ foreach ($slides as $key => $slide) {
 
 <section class="lms-course unloaded"
          id="lms-course"
+         data-enrollment-status="<?= $enrollmentStatus ?>"
          data-id="<?= $course->id; ?>"
          data-user-id="<?= get_current_user_id() ?>">
     <?php

@@ -2,6 +2,7 @@ import Alert from '../utilities/Alerts'
 
 export const Activity = {
     acceptInvite(userId, courseId){
+        const self = this;
         $.ajax(
             {
                 method: "POST",
@@ -15,9 +16,34 @@ export const Activity = {
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log('course started ', json);
+            $.when(self.defferedCommit(userId, 'course', 'started', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = json.course_link;
+            });
+        });
+    },
+    startCourse(userId, courseId) {
+        const self = this;
+        $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'activity_start_course',
+                    user_id: userId,
+                    course_id: courseId,
+                }
+            }
+        ).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            console.log('course started ', json);
+
+            $.when(self.defferedCommit(userId, 'course', 'started', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = json.course_link;
+            });
         });
     },
     rejectInvite(userId, courseId){
+        const self = this;
         $.ajax(
             {
                 method: "POST",
@@ -31,10 +57,37 @@ export const Activity = {
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log('course rejected', json);
-            window.location.href = lmsAjax.coursesLink;
+
+            $.when(self.defferedCommit(userId, 'course', 'rejected', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = lmsAjax.coursesLink;
+            });
+
+        });
+    },
+    archiveEnrollment(userId, courseId){
+        const self = this;
+        $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'activity_reject_invite',
+                    user_id: userId,
+                    course_id: courseId,
+                }
+            }
+        ).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            console.log('course rejected', json);
+
+            $.when(self.defferedCommit(userId, 'course', 'archived_course', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = lmsAjax.coursesLink;
+            });
+
         });
     },
     redoCourse(userId, courseId){
+        const self = this;
         $.ajax(
             {
                 method: "POST",
@@ -48,10 +101,15 @@ export const Activity = {
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log('course restarted', json);
-            window.location.href = json.course_link;
+
+            $.when(self.defferedCommit(userId, 'course', 'restarted', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = json.course_link;
+            });
+
         });
     },
     completeCourse(userId, courseId){
+        const self = this;
         $.ajax(
             {
                 method: "POST",
@@ -65,11 +123,32 @@ export const Activity = {
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
             console.log('course restarted', json);
-            window.location.href = lmsAjax.coursesLink;
+
+            $.when(self.defferedCommit(userId, 'course', 'completed', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = lmsAjax.coursesLink;
+            });
         });
     },
+    defferedCommit(user_id, activity_type, activity_name, course_id = '') {
+        const self = this;
+        return $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'activity_commit',
+                    user_id,
+                    activity_type,
+                    activity_name,
+                    course_id,
+                }
+            }
+        )
+    },
     commit(user_id, activity_type, activity_name, course_id = '') {
-        console.log('COMMIT !');
+
+        const self = this;
+        console.log('COMMIT !!');
         $.ajax(
             {
                 method: "POST",
