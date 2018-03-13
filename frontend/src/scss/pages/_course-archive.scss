@@ -2,9 +2,14 @@
   display: none;
 }
 
-.archive {
-  background-color: #bfbfbf;
-  min-height: 100%;
+//.archive {
+//  background-color: #f0f0f0;
+//  min-height: 100%;
+//}
+
+.post-type-archive-course.archive {
+  min-height: 100vh;
+  background-color: #f0f0f0;
 }
 
 .lms-courses {
@@ -52,6 +57,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    &.error-wrapper {
+      padding: 10px 20px;
+    }
   }
 
   &__content {

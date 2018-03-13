@@ -1,15 +1,29 @@
-.lms-course-page {
-  &-thumbnail {
-    height: 400px;
-    width: 100%;
-    background-position: 50%;
-  }
+.lms-course {
+  &-page {
+    &-thumbnail {
+      height: 400px;
+      width: 100%;
+      background-position: 50%;
+    }
 
-  &-content {
-    &__wrapper {
-      max-width: 1000px;
-      margin: auto;
-      padding: 30px 15px;
+    &-content {
+      &__wrapper {
+        max-width: 1000px;
+        margin: auto;
+        padding: 30px 15px;
+      }
+    }
+
+    &-buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      .lms-link {
+        margin-right: auto;
+        text-decoration: none;
+        line-height: 44px;
+        color: #4D91DF;
+      }
     }
   }
 }

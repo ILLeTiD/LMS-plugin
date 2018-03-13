@@ -2,6 +2,7 @@
 
 
 get_header();
+
 ?>
     <section class="lms-courses">
         <header class="lms-courses__header">

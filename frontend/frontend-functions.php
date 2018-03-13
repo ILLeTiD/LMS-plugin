@@ -1,25 +1,25 @@
 <?php
 
-
-add_action('after_setup_theme', 'remove_admin_bar');
-
-function remove_admin_bar()
-{
-    if (!current_user_can('administrator') && !is_admin()) {
-        show_admin_bar(false);
-    }
-}
-
-add_action('admin_init', 'blockusers_init');
-function blockusers_init()
-{
-    if (is_admin() && !current_user_can('administrator') &&
-        !(defined('DOING_AJAX') && DOING_AJAX)
-    ) {
-        wp_redirect(home_url());
-        exit;
-    }
-}
+//
+//add_action('after_setup_theme', 'remove_admin_bar');
+//
+//function remove_admin_bar()
+//{
+//    if (!current_user_can('administrator') && !is_admin()) {
+//        show_admin_bar(false);
+//    }
+//}
+//
+//add_action('admin_init', 'blockusers_init');
+//function blockusers_init()
+//{
+//    if (is_admin() && !current_user_can('administrator') &&
+//        !(defined('DOING_AJAX') && DOING_AJAX)
+//    ) {
+//        wp_redirect(home_url());
+//        exit;
+//    }
+//}
 
 add_action('wp_enqueue_scripts', 'my_scripts_method');
 
@@ -163,3 +163,47 @@ if (!function_exists('lms_get_archive_template')) {
     add_filter('archive_template', 'lms_get_archive_template');
 }
 
+add_action('customize_register', 'lms_customize_register');
+
+function lms_customize_register($wp_customize)
+{
+
+    // Add: Drop Down Pages
+    $wp_customize->add_setting('lms_courses_page_id', array(
+        'sanitize_callback' => 'absint',
+    ));
+
+    $wp_customize->add_control('lms_courses_page_id', array(
+        'label' => esc_html__('Courses Page', 'lms-plugin'),
+        'description' => esc_html__('You must have to define it if you want to set your Courses as your homepage.', 'lms-plugin'),
+        'section' => 'title_tagline',
+        'type' => 'dropdown-pages',
+    ));
+}
+
+if (get_option('page_on_front') == get_theme_mod('lms_courses_page_id')) {
+
+    add_action("pre_get_posts", "lms_assign_courses_page");
+
+    function lms_assign_courses_page($wp_query)
+    {
+        //Ensure this filter isn't applied to the admin area
+        if (is_admin()) {
+            return;
+        }
+
+        if ($wp_query->get('page_id') == get_option('page_on_front')):
+
+            $wp_query->set('post_type', 'course');
+            $wp_query->set('page_id', ''); //Empty
+
+            //Set properties that describe the page to reflect that
+            //we aren't really displaying a static page
+            $wp_query->is_page = 0;
+            $wp_query->is_singular = 0;
+            $wp_query->is_post_type_archive = 1;
+            $wp_query->is_archive = 1;
+
+        endif;
+    }
+}

@@ -194,7 +194,7 @@ class Course {
                 new Alert(`"${json.error}" please reload page`, 'error');
             }
             console.log(json);
-            self.passedIds = json.ids ? json.ids : [];
+            self.passedIds = json.ids && json.ids[0] != null ? json.ids : [];
             self.setActiveSlideOnInit();
         });
     }
@@ -331,24 +331,26 @@ class Course {
     shortcodeRestart(e) {
         if (e) e.preventDefault();
         console.log('START DELETEING');
+
         lmsConfirmAlert({
-            title: 'Oops...',
-            text: 'Something went wrong!',
+            title: 'Do you want restart course?',
+            text: '',
         }, () => {
-            $.ajax(
-                {
-                    method: "POST",
-                    url: lmsAjax.ajaxurl,
-                    data: {
-                        action: 'progress_restart',
-                        user_id: this.userId,
-                        course_id: this.courseId,
-                    }
-                }
-            ).done(function (json) {
-                if (json.error) new Alert(`"${json.error}" please reload page`);
-                window.location.reload();
-            });
+            Activity.redoCourse(this.userId, this.courseId);
+            // $.ajax(
+            //     {
+            //         method: "POST",
+            //         url: lmsAjax.ajaxurl,
+            //         data: {
+            //             action: 'progress_restart',
+            //             user_id: this.userId,
+            //             course_id: this.courseId,
+            //         }
+            //     }
+            // ).done(function (json) {
+            //     if (json.error) new Alert(`"${json.error}" please reload page`);
+            //     window.location.reload();
+            // });
         });
 
     }
@@ -571,15 +573,19 @@ class Course {
     confirmCompletionCourse(e) {
         if (e) e.preventDefault();
         console.log('COMPLETE OF COURSE ');
-
+        const currentSlide = this.slideCtr.current;
+        const currentId = currentSlide.data('slide-id');
+        ProgressLogger.commitProgress(this.userId, this.courseId, currentId, 'finished');
         Activity.completeCourse(this.userId, this.courseId);
     }
 
     checkControls() {
         if (this.slideCtr.current.is(':first-child')) {
             $(`${this.selectors.slideNavigation} .prev`).hide();
+            $(`${this.selectors.sectionNavigation} .prev`).hide();
         } else {
             $(`${this.selectors.slideNavigation} .prev`).show();
+            $(`${this.selectors.sectionNavigation} .prev`).show();
         }
 
         // if (this.slideCtr.current.is(':last-child')) {

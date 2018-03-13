@@ -18,6 +18,7 @@ class CoursesPage {
         $('.lms-course-start-button').on('click', this.startCourse.bind(this));
         $('.lms-course-reject-button').on('click', this.rejectEnrollment.bind(this));
         $('.lms-course-redo-button').on('click', this.redoCourse.bind(this));
+        $('.lms-course-reset-button').on('click', this.redoCourse.bind(this));
         $('.lms-course-archive-button').on('click', this.archiveEnrollment.bind(this));
     }
 
@@ -60,8 +61,8 @@ class CoursesPage {
         if (e) e.preventDefault();
         const $button = $(e.target);
         lmsConfirmAlert({
-            title: 'Oops...',
-            text: 'Something went wrong!',
+            title: 'Do you want restart course?',
+            text: '',
         }, () => {
             //var player = new MediaElementPlayer('#slide-control-player');
             const courseID = $button.data('course-id');

@@ -178,6 +178,8 @@ class ParticipantsPageController extends Controller
 
     private function enrollUsers($course, $users)
     {
+
+        //@TODO Code review
         $factory = new EnrollmentFactory;
         $enrollments = $factory->create($course, $users);
 
