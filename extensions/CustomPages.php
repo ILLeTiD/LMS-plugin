@@ -32,11 +32,6 @@ class CustomPages
 
     public function removeActivity()
     {
-
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'lms_enrollments';
-        $sql = "DROP TABLE IF EXISTS $table_name";
-        $wpdb->query($sql);
         $page = get_page_by_path('lms-activity');
         if ($page) {
             wp_delete_post($page->ID);
