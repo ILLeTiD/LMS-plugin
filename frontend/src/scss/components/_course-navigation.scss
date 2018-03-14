@@ -25,6 +25,7 @@
 
   &-end {
     display: none;
+    margin-left: auto;
     &.is-active {
       display: flex;
       justify-content: flex-end;
@@ -45,6 +46,7 @@
 
   &-start {
     display: none;
+    margin-left: auto;
     &.is-active {
       display: flex;
       justify-content: flex-end;

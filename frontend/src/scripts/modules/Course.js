@@ -32,41 +32,9 @@ class Course {
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
 
-        var elements = $('.lms-course-controls');
-        Stickyfill.add(elements);
+        const stickyElement = $('.lms-course-controls');
+        Stickyfill.add(stickyElement);
 
-        this.checkStartStatus();
-    }
-
-    checkStartStatus() {
-        console.log('check START');
-        if (this.courseEl.data('enrollment-status') == 'enrolled') {
-            this.beforeStarted();
-        } else {
-            this.afterStarted();
-        }
-    }
-
-    beforeStarted() {
-        this.isStart = true;
-        this.removePreoader();
-        $('.lms-course-controls-start').show();
-        $('.lms-slide-control-navigation').addClass('disabled');
-        $('.lms-slide').addClass('hide-on-start');
-        $('.lms-slide[data-slide-index=0]').addClass('show-on-start');
-        $('.lms-button-start-course').on('click', (e) => {
-            if (e) e.preventDefault();
-            Activity.startCourse(this.userId, this.courseId, false);
-            this.afterStarted();
-        });
-
-    }
-
-    afterStarted() {
-        $('.lms-slide[data-slide-index=0]').removeClass('show-on-start');
-        $('.lms-slide-control-navigation').removeClass('disabled');
-        $('.lms-course-controls-start').remove();
-        console.log('after started');
         this.getLatestSlideFromDb();
         this.initAudio();
 
@@ -217,9 +185,6 @@ class Course {
             error: function (request, status, error) {
                 // new Alert(request.responseText, 'error');
                 console.log('alert');
-                console.log('alert');
-                console.log('alert');
-                console.log('alert');
             }
         }).done(function (json) {
             if (json.error) {
@@ -231,17 +196,49 @@ class Course {
         });
     }
 
+    beforeStarted() {
+        console.log('BEFORE STARTED');
+        $('.lms-course-controls-start').show();
+        $('.lms-slide-control-navigation').addClass('hide-imp');
+        $('.lms-section-control-navigation').addClass('hide-imp');
+        $('.lms-button-start-course').on('click', (e) => {
+            if (e) e.preventDefault();
+            Activity.startCourse(this.userId, this.courseId, false);
+            this.afterStarted();
+        });
+    }
+
+    afterStarted() {
+        console.log('AFTER STARTED');
+        $('.lms-slide-control-navigation').removeClass('hide-imp');
+        $('.lms-section-control-navigation').removeClass('hide-imp');
+        $('.lms-course-controls-start').remove();
+        this.listeners();
+        this.isStart = false;
+    }
+
+    checkStartStatus() {
+        console.log('check START');
+        this.isStart = true;
+        if (this.courseEl.data('enrollment-status') == 'enrolled') {
+            this.beforeStarted();
+        } else {
+            this.afterStarted();
+        }
+    }
+
     setActiveSlideOnInit() {
         const initialSlideIndex = this.getinitialSlideIndex();
         this.showSlide(initialSlideIndex, initialSlideIndex + 1);
-        this.listeners();
+        this.checkStartStatus();
+
 
         //remove loader when we have slide to show
         this.removePreoader();
     }
 
     removePreoader() {
-        console.log('REMOVE PRELOADRER')
+        console.log('REMOVE PRELOADRER');
         this.courseEl.removeClass('unloaded');
         this.courseEl.find(this.selectors.preloader).remove();
     }
@@ -315,6 +312,7 @@ class Course {
             }
         }
     }
+
 
     listeners() {
         $('html').on('keydown', this.keyboardArrowHandler.bind(this));
@@ -464,8 +462,12 @@ class Course {
                 current: indexHash,
             });
         }
-        this.setSlideAudio();
+
         this.setSlideSectionDisplay();
+
+        if (!this.isStart) {
+            this.setSlideAudio();
+        }
 
         if (this.slideCtr.current.data('type') === 'quiz') {
             console.log('IS SLIDE QUIZ');
@@ -544,9 +546,6 @@ class Course {
         this.checkCourseNavigation();
     }
 
-    /*
-     block of utility methods
-     */
     disableCourseNav() {
         this.courseEl.find(this.selectors.slideNavigation).addClass('disabled')
     }
@@ -562,7 +561,6 @@ class Course {
     enableSectionNav() {
         this.courseEl.find(this.selectors.sectionNavigation).addClass('active')
     }
-
 
     checkCourseNavigation() {
         if (this.slideDisplayType == 'once_at_a_time') {

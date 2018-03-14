@@ -32,6 +32,10 @@
 @import 'pages/course-archive';
 @import 'pages/activity-page';
 
+.hide-imp {
+  display: none !important;
+}
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%; /*16:9*/
