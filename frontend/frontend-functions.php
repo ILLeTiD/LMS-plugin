@@ -280,7 +280,7 @@ function custom_menu_meta_box()
         <div id="tabs-panel-authorarchive-all"
              class="tabs-panel tabs-panel-view-all <?php echo('all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive'); ?>">
             <ul id="authorarchive-checklist-all" class="categorychecklist form-no-clear">
-                <li>sdfdsfs</li>
+                <li> <?php _e('Lms login buttons. Login/Signin appeared only for non-logged users. Logout only for logged-in users.', 'lms-plugin'); ?></li>
                 <?php
                 echo walk_nav_menu_tree(array_map('wp_setup_nav_menu_item', $buttons), 0, (object)array('walker' => $walker));
                 ?>
