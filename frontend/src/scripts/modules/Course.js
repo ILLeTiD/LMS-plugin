@@ -22,6 +22,7 @@ class Course {
         this.selectors = selectors;
         this.slides = [];
         this.initedVideos = [];
+        this.isLastSlide = false;
         this.isEnd = false;
         this.isStart = false;
     }
@@ -496,6 +497,11 @@ class Course {
                 quizSlide.inited = true;
             }
         } else {
+
+            if (this.navType == 'slide' && this.isLastSlide) {
+                this.endOfCourse();
+            }
+
             console.log('remove CHECK');
             $('.lms-nav-button--prev').removeClass('disabled');
             $('.lms-nav-button--check').removeClass('active');
@@ -539,6 +545,10 @@ class Course {
             this.navType = 'slide';
             this.enableCourseNav();
             this.disableSectionNav();
+
+            if (this.isLastSlide) {
+                this.endOfCourse();
+            }
         }
     }
 
@@ -598,6 +608,7 @@ class Course {
         const currentId = currentSlide.data('slide-id');
         ProgressLogger.commitProgress(this.userId, this.courseId, currentId, 'finished');
         Activity.completeCourse(this.userId, this.courseId);
+        ProgressLogger.resetAllCourseProgress(this.userId, this.courseId);
     }
 
     checkControls() {
@@ -609,14 +620,11 @@ class Course {
             $(`${this.selectors.sectionNavigation} .prev`).show();
         }
 
-        // if (this.slideCtr.current.is(':last-child')) {
-        //     $(`${this.selectors.slideNavigation} .next`).hide();
-        // } else {
-        //     $(`${this.selectors.slideNavigation} .next`).show();
-        // }
         if (this.slideCtr.current.is(':last-child')) {
-            this.canGoNext = false;
-            this.endOfCourse();
+            this.isLastSlide = true;
+            $(`${this.selectors.slideNavigation} .next`).hide();
+        } else {
+            $(`${this.selectors.slideNavigation} .next`).show();
         }
     }
 }

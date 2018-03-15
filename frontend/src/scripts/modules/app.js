@@ -2,6 +2,7 @@ import Course from './Course';
 import CoursesPage from './CoursesPage';
 import {selectors} from './selectors'
 import moment from 'moment'
+import detectIE from '../utilities/detectIE'
 class App {
 
     constructor() {
@@ -11,7 +12,11 @@ class App {
     }
 
     init() {
-        console.info('App Initialized');
+        console.info('App Initialized!');
+
+        const isIE = detectIE() ? 'is-ie' : '';
+        $('body').addClass(`${isIE}`);
+
         if ($('#lms-course').length > 0) {
             this.course.init($('#lms-course'));
         }

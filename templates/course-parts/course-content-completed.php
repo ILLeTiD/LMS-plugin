@@ -12,7 +12,7 @@
             the_content(); ?>
         </div>
         <div class="lms-course-page-buttons">
-            <button type="button" class="lms-course__button lms-course-begin-button"
+            <button type="button" class="lms-course__button lms-course-redo-button"
                     data-course-id="<?= get_the_ID(); ?>"
                     data-user-id="<?= get_current_user_id() ?>"
             >

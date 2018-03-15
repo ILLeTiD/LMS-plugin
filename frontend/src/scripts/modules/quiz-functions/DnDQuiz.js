@@ -31,7 +31,12 @@ class DnDQuiz extends AbstractQuiz {
         $('.lms-nav-button--prev').removeClass('disabled');
         $('.lms-nav-button--check').removeClass('active');
         new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
+
+        if (this.CourseInstance.isLastSlide) {
+            this.CourseInstance.endOfCourse();
+        }
         return true;
+
     }
 
     afterQuizFailed() {
@@ -39,7 +44,9 @@ class DnDQuiz extends AbstractQuiz {
         new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
         $('.lms-nav-button--prev').addClass('disabled');
         $('.lms-nav-button--check').addClass('active');
+
         return false;
+
     }
 
     initDnD() {

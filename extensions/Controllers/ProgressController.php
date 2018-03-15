@@ -35,6 +35,37 @@ class ProgressController extends Controller
             'post' => $_POST]);
     }
 
+    public function resetProgress()
+    {
+        if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+        $user_id = $_POST['user_id'];
+        $course_id = $_POST['course_id'];
+
+        global $wpdb;
+
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_quiz_results',
+            [
+                'user_id' => $user_id,
+                'course_id' => $course_id
+            ],
+            ['%d', '%d']
+        );
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_progress',
+            [
+                'user_id' => $user_id,
+                'course_id' => $course_id
+            ],
+            ['%d', '%d']
+        );
+
+        wp_send_json(['message' => 'course progress reseted']);
+    }
+
     public function commitActivity()
     {
         $activityNew = new Activity([
