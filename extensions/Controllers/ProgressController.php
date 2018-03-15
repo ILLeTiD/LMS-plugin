@@ -207,6 +207,28 @@ class ProgressController extends Controller
         }
     }
 
+    public function getAllUserCourses()
+    {
+        if (!isset($_POST['user_id'])) {
+            wp_send_json(['error' => 'Wrong arguments', 'post' => $_POST]);
+        }
+        $userID = $_POST['user_id'];
+        $user = User::find($userID);
+        $courses = $user->enrollments()
+            ->get();
+        $filteredCourses = [];
+        foreach ($courses as $course) {
+            $filteredCourse['id'] = $course->course->id;
+            $filteredCourse['status'] = $course->status;
+            $filteredCourse['is_new'] = true;
+            
+            $filteredCourses[] = $filteredCourse;
+
+        }
+
+        wp_send_json(['courses' => $filteredCourses]);
+    }
+
     public function loadUserActivity()
     {
         if (!isset($_POST['filters'])) {

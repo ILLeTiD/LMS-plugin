@@ -1,5 +1,6 @@
 import Course from './Course';
 import CoursesPage from './CoursesPage';
+import newCoursesChecker from './newCoursesChecker';
 import {selectors} from './selectors'
 import moment from 'moment'
 import detectIE from '../utilities/detectIE'
@@ -13,6 +14,10 @@ class App {
 
     init() {
         console.info('App Initialized!');
+
+        console.log('etertre');
+        const newChecker = new newCoursesChecker();
+        newChecker.init();
 
         const isIE = detectIE() ? 'is-ie' : '';
         $('body').addClass(`${isIE}`);

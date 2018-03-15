@@ -32,6 +32,7 @@ function my_scripts_method()
     $alertMessages = lms_get_options('notifications');
     $variablesToFront = array(
         'ajaxurl' => admin_url('admin-ajax.php'),
+        'homeUrl' => get_bloginfo('url'),
         'userID' => get_current_user_id(),
         'timeFormat' => get_option('date_format'),
         'coursesLink' => get_post_type_archive_link('course'),
