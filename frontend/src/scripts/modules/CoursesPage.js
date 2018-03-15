@@ -44,9 +44,16 @@ class CoursesPage {
         console.log('reject');
         if (e) e.preventDefault();
         const $button = $(e.target);
-        const courseID = $button.data('course-id');
-        const userID = $button.data('user-id');
-        Activity.rejectInvite(userID, courseID);
+
+        lmsConfirmAlert({
+            title: 'Do you want reject invite?',
+            text: '',
+        }, () => {
+            const courseID = $button.data('course-id');
+            const userID = $button.data('user-id');
+            Activity.rejectInvite(userID, courseID);
+        });
+
     }
 
     archiveEnrollment(e) {

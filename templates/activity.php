@@ -2,6 +2,12 @@
 /**
  * Template Name: Activity
  */
+
+if (!is_user_logged_in()) {
+    wp_redirect(home_url() . '/login');
+    exit;
+}
+
 get_header('activity');
 ?>
     <section class="lms-activity-page">
