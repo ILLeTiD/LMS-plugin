@@ -143,6 +143,7 @@ $action->add('lms_event_invite_requested', function ($email) {
 $action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
 $action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handle');
 $action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
+$action->add('lms_event_user_invited', 'Listeners\SendInvitationEmail@handle');
 
 
 /**
@@ -150,19 +151,10 @@ $action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
  */
 
 $action->add('wp_ajax_test', function () {
-    (new \LmsPlugin\Models\Activity([
-        'user_id' => 1,
-        'course_id' => 412,
-        'type' => 'course',
-        'name' => 'finished'
-    ]))->save();
-
-    (new \LmsPlugin\Models\Progress([
-        'user_id' => 1,
-        'course_id' => 412,
-        'slide_id' => 444,
-        'name' => 'finished'
-    ]))->save();
+    $subject = $this->plugin->getSettings('email_templates.lms_invitations.subject');
+    $message = $this->plugin->getSettings('email_templates.lms_invitations.body');
+    
+    dd($subject, $message);
 });
 
 $action->add('phpmailer_init', function ($phpmailer) {

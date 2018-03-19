@@ -22,6 +22,23 @@ class User
         return new static($wp_user);
     }
 
+    public static function find_by_meta($key, $value)
+    {
+        $result = get_users([
+            'meta_key' => $key,
+            'meta_value' => $value,
+            'number' => 1
+        ]);
+
+        if (! $result) {
+            return null;
+        }
+
+        $wp_user = array_pop($result);
+
+        return new static($wp_user);
+    }
+
     public function __isset($property)
     {
         switch ($property) {

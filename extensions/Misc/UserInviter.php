@@ -6,6 +6,8 @@ use LmsPlugin\Models\User;
 
 class UserInviter
 {
+    const TOKEN_LENGTH = 16;
+
     public function invite($name, $email, $role)
     {
         $arguments = [
@@ -24,7 +26,13 @@ class UserInviter
         $user_id = wp_insert_user($arguments);
 
         update_user_meta($user_id, 'lms_status', 'invited');
+        update_user_meta($user_id, 'lms_invite_token', $this->getInviteToken());
 
-        return new User($user_id);
+        return User::find($user_id);
+    }
+
+    private function getInviteToken()
+    {
+        return bin2hex(random_bytes(self::TOKEN_LENGTH));
     }
 }

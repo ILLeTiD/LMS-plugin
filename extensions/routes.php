@@ -13,3 +13,6 @@ $route->get('logout', 'Auth/LoginController@logout');
 $route->get('reset_password', 'Auth/ResetPasswordController@showForm');
 $route->post('reset_password', 'Auth/ResetPasswordController@resetPassword');
 
+$route->get('accept_invitation', 'Auth/AcceptInvitationController@showForm');
+$route->post('accept_invitation', 'Auth/AcceptInvitationController@accept');
+
