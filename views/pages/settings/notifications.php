@@ -37,6 +37,22 @@
             </div>
         </div>
         <div class="accordion-section">
+            <h4 class="accordion-section-title"><?= __('Quiz - Unanswered', 'lms-plugin'); ?></h4>
+            <div class="accordion-section-content">
+                <input type="text"
+                       name="settings[notifications][quiz_unanswered][title]"
+                       class="lms-settings-notification__title"
+                       value="<?= array_get($settings, 'notifications.quiz_unanswered.title'); ?>"
+                       placeholder="<?= __('Title', 'lms-plugin'); ?>"
+                >
+                <input type="text"
+                       name="settings[notifications][quiz_unanswered][message]"
+                       value="<?= array_get($settings, 'notifications.quiz_unanswered.message'); ?>"
+                       placeholder="<?= __('Message', 'lms-plugin'); ?>"
+                >
+            </div>
+        </div>
+        <div class="accordion-section">
             <h4 class="accordion-section-title"><?= __('Error', 'lms-plugin'); ?></h4>
             <div class="accordion-section-content">
                 <input type="text"
