@@ -5,12 +5,12 @@ class StoreData {
     }
 
     saveData(data, name = this.name) {
-        sessionStorage.setItem(this.name, JSON.stringify(data));
+        localStorage.setItem(this.name, JSON.stringify(data));
     }
 
     getData(name = this.name) {
-        if (!sessionStorage.getItem(name)) return [];
-        const data = JSON.parse(sessionStorage.getItem(name));
+        if (!localStorage.getItem(name)) return [];
+        const data = JSON.parse(localStorage.getItem(name));
 
         return data;
     }

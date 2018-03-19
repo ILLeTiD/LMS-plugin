@@ -26,14 +26,24 @@
   &__title {
     text-decoration: none;
     font-weight: bold;
-    font-size: 30px;
-    color: #545454;
+    font-size: 23px;
+    color: #C2C2C2;
+    margin-bottom: 0;
   }
 
   &-list {
+    display: flex;
+    flex-wrap: wrap;
+
     &__item {
+      order: 1;
       max-width: 1600px;
       margin: auto;
+      width: 100%;
+
+      &.is-new-course {
+        order: 0;
+      }
     }
   }
 }
@@ -41,7 +51,7 @@
 .lms-courses-course {
   //width: 95%;
   //margin: auto;
-  margin-top: 40px;
+  margin-top: 20px;
   box-sizing: border-box;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -98,10 +108,16 @@
     text-decoration: none;
     font-weight: bold;
     font-size: 36px;
-    color: #545454;
+    color: #4A4A4A;
+
+    &--new {
+      font-size: 17px;
+      color: #5c8fdc;
+      text-transform: uppercase;
+    }
 
     &-wrapper {
-      width: 50%;
+      width: 70%;
 
       @media screen and (max-width: 1024px) {
         order: 1;
@@ -124,13 +140,24 @@
     font-weight: lighter;
     border-radius: 5px;
 
+    &--hollow {
+      background-color: transparent;
+      color: #616161;
+      border: 1px solid #616161;
+
+      &:hover {
+        color: #fff;
+        background-color: #616161;
+      }
+    }
+
     @media screen and (max-width: 1024px) {
       width: unset;
       width: 100%;
     }
 
     &-wrapper {
-      width: 50%;
+      width: 30%;
 
       @media screen and (max-width: 1024px) {
         width: 100%;
@@ -151,6 +178,7 @@
   &__description {
     max-height: 70px;
     overflow: hidden;
+    color: #A5A5A5;
 
     p {
       font-size: 18px;

@@ -1,5 +1,26 @@
 .lms-course {
   &-page {
+
+    &__header {
+      background: transparent;
+    }
+
+    &__title {
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 36px;
+      color: #4A4A4A;
+    }
+
+    &-description {
+      color: #A5A5A5;
+      margin-bottom: 70px;
+
+      @media screen and (max-width: 1024px) {
+        margin-bottom: 20px;
+      }
+    }
+
     &-thumbnail {
       height: 400px;
       width: 100%;
@@ -17,7 +38,7 @@
     &-buttons {
       display: flex;
       justify-content: flex-end;
-      
+
       button {
         margin-left: 10px;
       }
@@ -27,6 +48,10 @@
         text-decoration: none;
         line-height: 44px;
         color: #4D91DF;
+
+        .is-ie &{
+          margin-right: 0;
+        }
       }
     }
   }

@@ -6,7 +6,7 @@ switch ($enrollment->status) {
         $buttonText = __("Continue", "lms-plugin");
         break;
     case 'completed':
-        $buttonClass = "lms-course-redo-button";
+        $buttonClass = "lms-course-redo-button lms-courses-course__button--hollow";
         $buttonText = __('Redo course', "lms-plugin");
         break;
     case 'enrolled':

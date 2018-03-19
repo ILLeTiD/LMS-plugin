@@ -4,21 +4,21 @@ import newCoursesChecker from './newCoursesChecker';
 import {selectors} from './selectors'
 import moment from 'moment'
 import detectIE from '../utilities/detectIE'
+var objectFitImages = require('object-fit-images');
 class App {
 
     constructor() {
         this.course = new Course();
         this.coursesPage = new CoursesPage();
+        this.newCoursesChecker =  new newCoursesChecker();
         this.init();
     }
 
     init() {
         console.info('App Initialized!');
 
-        console.log('etertre');
-        const newChecker = new newCoursesChecker();
-        newChecker.init();
-
+        this.newCoursesChecker.init();
+        objectFitImages('img.lms-grid-block__image');
         const isIE = detectIE() ? 'is-ie' : '';
         $('body').addClass(`${isIE}`);
 

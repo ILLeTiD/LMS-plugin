@@ -13,6 +13,7 @@ $customCss = isset($slide->slide_custom_css) ? $slide->slide_custom_css : null;
         color:<?= $textColor ?>;
         background-color:<?= $bgColor ?>;
         background-image:url(<?= $bgImage ?>);
+        background-position: 50%;
         background-size:cover;
     <?= $customCss; ?>
     }

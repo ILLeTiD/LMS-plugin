@@ -13,6 +13,12 @@
     height: 697px;
   }
 
+  .is-ie &{
+    @media screen and (min-width: 1200px) {
+      justify-content: flex-start;
+    }
+  }
+
   &__outher {
     background: #F0F0F0;
   }
@@ -38,6 +44,21 @@
         height: initial;
         min-height: 100vh;
       }
+    }
+
+    .lms-course-fullscreen-overlay {
+      //position: absolute;
+      //bottom: 0;
+      //left: 0;
+      //right: 0;
+      //height: 20%;
+      //display: block;
+      //z-index: 1111;
+      //pointer-events: none;
+      //
+      //&:hover {
+      //  background-color: rebeccapurple;
+      //}
     }
   }
 

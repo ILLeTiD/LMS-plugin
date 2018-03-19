@@ -33,8 +33,9 @@ class Course {
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
 
-        const stickyElement = $('.lms-course-controls');
-        Stickyfill.add(stickyElement);
+
+        // const stickyElement = $('.lms-course-controls');
+        // Stickyfill.add(stickyElement);
 
         this.getLatestSlideFromDb();
         this.initAudio();
@@ -330,14 +331,23 @@ class Course {
             }
         });
 
-        console.log('init fullscreen events');
+        $(document).mousemove(function (event) {
+            if (IsFullScreenCurrently()) {
+                if (event.pageY >= $(window).height() * 0.8) {
+                    $('.lms-course-controls.lms-fullscreen-init').addClass('lms-option-shown');
+                } else {
+                    $('.lms-course-controls.lms-fullscreen-init').removeClass('lms-option-shown');
+                }
+            }
+        });
+
         //default ESC button exit fullscreen handler
         $('.lms-course').on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', () => {
             if (!IsFullScreenCurrently()) {
                 this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
                 this.courseEl.removeClass('lms-fullscreen-init');
                 this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
-                this.fullscreenPaintNavButtons(true);
+                // this.fullscreenPaintNavButtons(true);
             }
         });
 
@@ -385,7 +395,7 @@ class Course {
             GoInFullscreen(this.courseEl[0]);
             this.courseEl.addClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
-            this.fullscreenPaintNavButtons(true);
+            // this.fullscreenPaintNavButtons(true);
         } else {
             GoOutFullscreen();
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
@@ -456,7 +466,7 @@ class Course {
         this.currentSection = 1;
 
         this.checkControls();
-        this.fullscreenPaintNavButtons();
+        // this.fullscreenPaintNavButtons();
         const currentId = this.slideCtr.current.data('slide-id');
         if (changeUrl) {
             this.addToUrl(indexHash, {

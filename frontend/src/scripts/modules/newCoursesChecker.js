@@ -6,13 +6,13 @@ class newCoursesChecker {
     }
 
     init() {
-
         this.isCoursesPage = $('body').hasClass('post-type-archive-course');
         this.coursesFetcher();
     }
 
     coursesFetcher() {
         console.log('is courses page', this.isCoursesPage);
+        if (!lmsAjax.userID || lmsAjax.userID == 0) return;
 
         const self = this;
         $.ajax(
@@ -24,14 +24,19 @@ class newCoursesChecker {
                     user_id: lmsAjax.userID,
                 }
             }
-        ).done(function (json) {
-            if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log('course started ', json);
-            self.coursesCompareAndStore(json.courses);
-        });
+        )
+            .then(function (json) {
+                if (json.error) new Alert(`"${json.error}" please reload page`);
+                console.log('course started ', json);
+                return json.courses;
+
+            })
+            .then(self.coursesCompareAndStore.bind(self))
+            .then(self.checkNewCourses.bind(self));
     }
 
     coursesCompareAndStore(newCourses) {
+        console.log('THIS ', this);
         let oldItems = this.store.getData();
         console.log('OLD ITEMS', oldItems);
         console.log('NEW ITEMS', newCourses);
@@ -47,7 +52,7 @@ class newCoursesChecker {
 
         console.log('oldItems ', oldItems);
         this.store.saveData(oldItems);
-        this.checkNewCourses();
+
     }
 
     checkNewCourses() {
@@ -76,6 +81,8 @@ class newCoursesChecker {
             const isNew = i.is_new;
             if (isNew) {
                 const courseItem = $(`.lms-courses-list__item[data-course-id=${id}]`);
+                courseItem.find('.lms-courses-course__title')
+                    .append(`<small class="lms-courses-course__title--new">New invite!</small>`);
                 courseItem.addClass('is-new-course');
             }
         });
@@ -85,7 +92,6 @@ class newCoursesChecker {
             return i;
         });
         console.log('NEW ITEMS ', newItems);
-
         this.store.saveData(newItems);
     }
 }
