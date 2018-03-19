@@ -207,6 +207,11 @@ class ProgressController extends Controller
         }
     }
 
+    public function logOutUser(){
+        wp_logout();
+        exit();
+    }
+
     public function getAllUserCourses()
     {
         if (!isset($_POST['user_id'])) {
@@ -221,7 +226,7 @@ class ProgressController extends Controller
             $filteredCourse['id'] = $course->course->id;
             $filteredCourse['status'] = $course->status;
             $filteredCourse['is_new'] = true;
-            
+
             $filteredCourses[] = $filteredCourse;
 
         }

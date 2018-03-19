@@ -39,7 +39,20 @@
             <input type="text" name="quiz_hint" class="lms-quiz-hint" value="<?= $post->quiz_hint; ?>">
         </div>
     </div>
+    <div class="lms-field">
+        <div class="lms-field__title">
+            <?= __('Display Header', 'lms-plugin'); ?>
+        </div>
+        <div class="lms-field__value">
+            <select name="slide_content_display">
+                <?php foreach ($slideDisplayHeaderOptions as $value => $name): ?>
+                    <option value="<?= $value; ?>" <?= selected($post->slide_content_display, $value); ?>><?= __($name, 'lms-plugin'); ?></option>
+                <?php endforeach; ?>
+            </select>
 
+            <span class="field__help"><?= __('All content will be visible at once as default.', 'lms-plugin'); ?></span>
+        </div>
+    </div>
     <!-- Color theme -->
     <div class="lms-field">
         <div class="lms-field__title">

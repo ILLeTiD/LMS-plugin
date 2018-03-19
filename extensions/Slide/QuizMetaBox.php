@@ -18,7 +18,7 @@ class QuizMetaBox extends MetaBox
 
         $colors = get_post_meta($post->id, 'quiz_colors', true);
         $background = get_post_meta($post->id, 'quiz_background', true);
-
+        $slideDisplayHeaderOptions = Slide::DISPLAY_HEADER_OPTIONS;
         $quizTypeOptions = [
             'forms' => 'Forms',
             'drag_and_drop' => 'Drag and Drop',
@@ -38,6 +38,7 @@ class QuizMetaBox extends MetaBox
                 'colors',
                 'background',
                 'quizTypeOptions',
+                'slideDisplayHeaderOptions',
                 'quizToleranceOptions'
             )
         );

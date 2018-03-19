@@ -36,14 +36,14 @@ class newCoursesChecker {
     }
 
     coursesCompareAndStore(newCourses) {
-        console.log('THIS ', this);
+        // console.log('THIS ', this);
         let oldItems = this.store.getData();
-        console.log('OLD ITEMS', oldItems);
-        console.log('NEW ITEMS', newCourses);
+        // console.log('OLD ITEMS', oldItems);
+        //console.log('NEW ITEMS', newCourses);
 
         newCourses.forEach(i => {
             const isNew = oldItems.find(el => el.id === i.id);
-            console.log('is NEW', isNew);
+            // console.log('is NEW', isNew);
 
             if (!isNew) {
                 oldItems.push(i);
@@ -63,7 +63,6 @@ class newCoursesChecker {
             const menuLinkHref = lmsAjax.coursesLink;
             const linkNode = $('.menu').find(`a[href="${menuLinkHref}"]`);
             const linkNodeParent = linkNode.parent();
-            console.log('new link nodes', linkNode, linkNodeParent);
 
             linkNodeParent.addClass('has-new-courses');
 

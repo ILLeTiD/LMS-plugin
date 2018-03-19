@@ -43,7 +43,7 @@ class AbstractQuiz {
 
     afterQuizFailed() {
         this.CourseInstance.canGoNext = false;
-        new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'error', 3000);
         $('.lms-nav-button--prev').addClass('disabled');
         $('.lms-nav-button--check').addClass('active');
         return false;

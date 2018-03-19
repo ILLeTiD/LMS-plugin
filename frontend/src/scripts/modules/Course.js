@@ -6,7 +6,7 @@ import 'hammerjs'
 import 'mediaelement/full';
 import {selectors} from './selectors'
 import {ProgressLogger} from './CourseProgressLogger'
-import {Activity} from './ActivityLogger'
+import {Activity} from  './ActivityLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
 import quizFactory from './quiz-functions/quizFactory'
@@ -32,7 +32,9 @@ class Course {
         this.courseEl = $courseEl;
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
-
+        new Alert(lmsAjax.notificationMessages.quiz_success.message, 'success', 'success', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_success.message, 'error', 'error', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_success.message, 'info', 'info', 3000);
 
         // const stickyElement = $('.lms-course-controls');
         // Stickyfill.add(stickyElement);
@@ -43,6 +45,8 @@ class Course {
         initLazyLoading();
         this.collectSlides();
         showArrow();
+
+
     }
 
     //@TODO rework slides , remove slides from here, add mobx to track slide changes
@@ -532,15 +536,39 @@ class Course {
     }
 
     nextSection(e) {
+        const scrollToTopAnim = (scrollDuration, el) => {
+            var cosParameter = el.scrollTop / 2,
+                scrollCount = 0,
+                oldTimestamp = performance.now();
+
+            function step(newTimestamp) {
+                scrollCount += Math.PI / (scrollDuration / (newTimestamp - oldTimestamp));
+                if (scrollCount >= Math.PI) el.scrollTop = 0;
+                if (el.scrollTop === 0) return;
+                el.scrollTop = Math.round(cosParameter + cosParameter * Math.cos(scrollCount));
+                oldTimestamp = newTimestamp;
+                window.requestAnimationFrame(step);
+            }
+
+            window.requestAnimationFrame(step);
+        };
         if (e) e.preventDefault();
         const slideIndex = this.slideCtr.currentIndex;
         const slide = this.slides.find(i => i.index == slideIndex);
         const slideNode = this.slideCtr.current;
+        const slideLayout = slideNode.data('slide-layout');
         const nextSectionIndex = slide.sectionOrder.shift();
         const section = this.slideCtr.current.find(this.selectors.gridBlock).eq(nextSectionIndex);
         const firstAudioBlock = slideNode.find(this.selectors.audioGridBlock).first();
-        console.log(section);
+        // console.log(section);
         section.addClass('active');
+
+
+        if (slideLayout == 'full-width') {
+            const myElement = slideNode.find('.lms-grid-container')[0];
+            $(myElement).animate({scrollTop: section[0].offsetTop + section.outerHeight()}, 400);
+        }
+
 
         if (section.data('audio-src') && section[0] != firstAudioBlock[0]) {
             this.courseEl.find(this.selectors.courseControlsAudio).addClass('audio-inited');

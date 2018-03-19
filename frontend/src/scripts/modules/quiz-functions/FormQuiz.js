@@ -82,7 +82,7 @@ class FormQuiz extends AbstractQuiz {
                     this.afterQuizFailed();
                 }
             } else {
-                new Alert('You can go to the next slide', 'info', 3000);
+                new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
 
             }
         };
@@ -94,7 +94,7 @@ class FormQuiz extends AbstractQuiz {
                     form.find(`input[data-index="${item.index}"]`).addClass(className);
                 });
             } else {
-                new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
+                new Alert(lmsAjax.notificationMessages.quiz_unanswered.message, lmsAjax.notificationMessages.quiz_unanswered.title, 'info', 3000);
             }
 
         };
@@ -111,9 +111,17 @@ class FormQuiz extends AbstractQuiz {
         const tagType = form.data('form-type') == 'text_field' ? 'input[type="text"]' : 'textarea';
         let checkedAnswers = [];
 
+
         form.find(`${tagType}`).each(function (i) {
             checkedAnswers.push({text: $(this).val(), correct: null});
         });
+
+
+        const isAllEmpty = checkedAnswers.reduce((acc, val) => val.text == "", true);
+        if (isAllEmpty) {
+            new Alert(lmsAjax.notificationMessages.quiz_unanswered.message, lmsAjax.notificationMessages.quiz_unanswered.title, 'info', 3000);
+            return false;
+        }
 
         const self = this;
 
@@ -154,9 +162,9 @@ class FormQuiz extends AbstractQuiz {
                 this.passed = true;
                 this.slide.addClass('passed');
                 if (canGo) {
-                    new Alert('you can go to the next slide', 'success', 3000);
+                    new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
                 } else {
-                    new Alert('you can go to the next slide', 'info', 3000);
+                    new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
                 }
             }
         };

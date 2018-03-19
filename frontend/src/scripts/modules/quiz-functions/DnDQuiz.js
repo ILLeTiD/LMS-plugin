@@ -36,12 +36,11 @@ class DnDQuiz extends AbstractQuiz {
             this.CourseInstance.endOfCourse();
         }
         return true;
-
     }
 
     afterQuizFailed() {
         this.CourseInstance.canGoNext = false;
-        new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'error', 3000);
         $('.lms-nav-button--prev').addClass('disabled');
         $('.lms-nav-button--check').addClass('active');
 
@@ -77,10 +76,12 @@ class DnDQuiz extends AbstractQuiz {
         this.statsDnD = [];
         const self = this;
 
+
         this.slide.find('.lms-dnd-quiz-drag__object').each(function (i) {
             const isDragged = $(this).parent().parent().hasClass('lms-dnd-quiz-drop__zone');
             const indexToCheck = $(this).parent().parent().data('dz');
             console.log('PARENT ', $(this).parent().parent());
+            console.log('IS DRAGGED', isDragged);
             let isCorrect;
             if (indexToCheck == $(this).data('dz')) {
                 isCorrect = true;
@@ -92,10 +93,21 @@ class DnDQuiz extends AbstractQuiz {
                 boardIndex: indexToCheck,
                 itemRealIndex: $(this).data('real-index'),
                 itemBoardIndex: $(this).data('dz'),
-                correct: isCorrect
+                correct: isCorrect,
+                isDragged: isDragged
             });
         });
         console.log(this.statsDnD);
+
+        const isAllNotMoved = this.statsDnD.every(item => item.isDragged == false);
+        console.log('isDragged', isAllNotMoved);
+
+        if (isAllNotMoved) {
+            console.log('unaswered');
+            new Alert(lmsAjax.notificationMessages.quiz_unanswered.message, lmsAjax.notificationMessages.quiz_unanswered.title, 'info', 3000);
+            return false;
+        }
+
 
         const percentOfCorrect = this.statsDnD.reduce((acc, item, index, arr) => {
             const isCorrect = item.correct;
