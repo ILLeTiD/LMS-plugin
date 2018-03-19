@@ -38,6 +38,7 @@ class Course
     {
         return [
             'invited' => __('Invited', 'lms-plugin'),
+            'enrolled' => __('Enrolled', 'lms-plugin'),
             'in_progress' => __('In Progress', 'lms-plugin'),
             'completed' => __('Completed', 'lms-plugin'),
             'failed' => __('Failed', 'lms-plugin')
