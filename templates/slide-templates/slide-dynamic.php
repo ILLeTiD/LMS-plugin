@@ -2,6 +2,7 @@
      id="slide-<?= $id ?>"
      data-section-display="<?= $sectionsDisplay; ?>"
      data-section-count="<?= $sectionsCount; ?>"
+     data-slide-layout="<?= $template ?>"
      data-passed="<?= $isPassed ? 'true' : 'false' ?>"
      data-slide-index="<?= $slide_index ?>"
      data-latest="<?= $isLatest ?>"
