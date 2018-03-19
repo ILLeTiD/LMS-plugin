@@ -1,5 +1,5 @@
 var lms = {
-    editor : {
+    editor: {
         settings: {
             tinymce: {
                 plugins: 'charmap, colorpicker, hr, lists, paste, tabfocus, textcolor, fullscreen, wordpress, wpautoresize, wpeditimage, wpemoji, wpgallery, wplink, wptextpattern, wplms',
@@ -149,8 +149,8 @@ var lms = {
             e.preventDefault();
 
             var container = $('.lms-slide-sections');
-                sections = container.find('.lms-slide-section');
-                newSectionIndex = sections.length;
+            sections = container.find('.lms-slide-section');
+            newSectionIndex = sections.length;
 
             $.get(ajaxurl, {
                 action: 'new_slide_section',
@@ -228,7 +228,63 @@ var lms = {
             }
         });
 
-        $('.js-add-section-audio').on('click', function () {
+        $('.lms-slide-video-type').each(function (i) {
+            if ($(this).is(':checked')) {
+                $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--gallery').hide();
+                $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').show();
+            } else {
+                $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--gallery').show();
+                $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').hide();
+            }
+        });
+        $(document).on('change', '.lms-slide-video-type', function (e) {
+            $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--gallery').toggle();
+            $(this).closest('.lms-advanced-settings').find('.lms-slide-video-type--embed').toggle();
+        });
+
+        $(document).on('click', '.js-add-section-video', function () {
+            var $button = $(this),
+                $buttonHolder = $button.parent(),
+                $video = $buttonHolder.siblings('video'),
+                $input = $video.siblings('input[type=hidden]'),
+                $removeButton = $video.siblings('a'),
+                originAttachment = wp.media.editor.send.attachment;
+
+            wp.media.editor.send.attachment = function (props, attachment) {
+                $buttonHolder.addClass('hidden');
+                $video.find('source').prop('src', attachment.url);
+                $video.find('source').prop('type', attachment.mime);
+                $video.removeClass('hidden');
+                $input.val(attachment.url);
+                $removeButton.removeClass('hidden');
+                wp.media.editor.send.attachment = originAttachment;
+            };
+
+            wp.media.editor.open();
+
+            return false;
+        });
+        $('.lms-slide-sections').on('click', '.js-remove-section-video', function (event) {
+            var $removeButton = $(this),
+                $buttonHolder = $removeButton.siblings('div'),
+                $player = $removeButton.siblings('video'),
+                $input = $removeButton.siblings('input[type=hidden]');
+
+            $buttonHolder.removeClass('hidden');
+
+            $player.find('source').attr('src', '');
+            $player.find('source').attr('type', '');
+
+            $player.addClass('hidden');
+            $removeButton.addClass(('hidden'));
+
+            $input.val('');
+
+            event.preventDefault();
+        });
+
+
+        $(document).on('click', '.js-add-section-audio', function () {
             var $button = $(this),
                 $buttonHolder = $button.parent(),
                 $audio = $buttonHolder.siblings('audio'),
@@ -290,6 +346,17 @@ var lms = {
 
             row.find('.lms-drag-and-drop__content').hide();
             row.find('.lms-drag-and-drop__content_' + type).show();
+        });
+
+        $('.lms-section-color-trigger').each(function (i) {
+            if ($(this).is(':checked')) {
+                $(this).closest('label').siblings('.lms-color-picker-wrap').show();
+            } else {
+                $(this).closest('label').siblings('.lms-color-picker-wrap').hide();
+            }
+        });
+        $('.lms-section-color-trigger').on('change', function (e) {
+            $(this).closest('label').siblings('.lms-color-picker-wrap').toggle();
         });
 
     });

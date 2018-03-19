@@ -3,6 +3,9 @@
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
 @import '../../node_modules/izitoast/dist/css/iziToast.css';
+@import '../../node_modules/sweetalert2/dist/sweetalert2.css';
+@import '../../node_modules/flatpickr/dist/flatpickr.css';
+@import "../../node_modules/dragula/dist/dragula.css";
 //@import '../../node_modules/mediaelement/src/css/mediaelementplayer.css';
 /*--------------------------------------------------------------
 # Pages
@@ -10,6 +13,7 @@
 @import "settings";
 @import "partials/buttons";
 @import 'components/loader';
+@import 'components/modifiedIziToast';
 @import 'components/mediaelement';
 @import 'components/course-navigation';
 //@import 'pages/course';
@@ -22,77 +26,36 @@
 @import 'slides/slide-header';
 @import 'slides/slide-dynamic';
 @import 'slides/slide-fullwidth';
+@import "components/slide-arrow";
 @import "course/course-layout";
 @import "course/course-page";
+@import 'pages/course-archive';
+@import 'pages/activity-page';
 
-/*These border hacks make up the arrows between boxes in the grid.*/
-.arrow-down:after {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(21, 58, 112, 0);
-  border-top-color: rgb(21, 58, 112);
-  border-width: 15px;
-  margin-left: -15px;
-  z-index: 10;
+.hide-imp {
+  display: none !important;
 }
 
-.arrow-up:after {
-  bottom: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /*16:9*/
+  padding-top: 30px;
   height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  // border-color: rgb(21, 58, 112, 0);
-  border-bottom-color: rgb(21, 58, 112);
-  border-width: 15px;
-  margin-left: -15px;
-  z-index: 10;
+  overflow: hidden;
 }
 
-.arrow-right:after {
-  left: 100%;
-  top: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
+.video-container iframe,
+.video-container object,
+.video-container embed {
   position: absolute;
-  pointer-events: none;
-  //  border-color: rgb(21, 58, 112, 0);
-  border-left-color: rgb(21, 58, 112);
-  border-width: 15px;
-  margin-top: -15px;
-  z-index: 10;
-}
-
-.arrow-left:after {
-  right: 100%;
-  top: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  // border-color: rgb(21, 58, 112, 0);
-  border-right-color: rgb(21, 58, 112);
-  border-width: 15px;
-  margin-top: -15px;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /*Ipad pro width is 1024px (portrait)*/
 @media screen and (max-width: 1024px) {
-
   .lms-grid-container {
     //height: 4000px;
     background-color: inherit;
@@ -103,71 +66,95 @@
   .lms-slide-navigation {
     position: fixed;
   }
+}
 
-  /*Below is a janky solution for making all arrows point down when in vertical mode*/
-  .arrow-left:after {
-    top: 100%;
-    left: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
+.lms-notification {
+  &-simple {
     position: absolute;
-    pointer-events: none;
-    /*border-color: rgb(31, 77, 150, 0);*/
-    border-top-color: rgb(21, 58, 112);
-    border-width: 15px;
-    margin-left: -15px;
-    margin-top: auto;
-    z-index: 10;
+    top: 10px;
+    right: 10px;
+    z-index: 111;
+    min-width: 250px;
+    box-shadow: 3px 3px 5px 0px rgba(110, 104, 110, 1);
   }
-  .arrow-down:after {
-    top: 100%;
-    left: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    /*border-color: rgb(31, 77, 150, 0);*/
-    border-top-color: rgb(21, 58, 112);
-    border-width: 15px;
-    margin: auto;
-    margin-left: -15px;
-    z-index: 10;
+
+  &__wrapper {
+    padding: 10px;
   }
-  .arrow-right:after {
-    top: 100%;
-    left: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    /*border-color: rgb(31, 77, 150, 0);*/
-    border-top-color: rgb(21, 58, 112);
-    border-width: 15px;
-    margin: auto;
-    margin-left: -15px;
-    z-index: 10;
-  }
-  .arrow-up:after {
-    top: 100%;
-    left: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    /*border-color: rgb(31, 77, 150, 0);*/
-    border-top-color: rgb(21, 58, 112);
-    border-width: 15px;
-    margin-left: -15px;
-    z-index: 10;
+
+  &--light {
+    background: #fff;
+    color: #333;
+    font-family: 'Open Sans', sans-serif;
   }
 }
 
-/*End of responsive 1024px block*/
+.swal2-container .swal2-popup {
+  border-radius: 0;
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.5);
+
+  .swal2-title {
+    color: #000;
+  }
+
+  .swal2-content {
+    color: #000;
+  }
+}
+
+.lms-video-player .mejs__button {
+  button {
+    background-color: transparent;
+  }
+}
+
+.logo-container img {
+  max-height: 80px !important;
+  width: auto;
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.swal2-container .swal2-popup .swal2-actions {
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+
+  button {
+    background-color: transparent;
+    padding: 0;
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+    }
+    & > *:hover {
+      background-color: transparent;
+    }
+  }
+
+  svg {
+    height: 60px;
+    width: 60px;
+  }
+}
+
+.menu-item.has-new-courses {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: -5px;
+    right: 5px;
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    background-color: #5c8fdc;
+  }
+}
+
+.nav-container .custom-menu-class li {
+  float: none;
+}

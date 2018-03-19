@@ -6,8 +6,10 @@ $title = get_the_title($id);
 $displayHeader = $slide->slide_content_display;
 $sectionsDisplay = $slide->slide_section_display;
 $sectionsCount = count($content);
-$isPassed = $slide->passed;
+$isPassed = !!$slide->passed;
 $isLatest = $slide->latest;
+$colors = $slide->slide_colors;
+$slideBackground = $slide->slide_background;
 
 $optionsArray = ['slide' => $slide,
     'id' => $id,
@@ -19,7 +21,9 @@ $optionsArray = ['slide' => $slide,
     'sectionsCount' => $sectionsCount,
     'sectionsDisplay' => $sectionsDisplay,
     'isPassed' => $isPassed,
-    'isLatest' => $isLatest
+    'isLatest' => $isLatest,
+    'colors' => $colors,
+    'slideBackground' => $slideBackground,
 ];
 
 ?>

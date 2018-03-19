@@ -4,12 +4,25 @@ $text = isset($block['text']) ? $block['text'] : null;
 $thumbnail = isset($block['thumbnail']) ? $block['thumbnail'] : null;
 $image = isset($block['image']) ? $block['image'] : null;
 $audio = isset($block['audio']) ? $block['audio'] : null;
-$video = isset($block['embed_video']) ? $block['embed_video'] : null;
+$audioIsLoop = isset($block['loop']) ? $block['loop'] : null;
+$videoType = isset($block['video_type']) ? $block['video_type'] : null;
+$videoEmbed = isset($block['embed_video']) ? $block['embed_video'] : null;
+$videoMedia = isset($block['video_media']) ? $block['video_media'] : null;
+$videoHideControls = isset($block['hide_controls']) ? $block['hide_controls'] : null;
+$videoAutoplay = isset($block['video_autoplay']) ? $block['video_autoplay'] : null;
 $link = isset($block['link']) ? $block['link'] : null;
 $linkTarget = isset($block['link_target']) ? $block['link_target'] : null;
 
-$linkedTo = isset($block['connect_to'])&&$block['connect_to']  ? intval($block['connect_to']) +1 : null;
 
+$linkedTo = isset($block['connect_to']) && $block['connect_to'] ? intval($block['connect_to']) + 1 : null;
+$useArrow = array_get($block, 'arrow');
+$arrowClass = '';
+
+if ($linkedTo && $useArrow) {
+    $arrowClass = ' lms-grid-block-arrow lms-grid-block-arrow-to-' . $linkedTo;
+}
+
+$useColors = array_get($block, 'use_section_colors', false);
 $bgC = isset($block['colors']['background']) ? $block['colors']['background'] : null;
 $headerC = isset($block['colors']['header']) ? $block['colors']['header'] : null;
 $textC = isset($block['colors']['text']) ? $block['colors']['text'] : null;
@@ -60,21 +73,28 @@ switch ($contentAlign) {
         $justifyContent = 'flex-end';
         break;
 }
-?>
 
+ob_start();
+?>
+color:<?= $textC ?>;
+background-color:<?= $bgC ?>;
+border-color:<?= $bgC ?>!important;
+<?php $colorStyles = ob_get_clean();
+?>
 <style>
     #<?= $randomId?> {
-        color:<?= $textC ?>;
-        background-color:<?= $bgC ?>;
+    <?= $useColors? $colorStyles : ''; ?>
         display: flex;
         justify-content:<?= $justifyContent ?>;
         align-items:<?=  $alignItems?>;
+        z-index: <?= 10 - $index; ?>;
         <?= $customCss; ?>
+
     }
 
-    @media screen and (max-width: 1024px){
-        #<?= $randomId?> {
-            order:<?= $linkedTo*10 +1 ?>;
+    @media screen and (max-width: 1024px) {
+        .lms-grid-block:nth-of-type(<?= $linkedTo; ?>) {
+            order: <?= $index*10 +1 ?> !important;
         }
     }
 
@@ -89,6 +109,6 @@ switch ($contentAlign) {
     #<?= $randomId?> h4,
     #<?= $randomId?> h5,
     #<?= $randomId?> h6 {
-                         color: <?= $headerC ?>;
-                     }
+        color: <?= $headerC ?>;
+    }
 </style>

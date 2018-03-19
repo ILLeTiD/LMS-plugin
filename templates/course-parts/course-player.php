@@ -5,7 +5,7 @@ lms_get_template('course-parts/course-settings.php');
 $activity = \LmsPlugin\Models\Activity::where('user_id', get_current_user_id())
     ->where('course_id', $course->id)
     ->where('name', 'finished')
-    ->orderBy(['date' => 'DESC'])
+    ->orderBy(['created_at' => 'DESC'])
     ->get();
 $ids = [];
 
@@ -28,28 +28,33 @@ foreach ($slides as $key => $slide) {
     }
 }
 ?>
+<div class="lms-course__outher">
+    <section class="lms-course unloaded"
+             id="lms-course"
+             data-enrollment-status="<?= $enrollmentStatus ?>"
+             data-id="<?= $course->id; ?>"
+             data-user-id="<?= get_current_user_id() ?>">
+        <?php
+        lms_get_template('template-parts/course-preloader.php');
+        ?>
+        <div class="lms-course-fullscreen-overlay">
 
-<section class="lms-course unloaded"
-         id="lms-course"
-         data-id="<?= $course->id; ?>"
-         data-user-id="<?= get_current_user_id() ?>">
-    <?php
-    lms_get_template('template-parts/course-preloader.php');
-    ?>
-    <div class="lms-course__wrapper">
-        <div id="lms-slides" class="lms-slides">
-            <?php
-            foreach ($slides as $key => $slide) {
-                if ($slide->slide_format == 'quiz') {
-                    lms_get_template('slide-quiz.php', ['slide' => $slide, 'slide_index' => $key]);
-                } elseif ($slide->slide_format == 'regular') {
-                    lms_get_template('slide-text.php', ['slide' => $slide, 'slide_index' => $key]);
+        </div>
+        <div class="lms-course__wrapper">
+            <div id="lms-slides" class="lms-slides">
+                <?php
+                foreach ($slides as $key => $slide) {
+                    if ($slide->slide_format == 'quiz') {
+                        lms_get_template('slide-quiz.php', ['slide' => $slide, 'slide_index' => $key]);
+                    } elseif ($slide->slide_format == 'regular') {
+                        lms_get_template('slide-text.php', ['slide' => $slide, 'slide_index' => $key]);
+                    }
                 }
-            }
+                ?>
+            </div>
+            <?php
+            lms_get_template('template-parts/course-controls.php');
             ?>
         </div>
-        <?php
-        lms_get_template('template-parts/course-controls.php');
-        ?>
-    </div>
-</section>
+    </section>
+</div>

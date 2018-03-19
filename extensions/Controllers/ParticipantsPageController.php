@@ -24,10 +24,11 @@ class ParticipantsPageController extends Controller
         $from = array_get($_GET, 'from');
         $to = array_get($_GET, 'to');
 
-        $roles = CustomRoles::roles();
+        $roles = wp_roles()->role_names;
 
         $arguments = [
-            'role__in' => array_keys(CustomRoles::roles())
+            // 'role__in' => array_keys(CustomRoles::roles())
+            'role__not_in' => ['administrator']
         ];
 
         if ($search) {
@@ -91,10 +92,10 @@ class ParticipantsPageController extends Controller
         $to = array_get($_GET, 'to');
 
         $course = Course::find($cid);
-        $roles = CustomRoles::roles();
+        $roles = wp_roles()->role_names;
 
         $arguments = [
-            'role__in' => array_keys(CustomRoles::roles()),
+            '' => ''
         ];
 
         if ($search) {
@@ -108,11 +109,11 @@ class ParticipantsPageController extends Controller
         $user_ids = UserRepository::get($arguments)->pluck('id');
 
         $participants = $course->enrollments()
-                               ->whereIn('user_id', $user_ids)
-                               ->where('status', $status)
-                               ->where('created_at', '>=', $from)
-                               ->where('created_at', '<', empty($to) ? $to : date(get_option('date_format'), strtotime($to) + 3600 * 24))
-                               ->get();
+            ->whereIn('user_id', $user_ids)
+            ->where('status', $status)
+            ->where('created_at', '>=', $from)
+            ->where('created_at', '<', empty($to) ? $to : date(get_option('date_format'), strtotime($to) + 3600 * 24))
+            ->get();
 
         $statuses = [
             'invited' => __('Invited', 'lms-plugin'),
@@ -164,7 +165,7 @@ class ParticipantsPageController extends Controller
         $search = sprintf('*%s*', $_POST['search'] ?: '');
 
         $users = new WP_User_Query([
-            'role__in' => ['backoffice', 'technicians', 'sales'],
+            // 'role__in' => ['backoffice', 'technicians', 'sales'],
             'search' => $search,
         ]);
 
@@ -177,11 +178,14 @@ class ParticipantsPageController extends Controller
 
     private function enrollUsers($course, $users)
     {
+
+        //@TODO Code review
         $factory = new EnrollmentFactory;
         $enrollments = $factory->create($course, $users);
 
         foreach ($enrollments as $enrollment) {
             $enrollment->save();
+            do_action('lms_event_user_activity', $enrollment->user->id, 'course', 'invited', $enrollment->course->id);
         }
     }
 }

@@ -1,5 +1,5 @@
 import Quiz from './Quiz'
-
+import quizFactory from './quiz-functions/quizFactory'
 class Slide {
     constructor(CourseInstance) {
         this.CourseInstance = CourseInstance;
@@ -24,7 +24,7 @@ class Slide {
                     id: $(this).data('slide-id'),
                     inited: false,
                     passed: false,
-                    quiz: new Quiz(
+                    quiz: quizFactory(
                         $(this),
                         $(this).data('quiz-type'),
                         $(this).data('tolerance'),
@@ -46,8 +46,11 @@ class Slide {
         return $('.lms-slide.active');
     }
 
+    get currentIndex() {
+        return $('.lms-slide.active').data('slide-index');
+    }
+
     set currentByIndex(index) {
-        //console.log('set current by index');
         $('.lms-slide.active').removeClass('active');
         $(`.lms-slide[data-slide-index=${index}]`).addClass('active');
     }

@@ -1,11 +1,28 @@
 .auth {
   &-html {
     background: #fff;
+
+    a {
+      text-decoration: none;
+    }
   }
 
   &__logo {
     padding-left: 0;
     padding-right: 0;
+  }
+  .custom-logo-link {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .custom-logo-link {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   }
 
   &-template {
@@ -54,6 +71,22 @@
       }
     }
 
+    label,
+    p {
+      margin-bottom: 20px;
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      width: 100%;
+      display: block;
+      //max-width: 436px;
+      padding: 0 5px;
+      height: 40px;
+      line-height: 40px;
+    }
+
     button,
     input[type=submit] {
       width: 100%;
@@ -66,6 +99,21 @@
     strong {
       background: none;
       color: #000;
+      font-weight: 500;
+    }
+  }
+  .alert {
+    margin: 10px 0;
+
+    &-danger {
+      color: #a40831;
+
+      & + form {
+        input {
+          border-color: #a40831;
+        }
+      }
     }
   }
 }
+

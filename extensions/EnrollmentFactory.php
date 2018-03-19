@@ -15,7 +15,13 @@ class EnrollmentFactory
         $result = [];
 
         foreach ($users as $user) {
-            $result[] = new Enrollment(['user_id' => $user, 'course_id' => $course]);
+            $isEnrolled = Enrollment::where('user_id', $user)
+                ->where('course_id', $course)
+                ->count();
+            if (!$isEnrolled) {
+                $result[] = new Enrollment(['user_id' => $user, 'course_id' => $course]);
+            }
+
         }
 
         return $result;

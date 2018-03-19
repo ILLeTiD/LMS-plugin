@@ -1,5 +1,6 @@
 import 'hammerjs'
 import Muuri from 'muuri';
+import dragula from 'dragula';
 import Hint from './Hint'
 import Alert from '../utilities/Alerts'
 import {selectors} from './selectors'
@@ -48,13 +49,13 @@ class Quiz {
         this.slide.addClass('passed');
         $('.lms-nav-button--prev').removeClass('disabled');
         $('.lms-nav-button--check').removeClass('active');
-        new Alert('You can go to the next slide', 'success', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
         return true;
     }
 
     afterQuizFailed() {
         this.CourseInstance.canGoNext = false;
-        new Alert('Please try again', 'info', 3000);
+        new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
         $('.lms-nav-button--prev').addClass('disabled');
         $('.lms-nav-button--check').addClass('active');
         return false;
@@ -135,10 +136,15 @@ class Quiz {
         };
 
         const inputsCheck = (checkedAnswers) => {
-            checkedAnswers.forEach(item => {
-                const className = item['correct'] ? 'correct' : 'error';
-                form.find(`input[data-index="${item.index}"]`).addClass(className);
-            });
+            if (checkedAnswers) {
+                checkedAnswers.forEach(item => {
+                    const className = item['correct'] ? 'correct' : 'error';
+                    form.find(`input[data-index="${item.index}"]`).addClass(className);
+                });
+            } else {
+                new Alert(lmsAjax.notificationMessages.quiz_fail.message, lmsAjax.notificationMessages.quiz_fail.title, 'info', 3000);
+            }
+
         };
     }
 
@@ -243,65 +249,19 @@ class Quiz {
         console.log('Slide EL ', docElem);
         const dnd = docElem.querySelector(this.selectors.dndQuiz);
         this.board = dnd.querySelector('.board');
-        const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.board-column-content'));
+        const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.lms-dnd-dragula'));
         this.columnGrids = [];
-        this.dragCounter = 0;
-        let boardGrid;
 
-        itemContainers.forEach(function (container, index) {
-
-            var muuri = new Muuri(container, {
-                items: '.board-item',
-                layoutDuration: 400,
-                layoutEasing: 'ease',
-                dragEnabled: true,
-                dragSort: function () {
-                    return self.columnGrids;
-                },
-                dragSortInterval: 0,
-                dragContainer: docElem,
-                dragReleaseDuration: 400,
-                dragReleaseEasing: 'ease'
-            })
-                .on('dragStart', function (item) {
-                    ++self.dragCounter;
-                    docElem.classList.add('dragging');
-                    item.getElement().style.width = item.getWidth() + 'px';
-                    item.getElement().style.height = item.getHeight() + 'px';
-                })
-                .on('dragEnd', function (item) {
-                    if (--this.dragCounter < 1) {
-                        docElem.classList.remove('dragging');
+        dragula(itemContainers).on('drop', function (el) {
+            setTimeout(() => {
+                $('.lms-dnd-dragula').each(function (i) {
+                    if ($.trim($(this).html()) == '') {
+                        $(this).parent().addClass('lms-dnd-quiz-drag__item--empty');
+                    } else {
+                        $(this).parent().removeClass('lms-dnd-quiz-drag__item--empty');
                     }
-                })
-                .on('dragReleaseEnd', function (item) {
-                    item.getElement().style.width = '';
-                    item.getElement().style.height = '';
-                    self.columnGrids.forEach(function (muuri) {
-                        muuri.refreshItems();
-                    });
-                })
-                .on('layoutStart', function () {
-                    boardGrid.refreshItems().layout();
                 });
-
-            self.columnGrids.push(muuri);
-
-        });
-        //console.log(this);
-        //console.log('this ', this.columnGrids);
-        //console.log('self ', self.columnGrids);
-
-        boardGrid = new Muuri(this.board, {
-            layoutDuration: 400,
-            layoutEasing: 'ease',
-            dragEnabled: false,
-            dragSortInterval: 0,
-            dragStartPredicate: {
-                handle: '.board-column-header'
-            },
-            dragReleaseDuration: 400,
-            dragReleaseEasing: 'ease'
+            }, 100);
         });
     }
 
@@ -309,21 +269,27 @@ class Quiz {
         e.preventDefault();
         const boards = [...this.columnGrids];
         this.statsDnD = [];
+        const self = this;
 
-        boards.forEach((board, index) => {
-            const items = board.getItems();
-            const indexToCheck = index;
-            const indexes = items.forEach(i => {
-                //console.log(this.statsDnD);
-                this.statsDnD.push({
-                    boardIndex: indexToCheck,
-                    itemRealIndex: $(i._element).data('real-index'),
-                    itemBoardIndex: $(i._element).data('dz'),
-                    correct: indexToCheck == $(i._element).data('dz')
-                });
+        this.slide.find('.lms-dnd-quiz-drag__object').each(function (i) {
+            const isDragged = $(this).parent().parent().hasClass('lms-dnd-quiz-drop__zone');
+            const indexToCheck = $(this).parent().parent().data('dz');
+            console.log('PARENT ', $(this).parent().parent());
+            let isCorrect;
+            if (indexToCheck == $(this).data('dz')) {
+                isCorrect = true;
+            }
+            if (!isDragged) {
+                isCorrect = false;
+            }
+            self.statsDnD.push({
+                boardIndex: indexToCheck,
+                itemRealIndex: $(this).data('real-index'),
+                itemBoardIndex: $(this).data('dz'),
+                correct: isCorrect
             });
-            // //console.log('stats ', this.statsDnD);
         });
+        console.log(this.statsDnD);
 
         const percentOfCorrect = this.statsDnD.reduce((acc, item, index, arr) => {
             const isCorrect = item.correct;

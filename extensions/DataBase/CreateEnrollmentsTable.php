@@ -13,7 +13,7 @@ class CreateEnrollmentsTable extends CreateTable
               id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
               user_id BIGINT NOT NULL,
               course_id BIGINT NOT NULL,
-              status ENUM('invited', 'in_progress', 'completed', 'failed') NOT NULL DEFAULT 'invited',
+              status ENUM('invited','enrolled', 'in_progress', 'completed', 'failed') NOT NULL DEFAULT 'invited',
               grade TINYINT UNSIGNED,
               created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
               updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

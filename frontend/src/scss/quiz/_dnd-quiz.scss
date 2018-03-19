@@ -6,101 +6,87 @@
   }
 }
 
-.board {
-  position: relative;
-  margin-left: 1%;
+.lms-dnd-dragula {
+  width: 100%;
+  padding: 10px 0;
+  margin: 10px 0;
 }
 
-.board-column {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 30%;
-  margin: 0 1.5%;
-  //background: #f0f0f0;
-  border-radius: 3px;
-  z-index: 1;
+.lms-dnd-quiz {
+  &-board {
 
-  &.initial {
-    width: 100%;
+  }
 
-    .board-item {
+  &-drag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__item {
       width: 33%;
+      min-height: 100px;
+
+      &--empty {
+        .lms-dnd-quiz-drag__item-content {
+          border: 3px dashed;
+          border-color: inherit !important;
+        }
+      }
+
+      &-text {
+        text-align: center;
+      }
+
+      &-content {
+        min-height: 94px;
+        border: 3px solid;
+        border-color: transparent !important;
+
+        & > * {
+          cursor: pointer;
+        }
+      }
+    }
+
+    &__object {
+      cursor: pointer;
+    }
+  }
+
+  &-drop {
+    display: flex;
+
+    &__zone {
+      &-outher {
+        width: 33.3333%;
+      }
+
+      min-height: 200px;
+
+      &-content {
+        min-height: 200px;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-text {
+        pointer-events: none;
+        margin: 0;
+      }
+
+      &-placeholder {
+        pointer-events: none;
+        img {
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
+      }
     }
   }
 }
 
-.board-column.muuri-item-releasing {
-  z-index: 2;
-}
-
-.board-column.muuri-item-dragging {
-  z-index: 3;
-  cursor: move;
-}
-
-@media (max-width: 600px) {
-  .board-column-header {
-    text-indent: -1000px;
-  }
-}
-
-.board-column-content {
-  position: relative;
-  border: 10px solid transparent;
-  min-height: 95px;
-}
-
-.board-item {
-  position: absolute;
-  width: 100%;
-  margin: 5px 0;
-}
-
-.board-item.muuri-item-releasing {
-  z-index: 9998;
-}
-
-.board-item.muuri-item-dragging {
-  z-index: 9999;
-  cursor: move;
-}
-
-.board-item.muuri-item-hidden {
-  z-index: 0;
-}
-
-.board-item-content {
-  position: relative;
-  padding: 20px;
-  cursor: pointer;
-
-  //background: #fff;
-
-}
-
-.board-column-content-placeholder {
-  width: 90%;
-  padding-bottom: 90%;
-  position: absolute;
-  left: 0;
-  float: left;
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-}
-
-@media (max-width: 600px) {
-  .board-item-content {
-    text-align: center;
-  }
-  .board-item-content span {
-    display: none;
-  }
-}

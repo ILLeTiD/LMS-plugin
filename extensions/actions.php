@@ -13,22 +13,20 @@ $action->add('activate_' . $plugin, 'CustomRoles@add');
 $action->add('deactivate_' . $plugin, 'CustomRoles@remove');
 
 $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
-$action->add('deactivate_' . $plugin, 'DataBase\CreateActivitiesTable@down');
+// $action->add('deactivate_' . $plugin, 'DataBase\CreateActivitiesTable@down');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateQuizResultsTable@up');
 $action->add('activate_' . $plugin, 'DataBase\CreateProgressTable@up');
 
+$action->add('activate_' . $plugin, 'CustomPages@addLmsPages');
+$action->add('deactivate_' . $plugin, 'CustomPages@removeLmsPages');
+
 /**
  * Session.
  */
-// $action->add('init', 'session_start', 1);
 $action->add('init', function () {
     session_start();
 }, 1);
-
-$action->add('wp_login', 'session_destroy');
-$action->add('wp_logout', 'session_destroy');
-
 
 $action->add('admin_menu', 'DashboardMenu@create');
 
@@ -92,18 +90,41 @@ $action->add('wp_ajax_accept_user', 'Controllers\UsersPageController@accept');
 $action->add('wp_ajax_deny_user', 'Controllers\UsersPageController@deny');
 $action->add('wp_ajax_invite_user', 'Controllers\UserInvitationsController@invite');
 
-$action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commit');
-$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commit');
+$action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
+//$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commitProgress');
+$action->add('wp_ajax_progress_reset', 'Controllers\ProgressController@resetProgress');
+//$action->add('wp_ajax_nopriv_progress_reset', 'Controllers\ProgressController@resetProgress');
+$action->add('wp_ajax_activity_commit', 'Controllers\ProgressController@commitActivity');
+//$action->add('wp_ajax_nopriv_activity_commit', 'Controllers\ProgressController@commitActivity');
+$action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
+//$action->add('wp_ajax_nopriv_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
+$action->add('wp_ajax_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
+//$action->add('wp_ajax_nopriv_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
+$action->add('wp_ajax_activity_redo_course', 'Controllers\ProgressController@restartCourse');
+//$action->add('wp_ajax_nopriv_activity_redo_course', 'Controllers\ProgressController@restartCourse');
+$action->add('wp_ajax_activity_complete_course', 'Controllers\ProgressController@completeCourse');
+//$action->add('wp_ajax_nopriv_activity_complete_course', 'Controllers\ProgressController@completeCourse');
+$action->add('wp_ajax_activity_start_course', 'Controllers\ProgressController@startCourse');
+//$action->add('wp_ajax_nopriv_activity_start_course', 'Controllers\ProgressController@startCourse');
+
+$action->add('wp_ajax_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
+$action->add('wp_ajax_nopriv_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
+
+$action->add('wp_ajax_get_all_users_courses', 'Controllers\ProgressController@getAllUserCourses');
+//$action->add('wp_ajax_nopriv_get_all_users_courses', 'Controllers\ProgressController@getAllUserCourses');
+
+$action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restartCourse');
+//$action->add('wp_ajax_nopriv_progress_restart', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
-$action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
+//$action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
-$action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
+//$action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
 $action->add('wp_ajax_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
-$action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
+//$action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
 $action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
-$action->add('wp_ajax_nopriv_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
+//$action->add('wp_ajax_nopriv_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
 $action->add('wp_ajax_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
-$action->add('wp_ajax_nopriv_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
+//$action->add('wp_ajax_nopriv_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
 
 /**
  * Events.
@@ -121,6 +142,8 @@ $action->add('lms_event_invite_requested', function ($email) {
 
 $action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
 $action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handle');
+$action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
+
 
 /**
  * For test purposes.
@@ -177,4 +200,13 @@ add_shortcode('button', function ($attributes) {
     $text = array_get($attributes, 'value');
 
     return "<button class='lms-shortcode-button lms-shortcode-{$action}'>{$text}</button>";
+});
+
+
+add_shortcode('lms-courses-list', function ($attributes) {
+    if (!is_user_logged_in()) return '';
+    ob_start();
+    lms_get_template('archive-course-content.php');
+    $coursesList = ob_get_clean();
+    return $coursesList;
 });

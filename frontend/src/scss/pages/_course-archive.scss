@@ -1,0 +1,258 @@
+.archive .lms-shortcode-button {
+  display: none;
+}
+
+//.archive {
+//  background-color: #f0f0f0;
+//  min-height: 100%;
+//}
+
+.post-type-archive-course.archive {
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.lms-courses {
+  max-width: 1600px;
+  background-color: #f0f0f0;
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  &__header {
+    background-color: #f0f0f0;
+  }
+
+  &__title {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 23px;
+    color: #C2C2C2;
+    margin-bottom: 0;
+  }
+
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__item {
+      order: 1;
+      max-width: 1600px;
+      margin: auto;
+      width: 100%;
+
+      &.is-new-course {
+        order: 0;
+      }
+    }
+  }
+}
+
+.lms-courses-course {
+  //width: 95%;
+  //margin: auto;
+  margin-top: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+  }
+
+  &__wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &.error-wrapper {
+      padding: 10px 20px;
+    }
+  }
+
+  &__content {
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: 1024px) {
+      flex-direction: column;
+    }
+
+    &-wrapper {
+      width: 70%;
+
+      @media screen and (max-width: 1024px) {
+        order: 2;
+        width: 100%;
+      }
+
+      a {
+        text-decoration: none;
+        color: #5c8fdc;
+      }
+    }
+  }
+
+  &__thumbnail {
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
+  }
+
+  &__title {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 36px;
+    color: #4A4A4A;
+
+    &--new {
+      font-size: 17px;
+      color: #5c8fdc;
+      text-transform: uppercase;
+    }
+
+    &-wrapper {
+      width: 70%;
+
+      @media screen and (max-width: 1024px) {
+        order: 1;
+        width: 100%;
+      }
+    }
+
+    &-link {
+      margin: 0;
+      font-weight: bold;
+    }
+  }
+
+  &__button {
+    width: 150px;
+    max-height: 45px;
+    background-color: #5c8fdc;
+    color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+    border-radius: 5px;
+
+    &--hollow {
+      background-color: transparent;
+      color: #616161;
+      border: 1px solid #616161;
+
+      &:hover {
+        color: #fff;
+        background-color: #616161;
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      width: unset;
+      width: 100%;
+    }
+
+    &-wrapper {
+      width: 30%;
+
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        order: 3;
+        padding-top: 40px;
+      }
+    }
+
+    &-link {
+      float: right;
+
+      @media screen and (max-width: 1024px) {
+        float: none;
+      }
+    }
+  }
+
+  &__description {
+    max-height: 70px;
+    overflow: hidden;
+    color: #A5A5A5;
+
+    p {
+      font-size: 18px;
+      max-height: 100%;
+      margin-bottom: 0;
+    }
+
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+      max-height: 130px;
+
+      p {
+        overflow: hidden;
+      }
+    }
+  }
+
+  &__read-less {
+    display: none;
+  }
+
+  &__done {
+
+  }
+
+  &__stats {
+    display: flex;
+    width: 33%;
+    float: right;
+    p {
+      font-size: 14px !important;
+      text-align: center;
+      color: #bfbfbf;
+    }
+
+    @media screen and (max-width: 1024px) {
+      order: 4;
+      width: 100%;
+    }
+  }
+
+  &__participants {
+    flex: 1;
+  }
+
+  &__activity {
+    flex: 1;
+  }
+
+  &__progress {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    width: 100%;
+    border-top: 2px;
+    border-top-style: solid;
+    border-color: #d3d3d366;
+  }
+
+  &__progress-text {
+    color: white;
+    height: 100%;
+    display: flex;
+
+    p {
+      margin: auto;
+      text-align: center;
+      font-size: 18px !important;
+    }
+  }
+
+  &__done {
+    background-color: #5c8fdc;
+    flex: auto;
+    min-width: 50px;
+  }
+}

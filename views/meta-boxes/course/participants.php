@@ -7,7 +7,7 @@
 <div>
     <?= __('Enrolled', 'lms-plugin'); ?>:
     <span>
-        <?= $course->enrollments()->whereIn('status', ['in_progress', 'completed', 'failed'])->count(); ?>
+        <?= $course->enrollments()->whereIn('status', ['in_progress', 'enrolled', 'completed', 'failed'])->count(); ?>
     </span>
     <a href="<?= page_url('course.participants', ['cid' => $course->id, 'status' => 'enrolled']); ?>">
         <?= __('View', 'lms-plugin'); ?>

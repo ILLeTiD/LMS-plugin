@@ -29,7 +29,7 @@ var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
 // Project related variables
-var projectURL = 'http://fishy-lms.localhost';
+var projectURL = 'http://fishy.localhost';
 
 var styleSRC = './src/scss/style.scss';
 var styleAdminSRC = './src/scss/admin.scss';
@@ -39,7 +39,8 @@ var mapURL = './';
 var jsSRC = './src/scripts/';
 var jsFront = 'main.js';
 var jsAdmin = 'admin.js';
-var jsFiles = [jsFront, jsAdmin];
+var jsActivity = 'activity.js';
+var jsFiles = [jsFront, jsActivity];
 var jsURL = './assets/js/';
 
 var imgSRC = './src/images/**/*';
@@ -75,7 +76,9 @@ gulp.task('styles', function () {
         }))
         .on('error', console.error.bind(console))
         .pipe(autoprefixer({browsers: ['last 2 versions', '> 5%', 'Firefox ESR']}))
-        .pipe(cssimport(cssImportOptions))
+        .pipe(cssimport({
+            matchPattern: "*.css"
+        }))
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write(mapURL))
         .pipe(gulp.dest(styleURL))
@@ -87,7 +90,10 @@ gulp.task('js', function () {
         return browserify({
             entries: [jsSRC + entry]
         })
-            .transform(babelify, {presets: ['env']})
+            .transform(babelify, {
+                presets: ['env', 'stage-0'],
+                plugins: ["transform-decorators-legacy"]
+            })
             .bundle()
             .pipe(source(entry))
             .pipe(rename({

@@ -8,6 +8,15 @@
             </h4>
         </div>
         <div class="col-10">
+            <label class="">
+                <input type="checkbox"
+                       name="slide_content[<?= $i; ?>][use_section_colors]"
+                       class="lms-section-color-trigger"
+                       value="1"
+                    <?= checked(array_get($slide, 'use_section_colors')); ?>
+                >
+                <?= __('Customize colors?', 'lms-plugin'); ?>
+            </label>
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][background]"
@@ -121,7 +130,7 @@
                 <?php foreach ($connectedToOptions as $value => $label): ?>
                     <?php if ($value == $i) continue; ?>
                     <option value="<?= $value; ?>"
-                            <?= selected($value, array_get($slide, 'connect_to')); ?>>
+                        <?= selected($value, array_get($slide, 'connect_to')); ?>>
                         <?= $label; ?>
                     </option>
                 <?php endforeach; ?>
@@ -169,28 +178,85 @@
     </div>
 
     <!-- Embed Video -->
-    <div class="row">
+
+    <div class="row ">
         <div class="col-2">
-            <h4 class="field__title"><?= __('Embed Video', 'lms-plugin'); ?></h4>
+            <h4 class="field__title"><?= __('Video', 'lms-plugin'); ?></h4>
         </div>
-        <div class="col-8">
-            <textarea name="slide_content[<?= $i; ?>][embed_video]" rows="5"><?= array_get($slide, 'embed_video'); ?></textarea>
+        <div class="col-8 lms-slide-video-type--embed" style="display: none;">
+            <textarea name="slide_content[<?= $i; ?>][embed_video]"
+                      rows="5"><?= array_get($slide, 'embed_video'); ?></textarea>
+        </div>
+        <div class="col-8 lms-slide-video-type--gallery" style="display: block;">
+            <div class="wp-media-buttons <?= array_get($slide, 'video_media') ? 'hidden' : ''; ?>">
+                <button type="button"
+                        id="insert-media-button"
+                        class="button insert-media add_media js-add-section-video"
+                        data-editor="content">
+                    <span class="wp-media-buttons-icon"></span> <?= __('Add Media', 'lms-plugin'); ?>
+                </button>
+            </div>
+            <video width="320" height="240" controls
+                   class="<?= array_get($slide, 'video_media') ? '' : 'hidden'; ?>"
+            >
+                <source src="<?= array_get($slide, 'video_media'); ?>" type="video/mp4">
+                <?= __('Your browser does not support the video element.', 'lms-plugin'); ?>
+            </video>
+
+            <a href="#"
+               class="js-remove-section-video <?= array_get($slide, 'video_media') ? '' : 'hidden'; ?>"
+            >
+                <?= __('Remove video', 'lms-plugin'); ?>
+            </a>
+
+            <input type="hidden"
+                   name="slide_content[<?= $i; ?>][video_media]"
+                   class="section-video" value="<?= array_get($slide, 'video_media'); ?>"
+            >
         </div>
         <div class="col-2">
-            <?= __('Embed video player from Youtube or Vimeo', 'lms-plugin'); ?>
-            <div class="lms-slide-advanced-settings__hide-controls">
-                <label>
-                    <input type="checkbox"
-                           name="slide_content[<?= $i; ?>][hide_controls]"
-                           value="1"
-                        <?= checked(array_get($slide, 'hide_controls')); ?>
-                    >
-                    <?= __('Hide Controls', 'lms-plugin'); ?>
-                </label>
+            <?= __('Viedo settings', 'lms-plugin'); ?>
+
+            <div>
+                <div class="lms-slide-advanced-settings__autoplay">
+                    <label>
+                        <input type="checkbox"
+                               name="slide_content[<?= $i; ?>][video_autoplay]"
+                               value="1"
+                            <?= checked(array_get($slide, 'video_autoplay')); ?>
+                        >
+                        <?= __('Autoplay?', 'lms-plugin'); ?>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox"
+                               name="slide_content[<?= $i; ?>][hide_controls]"
+                               value="1"
+                            <?= checked(array_get($slide, 'hide_controls')); ?>
+                        >
+                        <?= __('Hide Controls', 'lms-plugin'); ?>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-5">
+            <label>
+                <?= __('Use embeded from youtube, vimeo?', 'lms-plugin'); ?>
+
+                <input type="checkbox"
+                       class="lms-slide-video-type"
+                       value="1"
+                    <?= checked(array_get($slide, 'video_type')); ?>
+                       name="slide_content[<?= $i; ?>][video_type]"
+                >
+            </label>
+            <br>
+        </div>
+    </div>
     <hr>
 
     <!-- Audio File -->
@@ -263,7 +329,8 @@
             <h4 class="field__title"><?= __('Custom CSS', 'lms-plugin'); ?></h4>
         </div>
         <div class="col-8">
-            <textarea name="slide_content[<?= $i; ?>][custom_css]" rows="5"><?= array_get($slide, 'custom_css'); ?></textarea>
+            <textarea name="slide_content[<?= $i; ?>][custom_css]"
+                      rows="5"><?= array_get($slide, 'custom_css'); ?></textarea>
         </div>
         <div class="col-2">
             <?= __('This CSS overrides the Slide Custom CSS', 'lms-plugin'); ?>

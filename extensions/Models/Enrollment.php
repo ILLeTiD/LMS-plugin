@@ -50,16 +50,16 @@ class Enrollment extends Model
     {
         $total = $this->course->slides()->count();
 
-        if ( ! $total) {
+        if (!$total) {
             return 0;
         }
 
         $finished = Progress::where('user_id', $this->user->id)
-                            ->where('course_id', $this->course_id)
-                            ->where('name', 'finished')
-                            ->count();
+            ->where('course_id', $this->course_id)
+            ->where('name', 'finished')
+            ->count();
 
-        return 100 * $finished / $total;
+        return round(100 * $finished / $total);
     }
 
     protected function insert()
