@@ -37,7 +37,7 @@ foreach ($slides as $key => $slide) {
         <?php
         lms_get_template('template-parts/course-preloader.php');
         ?>
-        <div class="lms-course-enrolled-overlay">
+        <div class="lms-course-fullscreen-overlay">
 
         </div>
         <div class="lms-course__wrapper">
