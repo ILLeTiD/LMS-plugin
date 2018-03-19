@@ -36,7 +36,6 @@ class DnDQuiz extends AbstractQuiz {
             this.CourseInstance.endOfCourse();
         }
         return true;
-
     }
 
     afterQuizFailed() {

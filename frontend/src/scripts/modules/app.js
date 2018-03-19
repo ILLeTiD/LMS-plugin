@@ -4,17 +4,38 @@ import newCoursesChecker from './newCoursesChecker';
 import {selectors} from './selectors'
 import moment from 'moment'
 import detectIE from '../utilities/detectIE'
+import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 var objectFitImages = require('object-fit-images');
 class App {
 
     constructor() {
         this.course = new Course();
         this.coursesPage = new CoursesPage();
-        this.newCoursesChecker =  new newCoursesChecker();
+        this.newCoursesChecker = new newCoursesChecker();
         this.init();
     }
 
     init() {
+        $('.lms-menu-item-logout-button').on('click', 'a', function (e) {
+            if (e) e.preventDefault();
+            lmsConfirmAlert({
+                title: 'Do you want logout? ',
+                text: '',
+            }, () => {
+                $.ajax(
+                    {
+                        method: "POST",
+                        url: lmsAjax.ajaxurl,
+                        data: {
+                            action: 'logOutUser',
+                        }
+                    }
+                ).done(function (json) {
+                    console.log('logged out', json);
+                    window.location.href = lmsAjax.homeUrl;
+                });
+            });
+        });
         console.info('App Initialized!');
 
         this.newCoursesChecker.init();
