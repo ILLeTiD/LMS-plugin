@@ -3,6 +3,7 @@
 namespace LmsPlugin\Controllers;
 
 use FishyMinds\WordPress\Pagination;
+use LmsPlugin\Models\User;
 
 class UsersPageController extends Controller
 {
@@ -151,6 +152,21 @@ class UsersPageController extends Controller
         wp_send_json([
             'status' => 'success',
             'message' => __('The user registration is suspended.', 'lms-plugin')
+        ]);
+    }
+
+    public function resendInvite()
+    {
+        $user_id = array_get($_POST, 'user');
+        $user = User::find($user_id);
+
+        update_user_meta($user_id, 'lms_last_activity', time());
+        update_user_meta($user_id, 'lms_invite_token', lms_invite_token());
+
+        do_action('lms_event_user_invited', $user);
+
+        wp_send_json([
+            'message' => __('Invite was sent again.', 'lms-plugin')
         ]);
     }
 }

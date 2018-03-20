@@ -16,7 +16,7 @@ class UserInviter
             'role' => $role
         ];
 
-        if (! empty($name)) {
+        if (!empty($name)) {
             list($first_name, $last_name) = explode(' ', $name);
 
             $arguments['first_name'] = $first_name;
@@ -26,6 +26,7 @@ class UserInviter
         $user_id = wp_insert_user($arguments);
 
         update_user_meta($user_id, 'lms_status', 'invited');
+        update_user_meta($user_id, 'lms_last_activity', time());
         update_user_meta($user_id, 'lms_invite_token', $this->getInviteToken());
 
         return User::find($user_id);

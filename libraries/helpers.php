@@ -500,3 +500,11 @@ if (!function_exists('lms_parse_invitees')) {
         return $result;
     }
 }
+
+if (!function_exists('lms_invite_token')) {
+
+    function lms_invite_token($length = 16)
+    {
+        return bin2hex(random_bytes($length));
+    }
+}

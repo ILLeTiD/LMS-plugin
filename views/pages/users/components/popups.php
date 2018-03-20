@@ -17,6 +17,12 @@
     <button type="button" class="js-deny"><?= __('Deny', 'lms-plugin'); ?></button>
 </div>
 
+<div class="lms-popup lms-confirm-popup hidden">
+    <h1></h1>
+    <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
+    <button type="button" class="js-confirm"><?= __('Confirm', 'lms-plugin'); ?></button>
+</div>
+
 <div class="lms-popup lms-success-popup hidden">
     <h1 class="lms-success-popup__title"></h1>
     <button type="button" class="js-close"><?= __('Ok', 'lms-plugin'); ?></button>

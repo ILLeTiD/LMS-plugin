@@ -177,10 +177,56 @@
         return InvitePopup;
     }();
 
+    var ConfirmPopup = function () {
+        function ConfirmPopup(element) {
+            var that = this;
+
+            this.element = $(element);
+            this.user = 0;
+            this.message = '';
+
+            this.element.find('.js-confirm').on('click', function () {
+                that.confirm();
+            });
+
+            this.element.find('.js-cancel').on('click', function () {
+                that.close();
+            });
+        }
+
+        ConfirmPopup.prototype.show = function () {
+            this.element.find('h1').text(this.message);
+            this.element.fadeIn();
+        };
+
+        ConfirmPopup.prototype.close = function () {
+            this.element.fadeOut();
+        };
+
+        ConfirmPopup.prototype.confirm = function () {
+            var popup = this;
+
+            $.ajax({
+                method: 'POST',
+                url: this.url,
+                data: {
+                    user: this.user,
+                }
+            }).done(function (response) {
+                var successPopup = new SuccessPopup('.lms-success-popup', response.message);
+                popup.close();
+                successPopup.show();
+            });
+        };
+
+        return ConfirmPopup;
+    }();
+
     $(function () {
         var invitePopup = new InvitePopup('.lms-invite-popup'),
             acceptPopup = new AcceptPopup('.lms-accept-popup'),
-            denyPopup = new DenyPopup('.lms-deny-popup');
+            denyPopup = new DenyPopup('.lms-deny-popup'),
+            confirmPopup = new ConfirmPopup('.lms-confirm-popup');
 
         $('.js-invite-user').on('click', function (event) {
             invitePopup.show();
@@ -198,6 +244,17 @@
         $('.js-deny-user').on('click', function (event) {
             denyPopup.user = $(this).data('user');
             denyPopup.show();
+
+            event.preventDefault();
+        });
+
+        $('.js-resend-invite').on('click', function (event) {
+            var button = $(this);
+
+            confirmPopup.url = button.attr('href');
+            confirmPopup.user = button.data('user')
+            confirmPopup.message = button.data('confirm-message');
+            confirmPopup.show();
 
             event.preventDefault();
         });

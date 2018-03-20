@@ -38,7 +38,9 @@ class AcceptInvitationController extends Controller
         }
 
         $_REQUEST['email'] = $user->email;
-        $_REQUEST['full-name'] = $user->first_name . ' ' . $user->last_name;
+        if (!empty($user->first_name) && !empty($user->last_name)) {
+            $_REQUEST['full-name'] = $user->first_name . ' ' . $user->last_name;
+        }
 
         $this->view('auth.register', [
             'fields' => $this->fields_manager->get()
