@@ -90,6 +90,7 @@ $action->add('wp_ajax_accept_user', 'Controllers\UsersPageController@accept');
 $action->add('wp_ajax_deny_user', 'Controllers\UsersPageController@deny');
 $action->add('wp_ajax_invite_user', 'Controllers\UserInvitationsController@invite');
 $action->add('wp_ajax_resend_user_invite', 'Controllers\UsersPageController@resendInvite');
+$action->add('wp_ajax_uninvite_user', 'Controllers\UsersPageController@uninvite');
 
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
 //$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commitProgress');

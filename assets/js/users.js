@@ -259,6 +259,17 @@
             event.preventDefault();
         });
 
+        $('.js-uninvite').on('click', function (event) {
+            var button = $(this);
+
+            confirmPopup.url = button.attr('href');
+            confirmPopup.user = button.data('user')
+            confirmPopup.message = button.data('confirm-message');
+            confirmPopup.show();
+
+            event.preventDefault();
+        });
+
         $('.lms-has-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
     });
 })(jQuery);

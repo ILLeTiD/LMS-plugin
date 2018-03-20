@@ -147,7 +147,6 @@ class UsersPageController extends Controller
         $user_id = array_get($_POST, 'user');
 
         update_user_meta($user_id, 'lms_status', 'denied');
-        update_user_meta($user_id, 'lms_last_activity', time());
 
         wp_send_json([
             'status' => 'success',
@@ -167,6 +166,19 @@ class UsersPageController extends Controller
 
         wp_send_json([
             'message' => __('Invite was sent again.', 'lms-plugin')
+        ]);
+    }
+
+    public function uninvite()
+    {
+        $user_id = array_get($_POST, 'user');
+        $user = User::find($user_id);
+
+        delete_user_meta($user_id, 'lms_invite_token');
+        update_user_meta($user_id, 'lms_status', 'uninvited');
+
+        wp_send_json([
+            'message' => __('User was uninvited.', 'lms-plugin')
         ]);
     }
 }

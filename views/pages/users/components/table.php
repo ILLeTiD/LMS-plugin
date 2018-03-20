@@ -36,11 +36,13 @@
                 </td>
                 <td>
                     <?php switch($user->lms_status): 
-                        case ('waiting'): ?>
+                        case ('waiting'): 
+                        case ('denied'): ?>
                             <?= __('Registered', 'lms-plugin'); ?>
                             <br>
                             <?php break;
-                        case ('invited'): ?>
+                        case ('invited'):
+                        case ('uninvited'): ?>
                             <?= __('Invited', 'lms-plugin'); ?>
                             <br>
                             <?php break; ?>
@@ -59,6 +61,12 @@
                             <?php break;
                         case ('waiting'): ?>
                             <?= __('Waiting', 'lms-plugin'); ?>
+                            <?php break;
+                        case ('uninvited'): ?>
+                            <?= __('Uninvited', 'lms-plugin'); ?>
+                            <?php break;
+                        case ('denied'): ?>
+                            <?= __('Denied Registry', 'lms-plugin'); ?>
                             <?php break;
                         default: ?>
                             -

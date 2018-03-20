@@ -28,7 +28,11 @@
                 <?= __('Resend invite', 'lms-plugin'); ?>
             </a> |
         <span class="delete">
-            <a href="#" class="js-uninvite" data-user="<?= $user->ID; ?>">
+            <a href="<?= admin_url('/admin-ajax.php?action=uninvite_user'); ?>"
+               class="js-uninvite" 
+               data-user="<?= $user->ID; ?>"
+               data-confirm-message="<?= __('Are you sure you want to uninvite the user?', 'lms-plugin'); ?>"
+            >
                 <?= __('Uninvite', 'lms-plugin'); ?>
             </a>
         </span>
