@@ -38,5 +38,26 @@
         </span>
     </span>
     <?php endif; ?>
+
+    <?php if ($current_view == 'suspended'): ?>
+        <span class="accept">
+            <a href="<?= admin_url('/admin-ajax.php?action=resend_user_invite'); ?>"
+               class="js-resend-invite" 
+               data-user="<?= $user->ID; ?>"
+               data-confirm-message="<?= __('Are you sure you want to invite the user?', 'lms-plugin'); ?>"
+            >
+                <?= __('Invite', 'lms-plugin'); ?>
+            </a> |
+        <span class="delete">
+            <a href="<?= admin_url('/admin-ajax.php?action=delete_user'); ?>"
+               class="js-uninvite" 
+               data-user="<?= $user->ID; ?>"
+               data-confirm-message="<?= __('Are you sure you want to delete the user?', 'lms-plugin'); ?>"
+            >
+                <?= __('Delete', 'lms-plugin'); ?>
+            </a>
+        </span>
+    </span>
+    <?php endif; ?>
 </div>
 

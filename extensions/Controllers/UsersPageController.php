@@ -159,6 +159,7 @@ class UsersPageController extends Controller
         $user_id = array_get($_POST, 'user');
         $user = User::find($user_id);
 
+        update_user_meta($user_id, 'lms_status', 'invited');
         update_user_meta($user_id, 'lms_last_activity', time());
         update_user_meta($user_id, 'lms_invite_token', lms_invite_token());
 
@@ -179,6 +180,21 @@ class UsersPageController extends Controller
 
         wp_send_json([
             'message' => __('User was uninvited.', 'lms-plugin')
+        ]);
+    }
+
+    public function delete()
+    {
+        global $wpdb;
+
+        $user_id = array_get($_POST, 'user');
+
+        wp_delete_user($user_id);
+
+        $wpdb->delete($wpdb->usermeta, ['user_id' => $user_id], ['%d']);
+
+        wp_send_json([
+            'message' => __('User was deleted.', 'lms-plugin')
         ]);
     }
 }
