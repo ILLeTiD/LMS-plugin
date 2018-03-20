@@ -7,7 +7,7 @@ use LmsPlugin\Models\User;
 
 class UsersPageController extends Controller
 {
-    const USERS_PER_PAGE = 5;
+    const USERS_PER_PAGE = 15;
 
     public function index()
     {
@@ -30,7 +30,11 @@ class UsersPageController extends Controller
             'views' => $views,
             'current_view' => $current_view,
             'pagination' => $pagination,
-            'users' => $users
+            'users' => $users,
+            'search' => $this->request->get('s'),
+            'filter_role' => $this->request->get('role'),
+            'filter_from' => $this->request->get('from'),
+            'filter_to' => $this->request->get('to')
         ]);
     }
 
@@ -39,14 +43,14 @@ class UsersPageController extends Controller
         $views = [
             'all' => [
                 'label' => __('All', 'lms-plugin'),
-                'link' => 'users.php?page=users',
+                'link' => 'users.php',
                 'arguments' => [
                     'count_total' => true
                 ]
             ],
             'admin' => [
                 'label' => __('Admin', 'lms-plugin'),
-                'link' => 'users.php?page=users&view=admin',
+                'link' => 'users.php?role=administrator',
                 'arguments' => [
                     'role' => 'Administrator'
                 ]
@@ -95,24 +99,54 @@ class UsersPageController extends Controller
             'number' => self::USERS_PER_PAGE
         ];
 
-        if ($current_view == 'admin') {
-            $arguments['role'] = 'Administrator';
-        }
-
         if ($current_view == 'waiting') {
             $arguments['meta_key'] = 'lms_status';
             $arguments['meta_value'] = 'waiting';
         }
 
         if ($current_view == 'invited') {
-            $arguments['meta_key'] = 'lms_status';
-            $arguments['meta_value'] = 'invited';
+            $arguments['meta_query'] = [
+                'relation' => 'AND',
+                [
+                    'key' => 'lms_status',
+                    'value' => 'invited'
+                ]
+            ];
         }
 
         if ($current_view == 'suspended') {
             $arguments['meta_key'] = 'lms_status';
             $arguments['meta_value'] = ['denied', 'uninvited'];
             $arguments['meta_compare'] = 'IN';
+        }
+
+        // Search.
+        if ($search = $this->request->get('s')) {
+            $arguments['search'] = "*{$search}*";
+        }
+
+        // Filter by role.
+        if ($role = $this->request->get('role')) {
+            $arguments['role'] = $role;
+        }
+
+        // Filter by last activity.
+        if ($from = $this->request->get('from')) {
+            $arguments['meta_query'][] = [
+                'key' => 'lms_last_activity',
+                'value' => strtotime($from),
+                'type' => 'numeric',
+                'compare' => '>='
+            ];
+        }
+
+        if ($to = $this->request->get('to')) {
+            $arguments['meta_query'][] = [
+                'key' => 'lms_last_activity',
+                'value' => strtotime($to) + (3600 * 24),
+                'type' => 'numeric',
+                'compare' => '<='
+            ];
         }
 
         return $arguments;
