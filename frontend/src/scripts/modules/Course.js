@@ -32,12 +32,6 @@ class Course {
         this.courseEl = $courseEl;
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
-        new Alert(lmsAjax.notificationMessages.quiz_success.message, 'success', 'success', 3000);
-        new Alert(lmsAjax.notificationMessages.quiz_success.message, 'error', 'error', 3000);
-        new Alert(lmsAjax.notificationMessages.quiz_success.message, 'info', 'info', 3000);
-
-        // const stickyElement = $('.lms-course-controls');
-        // Stickyfill.add(stickyElement);
 
         this.getLatestSlideFromDb();
         this.initAudio();
@@ -462,6 +456,14 @@ class Course {
         this.showSlide(prevSlideIndex, prevSlideIndex + 1)
     }
 
+    removeNotificationFromPrevSteps(){
+        console.log('remove');
+        $('.iziToast-opened').each(function(i){
+            console.log($(this));
+            $(this).find('.iziToast-close').click();
+        });
+    }
+
     showSlide(indexSlide, indexHash, changeUrl = true) {
         this.slideCtr.currentByIndex = indexSlide;
 
@@ -470,6 +472,9 @@ class Course {
         this.currentSection = 1;
 
         this.checkControls();
+
+        console.log('test te111111 111 !!1')
+        this.removeNotificationFromPrevSteps();
         // this.fullscreenPaintNavButtons();
         const currentId = this.slideCtr.current.data('slide-id');
         if (changeUrl) {

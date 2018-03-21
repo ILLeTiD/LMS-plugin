@@ -25,7 +25,7 @@ get_header('course');
     <main class="lms-course-page">
         <?php if (current_user_can('administrator')) : ?>
             <?php
-            lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides]);
+            lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides, 'enrollmentStatus' =>'in_progress']);
             lms_get_template('course-parts/course-page-content.php');
             ?>
         <?php elseif (!is_user_logged_in() || !$isEnrolled) : ?>

@@ -53,9 +53,14 @@ class FormQuiz extends AbstractQuiz {
         });
 
         const optionAnswerAfterCheck = (checkedAnswers, tolerance, correctAnswersCount) => {
+            if (!checkedAnswers) {
+                new Alert(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].message, lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].title, 'info', 3000);
+                return false;
+            }
+
             if (tolerance === 'strict' || correctAnswersCount == 1) {
                 if (checkedAnswers.length > correctAnswersCount || checkedAnswers.length < correctAnswersCount) {
-                    new Alert('Please try again', 'info', 3000);
+                    new Alert(lmsAjax.notificationMessages[`${this.type}_quiz_fail`].message, lmsAjax.notificationMessages[`${this.type}_quiz_fail`].title, 'error', 3000);
                     return;
                 }
                 const canGo = checkedAnswers.every((current) => {
@@ -82,7 +87,7 @@ class FormQuiz extends AbstractQuiz {
                     this.afterQuizFailed();
                 }
             } else {
-                new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
+                new Alert(lmsAjax.notificationMessages[`quiz_success`].message, lmsAjax.notificationMessages[`quiz_success`].title, 'success', 3000);
 
             }
         };
@@ -93,9 +98,7 @@ class FormQuiz extends AbstractQuiz {
                     const className = item['correct'] ? 'correct' : 'error';
                     form.find(`input[data-index="${item.index}"]`).addClass(className);
                 });
-            } else {
-                new Alert(lmsAjax.notificationMessages.quiz_unanswered.message, lmsAjax.notificationMessages.quiz_unanswered.title, 'info', 3000);
-            }
+            } 
 
         };
     }
@@ -116,10 +119,14 @@ class FormQuiz extends AbstractQuiz {
             checkedAnswers.push({text: $(this).val(), correct: null});
         });
 
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAA1');
+        console.log(lmsAjax.notificationMessages);
+        console.log(this.type);
+        console.log(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`]);
 
         const isAllEmpty = checkedAnswers.reduce((acc, val) => val.text == "", true);
         if (isAllEmpty) {
-            new Alert(lmsAjax.notificationMessages.quiz_unanswered.message, lmsAjax.notificationMessages.quiz_unanswered.title, 'info', 3000);
+            new Alert(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].message, lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].title, 'info', 3000);
             return false;
         }
 
@@ -162,9 +169,9 @@ class FormQuiz extends AbstractQuiz {
                 this.passed = true;
                 this.slide.addClass('passed');
                 if (canGo) {
-                    new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
+                    new Alert(lmsAjax.notificationMessages[`quiz_success`].message, lmsAjax.notificationMessages[`quiz_success`].title, 'success', 3000);
                 } else {
-                    new Alert(lmsAjax.notificationMessages.quiz_success.message, lmsAjax.notificationMessages.quiz_success.title, 'success', 3000);
+                    new Alert(lmsAjax.notificationMessages[`quiz_success`].message, lmsAjax.notificationMessages[`quiz_success`].title, 'success', 3000);
                 }
             }
         };

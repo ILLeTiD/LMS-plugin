@@ -44,9 +44,9 @@
             <?= __('Display Header', 'lms-plugin'); ?>
         </div>
         <div class="lms-field__value">
-            <select name="slide_content_display">
+            <select name="quiz_header_display">
                 <?php foreach ($slideDisplayHeaderOptions as $value => $name): ?>
-                    <option value="<?= $value; ?>" <?= selected($post->slide_content_display, $value); ?>><?= __($name, 'lms-plugin'); ?></option>
+                    <option value="<?= $value; ?>" <?= selected($post->quiz_header_display, $value); ?>><?= __($name, 'lms-plugin'); ?></option>
                 <?php endforeach; ?>
             </select>
 
