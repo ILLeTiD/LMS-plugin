@@ -9,9 +9,6 @@ $action->add('init', function () {
 $action->add('activate_' . $plugin, 'flush_rewrite_rules');
 $action->add('deactivate_' . $plugin, 'flush_rewrite_rules');
 
-$action->add('activate_' . $plugin, 'CustomRoles@add');
-$action->add('deactivate_' . $plugin, 'CustomRoles@remove');
-
 $action->add('activate_' . $plugin, 'DataBase\CreateActivitiesTable@up');
 // $action->add('deactivate_' . $plugin, 'DataBase\CreateActivitiesTable@down');
 $action->add('activate_' . $plugin, 'DataBase\CreateEnrollmentsTable@up');

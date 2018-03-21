@@ -180,7 +180,7 @@
                             </div>
                         </td>
                         <td class="role column-role" data-colname="Role">
-                            <a href="#"><?= $roles[$enrollment->user->roles[0]]; ?></a>
+                            <?= implode(', ', lms_role_list($enrollment->user)); ?>
                         </td>
                         <td class="enrollment-date column-enrollment-date" data-colname="<?= __('Enrollment Date', 'lms-plugin'); ?>">
                             <?= $enrollment->created_at; ?>
@@ -237,14 +237,6 @@
         </table>
         <div class="tablenav bottom">
 
-            <div class="alignleft actions bulkactions">
-                <label for="bulk-action-selector-bottom" class="screen-reader-text">Select bulk action</label><select name="action2" id="bulk-action-selector-bottom">
-                    <option value="-1">Bulk Actions</option>
-                    <option value="edit" class="hide-if-no-js">Edit</option>
-                    <option value="trash">Move to Trash</option>
-                </select>
-                <input type="submit" id="doaction2" class="button action" value="Apply">
-            </div>
             <div class="alignleft actions">
             </div>
             <div class="tablenav-pages one-page"><span class="displaying-num">1 item</span>
