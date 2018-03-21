@@ -79,6 +79,7 @@
   margin-top: -53px;
   opacity: 0;
   pointer-events: none;
+  transition: all .5s;
 
   .lms-slide-control-fullscreen-out {
     display: block;

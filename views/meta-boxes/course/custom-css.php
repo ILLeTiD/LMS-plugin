@@ -1,0 +1,1 @@
+<textarea name="course_custom_css" style="width: 100%" rows="5"><?= $customCSS; ?></textarea>

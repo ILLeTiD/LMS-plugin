@@ -30,6 +30,7 @@ function my_scripts_method()
     wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
     wp_enqueue_script('jquery');
     $alertMessages = lms_get_options('notifications');
+
     $variablesToFront = array(
         'ajaxurl' => admin_url('admin-ajax.php'),
         'homeUrl' => get_bloginfo('url'),

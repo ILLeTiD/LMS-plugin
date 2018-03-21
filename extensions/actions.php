@@ -36,7 +36,7 @@ $action->add('add_meta_boxes', 'Course\ParticipantsMetaBox@add');
 $action->add('add_meta_boxes', 'Course\ProgressMetaBox@add');
 $action->add('add_meta_boxes', 'Course\SlidesMetaBox@add');
 $action->add('save_post', 'Course\Saver@save');
-
+$action->add('add_meta_boxes', 'Course\CustomCssMetaBox@add');
 
 $action->add('init', 'Slide\SlidePostType@register');
 $action->add('add_meta_boxes', 'Slide\FormatMetaBox@add');
@@ -47,7 +47,7 @@ $action->add('add_meta_boxes', 'Slide\FormsMetaBox@add');
 $action->add('add_meta_boxes', 'Slide\DragMetaBox@add');
 $action->add('add_meta_boxes', 'Slide\DropMetaBox@add');
 $action->add('add_meta_boxes', 'Slide\PuzzleMetaBox@add');
-$action->add('add_meta_boxes', 'Slide\CustomCssMetaBox@add');
+// $action->add('add_meta_boxes', 'Slide\CustomCssMetaBox@add');
 $action->add('save_post', 'Slide\Saver@save');
 
 $action->add('manage_course_posts_custom_column', function ($column_name, $course_id) {

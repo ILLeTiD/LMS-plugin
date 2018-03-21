@@ -23,6 +23,7 @@ class Saver
         'quiz_hint',
         'quiz_colors',
         'quiz_background',
+        'quiz_header_display',
         'forms_type',
         'forms_answers',
         'drag_and_drop',

@@ -7,7 +7,7 @@ $question = apply_filters('the_content', get_post_field('post_content', $id));
 $type = $slide->quiz_type;
 $tolerance = $slide->quiz_tolerance;
 $hint = $slide->quiz_hint;
-$displayHeader = $slide->slide_content_display;
+$displayHeader = $slide->quiz_header_display;
 $isPassed = $slide->passed;
 $isLatest = $slide->latest;
 $textColor = isset($slide->quiz_colors['text']) ? $slide->quiz_colors['text'] : '#fff';
@@ -41,7 +41,7 @@ $randomId = uniqid('slide');
 
     <?php include 'template-parts/quiz-parts/quiz-slide-settings.php'; ?>
 
-    <?php if ($displayHeader == 'regular') :
+    <?php if ($displayHeader != 'hide') :
         lms_get_template('template-parts/quiz-parts/quiz-header.php', ['slide' => $slide, 'hint' => $hint]);
     endif; ?>
 
