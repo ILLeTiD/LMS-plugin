@@ -163,14 +163,13 @@
                     emails: this.emails
                 }
             }).done(function (response) {
-                if (response.status === 'error') {
-                    console.log(popup.error);
-                    popup.error.text(response.message);
-                    popup.error.show();
-                } else {
-                    var successPopup = new SuccessPopup('.lms-success-popup', response.message);
+                if (response.success) {
+                    var successPopup = new SuccessPopup('.lms-success-popup', response.data.message);
                     popup.close();
                     successPopup.show();
+                } else {
+                    popup.error.text(response.data.message);
+                    popup.error.show();
                 }
             });
         };
@@ -178,10 +177,54 @@
         return InvitePopup;
     }();
 
+    var ConfirmPopup = function () {
+        function ConfirmPopup(element) {
+            var that = this;
+
+            this.element = $(element);
+            this.arguments = {};
+            this.message = '';
+
+            this.element.find('.js-confirm').on('click', function () {
+                that.confirm();
+            });
+
+            this.element.find('.js-cancel').on('click', function () {
+                that.close();
+            });
+        }
+
+        ConfirmPopup.prototype.show = function () {
+            this.element.find('h3').text(this.message);
+            this.element.fadeIn();
+        };
+
+        ConfirmPopup.prototype.close = function () {
+            this.element.fadeOut();
+        };
+
+        ConfirmPopup.prototype.confirm = function () {
+            var popup = this;
+
+            $.ajax({
+                method: 'POST',
+                url: this.url,
+                data: this.arguments 
+            }).done(function (response) {
+                var successPopup = new SuccessPopup('.lms-success-popup', response.message);
+                popup.close();
+                successPopup.show();
+            });
+        };
+
+        return ConfirmPopup;
+    }();
+
     $(function () {
         var invitePopup = new InvitePopup('.lms-invite-popup'),
             acceptPopup = new AcceptPopup('.lms-accept-popup'),
-            denyPopup = new DenyPopup('.lms-deny-popup');
+            denyPopup = new DenyPopup('.lms-deny-popup'),
+            confirmPopup = new ConfirmPopup('.lms-confirm-popup');
 
         $('.js-invite-user').on('click', function (event) {
             invitePopup.show();
@@ -202,5 +245,76 @@
 
             event.preventDefault();
         });
+
+        $('.js-resend-invite').on('click', function (event) {
+            var button = $(this);
+
+            confirmPopup.url = button.attr('href');
+            confirmPopup.arguments = {
+                user: button.data('user')
+            };
+            confirmPopup.message = button.data('confirm-message');
+            confirmPopup.show();
+
+            event.preventDefault();
+        });
+
+        $('.js-uninvite').on('click', function (event) {
+            var button = $(this);
+
+            confirmPopup.url = button.attr('href');
+            confirmPopup.arguments = {
+                user: button.data('user')
+            };
+            confirmPopup.message = button.data('confirm-message');
+            confirmPopup.show();
+
+            event.preventDefault();
+        });
+
+        $('.js-delete').on('click', function (event) {
+            var button = $(this);
+
+            confirmPopup.url = button.attr('href');
+            confirmPopup.arguments = {
+                user: button.data('user')
+            };
+            confirmPopup.message = button.data('confirm-message');
+            confirmPopup.show();
+
+            event.preventDefault();
+        });
+
+        $('.js-bulk-action').on('click', function (event) {
+            var button = $(this),
+                select = button.siblings('select'),
+                selected = select.find(':selected'),
+                users = $('input:checked[name="arguments[users][]"')
+                            .map(function (i, user) { 
+                                return user.value; }
+                            ).toArray();
+
+            if (!select.val() || !users.length) {
+                return false;
+            }
+
+            if ('accept' === select.val()) {
+                acceptPopup.user = users;
+                acceptPopup.show();
+
+                event.preventDefault();
+            } else {
+                confirmPopup.url = selected.data('url');
+                confirmPopup.arguments = {
+                    user: users
+                };
+                confirmPopup.message = selected.data('confirm-message').replace('%d', users.length);
+                confirmPopup.show();
+            }
+
+            event.preventDefault();
+        });
+
+        $('.lms-has-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
     });
 })(jQuery);

@@ -36,8 +36,8 @@
         <?php include('components/table.php'); ?>
 
         <div class="tablenav bottom">
-            <?php include ('components/bulk-actions.php'); ?>
-            <?php include ('components/filter.php'); ?>
+            <?php // include ('components/bulk-actions.php'); ?>
+            <?php // include ('components/filter.php'); ?>
 
             <?php $pagination->display('bottom'); ?>
 

@@ -88,7 +88,10 @@ $action->add('wp_ajax_print_version', 'Controllers\PrintReportController@printRe
 
 $action->add('wp_ajax_accept_user', 'Controllers\UsersPageController@accept');
 $action->add('wp_ajax_deny_user', 'Controllers\UsersPageController@deny');
-$action->add('wp_ajax_invite_user', 'Controllers\UsersPageController@invite');
+$action->add('wp_ajax_invite_user', 'Controllers\UserInvitationsController@invite');
+$action->add('wp_ajax_resend_user_invite', 'Controllers\UsersPageController@resendInvite');
+$action->add('wp_ajax_uninvite_user', 'Controllers\UsersPageController@uninvite');
+$action->add('wp_ajax_delete_user', 'Controllers\UsersPageController@delete');
 
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
 //$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commitProgress');
@@ -145,6 +148,7 @@ $action->add('lms_event_invite_requested', function ($email) {
 $action->add('lms_event_user_registered', 'Listeners\SendWelcomeEmail@handle');
 $action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handle');
 $action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
+$action->add('lms_event_user_invited', 'Listeners\SendInvitationEmail@handle');
 
 
 /**
@@ -152,19 +156,7 @@ $action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
  */
 
 $action->add('wp_ajax_test', function () {
-    (new \LmsPlugin\Models\Activity([
-        'user_id' => 1,
-        'course_id' => 412,
-        'type' => 'course',
-        'name' => 'finished'
-    ]))->save();
-
-    (new \LmsPlugin\Models\Progress([
-        'user_id' => 1,
-        'course_id' => 412,
-        'slide_id' => 444,
-        'name' => 'finished'
-    ]))->save();
+    dd(camel_case('resend_invite'));
 });
 
 $action->add('phpmailer_init', function ($phpmailer) {
