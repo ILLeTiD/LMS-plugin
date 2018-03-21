@@ -50,7 +50,7 @@
             </a> |
         <span class="delete">
             <a href="<?= admin_url('/admin-ajax.php?action=delete_user'); ?>"
-               class="js-uninvite" 
+               class="js-delete" 
                data-user="<?= $user->ID; ?>"
                data-confirm-message="<?= __('Are you sure you want to delete the user?', 'lms-plugin'); ?>"
             >

@@ -154,10 +154,7 @@ $action->add('lms_event_user_invited', 'Listeners\SendInvitationEmail@handle');
  */
 
 $action->add('wp_ajax_test', function () {
-    $subject = $this->plugin->getSettings('email_templates.lms_invitations.subject');
-    $message = $this->plugin->getSettings('email_templates.lms_invitations.body');
-    
-    dd($subject, $message);
+    dd(camel_case('resend_invite'));
 });
 
 $action->add('phpmailer_init', function ($phpmailer) {

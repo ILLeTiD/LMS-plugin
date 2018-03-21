@@ -18,7 +18,7 @@
 </div>
 
 <div class="lms-popup lms-confirm-popup hidden">
-    <h1></h1>
+    <h3></h3>
     <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
     <button type="button" class="js-confirm"><?= __('Confirm', 'lms-plugin'); ?></button>
 </div>

@@ -8,8 +8,7 @@
         <?php foreach ($users->get_results() as $user): ?>
             <tr>
                 <th scope="row" class="check-column">
-                    <label class="screen-reader-text" for="user_1">Select admin</label>
-                    <input type="checkbox" name="users[]" id="user_1" class="administrator" value="1">
+                    <input type="checkbox" name="arguments[users][]" value="<?= $user->ID; ?>">
                 </th>
                 <td>
                     <?php

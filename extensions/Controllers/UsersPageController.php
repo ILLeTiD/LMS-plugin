@@ -4,6 +4,7 @@ namespace LmsPlugin\Controllers;
 
 use FishyMinds\WordPress\Pagination;
 use LmsPlugin\Models\User;
+use LmsPlugin\Misc\UserActionsPerformer;
 
 class UsersPageController extends Controller
 {
@@ -154,8 +155,8 @@ class UsersPageController extends Controller
 
     public function accept()
     {
-        $role = array_get($_POST, 'role');
         $user_id = array_get($_POST, 'user');
+        $role = array_get($_POST, 'role');
 
         if (empty($role)) {
             wp_send_json([
@@ -164,15 +165,11 @@ class UsersPageController extends Controller
             ]);
         }
 
-        $user = new \WP_User($user_id);
-
-        $user->add_role($role);
-        update_user_meta($user_id, 'lms_status', 'accepted');
-        update_user_meta($user_id, 'lms_last_activity', time());
+        $this->perform('accept', $user_id, $role);
 
         wp_send_json([
             'status' => 'success',
-            'message' => __('The user registration is completed.', 'lms-plugin')
+            'message' => __('The user(s) registration is completed.', 'lms-plugin')
         ]);
     }
 
@@ -180,55 +177,60 @@ class UsersPageController extends Controller
     {
         $user_id = array_get($_POST, 'user');
 
-        update_user_meta($user_id, 'lms_status', 'denied');
+        $this->perform('deny', $user_id);
 
         wp_send_json([
             'status' => 'success',
-            'message' => __('The user registration is suspended.', 'lms-plugin')
+            'message' => __('The user(s) registration is suspended.', 'lms-plugin')
         ]);
     }
 
     public function resendInvite()
     {
         $user_id = array_get($_POST, 'user');
-        $user = User::find($user_id);
 
-        update_user_meta($user_id, 'lms_status', 'invited');
-        update_user_meta($user_id, 'lms_last_activity', time());
-        update_user_meta($user_id, 'lms_invite_token', lms_invite_token());
-
-        do_action('lms_event_user_invited', $user);
+        $this->perform('resend_invite', $user_id);
 
         wp_send_json([
-            'message' => __('Invite was sent again.', 'lms-plugin')
+            'message' => __('Invite(s) was sent again.', 'lms-plugin')
         ]);
     }
 
     public function uninvite()
     {
         $user_id = array_get($_POST, 'user');
-        $user = User::find($user_id);
 
-        delete_user_meta($user_id, 'lms_invite_token');
-        update_user_meta($user_id, 'lms_status', 'uninvited');
+        $this->perform('uninvite', $user_id);
 
         wp_send_json([
-            'message' => __('User was uninvited.', 'lms-plugin')
+            'message' => __('User(s) was uninvited.', 'lms-plugin')
         ]);
     }
 
     public function delete()
     {
-        global $wpdb;
-
         $user_id = array_get($_POST, 'user');
 
-        wp_delete_user($user_id);
-
-        $wpdb->delete($wpdb->usermeta, ['user_id' => $user_id], ['%d']);
+        $this->perform('delete', $user_id);
 
         wp_send_json([
-            'message' => __('User was deleted.', 'lms-plugin')
+            'message' => __('User(s) was deleted.', 'lms-plugin')
         ]);
+    }
+
+    public function perform($action, $users, $role = '')
+    {
+        $users = is_array($users) ? $users : [$users];
+
+        $performer = new UserActionsPerformer();
+        $action = camel_case($action);
+
+        if (! method_exists($performer, $action)) {
+            return;
+        }
+
+        foreach ($users as $user) {
+            call_user_func([$performer, $action], $user, $role);
+        }
     }
 }

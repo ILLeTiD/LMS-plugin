@@ -182,7 +182,7 @@
             var that = this;
 
             this.element = $(element);
-            this.user = 0;
+            this.arguments = {};
             this.message = '';
 
             this.element.find('.js-confirm').on('click', function () {
@@ -195,7 +195,7 @@
         }
 
         ConfirmPopup.prototype.show = function () {
-            this.element.find('h1').text(this.message);
+            this.element.find('h3').text(this.message);
             this.element.fadeIn();
         };
 
@@ -209,9 +209,7 @@
             $.ajax({
                 method: 'POST',
                 url: this.url,
-                data: {
-                    user: this.user,
-                }
+                data: this.arguments 
             }).done(function (response) {
                 var successPopup = new SuccessPopup('.lms-success-popup', response.message);
                 popup.close();
@@ -252,7 +250,9 @@
             var button = $(this);
 
             confirmPopup.url = button.attr('href');
-            confirmPopup.user = button.data('user')
+            confirmPopup.arguments = {
+                user: button.data('user')
+            };
             confirmPopup.message = button.data('confirm-message');
             confirmPopup.show();
 
@@ -263,9 +263,54 @@
             var button = $(this);
 
             confirmPopup.url = button.attr('href');
-            confirmPopup.user = button.data('user')
+            confirmPopup.arguments = {
+                user: button.data('user')
+            };
             confirmPopup.message = button.data('confirm-message');
             confirmPopup.show();
+
+            event.preventDefault();
+        });
+
+        $('.js-delete').on('click', function (event) {
+            var button = $(this);
+
+            confirmPopup.url = button.attr('href');
+            confirmPopup.arguments = {
+                user: button.data('user')
+            };
+            confirmPopup.message = button.data('confirm-message');
+            confirmPopup.show();
+
+            event.preventDefault();
+        });
+
+        $('.js-bulk-action').on('click', function (event) {
+            var button = $(this),
+                select = button.siblings('select'),
+                selected = select.find(':selected'),
+                users = $('input:checked[name="arguments[users][]"')
+                            .map(function (i, user) { 
+                                return user.value; }
+                            ).toArray();
+
+            if (!select.val() || !users.length) {
+                return false;
+            }
+
+            if ('accept' === select.val()) {
+                acceptPopup.user = users;
+                acceptPopup.show();
+
+                event.preventDefault();
+            } else {
+                confirmPopup.url = selected.data('url');
+                confirmPopup.arguments = {
+                    user: users
+                };
+                confirmPopup.message = selected.data('confirm-message').replace('%d', users.length);
+                confirmPopup.show();
+            }
 
             event.preventDefault();
         });
