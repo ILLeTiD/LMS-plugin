@@ -969,3 +969,32 @@ input.lms-quiz-hint {
     margin-bottom: 40px;
 }
 
+.lms-invite-popup {
+    text-align: left;
+}
+
+.lms-invite-popup__title {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.lms-invite-popup__body textarea {
+    width: 100%;
+}
+
+.lms-invite-popup__footer {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.lms-invite-popup__help h3 {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.lms-invite-popup__help p {
+    color: #C8C8C8;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 0;
+}

@@ -43,7 +43,9 @@
         <textarea name="emails" rows="5"></textarea>
     </div>
 
-    <span class="lms-invite-popup__error"></span>
-    <button type="button" class="js-invite"><?= __('Invite', 'lms-plugin'); ?></button>
+    <div class="lms-invite-popup__footer">
+        <span class="lms-popup__error lms-invite-popup__error"></span>
+        <button type="button" class="js-invite"><?= __('Invite', 'lms-plugin'); ?></button>
+    </div>
 </div>
 
