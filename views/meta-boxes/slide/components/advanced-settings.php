@@ -323,19 +323,6 @@
 
     <hr>
 
-    <!-- Custom CSS -->
-    <div class="row">
-        <div class="col-2">
-            <h4 class="field__title"><?= __('Custom CSS', 'lms-plugin'); ?></h4>
-        </div>
-        <div class="col-8">
-            <textarea name="slide_content[<?= $i; ?>][custom_css]"
-                      rows="5"><?= array_get($slide, 'custom_css'); ?></textarea>
-        </div>
-        <div class="col-2">
-            <?= __('This CSS overrides the Slide Custom CSS', 'lms-plugin'); ?>
-        </div>
-    </div>
 
     <div class="field">
     </div>
