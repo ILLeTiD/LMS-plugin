@@ -70,6 +70,7 @@ $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageControlle
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 $action->add('wp_ajax_resend_invite_participant', 'Controllers\ParticipantsPageController@resendInvite');
+$action->add('wp_ajax_uninvite_participant', 'Controllers\ParticipantsPageController@uninvite');
 
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
 

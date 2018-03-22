@@ -202,4 +202,17 @@ class ParticipantsPageController extends Controller
             'message' => __('Invite has been resent.', 'lms-plugin')
         ]);
     }
+
+    public function uninvite()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        $enrollment->delete();
+        
+        wp_send_json([
+            'message' => __('Participant has been uninvited.', 'lms-plugin')
+        ]);
+    }
 }

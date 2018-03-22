@@ -167,9 +167,9 @@
                                     </a> |
                                 </span>
                                 <span class="univite trash">
-                                    <a href="<?= admin_url('/admin-ajax.php?action=participant_uninvite'); ?>"
+                                    <a href="<?= admin_url('/admin-ajax.php?action=uninvite_participant'); ?>"
                                        class="js-participant-action"
-                                       data-user="<?= $enrollment->user->id; ?>"
+                                       data-enrollment="<?= $enrollment->id; ?>"
                                        data-confirm-message="<?= __('Are you sure you want to uninvite the participant?', 'lms-plugin'); ?>"
                                     >
                                         <?= __('Uninvite', 'lms-plugin'); ?>
