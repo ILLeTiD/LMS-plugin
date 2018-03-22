@@ -456,9 +456,9 @@ class Course {
         this.showSlide(prevSlideIndex, prevSlideIndex + 1)
     }
 
-    removeNotificationFromPrevSteps(){
+    removeNotificationFromPrevSteps() {
         console.log('remove');
-        $('.iziToast-opened').each(function(i){
+        $('.iziToast-opened').each(function (i) {
             console.log($(this));
             $(this).find('.iziToast-close').click();
         });
@@ -473,7 +473,6 @@ class Course {
 
         this.checkControls();
 
-        console.log('test te111111 111 !!1')
         this.removeNotificationFromPrevSteps();
         // this.fullscreenPaintNavButtons();
         const currentId = this.slideCtr.current.data('slide-id');
@@ -528,6 +527,7 @@ class Course {
 
             if (!this.initedVideos.find(i => i.slideIndex == indexSlide)) {
                 this.initVideo();
+
             }
 
             this.initedVideos.forEach(i => {
@@ -535,6 +535,11 @@ class Course {
                     i.player.pause();
                 }
             });
+
+            setTimeout(() => {
+                console.log('resize');
+                $(window).trigger('resize');
+            }, 100);
         }
 
         this.calculateProgress();
