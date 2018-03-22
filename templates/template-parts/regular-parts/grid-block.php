@@ -49,8 +49,7 @@ include 'section-settings.php';
                 <?php else : ?>
                     <video src="<?= $videoMedia; ?>"
                            style="max-width: 100%;"
-                           controls="controls" width="100%"
-                           height="100%"
+                           controls="controls"
                            class="lms-video-player    <?= $videoAutoplay ? 'autoplay' : ''; ?><?= $videoHideControls ? 'lms-video-player--disabled' : ''; ?>"></video>
 
                     <?php
