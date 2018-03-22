@@ -164,6 +164,7 @@ $action->add('wp_ajax_test', function () {
     dd(camel_case('resend_invite'));
 });
 
+/*
 $action->add('phpmailer_init', function ($phpmailer) {
     // Define that we are sending with SMTP
     $phpmailer->isSMTP();
@@ -190,6 +191,7 @@ $action->add('phpmailer_init', function ($phpmailer) {
     $phpmailer->From = 'noreply@fishy-minds.localhost';
     $phpmailer->FromName = 'WP DEV';
 });
+*/
 
 /**
  * Shortcodes.
