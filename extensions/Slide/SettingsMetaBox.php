@@ -23,7 +23,7 @@ class SettingsMetaBox extends MetaBox
         $colors = get_post_meta($post->id, 'slide_colors', true);
         $background = get_post_meta($post->id, 'slide_background', true);
 
-        $weight = $post->slide_weight ?: PHP_INT_MAX;
+        $weight = (null !== $post->slide_weight) ? $post->slide_weight : PHP_INT_MAX;
 
         $this->view('meta-boxes.slide.settings', compact(
             'slideSectionDisplayOptions',
