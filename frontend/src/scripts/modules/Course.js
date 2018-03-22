@@ -352,9 +352,9 @@ class Course {
                 // this.fullscreenPaintNavButtons(true);
 
                 $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
-                    var fontSize = $(this).css("fontSize");
+                    let fontSize = $(this).css("fontSize");
                     fontSize = parseInt(fontSize) - 4 + "px";
-                    $(this).css("fontSize", fontSize);
+                    $(this).attr("style", `font-size: ${fontSize} !important`);
                 });
             }
         };
@@ -410,9 +410,9 @@ class Course {
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
             // this.fullscreenPaintNavButtons(true);
             $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
-                var fontSize = $(this).css("fontSize");
+                let fontSize = $(this).css("fontSize");
                 fontSize = parseInt(fontSize) + 4 + "px";
-                $(this).css("fontSize", fontSize);
+                $(this).attr("style", `font-size: ${fontSize} !important`);
             });
         } else {
 
