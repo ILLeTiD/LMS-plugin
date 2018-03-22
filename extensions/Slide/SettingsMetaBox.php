@@ -20,7 +20,9 @@ class SettingsMetaBox extends MetaBox
         $slideTemplateOptions = Slide::TEMPLATE_OPTIONS;
         $slideDisplayHeaderOptions = Slide::DISPLAY_HEADER_OPTIONS;
 
+        $defaultColors = array_get(get_option('lms-plugin'), 'colors');
         $colors = get_post_meta($post->id, 'slide_colors', true);
+        $colors = !$colors ? $defaultColors : $colors;
         $background = get_post_meta($post->id, 'slide_background', true);
 
         $weight = (null !== $post->slide_weight) ? $post->slide_weight : PHP_INT_MAX;
