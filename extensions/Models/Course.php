@@ -45,6 +45,16 @@ class Course
         ];
     }
 
+    public function __isset($property)
+    {
+        switch ($property) {
+            case 'name':
+                return isset($this->post->post_title);
+            default:
+                return isset($this->post->$property);
+        }
+    }
+
     public function __get($property)
     {
         switch ($property) {

@@ -117,6 +117,7 @@ class ParticipantsPageController extends Controller
 
         $statuses = [
             'invited' => __('Invited', 'lms-plugin'),
+            'enrolled' => __('Enrolled', 'lms-plugin'),
             'in_progress' => __('In progress', 'lms-plugin'),
             'completed' => __('Completed', 'lms-plugin'),
             'failed' => __('Failed', 'lms-plugin'),
@@ -185,7 +186,73 @@ class ParticipantsPageController extends Controller
 
         foreach ($enrollments as $enrollment) {
             $enrollment->save();
+            do_action('lms_event_participant_invited', $enrollment);
             do_action('lms_event_user_activity', $enrollment->user->id, 'course', 'invited', $enrollment->course->id);
         }
+    }
+
+    public function resendInvite()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        do_action('lms_event_participant_invited', $enrollment);
+
+        wp_send_json([
+            'message' => __('Invite has been resent.', 'lms-plugin')
+        ]);
+    }
+
+    public function uninvite()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        $enrollment->delete();
+        
+        wp_send_json([
+            'message' => __('Participant has been uninvited.', 'lms-plugin')
+        ]);
+    }
+
+    public function reset()
+    {
+        global $wpdb;
+
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        $enrollment->status = 'enrolled';
+        $enrollment->save();
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_progress',
+            [
+                'user_id' => $enrollment->user_id,
+                'course_id' => $enrollment->course_id
+            ],
+            ['%d', '%d']
+        );
+
+        wp_send_json([
+            'message' => __('Participant has been uninvited.', 'lms-plugin')
+        ]);
+    }
+
+    public function fail()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        $enrollment->status = 'failed';
+        $enrollment->save();
+        
+        wp_send_json([
+            'message' => __('Participant has failed the course.', 'lms-plugin')
+        ]);
     }
 }

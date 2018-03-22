@@ -27,9 +27,7 @@
                                 <?= get_avatar($user->id, 75); ?>
                                 <div class="lms-participant__info">
                                     <span class="lms-participant__name"><?= $user->display_name; ?></span>
-                                    <a href="<?= admin_url('users.php?role=' . $user->roles[0]); ?>">
-                                        <?= $roles[$user->roles[0]]['label']; ?>
-                                    </a>
+                                    <?= implode(', ', lms_role_list($user)); ?>
                                 </div>
 
                                 <div class="lms-participant__last-activity">

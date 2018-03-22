@@ -41,4 +41,21 @@ abstract class Model
     {
         return ! empty($this->attributes['id']) ? $this->update() : $this->insert();
     }
+
+    public function delete()
+    {
+        global $wpdb;
+
+        if (empty($this->attributes['id'])) {
+            return false;
+        }
+
+        $deleted = $wpdb->delete(
+            $wpdb->prefix . static::TABLE, 
+            ['id' => $this->attributes['id']], 
+            ['%d']
+        );
+
+        return !! $deleted;
+    }    
 }

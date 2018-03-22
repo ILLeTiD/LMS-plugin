@@ -18,8 +18,8 @@ $script->add('image-scripts')
         return $this->getCurrentScreen()->id == 'slide';
     });
 
-$script->add('invite-scripts')
-    ->source('invite.js')
+$script->add('participants-scripts')
+    ->source('participants.js')
     ->dependencies(['accordion'])
     ->condition(function () {
         return $this->getCurrentScreen()->id == 'course_page_course_participants';
