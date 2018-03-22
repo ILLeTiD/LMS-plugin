@@ -13,7 +13,7 @@
     height: 697px;
   }
 
-  .is-ie &{
+  .is-ie & {
     @media screen and (min-width: 1200px) {
       justify-content: flex-start;
     }
@@ -44,6 +44,13 @@
         height: initial;
         min-height: 100vh;
       }
+    }
+
+    h1, h2, h3, h4, h5, h6, p,
+    .lms-dnd-quiz-drop__zone--text,
+    .lms-label-radio,
+    .lms-label-checkbox {
+      transform: scale(1.3);
     }
 
     .lms-course-fullscreen-overlay {

@@ -393,6 +393,10 @@ class Course {
             GoInFullscreen(this.courseEl[0]);
             this.courseEl.addClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
+            setTimeout(() => {
+                console.log('resize');
+                $(window).trigger('resize');
+            }, 100);
             // this.fullscreenPaintNavButtons(true);
         } else {
             GoOutFullscreen();
@@ -400,6 +404,12 @@ class Course {
             this.courseEl.removeClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
             //this.fullscreenPaintNavButtons(true);
+
+            this.initedVideos.forEach(i => {
+                console.log('player', i);
+                i.player.setPlayerSize();
+                i.player.setControlsSize();
+            });
         }
     }
 
@@ -527,14 +537,17 @@ class Course {
 
             if (!this.initedVideos.find(i => i.slideIndex == indexSlide)) {
                 this.initVideo();
-
             }
 
             this.initedVideos.forEach(i => {
+                console.log('player', i);
+                i.player.setPlayerSize();
+                i.player.setControlsSize();
                 if (i.slideIndex != indexSlide) {
                     i.player.pause();
                 }
             });
+
 
             setTimeout(() => {
                 console.log('resize');
