@@ -238,7 +238,7 @@ class ParticipantsPageController extends Controller
         );
 
         wp_send_json([
-            'message' => __('Participant has been uninvited.', 'lms-plugin')
+            'message' => __('Participant course progress has been reset.', 'lms-plugin')
         ]);
     }
 
