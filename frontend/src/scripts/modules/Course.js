@@ -92,6 +92,9 @@ class Course {
                 const isAutoplay = $(this).hasClass('autoplay');
                 if (isHiddenControls) {
                     $(this).mediaelementplayer({
+                        videoWidth: '100%',
+                        videoHeight: '100%',
+                        enableAutosize: true,
                         pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                         shimScriptAccess: 'always',
                         alwaysShowControls: false,
@@ -340,14 +343,26 @@ class Course {
         });
 
         //default ESC button exit fullscreen handler
-        $('.lms-course').on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', () => {
+        const resizeHandler = () => {
             if (!IsFullScreenCurrently()) {
+                console.log('HAAAAAAAANDLEDDD');
                 this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
                 this.courseEl.removeClass('lms-fullscreen-init');
                 this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
                 // this.fullscreenPaintNavButtons(true);
+
+                $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
+                    var fontSize = $(this).css("fontSize");
+                    fontSize = parseInt(fontSize) - 4 + "px";
+                    $(this).css("fontSize", fontSize);
+                });
             }
-        });
+        };
+        //IDK why but this works
+        $('.lms-course').on('webkitfullscreenchange', resizeHandler);
+        $(document).on('mozfullscreenchange', resizeHandler);
+        $('.lms-course').on('fullscreenchange', resizeHandler);
+        $(document).on('MSFullscreenChange', resizeHandler);
 
         $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
         $(this.selectors.shortcodeRestart).on('click', this.shortcodeRestart.bind(this));
@@ -393,12 +408,21 @@ class Course {
             GoInFullscreen(this.courseEl[0]);
             this.courseEl.addClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
-            setTimeout(() => {
-                console.log('resize');
-                $(window).trigger('resize');
-            }, 100);
             // this.fullscreenPaintNavButtons(true);
+            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
+                var fontSize = $(this).css("fontSize");
+                fontSize = parseInt(fontSize) + 4 + "px";
+                $(this).css("fontSize", fontSize);
+            });
         } else {
+
+            // $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
+            //     console.log($(this));
+            //     var fontSize = $(this).css("fontSize");
+            //     fontSize = parseInt(fontSize) - 4 + "px";
+            //     console.log('FZ', fontSize);
+            //     $(this).css("fontSize", fontSize);
+            // });
             GoOutFullscreen();
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
             this.courseEl.removeClass('lms-fullscreen-init');
@@ -410,8 +434,7 @@ class Course {
             console.log('player', i);
             setTimeout(() => {
                 i.player.setPlayerSize();
-                i.player.setControlsSize();
-            }, 1);
+            }, 0);
         });
     }
 
@@ -546,17 +569,16 @@ class Course {
                 console.log('player', i);
                 setTimeout(() => {
                     i.player.setPlayerSize();
-                    i.player.setControlsSize();
                 }, 1);
                 if (i.slideIndex != indexSlide) {
                     i.player.pause();
                 }
             });
 
-            setTimeout(() => {
-                console.log('resize');
-                $(window).trigger('resize');
-            }, 100);
+            // setTimeout(() => {
+            //     console.log('resize');
+            //     $(window).trigger('resize');
+            // }, 100);
         }
 
         this.calculateProgress();
