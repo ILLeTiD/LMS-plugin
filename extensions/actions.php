@@ -71,6 +71,8 @@ $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@sear
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
 $action->add('wp_ajax_resend_invite_participant', 'Controllers\ParticipantsPageController@resendInvite');
 $action->add('wp_ajax_uninvite_participant', 'Controllers\ParticipantsPageController@uninvite');
+$action->add('wp_ajax_reset_participant', 'Controllers\ParticipantsPageController@reset');
+$action->add('wp_ajax_fail_participant', 'Controllers\ParticipantsPageController@fail');
 
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
 

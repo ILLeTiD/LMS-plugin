@@ -176,18 +176,18 @@
                                     </a> |
                                 </span>
                                 <span class="reset-result">
-                                    <a href="<?= admin_url('/admin-ajax.php?action=participant_reset_result'); ?>"
+                                    <a href="<?= admin_url('/admin-ajax.php?action=reset_participant'); ?>"
                                        class="js-participant-action"
-                                       data-user="<?= $enrollment->user->id; ?>"
+                                       data-enrollment="<?= $enrollment->id; ?>"
                                        data-confirm-message="<?= __('Are you sure you want to reset result for the participant?', 'lms-plugin'); ?>"
                                     >
                                         <?= __('Reset result', 'lms-plugin'); ?>
                                     </a> |
                                 </span>
                                 <span class="fail trash">
-                                    <a href="<?= admin_url('/admin-ajax.php?action=participant_fail'); ?>"
+                                    <a href="<?= admin_url('/admin-ajax.php?action=fail_participant'); ?>"
                                        class="js-participant-action"
-                                       data-user="<?= $enrollment->user->id; ?>"
+                                       data-enrollment="<?= $enrollment->id; ?>"
                                        data-confirm-message="<?= __('Are you sure you want to fail course for the participant?', 'lms-plugin'); ?>"
                                     >
                                         <?= __('Fail', 'lms-plugin'); ?>

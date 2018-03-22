@@ -215,4 +215,29 @@ class ParticipantsPageController extends Controller
             'message' => __('Participant has been uninvited.', 'lms-plugin')
         ]);
     }
+
+    public function reset()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        wp_send_json([
+            'message' => __('Participant has been uninvited.', 'lms-plugin')
+        ]);
+    }
+
+    public function fail()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        $enrollment->status = 'failed';
+        $enrollment->save();
+        
+        wp_send_json([
+            'message' => __('Participant has failed the course.', 'lms-plugin')
+        ]);
+    }
 }
