@@ -158,22 +158,38 @@
                                     </a> |
                                 </span>
                                 <span class="resend-invite">
-                                    <a href="#" aria-label="<?= __('Resend Invite', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
+                                    <a href="<?= admin_url('/admin-ajax.php?action=resend_invite_participant'); ?>"
+                                       class="js-participant-action"
+                                       data-enrollment="<?= $enrollment->id; ?>"
+                                       data-confirm-message="<?= __('Are you sure you want to resend invite?', 'lms-plugin'); ?>"
+                                    >
                                         <?= __('Resend invite', 'lms-plugin'); ?>
                                     </a> |
                                 </span>
                                 <span class="univite trash">
-                                    <a href="#" aria-label="<?= __('Uninvite', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
+                                    <a href="<?= admin_url('/admin-ajax.php?action=participant_uninvite'); ?>"
+                                       class="js-participant-action"
+                                       data-user="<?= $enrollment->user->id; ?>"
+                                       data-confirm-message="<?= __('Are you sure you want to uninvite the participant?', 'lms-plugin'); ?>"
+                                    >
                                         <?= __('Uninvite', 'lms-plugin'); ?>
                                     </a> |
                                 </span>
                                 <span class="reset-result">
-                                    <a href="#" aria-label="<?= __('Reset result', 'lms-plugin'); ?> “<?= $enrollment->user->name; ?>”">
+                                    <a href="<?= admin_url('/admin-ajax.php?action=participant_reset_result'); ?>"
+                                       class="js-participant-action"
+                                       data-user="<?= $enrollment->user->id; ?>"
+                                       data-confirm-message="<?= __('Are you sure you want to reset result for the participant?', 'lms-plugin'); ?>"
+                                    >
                                         <?= __('Reset result', 'lms-plugin'); ?>
                                     </a> |
                                 </span>
                                 <span class="fail trash">
-                                    <a href="#" aria-label="<?= __('Fail', 'lms-plugin'); ?> “<?= $enrollment->user->display_name; ?>”">
+                                    <a href="<?= admin_url('/admin-ajax.php?action=participant_fail'); ?>"
+                                       class="js-participant-action"
+                                       data-user="<?= $enrollment->user->id; ?>"
+                                       data-confirm-message="<?= __('Are you sure you want to fail course for the participant?', 'lms-plugin'); ?>"
+                                    >
                                         <?= __('Fail', 'lms-plugin'); ?>
                                     </a>
                                 </span>
@@ -251,3 +267,13 @@
     </form>
 </div>
 
+<div class="lms-popup lms-confirm-popup hidden">
+    <h3></h3>
+    <button type="button" class="js-cancel"><?= __('Cancel', 'lms-plugin'); ?></button>
+    <button type="button" class="js-confirm"><?= __('Confirm', 'lms-plugin'); ?></button>
+</div>
+
+<div class="lms-popup lms-success-popup hidden">
+    <h3 class="lms-success-popup__title"></h3>
+    <button type="button" class="js-close"><?= __('Ok', 'lms-plugin'); ?></button>
+</div>

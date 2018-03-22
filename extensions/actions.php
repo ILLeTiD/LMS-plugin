@@ -69,6 +69,8 @@ $action->add('wp_ajax_invite_by_role_name', 'Controllers\ParticipantsPageControl
 $action->add('wp_ajax_invite_by_user_id', 'Controllers\ParticipantsPageController@inviteByUserId');
 $action->add('wp_ajax_search_user', 'Controllers\ParticipantsPageController@search');
 $action->add('wp_ajax_change_status', 'Controllers\ParticipantPageController@changeStatus');
+$action->add('wp_ajax_resend_invite_participant', 'Controllers\ParticipantsPageController@resendInvite');
+
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
 
 $action->add('wp_ajax_sort_slides', 'Controllers\CoursesController@sortSlides');
@@ -89,6 +91,7 @@ $action->add('wp_ajax_invite_user', 'Controllers\UserInvitationsController@invit
 $action->add('wp_ajax_resend_user_invite', 'Controllers\UsersPageController@resendInvite');
 $action->add('wp_ajax_uninvite_user', 'Controllers\UsersPageController@uninvite');
 $action->add('wp_ajax_delete_user', 'Controllers\UsersPageController@delete');
+
 
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
 //$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commitProgress');
@@ -147,6 +150,8 @@ $action->add('lms_event_reset_password', 'Listeners\SendPasswordResetEmail@handl
 $action->add('lms_event_user_activity', 'Listeners\ActivityLogger@handle');
 $action->add('lms_event_user_invited', 'Listeners\SendInvitationEmail@handle');
 
+$action->add('lms_event_participant_invited', 'Listeners\SendCourseInvitationEmail@handle');
+
 
 /**
  * For test purposes.
@@ -156,7 +161,6 @@ $action->add('wp_ajax_test', function () {
     dd(camel_case('resend_invite'));
 });
 
-/*
 $action->add('phpmailer_init', function ($phpmailer) {
     // Define that we are sending with SMTP
     $phpmailer->isSMTP();
@@ -183,7 +187,6 @@ $action->add('phpmailer_init', function ($phpmailer) {
     $phpmailer->From = 'noreply@fishy-minds.localhost';
     $phpmailer->FromName = 'WP DEV';
 });
-*/
 
 /**
  * Shortcodes.

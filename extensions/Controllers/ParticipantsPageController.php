@@ -185,7 +185,21 @@ class ParticipantsPageController extends Controller
 
         foreach ($enrollments as $enrollment) {
             $enrollment->save();
+            do_action('lms_event_participant_invited', $enrollment);
             do_action('lms_event_user_activity', $enrollment->user->id, 'course', 'invited', $enrollment->course->id);
         }
+    }
+
+    public function resendInvite()
+    {
+        $enrollment_id = array_get($_POST, 'enrollment');
+
+        $enrollment = Enrollment::find($enrollment_id);
+
+        do_action('lms_event_participant_invited', $enrollment);
+
+        wp_send_json([
+            'message' => __('Invite has been resent.', 'lms-plugin')
+        ]);
     }
 }
