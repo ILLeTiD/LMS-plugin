@@ -117,6 +117,7 @@ class ParticipantsPageController extends Controller
 
         $statuses = [
             'invited' => __('Invited', 'lms-plugin'),
+            'enrolled' => __('Enrolled', 'lms-plugin'),
             'in_progress' => __('In progress', 'lms-plugin'),
             'completed' => __('Completed', 'lms-plugin'),
             'failed' => __('Failed', 'lms-plugin'),
@@ -218,9 +219,23 @@ class ParticipantsPageController extends Controller
 
     public function reset()
     {
+        global $wpdb;
+
         $enrollment_id = array_get($_POST, 'enrollment');
 
         $enrollment = Enrollment::find($enrollment_id);
+
+        $enrollment->status = 'enrolled';
+        $enrollment->save();
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_progress',
+            [
+                'user_id' => $enrollment->user_id,
+                'course_id' => $enrollment->course_id
+            ],
+            ['%d', '%d']
+        );
 
         wp_send_json([
             'message' => __('Participant has been uninvited.', 'lms-plugin')
