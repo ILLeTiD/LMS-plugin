@@ -27,9 +27,9 @@
                 </th>
 
                 <td>
-                    <strong><a class="row-title" href="<?= get_edit_post_link($slide->ID); ?>&course=<?= $slide->ID; ?>"><?= $slide->post_title; ?></a></strong>
+                    <strong><a class="row-title" href="<?= get_edit_post_link($slide->ID); ?>&course=<?= $post->ID; ?>"><?= $slide->post_title; ?></a></strong>
                     <div class="row-actions">
-                        <span class="edit"><a href="<?= get_edit_post_link($slide->ID); ?>&course=<?= $slide->ID; ?>"><?= __('Edit', 'lms-plugin'); ?></a> | </span>
+                        <span class="edit"><a href="<?= get_edit_post_link($slide->ID); ?>&course=<?= $post->ID; ?>"><?= __('Edit', 'lms-plugin'); ?></a> | </span>
                         <span class="inline hide-if-no-js"><a href="#" class="editinline"><?= __('Quick Edit', 'lms-plugin'); ?></a> | </span>
                         <span class="trash">
                             <a href="#"
