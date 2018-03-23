@@ -354,7 +354,7 @@ class Course {
                 $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
                     let fontSize = $(this).css("fontSize");
                     fontSize = parseInt(fontSize) - 4 + "px";
-                    $(this).attr("style", `font-size: ${fontSize} !important`);
+                    $(this).css(`fontSize`, `${fontSize}`);
                 });
             }
         };
@@ -412,7 +412,7 @@ class Course {
             $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
                 let fontSize = $(this).css("fontSize");
                 fontSize = parseInt(fontSize) + 4 + "px";
-                $(this).attr("style", `font-size: ${fontSize} !important`);
+                $(this).css(`fontSize`, `${fontSize}`);
             });
         } else {
 
@@ -432,9 +432,9 @@ class Course {
 
         this.initedVideos.forEach(i => {
             console.log('player', i);
-            setTimeout(() => {
-                i.player.setPlayerSize();
-            }, 0);
+            // setTimeout(() => {
+            //     i.player.setPlayerSize();
+            // }, 0);
         });
     }
 
@@ -567,9 +567,9 @@ class Course {
 
             this.initedVideos.forEach(i => {
                 console.log('player', i);
-                setTimeout(() => {
-                    i.player.setPlayerSize();
-                }, 1);
+                // setTimeout(() => {
+                //     i.player.setPlayerSize();
+                // }, 1);
                 if (i.slideIndex != indexSlide) {
                     i.player.pause();
                 }
