@@ -416,26 +416,12 @@ class Course {
             });
         } else {
 
-            // $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
-            //     console.log($(this));
-            //     var fontSize = $(this).css("fontSize");
-            //     fontSize = parseInt(fontSize) - 4 + "px";
-            //     console.log('FZ', fontSize);
-            //     $(this).css("fontSize", fontSize);
-            // });
             GoOutFullscreen();
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
             this.courseEl.removeClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
             //this.fullscreenPaintNavButtons(true);
         }
-
-        this.initedVideos.forEach(i => {
-            console.log('player', i);
-            // setTimeout(() => {
-            //     i.player.setPlayerSize();
-            // }, 0);
-        });
     }
 
     toggleFullscreenOption(e) {
@@ -561,27 +547,12 @@ class Course {
 
 
             this.initedVideos.forEach(i => {
-                console.log('player 11', i);
-                // setTimeout(() => {
-                //     i.player.setPlayerSize();
-                // }, 1);
-                //  if (i.slideIndex != indexSlide) {
-
                 i.player.pause();
                 i.player.remove();
-                //  }
             });
-            // this.initedVideos.filter(i => i.slideIndex == indexSlide);
             this.initedVideos = [];
 
-
-            // if (!this.initedVideos.find(i => i.slideIndex == indexSlide)) {
             this.initVideo();
-            //   }
-            // setTimeout(() => {
-            //     console.log('resize');
-            //     $(window).trigger('resize');
-            // }, 100);
         }
 
         this.calculateProgress();
