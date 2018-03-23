@@ -1,5 +1,7 @@
+<?php
+$defaultColors = array_get(get_option('lms-plugin'), 'colors');
+?>
 <div class="lms-advanced-settings slide-content__advance-settings hidden">
-
     <!-- Color theme -->
     <div class="row">
         <div class="col-2">
@@ -20,7 +22,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][background]"
-                       value="<?= array_get($slide, 'colors.background', '#4990E2'); ?>"
+                       value="<?= array_get($slide, 'colors.background', array_get($defaultColors, 'background', '#fff')); ?>"
                 >
                 <?= __('Background', 'lms-plugin'); ?>
             </label>
@@ -28,7 +30,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][text]"
-                       value="<?= array_get($slide, 'colors.text', '#FFFFFF'); ?>"
+                       value="<?= array_get($slide, 'colors.text', array_get($defaultColors, 'text', '#000')); ?>"
                 >
                 <?= __('Text', 'lms-plugin'); ?>
             </label>
@@ -36,7 +38,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][header_background]"
-                       value="<?= array_get($slide, 'colors.header_background', '#4990E2'); ?>"
+                       value="<?= array_get($slide, 'colors.header_background', array_get($defaultColors, 'header_background', '#fff')); ?>"
                 >
                 <?= __('Header Background', 'lms-plugin'); ?>
             </label>
@@ -44,7 +46,7 @@
             <label class="lms-color-picker-wrap">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][header]"
-                       value="<?= array_get($slide, 'colors.header', '#F1F1F1'); ?>"
+                       value="<?= array_get($slide, 'colors.header', array_get($defaultColors, 'header', '#000')); ?>"
                 >
                 <?= __('Header', 'lms-plugin'); ?>
             </label>
