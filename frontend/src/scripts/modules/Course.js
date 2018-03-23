@@ -560,21 +560,24 @@ class Course {
             $('.lms-nav-button--check').removeClass('active');
 
 
-            if (!this.initedVideos.find(i => i.slideIndex == indexSlide)) {
-                this.initVideo();
-            }
-
-
             this.initedVideos.forEach(i => {
-                console.log('player', i);
+                console.log('player 11', i);
                 // setTimeout(() => {
                 //     i.player.setPlayerSize();
                 // }, 1);
-                if (i.slideIndex != indexSlide) {
-                    i.player.pause();
-                }
-            });
+                //  if (i.slideIndex != indexSlide) {
 
+                i.player.pause();
+                i.player.remove();
+                //  }
+            });
+            // this.initedVideos.filter(i => i.slideIndex == indexSlide);
+            this.initedVideos = [];
+
+
+            // if (!this.initedVideos.find(i => i.slideIndex == indexSlide)) {
+            this.initVideo();
+            //   }
             // setTimeout(() => {
             //     console.log('resize');
             //     $(window).trigger('resize');
