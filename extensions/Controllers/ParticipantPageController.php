@@ -3,7 +3,6 @@
 namespace LmsPlugin\Controllers;
 
 use LmsPlugin\CustomRoles;
-use LmsPlugin\Models\Activity;
 use LmsPlugin\Models\Course;
 use LmsPlugin\Models\DataSuppliers\ParticipantProgressDataSupplier;
 use LmsPlugin\Models\Enrollment;
@@ -25,7 +24,9 @@ class ParticipantPageController extends Controller
         $statuses = Course::statuses();
         $statuses['uninvited'] = __('Uninvited', 'lms-plugin');
 
-        $this->view('pages.participant.index', compact('user', 'statuses', 'progress', 'roles'));
+        $dictionary = require $this->plugin->getDirectory('languages/activities.php');
+
+        $this->view('pages.participant.index', compact('user', 'statuses', 'progress', 'roles', 'dictionary'));
     }
 
     public function courses()
@@ -42,9 +43,26 @@ class ParticipantPageController extends Controller
     public function activities()
     {
         $user_id = array_get($_GET, 'uid');
+        $filter = array_get($_GET, 'filter');
+
         $user = User::find($user_id);
 
-        $this->view('pages.participant.activities', compact('user'));
+        $activities = $user->activities()
+                           ->where('created_at', '>=', array_get($filter, 'from'))
+                           ->where('created_at', '<=', array_get($filter, 'to'))
+                           ->where('type', array_get($filter, 'type'))
+                           ->where('course_id', array_get($filter, 'course'))
+                           ->orderBy(['created_at' => 'DESC'])
+                           ->get();
+
+        $dictionary = require $this->plugin->getDirectory('languages/activities.php');
+
+        $courses = Course::all();
+
+        $this->view(
+            'pages.participant.activities',
+            compact('user', 'activities', 'dictionary', 'courses', 'filter')
+        );
     }
 
     public function changeStatus()

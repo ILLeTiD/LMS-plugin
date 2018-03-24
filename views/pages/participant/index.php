@@ -126,7 +126,8 @@
     <?php endif; ?>
 
     <?php component('components.activities-table', [
-        'activities' => $user->activities()->take(3),
+        'activities' => $user->activities()->orderBy(['created_at' => 'DESC'])->take(3),
+        'dictionary' => $dictionary
     ]); ?>
 
 </div>

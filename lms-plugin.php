@@ -12,6 +12,7 @@ Domain Path: /languages
 
 require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/libraries/helpers.php';
+require_once __DIR__ . '/extensions/helpers.php';
 require_once __DIR__ . '/frontend/frontend-functions.php';
 
 call_user_func(function () {

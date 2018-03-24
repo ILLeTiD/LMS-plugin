@@ -18,16 +18,16 @@
                     <?= __('at', 'lms-plugin'); ?>
                     <?= $activity->time;  ?>
                     <div>
-                        <?= $activity->name; ?>
+                        <?php $description = array_get($dictionary, "{$activity->type}.{$activity->name}"); ?>
                         <?php if ($activity->type == 'course'): ?>
-                            <a href="<?= edit_course_url($activity->course); ?>">
-                                <?= $activity->course->name; ?>
-                            </a>
+                            <?= sprintf($description, lms_course_edit_link($activity->course)); ?>
+                        <?php else: ?>
+                            <?= $description; ?>
                         <?php endif; ?>
                     </div>
                 </td>
                 <td>
-                    <?= $activity->type;  ?>
+                    <?= ucfirst($activity->type); ?>
                 </td>
                 <td>
                     <?php if ($activity->type == 'course'): ?>
