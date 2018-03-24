@@ -21,6 +21,11 @@
         <input type="hidden" name="page" value="participant_activities">
         <input type="hidden" name="uid" value="<?= $user->id; ?>">
 
+        <p class="search-box">
+            <input type="search" id="user-search-input" name="search" value="<?= $search; ?>">
+            <input type="submit" id="search-submit" class="button" value="<?= __('Search Activity', 'lms-plugin'); ?>">
+        </p>
+
         <div class="tablenav top">
             <div class="alignleft actions">
                 <input type="text" 
@@ -62,11 +67,21 @@
                 <button class="button"><?= __('Filter', 'lms-plugin'); ?></button>
             </div>
 
+            <?= $activities->pagination->display('top'); ?>
+
             <br class="clear">
         </div>
     </form>
 
     <?php component('components.activities-table', compact('activities', 'dictionary')); ?>
+
+
+    <div class="tablenav bottom">
+
+        <?= $activities->pagination->display('bottom'); ?>
+
+        <br class="clear">
+    </div>
 
 </div>
 

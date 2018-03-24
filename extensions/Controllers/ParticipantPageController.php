@@ -44,6 +44,7 @@ class ParticipantPageController extends Controller
     {
         $user_id = array_get($_GET, 'uid');
         $filter = array_get($_GET, 'filter');
+        $search = array_get($_GET, 'search');
 
         $user = User::find($user_id);
 
@@ -52,8 +53,9 @@ class ParticipantPageController extends Controller
                            ->where('created_at', '<=', array_get($filter, 'to'))
                            ->where('type', array_get($filter, 'type'))
                            ->where('course_id', array_get($filter, 'course'))
+                           ->where('name', 'LIKE', $search ? "%{$search}%" : '')
                            ->orderBy(['created_at' => 'DESC'])
-                           ->get();
+                           ->paginate(10);
 
         $dictionary = require $this->plugin->getDirectory('languages/activities.php');
 
@@ -61,7 +63,14 @@ class ParticipantPageController extends Controller
 
         $this->view(
             'pages.participant.activities',
-            compact('user', 'activities', 'dictionary', 'courses', 'filter')
+            compact(
+                'activities', 
+                'dictionary', 
+                'courses', 
+                'filter', 
+                'search',
+                'user'
+            )
         );
     }
 
