@@ -25,7 +25,6 @@
 
             <div class="alignleft actions">
                 <?php component('components.filter.role', [
-                    'roles' => $roles,
                     'role' => $role
                 ]); ?>
 
@@ -102,7 +101,7 @@
                         </strong>
                     </td>
                     <td class="role column-role" data-colname="Role">
-                        <a href="#"><?= implode(', ', lms_role_list($user)); ?></a>
+                        <?= implode(', ', lms_role_list($user)); ?>
                     </td>
                     <td class="last-activity column-last-activity" data-colname="Last Activity">
                         <?php if ($user->last_activity): ?>
