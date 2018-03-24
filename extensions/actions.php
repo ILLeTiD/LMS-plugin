@@ -135,6 +135,8 @@ $action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@get
 $action->add('wp_ajax_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
 //$action->add('wp_ajax_nopriv_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
 
+
+$action->add('wp_ajax_save_quiz_result', 'Controllers\QuizAnswerController@saveResult');
 /**
  * Events.
  */

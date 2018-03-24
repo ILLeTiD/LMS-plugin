@@ -119,11 +119,6 @@ class FormQuiz extends AbstractQuiz {
             checkedAnswers.push({text: $(this).val(), correct: null});
         });
 
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAA1');
-        console.log(lmsAjax.notificationMessages);
-        console.log(this.type);
-        console.log(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`]);
-
         const isAllEmpty = checkedAnswers.reduce((acc, val) => val.text == "", true);
         if (isAllEmpty) {
             new Alert(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].message, lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].title, 'info', 3000);

@@ -57,20 +57,8 @@ class QuizAnswerController extends Controller
         }, $userAnswer);
 
 
-        $quizResult = QuizResult::where('user_id', $user_id)
-            ->where('course_id', $course_id)
-            ->where('slide_id', $slide_id)
-            ->first();
+        self::staticSaveResult($user_id, $course_id, $slide_id, $checkedAnswers);
 
-        if ($quizResult) {
-            $quizResult->results = json_encode($checkedAnswers);
-            $quizResult->save();
-        } else {
-            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
-                'slide_id' => $slide_id,
-                'results' => json_encode($checkedAnswers)]);
-            $QuizModel->save();
-        }
 
         wp_send_json(['slide' => $slide_id, 'slideans' => $answers, 'checkedAnswers' => $checkedAnswers, 'post' => $_POST]);
     }
@@ -100,22 +88,45 @@ class QuizAnswerController extends Controller
         }, false);
 
         if ($isCorrect) {
-            $quizResult = QuizResult::where('user_id', $user_id)
-                ->where('course_id', $course_id)
-                ->where('slide_id', $slide_id)
-                ->first();
-            // d($quizResult);
-            if ($quizResult) {
-                $quizResult->results = $userAnswerText;
-                $quizResult->save();
-            } else {
-                $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
-                    'slide_id' => $slide_id,
-                    'results' => $userAnswerText]);
-                $QuizModel->save();
-            }
+            self::staticSaveResult($user_id, $course_id, $slide_id, $userAnswerText);
         }
 
         wp_send_json(['slide' => $sanitizedUserAnswer, 'isCorrect' => $isCorrect, 'checkedAnswers' => $correctAnswers, 'post' => $_POST]);
+    }
+
+    public function saveResult($user_id, $course_id, $slide_id, $result)
+    {
+        $quizResult = QuizResult::where('user_id', $user_id)
+            ->where('course_id', $course_id)
+            ->where('slide_id', $slide_id)
+            ->first();
+        // d($quizResult);
+        if ($quizResult) {
+            $quizResult->results = $result;
+            $quizResult->save();
+        } else {
+            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
+                'slide_id' => $slide_id,
+                'results' => $result]);
+            $QuizModel->save();
+        }
+    }
+
+    public static function staticSaveResult($user_id, $course_id, $slide_id, $result)
+    {
+        $quizResult = QuizResult::where('user_id', $user_id)
+            ->where('course_id', $course_id)
+            ->where('slide_id', $slide_id)
+            ->first();
+        // d($quizResult);
+        if ($quizResult) {
+            $quizResult->results = $result;
+            $quizResult->save();
+        } else {
+            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
+                'slide_id' => $slide_id,
+                'results' => $result]);
+            $QuizModel->save();
+        }
     }
 }

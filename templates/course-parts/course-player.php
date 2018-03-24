@@ -1,6 +1,6 @@
 <?php
 //lms_get_template('course-header.php');
-lms_get_template('course-parts/course-settings.php',['course' => $course]);
+lms_get_template('course-parts/course-settings.php', ['course' => $course]);
 
 $activity = \LmsPlugin\Models\Activity::where('user_id', get_current_user_id())
     ->where('course_id', $course->id)
@@ -37,9 +37,6 @@ foreach ($slides as $key => $slide) {
         <?php
         lms_get_template('template-parts/course-preloader.php');
         ?>
-        <div class="lms-course-fullscreen-overlay">
-
-        </div>
         <div class="lms-course__wrapper">
             <div id="lms-slides" class="lms-slides">
                 <?php
