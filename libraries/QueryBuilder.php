@@ -155,10 +155,9 @@ class QueryBuilder
                 return new $this->class($row);
             }, $rows);
 
-            $collection =  new Collection($enrollments);
-            $collection->pagination = $this->pagination;
-
-            return $collection;
+            return empty($this->pagination) ?
+                    new Collection($enrollments) : 
+                    new PagedCollection($enrollments, $this->pagination);
         }
         return new Collection($rows);
     }
@@ -223,10 +222,5 @@ class QueryBuilder
 
         return $this->skip($offset)
                     ->take($perPage);
-    }
-
-    public function pagination()
-    {
-        return $this->pagination;
     }
 }

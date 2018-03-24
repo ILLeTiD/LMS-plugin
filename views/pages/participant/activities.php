@@ -67,7 +67,7 @@
                 <button class="button"><?= __('Filter', 'lms-plugin'); ?></button>
             </div>
 
-            <?= $activities->pagination->display('top'); ?>
+            <?= $activities->pagination()->display('top'); ?>
 
             <br class="clear">
         </div>
@@ -78,7 +78,7 @@
 
     <div class="tablenav bottom">
 
-        <?= $activities->pagination->display('bottom'); ?>
+        <?= $activities->pagination()->display('bottom'); ?>
 
         <br class="clear">
     </div>
