@@ -2,7 +2,7 @@
 //lms_get_template('course-header.php');
 lms_get_template('course-parts/course-settings.php', ['course' => $course]);
 
-$activity = \LmsPlugin\Models\Activity::where('user_id', get_current_user_id())
+$activity = \LmsPlugin\Models\Progress::where('user_id', get_current_user_id())
     ->where('course_id', $course->id)
     ->where('name', 'finished')
     ->orderBy(['created_at' => 'DESC'])
