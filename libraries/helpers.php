@@ -1,6 +1,7 @@
 <?php
 
 use LmsPlugin\Models\User;
+use LmsPlugin\Models\QuizResult;
 
 if (!function_exists('studly_case')) {
     /**
@@ -506,5 +507,25 @@ if (!function_exists('lms_invite_token')) {
     function lms_invite_token($length = 16)
     {
         return bin2hex(random_bytes($length));
+    }
+}
+
+if (!function_exists('lms_save_quiz_result')) {
+    function lms_save_quiz_result($user_id, $course_id, $slide_id, $result)
+    {
+        $quizResult = QuizResult::where('user_id', $user_id)
+            ->where('course_id', $course_id)
+            ->where('slide_id', $slide_id)
+            ->first();
+// d($quizResult);
+        if ($quizResult) {
+            $quizResult->results = $result;
+            $quizResult->save();
+        } else {
+            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
+                'slide_id' => $slide_id,
+                'results' => $result]);
+            $QuizModel->save();
+        }
     }
 }

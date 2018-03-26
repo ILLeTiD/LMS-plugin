@@ -3,14 +3,14 @@
   max-width: 1200px;
   margin: auto;
   position: relative;
-  overflow-x: hidden;
-  overflow-y: hidden;
 
   @media screen and (min-width: 1200px) {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     height: 697px;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   .is-ie & {

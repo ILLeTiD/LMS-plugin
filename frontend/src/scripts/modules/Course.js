@@ -1,5 +1,7 @@
-import SlideCtr from './Slide';
+import SlideCtr from './Slides';
 import {initLazyLoading} from '../utilities/lazy-loading';
+import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 import Alert from '../utilities/Alerts'
 import 'hammerjs'
@@ -9,18 +11,20 @@ import {ProgressLogger} from './CourseProgressLogger'
 import {Activity} from  './ActivityLogger'
 import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
 import {showArrow} from '../utilities/checkIfArrowAllowed'
-import quizFactory from './quiz-functions/quizFactory'
 import Stickyfill from 'stickyfilljs'
+
 class Course {
     constructor() {
-        this.slideCtr = new SlideCtr(this);
+        // this.slideCtr = new SlideCtr(this);
+        this.SlidesController = new SlideCtr(this);
+        this.slides = this.SlidesController.slides;
+
         this.canGoNext = true;
         this.flexThreshold = 50;
         this.passedIds = [];
         this.slideDisplayType = 'all_at_once';
         this.navType = 'slide';
         this.selectors = selectors;
-        this.slides = [];
         this.initedVideos = [];
         this.isLastSlide = false;
         this.isEnd = false;
@@ -37,98 +41,41 @@ class Course {
         this.initAudio();
 
         initLazyLoading();
-        this.collectSlides();
         showArrow();
-
-
     }
 
-    //@TODO rework slides , remove slides from here, add mobx to track slide changes
-    collectSlides() {
-        const self = this;
-        $(this.selectors.slide).each(function (i) {
-
-            let sectionsOrder = [];
-            if ($(this).data('section-display') == 'once_at_a_time') {
-                $(this).find('.lms-grid-block').each((i, val) => {
-                    sectionsOrder.push(i);
-                    if ($(val).data('linked-to')) {
-                        sectionsOrder.push($(val).data('linked-to') - 1);
-                    }
-                });
-            }
-            sectionsOrder = [...new Set(sectionsOrder)];
-            sectionsOrder.shift();
-
-            const slide = {
-                index: +$(this).data('slide-index'),
-                id: $(this).data('slide-id'),
-                type: $(this).data('type'),
-                active: false,
-                sectionDisplay: $(this).data('section-display'),
-                sectionOrder: sectionsOrder,
-                passed: $(this).data('passed') ? $(this).data('passed') : false,
-                latest: $(this).data('latest') ? $(this).data('latest') : false,
-            };
-
-            if ($(this).data('type') == 'quiz') {
-                slide.inited = false;
-                slide.quiz = quizFactory(
-                    $(this),
-                    $(this).data('quiz-type'),
-                    $(this).data('tolerance'),
-                    self.CourseInstance);
-            }
-            self.slides.push(slide);
-        });
-    }
 
     initVideo() {
         const self = this;
         if ($.fn.mediaelementplayer) {
-
-            this.slideCtr.current.find('.lms-video-player').each(function (i) {
+            this.SlidesController.current.find('.lms-video-player').each(function (i) {
                 const isHiddenControls = $(this).hasClass('lms-video-player--disabled');
                 const isAutoplay = $(this).hasClass('autoplay');
+
+                console.log('is Hidden controlls? ', isHiddenControls, " is Autoplay ? ", isAutoplay, 'this', $(this));
+
+                const playeryOptions = {
+                    pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
+                    shimScriptAccess: 'always',
+                    alwaysShowControls: false,
+                    stretching: 'responsive',
+
+                    success: function (mediaElement, originalNode, instance) {
+                        if (isAutoplay) {
+                            console.log('IS AUTOPLAY');
+                            instance.play();
+                        }
+                        self.initedVideos.push({
+                            slideIndex: self.SlidesController.current.data('slide-index'),
+                            player: instance
+                        });
+                    }
+                };
                 if (isHiddenControls) {
-                    $(this).mediaelementplayer({
-                        videoWidth: '100%',
-                        videoHeight: '100%',
-                        enableAutosize: true,
-                        pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
-                        shimScriptAccess: 'always',
-                        alwaysShowControls: false,
-                        stretching: 'responsive',
-                        features: ['current', 'duration', 'tracks', 'volume', 'fullscreen'],
-                        success: function (mediaElement, originalNode, instance) {
-                            if (isAutoplay) {
-                                console.log('IS AUTOPLAY');
-                                instance.play();
-                            }
-                            self.initedVideos.push({
-                                slideIndex: self.slideCtr.current.data('slide-index'),
-                                player: instance
-                            });
-                        }
-                    });
-                } else {
-                    $(this).mediaelementplayer({
-                        pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
-                        shimScriptAccess: 'always',
-                        alwaysShowControls: false,
-                        stretching: 'responsive',
-                        success: function (mediaElement, originalNode, instance) {
-                            if (isAutoplay) {
-                                console.log('IS AUTOPLAY');
-                                instance.play();
-                            }
-                            self.initedVideos.push({
-                                slideIndex: self.slideCtr.current.data('slide-index'),
-                                player: instance
-                            });
-                        }
-                    });
+                    playeryOptions.features = [];
                 }
+                $(this).mediaelementplayer(playeryOptions);
+
             });
         }
     }
@@ -150,7 +97,7 @@ class Course {
     }
 
     setSlideAudio() {
-        const slide = this.slideCtr.current;
+        const slide = this.SlidesController.current;
         const audioBlock = slide.find(this.selectors.audioGridBlock).first();
         const firstAudioSrc = audioBlock.data('audio-src');
         const isLoop = audioBlock.data('audio-loop');
@@ -175,8 +122,6 @@ class Course {
     getLatestSlideFromDb() {
         const self = this;
 
-        console.log('USER ', this.userId);
-        console.log('USER ', this.courseId);
         $.ajax({
             method: "POST",
             url: lmsAjax.ajaxurl,
@@ -235,13 +180,11 @@ class Course {
         this.showSlide(initialSlideIndex, initialSlideIndex + 1);
         this.checkStartStatus();
 
-
         //remove loader when we have slide to show
         this.removePreoader();
     }
 
     removePreoader() {
-        console.log('REMOVE PRELOADRER');
         this.courseEl.removeClass('unloaded');
         this.courseEl.find(this.selectors.preloader).remove();
     }
@@ -258,37 +201,37 @@ class Course {
 
         //collect info about last step from activities
         let lastSlideIdFromDB = this.passedIds[0];
-        let lastElIndexFromDB = this.slideCtr.slides.find(value => value.id == lastSlideIdFromDB);
+        let lastElIndexFromDB = this.SlidesController.slides.find(value => value.id == lastSlideIdFromDB);
         let lastSlideIndexFromDB = lastElIndexFromDB.index;
 
         //check if valid slide in url hash
         if (hash && hash.indexOf('#slide') != -1) {
             //extract step info from hash
             const slideToShow = parseInt(hash.substr(6));
-            const elementToShow = this.slideCtr.slides.find(value => value.index == (slideToShow - 1));
+            const elementToShow = this.SlidesController.slides.find(value => value.index == (slideToShow - 1));
             const idToShow = elementToShow ? elementToShow.id : {};
             //check if user can go to this step
-            if (this.passedIds.includes(idToShow) && !(slideToShow > +this.slideCtr.amount || slideToShow <= 0)) {
-                this.slideCtr.currentById = idToShow;
-                lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
+            if (this.passedIds.includes(idToShow) && !(slideToShow > +this.SlidesController.amount || slideToShow <= 0)) {
+                this.SlidesController.currentById = idToShow;
+                lastSlideIndexFromDB = this.SlidesController.current.data('slide-index');
             } else {
                 //user cant go to slide in hash but has some activities so show last activity
                 console.log('wrong slide11');
                 history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
-                this.slideCtr.currentById = +lastSlideIdFromDB;
-                lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
+                this.SlidesController.currentById = +lastSlideIdFromDB;
+                lastSlideIndexFromDB = this.SlidesController.current.data('slide-index');
             }
         } else {
             // user just go to course not to specific slide and has some activity in past
             history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
-            this.slideCtr.currentById = +lastSlideIdFromDB;
-            lastSlideIndexFromDB = this.slideCtr.current.data('slide-index');
+            this.SlidesController.currentById = +lastSlideIdFromDB;
+            lastSlideIndexFromDB = this.SlidesController.current.data('slide-index');
         }
         return lastSlideIndexFromDB;
     }
 
     addToUrl(part, obj = {}) {
-        const index = this.slideCtr.current.index();
+        const index = this.SlidesController.current.index();
         const current = index + 1;
 
         var stateObj;
@@ -304,10 +247,10 @@ class Course {
     }
 
     keyboardArrowHandler(e) {
-        if (e.keyCode == 37 && !this.slideCtr.current.is(':first-child')) {
+        if (e.keyCode == 37 && !this.SlidesController.current.is(':first-child')) {
             this.prevSlide();
         }
-        if (e.keyCode == 39 && !this.slideCtr.current.is(':last-child')) {
+        if (e.keyCode == 39 && !this.SlidesController.current.is(':last-child')) {
             if (this.navType == 'slide') {
                 this.nextSlide();
             } else if (this.navType == 'section') {
@@ -316,53 +259,56 @@ class Course {
         }
     }
 
+    fullscreenChangeHandler(e) {
+        //default ESC button exit fullscreen handler
+        if (!IsFullScreenCurrently()) {
+            this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
+            this.courseEl.removeClass('lms-fullscreen-init');
+            this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
+            // this.fullscreenPaintNavButtons(true);
+
+            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
+                let fontSize = $(this).css("fontSize");
+                fontSize = parseInt(fontSize) - 4 + "px";
+                $(this).css(`fontSize`, `${fontSize}`);
+            });
+        }
+    }
+
+    fullscreenShowToolbarOnHover(event) {
+        if (IsFullScreenCurrently()) {
+            if (event.pageY >= $(window).height() * 0.8) {
+                $('.lms-course-controls.lms-fullscreen-init').addClass('lms-option-shown');
+            } else {
+                $('.lms-course-controls.lms-fullscreen-init').removeClass('lms-option-shown');
+            }
+        }
+    }
+
+    urlChangeHandler(e) {
+        console.log('CHANGE URL LISTENER');
+        var state = e.state;
+
+        try {
+            this.showSlide(state.current - 1, state.current, false);
+        } catch (e) {
+            this.SlidesController.currentByIndex = 0;
+            this.calculateProgress()
+        }
+    }
 
     listeners() {
         $('html').on('keydown', this.keyboardArrowHandler.bind(this));
-        //$('html').keydown();
 
-        window.addEventListener('popstate', (e) => {
-            console.log('CHANGE URL LISTENER');
-            var state = e.state;
+        window.addEventListener('popstate', this.urlChangeHandler.bind(this));
 
-            try {
-                this.showSlide(state.current - 1, state.current, false);
-            } catch (e) {
-                this.slideCtr.currentByIndex = 0;
-            }
-        });
+        $(document).on('mousemove', this.fullscreenShowToolbarOnHover.bind(this));
 
-        $(document).mousemove(function (event) {
-            if (IsFullScreenCurrently()) {
-                if (event.pageY >= $(window).height() * 0.8) {
-                    $('.lms-course-controls.lms-fullscreen-init').addClass('lms-option-shown');
-                } else {
-                    $('.lms-course-controls.lms-fullscreen-init').removeClass('lms-option-shown');
-                }
-            }
-        });
-
-        //default ESC button exit fullscreen handler
-        const resizeHandler = () => {
-            if (!IsFullScreenCurrently()) {
-                console.log('HAAAAAAAANDLEDDD');
-                this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
-                this.courseEl.removeClass('lms-fullscreen-init');
-                this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
-                // this.fullscreenPaintNavButtons(true);
-
-                $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
-                    let fontSize = $(this).css("fontSize");
-                    fontSize = parseInt(fontSize) - 4 + "px";
-                    $(this).css(`fontSize`, `${fontSize}`);
-                });
-            }
-        };
         //IDK why but this works
-        $('.lms-course').on('webkitfullscreenchange', resizeHandler);
-        $(document).on('mozfullscreenchange', resizeHandler);
-        $('.lms-course').on('fullscreenchange', resizeHandler);
-        $(document).on('MSFullscreenChange', resizeHandler);
+        $('.lms-course').on('webkitfullscreenchange', this.fullscreenChangeHandler.bind(this));
+        $(document).on('mozfullscreenchange', this.fullscreenChangeHandler.bind(this));
+        $('.lms-course').on('fullscreenchange', this.fullscreenChangeHandler.bind(this));
+        $(document).on('MSFullscreenChange', this.fullscreenChangeHandler.bind(this));
 
         $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
         $(this.selectors.shortcodeRestart).on('click', this.shortcodeRestart.bind(this));
@@ -379,7 +325,7 @@ class Course {
 
     checkQuiz(e) {
         if (e) e.preventDefault();
-        this.slideCtr.current.find('.lms-quiz-check-button').click();
+        this.SlidesController.current.find('.lms-quiz-check-button').click();
     }
 
     shortcodeBackToCourses(e) {
@@ -429,9 +375,10 @@ class Course {
         this.courseEl.find(this.selectors.courseControls).toggleClass('lms-option-shown');
     }
 
+    //unused function was created according to old specs where we changed color of buttons in fullscreen
     fullscreenPaintNavButtons(onCangeFullscreen = false) {
         const getColor = () => {
-            const slide = this.slideCtr.current;
+            const slide = this.SlidesController.current;
             const type = slide.data('type');
             let color = '#fff';
             color = slide.data('icon-color');
@@ -456,9 +403,9 @@ class Course {
     nextSlide(e) {
         if (e) e.preventDefault();
 
-        const currentSlide = this.slideCtr.current;
+        const currentSlide = this.SlidesController.current;
         const currentId = currentSlide.data('slide-id');
-        const nextSlide = this.slideCtr.current.next();
+        const nextSlide = this.SlidesController.current.next();
         const nextSlideIndex = nextSlide.data('slide-index');
 
         if (this.canGoNext) {
@@ -472,31 +419,32 @@ class Course {
     prevSlide(e) {
         if (e) e.preventDefault();
         this.canGoNext = true;
-        const currentSlide = this.slideCtr.current;
+        const currentSlide = this.SlidesController.current;
         const prevSlideIndex = currentSlide.prev().index();
         this.showSlide(prevSlideIndex, prevSlideIndex + 1)
     }
 
     removeNotificationFromPrevSteps() {
-        console.log('remove');
-        $('.iziToast-opened').each(function (i) {
-            console.log($(this));
-            $(this).find('.iziToast-close').click();
-        });
+        setTimeout(() => {
+            $('.iziToast-opened').each(function (i) {
+                $(this).hide();
+                // $(this).find('.iziToast-close').click();
+            });
+        }, 300);
     }
 
     showSlide(indexSlide, indexHash, changeUrl = true) {
-        this.slideCtr.currentByIndex = indexSlide;
+        this.SlidesController.currentByIndex = indexSlide;
 
-        this.slideSectionsCount = this.slideCtr.current.data('section-count');
-        this.slideDisplayType = this.slideCtr.current.data('section-display');
+        this.slideSectionsCount = this.SlidesController.current.data('section-count');
+        this.slideDisplayType = this.SlidesController.current.data('section-display');
         this.currentSection = 1;
 
         this.checkControls();
 
-        this.removeNotificationFromPrevSteps();
+
         // this.fullscreenPaintNavButtons();
-        const currentId = this.slideCtr.current.data('slide-id');
+        const currentId = this.SlidesController.current.data('slide-id');
         if (changeUrl) {
             this.addToUrl(indexHash, {
                 current: indexHash,
@@ -509,19 +457,24 @@ class Course {
             this.setSlideAudio();
         }
 
-        if (this.slideCtr.current.data('type') === 'quiz') {
+        if (this.SlidesController.current.data('type') === 'quiz') {
             console.log('IS SLIDE QUIZ');
-            if (!this.passedIds.includes(this.slideCtr.current.data('slide-id'))) {
+            console.log(this.passedIds);
+            console.log(this.SlidesController.current.data('slide-id'));
+
+            if (!this.passedIds.includes(this.SlidesController.current.data('slide-id'))) {
                 console.log('IS SLIDE QUIZ FIRST TIME');
                 $('.lms-nav-button--prev').addClass('disabled');
                 $('.lms-nav-button--check').addClass('active');
                 this.canGoNext = false;
             } else {
+                console.log('IS SLIDE QUIZ NOT FIRST TIME');
                 $('.lms-nav-button--prev').removeClass('disabled');
                 $('.lms-nav-button--check').removeClass('active');
             }
+
             //init current quiz
-            const quizSlide = this.slideCtr.quizes.find(e => e.id == currentId);
+            const quizSlide = this.SlidesController.slides.find(el => el.id == currentId && el.quiz !== false);
 
             //hack to recalc quiz hint
             setTimeout(() => {
@@ -556,32 +509,18 @@ class Course {
         }
 
         this.calculateProgress();
+        this.removeNotificationFromPrevSteps();
     }
 
     nextSection(e) {
-        const scrollToTopAnim = (scrollDuration, el) => {
-            var cosParameter = el.scrollTop / 2,
-                scrollCount = 0,
-                oldTimestamp = performance.now();
 
-            function step(newTimestamp) {
-                scrollCount += Math.PI / (scrollDuration / (newTimestamp - oldTimestamp));
-                if (scrollCount >= Math.PI) el.scrollTop = 0;
-                if (el.scrollTop === 0) return;
-                el.scrollTop = Math.round(cosParameter + cosParameter * Math.cos(scrollCount));
-                oldTimestamp = newTimestamp;
-                window.requestAnimationFrame(step);
-            }
-
-            window.requestAnimationFrame(step);
-        };
         if (e) e.preventDefault();
-        const slideIndex = this.slideCtr.currentIndex;
+        const slideIndex = this.SlidesController.currentIndex;
         const slide = this.slides.find(i => i.index == slideIndex);
-        const slideNode = this.slideCtr.current;
+        const slideNode = this.SlidesController.current;
         const slideLayout = slideNode.data('slide-layout');
         const nextSectionIndex = slide.sectionOrder.shift();
-        const section = this.slideCtr.current.find(this.selectors.gridBlock).eq(nextSectionIndex);
+        const section = this.SlidesController.current.find(this.selectors.gridBlock).eq(nextSectionIndex);
         const firstAudioBlock = slideNode.find(this.selectors.audioGridBlock).first();
         // console.log(section);
         section.addClass('active');
@@ -602,7 +541,7 @@ class Course {
 
 
         if (slide.sectionOrder.length <= 0) {
-            this.slideCtr.current.addClass('passed');
+            this.SlidesController.current.addClass('passed');
             this.navType = 'slide';
             this.enableCourseNav();
             this.disableSectionNav();
@@ -640,14 +579,14 @@ class Course {
             this.enableSectionNav();
         }
 
-        if (this.slideDisplayType == 'all_at_once' || this.slideSectionsCount == 1 || this.slideCtr.current.hasClass('passed')) {
+        if (this.slideDisplayType == 'all_at_once' || this.slideSectionsCount == 1 || this.SlidesController.current.hasClass('passed')) {
             this.navType = 'slide';
             this.enableCourseNav();
             this.disableSectionNav();
         }
     }
 
-    calculateProgress(current = this.slideCtr.current.index(), amount = this.slideCtr.amount) {
+    calculateProgress(current = this.SlidesController.current.index(), amount = this.SlidesController.amount) {
         const courseProgressLine = $(this.selectors.progressBar);
         courseProgressLine.css('width', `${((current + 1) / amount) * 100}%`);
     }
@@ -664,8 +603,7 @@ class Course {
 
     confirmCompletionCourse(e) {
         if (e) e.preventDefault();
-        console.log('COMPLETE OF COURSE ');
-        const currentSlide = this.slideCtr.current;
+        const currentSlide = this.SlidesController.current;
         const currentId = currentSlide.data('slide-id');
         ProgressLogger.commitProgress(this.userId, this.courseId, currentId, 'finished');
         Activity.completeCourse(this.userId, this.courseId);
@@ -673,7 +611,7 @@ class Course {
     }
 
     checkControls() {
-        if (this.slideCtr.current.is(':first-child')) {
+        if (this.SlidesController.current.is(':first-child')) {
             $(`${this.selectors.slideNavigation} .prev`).hide();
             $(`${this.selectors.sectionNavigation} .prev`).hide();
         } else {
@@ -681,7 +619,7 @@ class Course {
             $(`${this.selectors.sectionNavigation} .prev`).show();
         }
 
-        if (this.slideCtr.current.is(':last-child')) {
+        if (this.SlidesController.current.is(':last-child')) {
             this.isLastSlide = true;
             $(`${this.selectors.slideNavigation} .next`).hide();
         } else {
