@@ -425,10 +425,12 @@ class Course {
     }
 
     removeNotificationFromPrevSteps() {
-        $('.iziToast-opened').each(function (i) {
-            console.log($(this));
-            $(this).find('.iziToast-close').click();
-        });
+        setTimeout(() => {
+            $('.iziToast-opened').each(function (i) {
+                $(this).hide();
+                // $(this).find('.iziToast-close').click();
+            });
+        }, 0);
     }
 
     showSlide(indexSlide, indexHash, changeUrl = true) {
@@ -457,12 +459,16 @@ class Course {
 
         if (this.SlidesController.current.data('type') === 'quiz') {
             console.log('IS SLIDE QUIZ');
+            console.log(this.passedIds);
+            console.log(this.SlidesController.current.data('slide-id'));
+
             if (!this.passedIds.includes(this.SlidesController.current.data('slide-id'))) {
                 console.log('IS SLIDE QUIZ FIRST TIME');
                 $('.lms-nav-button--prev').addClass('disabled');
                 $('.lms-nav-button--check').addClass('active');
                 this.canGoNext = false;
             } else {
+                console.log('IS SLIDE QUIZ NOT FIRST TIME');
                 $('.lms-nav-button--prev').removeClass('disabled');
                 $('.lms-nav-button--check').removeClass('active');
             }

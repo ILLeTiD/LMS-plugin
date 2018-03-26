@@ -57,7 +57,7 @@ class QuizAnswerController extends Controller
         }, $userAnswer);
 
 
-        self::staticSaveResult($user_id, $course_id, $slide_id, $checkedAnswers);
+        lms_save_quiz_result($user_id, $course_id, $slide_id, json_encode($checkedAnswers));
 
 
         wp_send_json(['slide' => $slide_id, 'slideans' => $answers, 'checkedAnswers' => $checkedAnswers, 'post' => $_POST]);
@@ -88,45 +88,20 @@ class QuizAnswerController extends Controller
         }, false);
 
         if ($isCorrect) {
-            self::staticSaveResult($user_id, $course_id, $slide_id, $userAnswerText);
+            lms_save_quiz_result($user_id, $course_id, $slide_id, $userAnswerText);
         }
 
         wp_send_json(['slide' => $sanitizedUserAnswer, 'isCorrect' => $isCorrect, 'checkedAnswers' => $correctAnswers, 'post' => $_POST]);
     }
 
-    public function saveResult($user_id, $course_id, $slide_id, $result)
+    public function saveResult()
     {
-        $quizResult = QuizResult::where('user_id', $user_id)
-            ->where('course_id', $course_id)
-            ->where('slide_id', $slide_id)
-            ->first();
-        // d($quizResult);
-        if ($quizResult) {
-            $quizResult->results = $result;
-            $quizResult->save();
-        } else {
-            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
-                'slide_id' => $slide_id,
-                'results' => $result]);
-            $QuizModel->save();
-        }
-    }
-
-    public static function staticSaveResult($user_id, $course_id, $slide_id, $result)
-    {
-        $quizResult = QuizResult::where('user_id', $user_id)
-            ->where('course_id', $course_id)
-            ->where('slide_id', $slide_id)
-            ->first();
-        // d($quizResult);
-        if ($quizResult) {
-            $quizResult->results = $result;
-            $quizResult->save();
-        } else {
-            $QuizModel = new  QuizResult(['user_id' => $user_id, 'course_id' => $course_id,
-                'slide_id' => $slide_id,
-                'results' => $result]);
-            $QuizModel->save();
-        }
+        $user_id = $_POST['user_id'];
+        $course_id = $_POST['course_id'];
+        $slide_id = $_POST['slide_id'];
+        $result = $_POST['result'];
+        if (!$user_id || !$course_id || !$slide_id || !$result) wp_send_json(['error' => 'Error! Please provide course id']);
+        lms_save_quiz_result($user_id, $course_id, $slide_id, $result);
+        wp_send_json(['info' => 'Quiz Saved']);
     }
 }

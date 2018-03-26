@@ -6,6 +6,8 @@ import moment from 'moment'
 import detectIE from '../utilities/detectIE'
 import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 var objectFitImages = require('object-fit-images');
+
+import QuizResultSaver from './quiz-functions/QuizResultSaver'
 class App {
 
     constructor() {
@@ -51,7 +53,8 @@ class App {
                         }
                     }
                 ).done(function (json) {
-                    console.log('logged out', json);
+                    console.log('logged out', json
+                    );
                     window.location.href = lmsAjax.homeUrl;
                 });
             });

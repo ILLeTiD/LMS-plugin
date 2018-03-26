@@ -33,6 +33,12 @@ class AbstractQuiz {
         this.slide.addClass('passed');
         $('.lms-nav-button--prev').removeClass('disabled');
         $('.lms-nav-button--check').removeClass('active');
+
+        if (!this.CourseInstance.passedIds.includes(this.slide.data('slide-id'))) {
+            console.log('PUSH QUIZ SLIDE ID WHEN END');
+            this.CourseInstance.passedIds.push(this.slide.data('slide-id'))
+        }
+
         new Alert(lmsAjax.notificationMessages[`quiz_success`].message, lmsAjax.notificationMessages[`quiz_success`].title, 'success', 3000);
 
         if (this.CourseInstance.isLastSlide) {
