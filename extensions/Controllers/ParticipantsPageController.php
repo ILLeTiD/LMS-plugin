@@ -24,8 +24,6 @@ class ParticipantsPageController extends Controller
         $from = array_get($_GET, 'from');
         $to = array_get($_GET, 'to');
 
-        $roles = wp_roles()->role_names;
-
         $arguments = [
             // 'role__in' => array_keys(CustomRoles::roles())
             'role__not_in' => ['administrator']
@@ -72,7 +70,6 @@ class ParticipantsPageController extends Controller
         $this->view('pages.participants.all', compact(
             'categories',
             'search',
-            'roles',
             'users',
             'from',
             'role',
