@@ -87,8 +87,11 @@ class QuizAnswerController extends Controller
             return $acc;
         }, false);
 
+
         if ($isCorrect) {
-            lms_save_quiz_result($user_id, $course_id, $slide_id, $userAnswerText);
+            $formattedResults = [];
+            $formattedResults[] = ['value' => $userAnswerText, 'correct' => true];
+            lms_save_quiz_result($user_id, $course_id, $slide_id, json_encode($formattedResults));
         }
 
         wp_send_json(['slide' => $sanitizedUserAnswer, 'isCorrect' => $isCorrect, 'checkedAnswers' => $correctAnswers, 'post' => $_POST]);
@@ -101,7 +104,7 @@ class QuizAnswerController extends Controller
         $slide_id = $_POST['slide_id'];
         $result = $_POST['result'];
         if (!$user_id || !$course_id || !$slide_id || !$result) wp_send_json(['error' => 'Error! Please provide course id']);
-        lms_save_quiz_result($user_id, $course_id, $slide_id, $result);
+        lms_save_quiz_result($user_id, $course_id, $slide_id, json_encode($result));
         wp_send_json(['info' => 'Quiz Saved']);
     }
 }

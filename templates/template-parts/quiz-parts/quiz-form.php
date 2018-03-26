@@ -48,7 +48,7 @@ $correctCount = array_reduce($answers, function ($acc, $item) {
         <?php elseif ($formType == 'text_field'): ?>
             <label>
                 <input type="text" name="text_field"
-                       placeholder="Answer" <?= $userAnswer ? 'value="' . $userAnswer . '"' : ''; ?>>
+                       placeholder="Answer" <?= $userAnswer ? 'value="' . $decodedDBAnswers[0]['value'] . '"' : ''; ?>>
             </label>
         <?php elseif ($formType == 'text_area'): ?>
             <textarea placeholder="Answer"><?= $userAnswer ? $userAnswer : ''; ?></textarea>

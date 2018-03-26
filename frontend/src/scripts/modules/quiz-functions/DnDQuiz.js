@@ -2,6 +2,7 @@ import dragula from 'dragula';
 import AbstractQuiz from './AbstractQuiz'
 import Alert from '../../utilities/Alerts'
 import Hint from '../Hint'
+import QuizResultSaver from './QuizResultSaver'
 
 class DnDQuiz extends AbstractQuiz {
     constructor(slide, type, tolerance, CourseInstance) {
@@ -40,6 +41,13 @@ class DnDQuiz extends AbstractQuiz {
         if (this.CourseInstance.isLastSlide) {
             this.CourseInstance.endOfCourse();
         }
+
+        QuizResultSaver.save(this.CourseInstance.userId, this.CourseInstance.courseId, this.slide.data('slide-id'), [{
+            value: this.percentOfCorrect,
+            correct: true,
+            type: "dnd",
+            tolerance: this.tolerance
+        }]);
         return true;
     }
 
@@ -110,7 +118,7 @@ class DnDQuiz extends AbstractQuiz {
         if (isAllNotMoved) {
             console.log('unaswered');
             new Alert(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].message, lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].title, 'info', 3000);
-       
+
             return false;
         }
 
@@ -122,6 +130,7 @@ class DnDQuiz extends AbstractQuiz {
         }, 0);
         const roundedPercentOfCorrect = Math.round(percentOfCorrect);
         console.log('PERCENT OF CORRECT', roundedPercentOfCorrect);
+        this.percentOfCorrect = roundedPercentOfCorrect;
         //console.log(this.tolerance);
         if (this.tolerance == 'strict') {
             if (roundedPercentOfCorrect == 100) {

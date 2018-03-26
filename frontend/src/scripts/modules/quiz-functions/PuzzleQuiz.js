@@ -3,6 +3,7 @@ import Muuri from 'muuri';
 import Alert from '../../utilities/Alerts'
 import Hint from '../Hint'
 import AbstractQuiz from './AbstractQuiz'
+import QuizResultSaver from './QuizResultSaver'
 
 class PuzzleQuiz extends AbstractQuiz {
     constructor(slide, type, tolerance, CourseInstance) {
@@ -45,7 +46,14 @@ class PuzzleQuiz extends AbstractQuiz {
         const isCorrect = realIndexes.every((item, index) => rightPuzzle[index] == item);
 
         if ((this.tolerance == 'strict' || this.tolerance == 'flexifble') && isCorrect) {
+            QuizResultSaver.save(this.CourseInstance.userId, this.CourseInstance.courseId, this.slide.data('slide-id'), [{
+                value: rightPuzzle,
+                correct: true,
+                type: "puzzle",
+                tolerance: this.tolerance
+            }]);
             this.afterQuizPassed();
+
         } else {
             this.afterQuizFailed();
         }

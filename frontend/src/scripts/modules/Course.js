@@ -430,7 +430,7 @@ class Course {
                 $(this).hide();
                 // $(this).find('.iziToast-close').click();
             });
-        }, 0);
+        }, 300);
     }
 
     showSlide(indexSlide, indexHash, changeUrl = true) {
@@ -442,7 +442,7 @@ class Course {
 
         this.checkControls();
 
-        this.removeNotificationFromPrevSteps();
+
         // this.fullscreenPaintNavButtons();
         const currentId = this.SlidesController.current.data('slide-id');
         if (changeUrl) {
@@ -509,6 +509,7 @@ class Course {
         }
 
         this.calculateProgress();
+        this.removeNotificationFromPrevSteps();
     }
 
     nextSection(e) {
