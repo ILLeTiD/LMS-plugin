@@ -50,7 +50,7 @@ class LoginController extends Controller
             $errors = new WP_Error;
             $errors->add('user.inactive', __('Your account is inactive.', 'lms-plugin'));
 
-            $this->view('auth.login', compact('email', 'errors'));
+            return $this->view('auth.login', compact('email', 'errors'));
         }
 
         wp_redirect($this->redirect_to);
