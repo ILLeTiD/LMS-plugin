@@ -166,7 +166,6 @@ class ParticipantsPageController extends Controller
         $search = sprintf('*%s*', $_POST['search'] ?: '');
 
         $users = new WP_User_Query([
-            // 'role__in' => ['backoffice', 'technicians', 'sales'],
             'search' => $search,
         ]);
 
@@ -179,8 +178,6 @@ class ParticipantsPageController extends Controller
 
     private function enrollUsers($course, $users)
     {
-
-        //@TODO Code review
         $factory = new EnrollmentFactory;
         $enrollments = $factory->create($course, $users);
 
