@@ -2,6 +2,7 @@
 
 namespace LmsPlugin\Controllers\Auth;
 
+use FishyMinds\Request;
 use LmsPlugin\Controllers\Controller;
 use WP_Error;
 
@@ -18,10 +19,16 @@ class LoginController extends Controller
         $this->view('auth.login');
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        $email = array_get($_POST, 'email');
-        $password = array_get($_POST, 'password');
+        $email = $request->get('email');
+        $password = $request->get('password');
+
+        $errors = $this->validate($email, $password);
+
+        if (count($errors->get_error_messages())) {
+            return $this->view('auth.login', compact('email', 'errors'));
+        }
 
         $user = wp_signon([
             'user_login' => $email,
@@ -29,10 +36,10 @@ class LoginController extends Controller
         ]);
 
         if (is_wp_error($user)) {
-            return $this->view('auth.login', [
-                'email' => $email,
-                'errors' => $user
-            ]);
+            $errors = new WP_Error;
+            $errors->add('email.required', __('Incorrect credentials.', 'lms-plugin'));
+
+            return $this->view('auth.login', compact('email', 'errors'));
         }
 
         if (isset($user->lms_status) && $user->lms_status != 'accepted') {
@@ -52,5 +59,28 @@ class LoginController extends Controller
         wp_logout();
 
         wp_safe_redirect('/');
+    }
+
+    private function validate($email, $password)
+    {
+        $errors = new WP_Error;
+
+        if (empty($email)) {
+            $errors->add('email.required', __('Email is required.', 'lms-plugin'));
+        }
+
+        if (!email_exists($email)) {
+            $errors->add('email.exists', __('Incorrect credentials', 'lms-plugin'));
+        }
+
+        if (empty($password)) {
+            $errors->add('password.exists', __('Password is required.', 'lms-plugin'));
+        }
+
+        if (strlen($password) < 6) {
+            $errors->add('password.short', __('Password must be at least 6 characters.', 'lms-plugin'));
+        }
+
+        return $errors;
     }
 }
