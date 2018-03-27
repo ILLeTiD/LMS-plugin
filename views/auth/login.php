@@ -11,6 +11,8 @@ include 'header-auth.php';
             </p>
         </div>
 
+        <?php include('errors.php'); ?>
+
         <form action="" method="POST">
             <p>
                 <input type="email"
@@ -23,14 +25,11 @@ include 'header-auth.php';
                 <input type="password" name="password" placeholder="<?= __('Password', 'lms-plugin'); ?>" required>
             <p>
             <p class="auth-footer__restore-pass">
-                <?php
-                $url = get_site_url() . '/wp-login.php?action=lostpassword';
-                $link = sprintf(wp_kses(__('<a href="%s">Forgott your password?</a>', 'lms-plugin'), array('a' => array('href' => array()))), esc_url($url));
-                echo $link;
-                ?>
+                <a href="/reset_password">
+                    <?= __('Forgot your password?', 'lms-plugin'); ?>
+                </a>
             </p>
                 <button><?= __('Login', 'lms-plugin'); ?></button>
-                <?php include('errors.php'); ?>
         </form>
     </div><!-- #content -->
 
