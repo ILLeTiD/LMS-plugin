@@ -29,7 +29,7 @@ class LoginController extends Controller
         ]);
 
         if (is_wp_error($user)) {
-            $this->view('auth.login', [
+            return $this->view('auth.login', [
                 'email' => $email,
                 'errors' => $user
             ]);
