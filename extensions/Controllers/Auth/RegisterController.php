@@ -23,7 +23,7 @@ class RegisterController extends Controller
     public function showForm()
     {
         if ( ! $this->canUsersRegister()) {
-            wp_safe_redirect('/login');
+            wp_redirect('/login');
         }
 
         $this->view('auth.register', [
@@ -80,9 +80,9 @@ class RegisterController extends Controller
         // Fire user registered event.
         do_action('lms_event_user_registered', $user);
 
-        $success = __('Woohoo! Your account is ready. Please login to access your courses.', 'lms-plugin');
+        $_SESSION['success'] = __('Woohoo! Your account is ready. Please login to access your courses.', 'lms-plugin');
 
-        $this->view('auth.register', compact('success', 'fields'));
+        wp_redirect('/login');
     }
 
     private function validate($input)

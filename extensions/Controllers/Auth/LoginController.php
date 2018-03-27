@@ -16,7 +16,9 @@ class LoginController extends Controller
             wp_redirect($this->redirect_to);
         }
 
-        $this->view('auth.login');
+        $success = array_pull($_SESSION, 'success');
+
+        $this->view('auth.login', compact('success'));
     }
 
     public function login(Request $request)
@@ -48,7 +50,7 @@ class LoginController extends Controller
             $errors = new WP_Error;
             $errors->add('user.inactive', __('Your account is inactive.', 'lms-plugin'));
 
-            $this->view('auth.login', compact('email', 'errors'));
+            return $this->view('auth.login', compact('email', 'errors'));
         }
 
         wp_redirect($this->redirect_to);
