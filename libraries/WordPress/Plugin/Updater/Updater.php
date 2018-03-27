@@ -71,6 +71,8 @@ class Updater
 
         $result['destination'] = $dir;
 
+        flush_rewrite_rules();
+
         return $result;
     }
 }
