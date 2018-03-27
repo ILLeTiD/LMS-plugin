@@ -16,7 +16,9 @@ class LoginController extends Controller
             wp_redirect($this->redirect_to);
         }
 
-        $this->view('auth.login');
+        $success = array_pull($_SESSION, 'success');
+
+        $this->view('auth.login', compact('success'));
     }
 
     public function login(Request $request)
