@@ -4,6 +4,7 @@ namespace LmsPlugin;
 
 use FishyMinds\WordPress\Plugin\Plugin;
 
+
 class ProfileFieldsManager
 {
     protected $plugin;
@@ -62,7 +63,7 @@ class ProfileFieldsManager
     public function getCustomFieldsSlugs()
     {
         $custom_fields = array_filter($this->fields, function ($field) {
-            return ! array_get($field, 'standard');
+            return !array_get($field, 'standard');
         });
 
         return array_map(function ($field) {
