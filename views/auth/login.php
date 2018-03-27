@@ -18,11 +18,15 @@ include 'header-auth.php';
                 <input type="email"
                        name="email"
                        placeholder="<?= __('Email Address', 'lms-plugin'); ?>"
-                       required
                        value="<?= array_get($_POST, 'email'); ?>"
+                       required
                 >
             <p>
-                <input type="password" name="password" placeholder="<?= __('Password', 'lms-plugin'); ?>" required>
+                <input type="password" 
+                       name="password" 
+                       placeholder="<?= __('Password', 'lms-plugin'); ?>" 
+                       required
+                >
             <p>
             <p class="auth-footer__restore-pass">
                 <a href="/reset_password">
