@@ -194,7 +194,7 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        do_action('lms_event_participant_invited', $enrollment);
+        $enrollment->resendInvite();
 
         wp_send_json([
             'message' => __('Invite has been resent.', 'lms-plugin')
@@ -207,7 +207,7 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        $enrollment->delete();
+        $enrollment->uninvite();
         
         wp_send_json([
             'message' => __('Participant has been uninvited.', 'lms-plugin')
@@ -222,17 +222,7 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        $enrollment->status = 'enrolled';
-        $enrollment->save();
-
-        $wpdb->delete(
-            $wpdb->prefix . 'lms_progress',
-            [
-                'user_id' => $enrollment->user_id,
-                'course_id' => $enrollment->course_id
-            ],
-            ['%d', '%d']
-        );
+        $enrollment->reset();
 
         wp_send_json([
             'message' => __('Participant has been uninvited.', 'lms-plugin')
@@ -245,11 +235,29 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        $enrollment->status = 'failed';
-        $enrollment->save();
+        $enrollment->fail();
         
         wp_send_json([
             'message' => __('Participant has failed the course.', 'lms-plugin')
+        ]);
+    }
+
+    public function bulk()
+    {
+        $action = array_get($_POST, 'bulk_action');
+
+        if (!method_exists(Enrollment::class, $action)) {
+            wp_send_json([
+                'message' => __('There is no such a bulk action.', 'lms-plugin')
+            ]);
+        }
+
+        foreach ($enrollments as $enrollment) {
+            (Enrollment::find($enrollment_id))->$action();
+        }
+
+        wp_send_json([
+            'message' => __('Bulk action has been perfomed.', 'lms-plugin')
         ]);
     }
 }
