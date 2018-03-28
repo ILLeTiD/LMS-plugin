@@ -12,7 +12,7 @@ class SlideSectionsController extends Controller
 
         $this->view('meta-boxes.slide.components.content', [
             'imageAlignmentOptions' => Section::IMAGE_ALIGNMENT_OPTIONS,
-            'linkTargetOption' => Section::LINK_TARGET_OPTIONS,
+            'linkTargetOptions' => Section::LINK_TARGET_OPTIONS,
             'slide' => [],
             'i' => $i
         ]);

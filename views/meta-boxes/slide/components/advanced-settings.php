@@ -19,7 +19,7 @@ $defaultColors = array_get(get_option('lms-plugin'), 'colors');
                 >
                 <?= __('Customize colors?', 'lms-plugin'); ?>
             </label>
-            <label class="lms-color-picker-wrap">
+            <label class="lms-color-picker-wrap <?= array_get($slide, 'use_section_colors') ? '' : 'hidden'; ?>">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][background]"
                        value="<?= array_get($slide, 'colors.background', array_get($defaultColors, 'background', '#fff')); ?>"
@@ -27,7 +27,7 @@ $defaultColors = array_get(get_option('lms-plugin'), 'colors');
                 <?= __('Background', 'lms-plugin'); ?>
             </label>
 
-            <label class="lms-color-picker-wrap">
+            <label class="lms-color-picker-wrap <?= array_get($slide, 'use_section_colors') ? '' : 'hidden'; ?>">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][text]"
                        value="<?= array_get($slide, 'colors.text', array_get($defaultColors, 'text', '#000')); ?>"
@@ -35,15 +35,7 @@ $defaultColors = array_get(get_option('lms-plugin'), 'colors');
                 <?= __('Text', 'lms-plugin'); ?>
             </label>
 
-            <label class="lms-color-picker-wrap">
-                <input type="color"
-                       name="slide_content[<?= $i; ?>][colors][header_background]"
-                       value="<?= array_get($slide, 'colors.header_background', array_get($defaultColors, 'header_background', '#fff')); ?>"
-                >
-                <?= __('Header Background', 'lms-plugin'); ?>
-            </label>
-
-            <label class="lms-color-picker-wrap">
+            <label class="lms-color-picker-wrap <?= array_get($slide, 'use_section_colors') ? '' : 'hidden'; ?>">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][header]"
                        value="<?= array_get($slide, 'colors.header', array_get($defaultColors, 'header', '#000')); ?>"
