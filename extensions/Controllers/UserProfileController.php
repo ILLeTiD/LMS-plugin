@@ -60,11 +60,33 @@ class UserProfileController extends Controller
 
     public function save(Request $request)
     {
+
         $user_id = get_current_user_id();
 
         $user = User::find($user_id);
 
         $profile = new Profile($user);
+
+        $newEmail = $request->get('email');
+        $user->user_email = $newEmail;
+
+        $fullName = $request->get('full-name');
+        list($first_name, $last_name) = explode(' ', $fullName);
+        update_user_meta($user->id, 'first_name', $first_name);
+        update_user_meta($user->id, 'last_name', $last_name);
+
+
+        $isChangePass = false;
+        if ($isChangePass) {
+            $user_id = wp_insert_user([
+                'ID' => $user->id,
+                'user_login' => $user->email,
+                'user_email' => $user->email,
+                'user_pass' => wp_hash_password($request->get('password')),
+                'first_name' => $first_name,
+                'last_name' => $last_name
+            ]);
+        }
 
         $profile->setFields(
             $request->only($this->fieldManager->getCustomFieldsSlugs())
