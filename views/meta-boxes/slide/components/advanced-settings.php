@@ -17,7 +17,7 @@
                 >
                 <?= __('Customize colors?', 'lms-plugin'); ?>
             </label>
-            <label class="lms-color-picker-wrap">
+            <label class="lms-color-picker-wrap <?= array_get($slide, 'use_section_colors') ? '' : 'hidden'; ?>">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][background]"
                        value="<?= array_get($slide, 'colors.background', '#4990E2'); ?>"
@@ -25,7 +25,7 @@
                 <?= __('Background', 'lms-plugin'); ?>
             </label>
 
-            <label class="lms-color-picker-wrap">
+            <label class="lms-color-picker-wrap <?= array_get($slide, 'use_section_colors') ? '' : 'hidden'; ?>">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][text]"
                        value="<?= array_get($slide, 'colors.text', '#FFFFFF'); ?>"
@@ -33,7 +33,7 @@
                 <?= __('Text', 'lms-plugin'); ?>
             </label>
 
-            <label class="lms-color-picker-wrap">
+            <label class="lms-color-picker-wrap <?= array_get($slide, 'use_section_colors') ? '' : 'hidden'; ?>">
                 <input type="color"
                        name="slide_content[<?= $i; ?>][colors][header]"
                        value="<?= array_get($slide, 'colors.header', '#F1F1F1'); ?>"
