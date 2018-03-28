@@ -32,11 +32,10 @@ import App from'./modules/app.js';
         }
     }
 
-    console.log('sdfdsfs');
     $("#lms-user-form-avatar input").change(function () {
-        console.log(this);
         readURL(this);
     });
+
     const app = new App();
     //var player = new MediaElementPlayer('#slide-control-player');
 })($);

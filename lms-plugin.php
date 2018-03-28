@@ -19,3 +19,4 @@ call_user_func(function () {
     $plugin = new \FishyMinds\WordPress\Plugin\Plugin(__FILE__);
     $plugin->init();
 });
+

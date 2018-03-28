@@ -2,6 +2,7 @@
 
 namespace LmsPlugin\Controllers;
 
+use FishyMinds\Request;
 use LmsPlugin\Models\User;
 use LmsPlugin\ProfileFieldsManager;
 use LmsPlugin\Profile;
@@ -24,35 +25,51 @@ class UserProfileController extends Controller
         $this->custom_fields_slug = $this->fieldManager->getCustomFieldsSlugs();
     }
 
-    public function getAjax()
+    public function getUserFields()
     {
-        $user_id = $_POST['user_id'];
-        if (!$user_id) wp_send_json(['error' => 'Invalid arguments']);
+
+        $user_id = get_current_user_id();
 
         $user = User::find($user_id);
-        $profile = new Profile($user);
 
-        $userFields = array_map(function ($item) use ($user_id) {
+        //prepare data to frontend
+        $userFields = array_map(function ($item) use ($user_id, $user) {
             $item['user_value'] = get_user_meta($user_id, $item['slug'], true);
+
+            if ($item['slug'] == 'full-name') {
+                $firstName = get_user_meta($user_id, 'first_name', true);
+                $lastName = get_user_meta($user_id, 'last_name', true);
+                $item['user_value'] = $firstName . ' ' . $lastName;
+            }
+            if ($item['slug'] == 'email') {
+                $item['user_value'] = $user->user_email;
+            }
+            if ($item['slug'] == 'password') {
+                return;
+            }
             return $item;
-        }, $this->custom_fields_slug);
-        wp_send_json(['fields' => $userFields]);
+        }, $this->fields);
+
+        $userFields = array_filter($userFields, function ($item) {
+            return $item;
+        });
+
+        $this->view('profile.account-page', compact('userFields'));
     }
 
-    public function save()
+
+    public function save(Request $request)
     {
-        $user_id = $_POST['user_id'];
-        if (!$user_id) wp_send_json(['error' => 'Invalid arguments']);
+        $user_id = get_current_user_id();
 
         $user = User::find($user_id);
 
         $profile = new Profile($user);
 
         $profile->setFields(
-            array_only(
-                $_POST,
-                $this->fields_manager->getCustomFieldsSlugs()
-            )
+            $request->only($this->fieldManager->getCustomFieldsSlugs())
         )->save();
+
+        wp_redirect('/lms-profile');
     }
 }

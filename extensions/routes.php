@@ -16,3 +16,6 @@ $route->post('reset_password', 'Auth/ResetPasswordController@resetPassword');
 $route->get('accept_invitation', 'Auth/AcceptInvitationController@showForm');
 $route->post('accept_invitation', 'Auth/AcceptInvitationController@accept');
 
+$route->get('lms-profile', 'UserProfileController@getUserFields');
+$route->post('lms-profile', 'UserProfileController@save');
+

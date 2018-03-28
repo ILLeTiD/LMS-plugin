@@ -113,7 +113,7 @@ class AcceptInvitationController extends Controller
             $errors->add('email.required', __('Email is required.', 'lms-plugin'));
         }
 
-        if (! email_exists($input['email'])) {
+        if (!email_exists($input['email'])) {
             $errors->add('email.exists', __('Email not found.', 'lms-plugin'));
         }
 

@@ -116,12 +116,6 @@ if (!function_exists('lms_override_page_template')) {
                 return $new_template;
             }
         }
-        if (is_page('lms-profile')) {
-            $new_template = lms_locate_template('account-page.php');
-            if ('' != $new_template) {
-                return $new_template;
-            }
-        }
 
         return $template;
     }
