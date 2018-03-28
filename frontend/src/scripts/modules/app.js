@@ -1,5 +1,6 @@
 import Course from './Course';
 import CoursesPage from './CoursesPage';
+import ProfilePage from './ProfilePage';
 import newCoursesChecker from './newCoursesChecker';
 import {selectors} from './selectors'
 import moment from 'moment'
@@ -13,6 +14,7 @@ class App {
     constructor() {
         this.course = new Course();
         this.coursesPage = new CoursesPage();
+        this.profilePage = new ProfilePage();
         this.newCoursesChecker = new newCoursesChecker();
         this.init();
     }
@@ -34,6 +36,10 @@ class App {
 
         if ($('body').hasClass('post-type-archive-course') || $('body').hasClass('single-course')) {
             this.coursesPage.init();
+        }
+        if ($('.lms-profile').length > 0) {
+            console.log('AAA');
+            this.profilePage.init();
         }
     }
 

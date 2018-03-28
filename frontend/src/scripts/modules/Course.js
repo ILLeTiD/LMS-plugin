@@ -267,9 +267,9 @@ class Course {
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
             // this.fullscreenPaintNavButtons(true);
 
-            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
+            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
                 let fontSize = $(this).css("fontSize");
-                fontSize = parseInt(fontSize) - 4 + "px";
+                fontSize = parseInt(fontSize) - 6 + "px";
                 $(this).css(`fontSize`, `${fontSize}`);
             });
         }
@@ -355,9 +355,9 @@ class Course {
             this.courseEl.addClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
             // this.fullscreenPaintNavButtons(true);
-            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6').each(function (i) {
+            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
                 let fontSize = $(this).css("fontSize");
-                fontSize = parseInt(fontSize) + 4 + "px";
+                fontSize = parseInt(fontSize) + 6 + "px";
                 $(this).css(`fontSize`, `${fontSize}`);
             });
         } else {

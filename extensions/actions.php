@@ -98,21 +98,13 @@ $action->add('wp_ajax_delete_user', 'Controllers\UsersPageController@delete');
 
 
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
-//$action->add('wp_ajax_nopriv_progress_commit', 'Controllers\ProgressController@commitProgress');
 $action->add('wp_ajax_progress_reset', 'Controllers\ProgressController@resetProgress');
-//$action->add('wp_ajax_nopriv_progress_reset', 'Controllers\ProgressController@resetProgress');
 $action->add('wp_ajax_activity_commit', 'Controllers\ProgressController@commitActivity');
-//$action->add('wp_ajax_nopriv_activity_commit', 'Controllers\ProgressController@commitActivity');
 $action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
-//$action->add('wp_ajax_nopriv_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
 $action->add('wp_ajax_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
-//$action->add('wp_ajax_nopriv_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
 $action->add('wp_ajax_activity_redo_course', 'Controllers\ProgressController@restartCourse');
-//$action->add('wp_ajax_nopriv_activity_redo_course', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_activity_complete_course', 'Controllers\ProgressController@completeCourse');
-//$action->add('wp_ajax_nopriv_activity_complete_course', 'Controllers\ProgressController@completeCourse');
 $action->add('wp_ajax_activity_start_course', 'Controllers\ProgressController@startCourse');
-//$action->add('wp_ajax_nopriv_activity_start_course', 'Controllers\ProgressController@startCourse');
 
 $action->add('wp_ajax_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
 $action->add('wp_ajax_nopriv_load_user_activity', 'Controllers\ProgressController@loadUserActivity');
@@ -121,20 +113,15 @@ $action->add('wp_ajax_get_all_users_courses', 'Controllers\ProgressController@ge
 $action->add('wp_ajax_set_all_users_courses_viewed', 'Controllers\ProgressController@setCoursesAsViewed');
 
 $action->add('wp_ajax_logOutUser', 'Controllers\ProgressController@logOutUser');
-//$action->add('wp_ajax_nopriv_get_all_users_courses', 'Controllers\ProgressController@getAllUserCourses');
 
 $action->add('wp_ajax_progress_restart', 'Controllers\ProgressController@restartCourse');
-//$action->add('wp_ajax_nopriv_progress_restart', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_progress_get', 'Controllers\ProgressController@getStep');
-//$action->add('wp_ajax_nopriv_progress_get', 'Controllers\ProgressController@getStep');
 $action->add('wp_ajax_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
-//$action->add('wp_ajax_nopriv_progress_get_all', 'Controllers\ProgressController@getAllUserSteps');
 $action->add('wp_ajax_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
-//$action->add('wp_ajax_nopriv_check_options_answer', 'Controllers\QuizAnswerController@checkOptionsAnswer');
 $action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
-//$action->add('wp_ajax_nopriv_get_course_answers', 'Controllers\QuizAnswerController@getAllCourseAnswers');
 $action->add('wp_ajax_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
-//$action->add('wp_ajax_nopriv_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
+
+$action->add('wp_ajax_load_user_profile_field', 'Controllers\UserProfileController@getAjax');
 
 
 $action->add('wp_ajax_save_quiz_result', 'Controllers\QuizAnswerController@saveResult');

@@ -223,6 +223,7 @@
     .lms-grid-block {
       display: none !important;
       visibility: hidden !important;
+      transform: none;
 
       &.active {
         display: flex !important;
