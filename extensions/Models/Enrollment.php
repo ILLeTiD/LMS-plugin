@@ -2,9 +2,13 @@
 
 namespace LmsPlugin\Models;
 
+use LmsPlugin\Models\Concerns\EnrollmentFlow;
+
 class Enrollment extends Model
 {
     const TABLE = 'lms_enrollments';
+
+    use EnrollmentFlow;
 
     public function __construct($attributes)
     {

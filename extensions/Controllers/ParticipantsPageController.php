@@ -120,11 +120,14 @@ class ParticipantsPageController extends Controller
             'failed' => __('Failed', 'lms-plugin'),
         ];
 
+        $message = array_pull($_SESSION, 'message');
+
         $this->view(
             'pages.participants.course',
             compact(
                 'participants',
                 'statuses',
+                'message',
                 'course',
                 'search',
                 'status',
@@ -163,7 +166,6 @@ class ParticipantsPageController extends Controller
         $search = sprintf('*%s*', $_POST['search'] ?: '');
 
         $users = new WP_User_Query([
-            // 'role__in' => ['backoffice', 'technicians', 'sales'],
             'search' => $search,
         ]);
 
@@ -176,8 +178,6 @@ class ParticipantsPageController extends Controller
 
     private function enrollUsers($course, $users)
     {
-
-        //@TODO Code review
         $factory = new EnrollmentFactory;
         $enrollments = $factory->create($course, $users);
 
@@ -194,7 +194,7 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        do_action('lms_event_participant_invited', $enrollment);
+        $enrollment->resendInvite();
 
         wp_send_json([
             'message' => __('Invite has been resent.', 'lms-plugin')
@@ -207,7 +207,7 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        $enrollment->delete();
+        $enrollment->uninvite();
         
         wp_send_json([
             'message' => __('Participant has been uninvited.', 'lms-plugin')
@@ -222,17 +222,7 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        $enrollment->status = 'enrolled';
-        $enrollment->save();
-
-        $wpdb->delete(
-            $wpdb->prefix . 'lms_progress',
-            [
-                'user_id' => $enrollment->user_id,
-                'course_id' => $enrollment->course_id
-            ],
-            ['%d', '%d']
-        );
+        $enrollment->reset();
 
         wp_send_json([
             'message' => __('Participant course progress has been reset.', 'lms-plugin')
@@ -245,11 +235,46 @@ class ParticipantsPageController extends Controller
 
         $enrollment = Enrollment::find($enrollment_id);
 
-        $enrollment->status = 'failed';
-        $enrollment->save();
+        $enrollment->fail();
         
         wp_send_json([
             'message' => __('Participant has failed the course.', 'lms-plugin')
         ]);
+    }
+
+    public function bulk()
+    {
+        $action = camel_case(array_get($_POST, 'bulk_action', 'unknown'));
+        $enrollments = array_get($_POST, 'enrollments');
+
+        if (!method_exists(Enrollment::class, $action)) {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => __('There is no such a bulk action.', 'lms-plugin')
+            ];
+
+            die;
+        }
+
+
+        if (empty($enrollments)) {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => __('No participants has been chosen.', 'lms-plugin')
+            ];
+
+            die;
+        }
+
+        foreach ($enrollments as $enrollment) {
+            (Enrollment::find($enrollment_id))->$action();
+        }
+
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => __('Bulk action has been perfomed.', 'lms-plugin')
+        ];
+
+        die;
     }
 }
