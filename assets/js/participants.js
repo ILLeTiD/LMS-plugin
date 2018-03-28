@@ -138,5 +138,20 @@
             event.preventDefault();
         });
 
+        $('.js-bulk-action').on('click', function (event) {
+            var form = $('#posts-filter');
+
+            console.log(form.serialize);
+
+            $.ajax({
+                method: 'POST',
+                url: ajaxurl + '?action=bulk_action_participants',
+                data: form.serialize()
+            }).done(function (response) {
+                window.location.reload();
+            });
+
+            event.preventDefault();
+        });
     });
 })(jQuery);

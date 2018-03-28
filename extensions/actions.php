@@ -73,6 +73,7 @@ $action->add('wp_ajax_resend_invite_participant', 'Controllers\ParticipantsPageC
 $action->add('wp_ajax_uninvite_participant', 'Controllers\ParticipantsPageController@uninvite');
 $action->add('wp_ajax_reset_participant', 'Controllers\ParticipantsPageController@reset');
 $action->add('wp_ajax_fail_participant', 'Controllers\ParticipantsPageController@fail');
+$action->add('wp_ajax_bulk_action_participants', 'Controllers\ParticipantsPageController@bulk');
 
 $action->add('wp_ajax_new_slide_section', 'Controllers\SlideSectionsController@create');
 

@@ -20,8 +20,20 @@
         </div>
     <?php endif; ?>
 
-    <hr class="wp-header-end">
+    <?php if (isset($message)): ?>
+        <?php if ('success' == array_get($message, 'type')): ?>
+            <div class="updated notice">
+                <p><?= array_get($message, 'text'); ?></p>
+            </div>
+        <?php endif; ?>
+        <?php if ('error' == array_get($message, 'type')): ?>
+            <div class="error notice">
+                <p><?= array_get($message, 'text'); ?></p>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
 
+    <hr class="wp-header-end">
 
     <h2 class="screen-reader-text">Filter posts list</h2>
     <ul class="subsubsub">
@@ -69,14 +81,14 @@
                 <label for="bulk-action-selector-top" class="screen-reader-text">
                     <?= __('Select bulk action', 'lms-plugin'); ?>
                 </label>
-                <select name="action" id="bulk-action-selector-top">
-                    <option value="-1"><?= __('Bulk Actions', 'lms-plugin'); ?></option>
+                <select name="bulk_action" id="bulk-action-selector-top">
+                    <option value=""><?= __('Bulk Actions', 'lms-plugin'); ?></option>
                     <option value="resend_invite"><?= __('Resend invite', 'lms-plugin'); ?></option>
                     <option value="uninvite"><?= __('Uninvite', 'lms-plugin'); ?></option>
-                    <option value="reset_result"><?= __('Reset result', 'lms-plugin'); ?></option>
+                    <option value="reset"><?= __('Reset result', 'lms-plugin'); ?></option>
                     <option value="fail"><?= __('Fail', 'lms-plugin'); ?></option>
                 </select>
-                <input type="submit" class="button action" value="<?= __('Apply', 'lms-plugin'); ?>">
+                <button class="button js-bulk-action"><?= __('Apply', 'lms-plugin'); ?></button>
             </div>
 
             <div class="alignleft actions">
@@ -88,7 +100,6 @@
 
             <div class="alignleft actions">
                 <?php component('components.filter.role', [
-                    'roles' => $roles,
                     'role' => $role
                 ]); ?>
 
@@ -137,12 +148,7 @@
                 <?php foreach ($participants as $enrollment): ?>
                     <tr id="post-<?= $enrollment->user->id; ?>" class="iedit author-self level-0 post-4 type-course status-publish hentry">
                         <th scope="row" class="check-column">
-                            <label class="screen-reader-text" for="cb-select-<?= $enrollment->user->id; ?>">Select Test</label>
-                            <input id="cb-select-<?= $enrollment->user->id; ?>" type="checkbox" name="post[]" value="<?= $enrollment->user->id; ?>">
-                            <div class="locked-indicator">
-                                <span class="locked-indicator-icon" aria-hidden="true"></span>
-                                <span class="screen-reader-text">“Test” is locked</span>
-                            </div>
+                            <input id="cb-select-<?= $enrollment->user->id; ?>" type="checkbox" name="enrollments[]" value="<?= $enrollment->id; ?>">
                         </th>
                         <td class="name column-name has-row-actions" data-colname="Title">
                             <div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
