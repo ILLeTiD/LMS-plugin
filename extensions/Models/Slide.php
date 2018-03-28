@@ -18,8 +18,7 @@ class Slide
 
     const DISPLAY_HEADER_OPTIONS = [
         'regular' => 'Regular',
-        'hide' => 'Hide',
-        'in_separate_section' => 'In separate section'
+        'hide' => 'Hide'
     ];
 
     private $post;
