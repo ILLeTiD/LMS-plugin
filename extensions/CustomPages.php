@@ -32,6 +32,8 @@ class CustomPages
 
     public function addLmsPages()
     {
+
+        //@TODO save id of custom pages to wp options to get id easy
         $this->addPage('lms-activity', 'Activity');
         $this->addPage('lms-terms', 'Terms of Service');
         $this->addPage('lms-courses', 'Courses');
