@@ -33,6 +33,7 @@ $action->add('add_meta_boxes', 'Course\ParticipantsMetaBox@add');
 $action->add('add_meta_boxes', 'Course\ProgressMetaBox@add');
 $action->add('add_meta_boxes', 'Course\SlidesMetaBox@add');
 $action->add('save_post', 'Course\Saver@save');
+$action->add('before_delete_post', 'Course\Saver@delete');
 $action->add('add_meta_boxes', 'Course\CustomCssMetaBox@add');
 
 $action->add('init', 'Slide\SlidePostType@register');

@@ -59,4 +59,16 @@ class Saver
         return method_exists($this, $method) ? $this->$method($value) : $value;
     }
 
+    public function delete($course_id)
+    {
+        global $post_type, $wpdb;
+
+        if ($post_type != 'course') return;
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_enrollments', 
+            ['course_id' => $course_id], 
+            ['%d']
+        );
+    }
 }
