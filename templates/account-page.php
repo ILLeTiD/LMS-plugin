@@ -12,10 +12,6 @@ $all_meta_for_user = get_user_meta(get_current_user_id());
 get_header();
 ?>
 
-<?php //d($all_meta_for_user); ?>
-
-<?php //
-//lms_get_template(''); ?>
     <main class="lms-account-page">
         <div class="lms-account-page__wrapper">
             <section class="lms-user-profile lms-user-section">

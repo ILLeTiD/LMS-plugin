@@ -87,7 +87,6 @@ include 'header-auth.php';
                                     <?= $option['value']; ?>
                                 </label>
                             <?php endforeach; ?>
-                        </select>
                         <?php break; ?>
                 <?php endswitch; ?>
             <?php endforeach; ?>

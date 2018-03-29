@@ -20,6 +20,7 @@ class App {
     }
 
     init() {
+        console.log('length ', $('.lms-account-page').length);
 
         console.info('App Initialized!');
         this.listeners();
@@ -37,8 +38,7 @@ class App {
         if ($('body').hasClass('post-type-archive-course') || $('body').hasClass('single-course')) {
             this.coursesPage.init();
         }
-        if ($('.lms-profile').length > 0) {
-            console.log('AAA');
+        if ($('.lms-account-page').length > 0) {
             this.profilePage.init();
         }
     }

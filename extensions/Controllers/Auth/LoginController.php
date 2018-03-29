@@ -79,9 +79,9 @@ class LoginController extends Controller
             $errors->add('password.exists', __('Password is required.', 'lms-plugin'));
         }
 
-        if (strlen($password) < 6) {
-            $errors->add('password.short', __('Password must be at least 6 characters.', 'lms-plugin'));
-        }
+//        if (strlen($password) < 6) {
+//            $errors->add('password.short', __('Password must be at least 6 characters.', 'lms-plugin'));
+//        }
 
         return $errors;
     }

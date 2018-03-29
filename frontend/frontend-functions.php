@@ -28,6 +28,7 @@ function my_scripts_method()
 {
     wp_deregister_script('jquery');
     wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js', false, '2.1.4');
+    wp_enqueue_script('parsleyjs', 'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js', array('jquery'), null);
     wp_enqueue_script('jquery');
     $alertMessages = lms_get_options('notifications');
 
@@ -116,13 +117,12 @@ if (!function_exists('lms_override_page_template')) {
                 return $new_template;
             }
         }
-        if (is_page('lms-profile')) {
-            $new_template = lms_locate_template('account-page.php');
+        if (is_singular('slide')) {
+            $new_template = lms_locate_template('slide-single.php');
             if ('' != $new_template) {
                 return $new_template;
             }
         }
-
         return $template;
     }
 }
