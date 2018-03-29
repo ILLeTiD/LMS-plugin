@@ -20,6 +20,11 @@ class Saver
         foreach ($_POST['slide_weight'] as $weight => $slideID) {
             update_post_meta($slideID, 'slide_weight', $weight);
         }
+
+        foreach ($_POST['slide_index'] as $index => $slideID) {
+            update_post_meta($slideID, 'slide_index', $index + 1);
+        }
+
         foreach ($this->fields as $name) {
             //@TODO Check and made work solution for save empty
            // if (empty($_POST[$name])) continue;

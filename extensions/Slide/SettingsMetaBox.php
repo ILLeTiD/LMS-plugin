@@ -4,6 +4,7 @@ namespace LmsPlugin\Slide;
 
 use FishyMinds\WordPress\MetaBox;
 use LmsPlugin\Models\Slide;
+use LmsPlugin\Models\Course;
 
 class SettingsMetaBox extends MetaBox
 {
@@ -15,6 +16,7 @@ class SettingsMetaBox extends MetaBox
     public function callback()
     {
         $post = new Slide();
+        $course_id = array_get($_GET, 'course');
 
         $slideSectionDisplayOptions = Slide::SECTION_DISPLAY_OPTIONS;
         $slideTemplateOptions = Slide::TEMPLATE_OPTIONS;
@@ -26,6 +28,7 @@ class SettingsMetaBox extends MetaBox
         $background = get_post_meta($post->id, 'slide_background', true);
 
         $weight = (null != $post->slide_weight) ? $post->slide_weight : PHP_INT_MAX;
+        $index = (null != $post->slide_index) ? $post->slide_index : Course::find($course_id)->slides()->count() + 1;
 
         $this->view('meta-boxes.slide.settings', compact(
             'slideSectionDisplayOptions',
@@ -34,6 +37,7 @@ class SettingsMetaBox extends MetaBox
             'background',
             'colors',
             'weight',
+            'index',
             'post'
         ));
     }
