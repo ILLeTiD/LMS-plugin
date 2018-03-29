@@ -360,6 +360,11 @@ var lms = {
         });
 
     });
-
+    (function () {
+        var slideRealLink = $('.post-type-slide').find('input[name=slide_real_link]').val();
+        var linkToPaste = '<a href="' + slideRealLink + '" >' + slideRealLink + '</a>';
+        console.log('real slide link', linkToPaste);
+        $(linkToPaste).insertAfter('#titlediv');
+    })()
 
 })(jQuery);

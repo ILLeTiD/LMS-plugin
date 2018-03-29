@@ -38,7 +38,8 @@ class SettingsMetaBox extends MetaBox
             'colors',
             'weight',
             'index',
-            'post'
+            'post',
+            'course_id'
         ));
     }
 }

@@ -1,5 +1,7 @@
 <input type="hidden" name="slide_weight" value="<?= $weight; ?>">
 <input type="hidden" name="slide_index" value="<?= $index; ?>">
+<input type="hidden" name="course_id" value="<?= $course_id; ?>">
+<input type="hidden" name="slide_real_link" value="<?= get_permalink($course_id); ?>#slide<?= $index; ?>">
 
 <div class="lms-field">
     <div class="lms-field__title">
@@ -25,10 +27,10 @@
     <div class="lms-field__value">
         <select name="slide_section_display">
             <?php foreach ($slideSectionDisplayOptions as $value => $name): ?>
-                    <option value="<?= $value; ?>" <?= selected($post->slide_section_display, $value); ?>>
-                        <?= __($name, 'lms-plugin'); ?>
-                    </option>
-                <?php endforeach; ?>
+                <option value="<?= $value; ?>" <?= selected($post->slide_section_display, $value); ?>>
+                    <?= __($name, 'lms-plugin'); ?>
+                </option>
+            <?php endforeach; ?>
         </select>
 
         <span class="field__help"><?= __('All section will be visible at once as default', 'lms-plugin'); ?></span>
