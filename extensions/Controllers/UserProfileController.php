@@ -73,14 +73,17 @@ class UserProfileController extends Controller
 
         $newEmail = $request->get('email');
 
+        if (isset($_FILES['file'])) {
+            $this->storeImage($user);
+        }
 
         $isChangePass = $request->get('change-pass');
-        if ($isChangePass && $request->get('new-pass')) {
+        if ($isChangePass && $request->get('newPass')) {
             $user_id = wp_insert_user([
                 'ID' => $user->id,
                 'user_login' => $user->email,
                 'user_email' => $user->email,
-                'user_pass' => wp_hash_password($request->get('new-pass')),
+                'user_pass' => wp_hash_password($request->get('newPass')),
                 'first_name' => $first_name,
                 'last_name' => $last_name
             ]);
@@ -99,5 +102,39 @@ class UserProfileController extends Controller
         )->save();
 
         wp_redirect('/lms-profile');
+    }
+
+    public function storeImage($user)
+    {
+        $directory = "/" . date(Y) . "/" . date(m) . "/";
+        $wp_upload_dir = wp_upload_dir();
+
+        $uploadfile = $wp_upload_dir["path"] . '/' . basename($_FILES['file']['name']);
+
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
+            $attachment = array(
+                'guid' => $wp_upload_dir['url'] . DIRECTORY_SEPARATOR . basename($uploadfile),
+                'post_mime_type' => $_FILES['file']['type'],
+                'post_title' => preg_replace('/\.[^.]+$/', '', basename($uploadfile)),
+                'post_content' => '',
+                'post_status' => 'inherit'
+            );
+            $attach_id = wp_insert_attachment($attachment, $uploadfile);
+            update_user_meta($user->id, 'lms_avatar', $attach_id);
+
+            require_once(ABSPATH . '/wp-admin/includes/image.php');
+//
+//            // Generate the metadata for the attachment, and update the database record.
+            $attach_data = wp_generate_attachment_metadata($attach_id, $uploadfile);
+            wp_update_attachment_metadata($attach_id, $attach_data);
+        }
+    }
+
+    public function removeUser()
+    {
+        $user_id = $_POST['user_id'];
+        if (!$user_id) return false;
+
+        wp_delete_user($user_id);
     }
 }

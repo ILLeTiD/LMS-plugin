@@ -16,11 +16,11 @@ class App {
         this.coursesPage = new CoursesPage();
         this.profilePage = new ProfilePage();
         this.newCoursesChecker = new newCoursesChecker();
-        //  this.init();
+        this.init();
     }
 
     init() {
-
+        console.log('length ', $('.lms-account-page').length);
 
         console.info('App Initialized!');
         this.listeners();
@@ -39,7 +39,6 @@ class App {
             this.coursesPage.init();
         }
         if ($('.lms-account-page').length > 0) {
-            console.log('acc age!!1');
             this.profilePage.init();
         }
     }

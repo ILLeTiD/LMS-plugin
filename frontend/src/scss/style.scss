@@ -249,6 +249,8 @@
         display: block;
         background: #f0f0f0;
         cursor: pointer;
+        display: flex;
+        align-items: center;
 
         img {
           //display: block;
@@ -316,4 +318,161 @@
       color: BFBFBF;
     }
   }
+
+  &-fake-pass {
+    label {
+      border-radius: 3px;
+      border: 1px solid #BFBFBF;
+      display: block;
+      width: 100%;
+      font-size: 17px;
+      margin-top: 10px;
+      height: 40px;
+      line-height: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+      position: relative;
+      background: #d5d5d5;
+
+      span {
+        position: absolute;
+        top: 0px;
+        left: 10px;
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+  label.lms-label-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    text-align: left;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    // text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+  }
+
+  /* Hide the browser's default checkbox */
+  label.lms-label-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom checkbox */
+  label.lms-label-checkbox .lms-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+  }
+
+  /* On mouse-over, add a grey background color */
+  label.lms-label-checkbox:hover input[type="checkbox"] ~ .lms-checkmark {
+    background-color: #ccc;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  label.lms-label-checkbox input[type="checkbox"]:checked ~ .lms-checkmark {
+    background-color: #094F9A;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .lms-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  label.lms-label-checkbox input[type="checkbox"]:checked ~ .lms-checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  label.lms-label-checkbox .lms-checkmark:after {
+    left: 6px;
+    top: 0px;
+    width: 9px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  label.lms-label-radio {
+    display: block;
+    position: relative;
+    text-align: left;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    //  text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+  }
+
+  /* Hide the browser's default radio button */
+  label.lms-label-radio input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  /* Create a custom radio button */
+  label.lms-label-radio .lms-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+
+  /* On mouse-over, add a grey background color */
+  label.lms-label-radio:hover input ~ .lms-checkmark {
+    background-color: #ccc;
+  }
+
+  /* When the radio button is checked, add a blue background */
+  label.lms-label-radio input:checked ~ .lms-checkmark {
+    background-color: #094F9A;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  label.lms-label-radio .lms-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  label.lms-label-radio input:checked ~ .lms-checkmark:after {
+    display: block;
+  }
+
+  /* Style the indicator (dot/circle) */
+  label.lms-label-radio .lms-checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+
 }

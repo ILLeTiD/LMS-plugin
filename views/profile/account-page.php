@@ -10,10 +10,12 @@ if (!is_user_logged_in()) {
 $all_meta_for_user = get_user_meta(get_current_user_id());
 
 get_header();
+
 ?>
     <!--    <pre>-->
     <!--    --><?php //d($userFields) ?>
     <!--</pre>-->
+
     <main class="lms-account-page">
         <div class="lms-account-page__wrapper">
             <section class="lms-user-profile lms-user-section">
@@ -24,7 +26,10 @@ get_header();
                 </header>
                 <div class="lms-user-profile-edit">
                     <form action=""
+                          data-parsley-validate
                           method="post"
+                          enctype="multipart/form-data"
+                          id="lms-user-form"
                           class="lms-form lms-user-form lms-user-profile-edit__form">
                         <div class="lms-user-form-info">
                             <?php foreach ($userFields as $field): ?>
@@ -38,7 +43,8 @@ get_header();
                                                        name="<?= $field['slug']; ?>"
                                                        placeholder="<?= $field['name']; ?>"
                                                        value="<?= old($field['slug'], $field['user_value']); ?>"
-                                                    <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                                    <?= array_get($field, 'required') ? 'required data-parsley-required	
+data-parsley-required="true"	' : ''; ?>
                                                 >
                                             </label>
                                         </div>
@@ -50,10 +56,13 @@ get_header();
                                             <label class="lms-form__label">
                                                 <?= $field['name'] ?>
                                                 <input type="email"
+                                                       id="email"
+                                                       data-parsley-type="email"
                                                        name="<?= $field['slug']; ?>"
                                                        placeholder="<?= $field['name']; ?>"
                                                        value="<?= old($field['slug'], $field['user_value']); ?>"
-                                                    <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                                    <?= array_get($field, 'required') ? 'required data-parsley-required	
+data-parsley-required="true"	' : ''; ?>
                                                 >
                                             </label>
                                         </div>
@@ -68,7 +77,8 @@ get_header();
                                                        name="<?= $field['slug']; ?>"
                                                        value="1"
                                                     <?= checked(old($field['slug'])); ?>
-                                                    <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                                    <?= array_get($field, 'required') ? 'required data-parsley-required	
+data-parsley-required="true"	' : ''; ?>
                                                 >
                                             </label>
                                         </div>
@@ -76,7 +86,8 @@ get_header();
                                     <?php case 'select': ?>
                                         <div class="lms-form__group">
                                             <select name="<?= $field['slug']; ?>"
-                                                <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                                <?= array_get($field, 'required') ? 'required data-parsley-required	
+data-parsley-required="true"	' : ''; ?>
                                             >
                                                 <option value="">
                                                     <?= $field['name']; ?>
@@ -102,7 +113,8 @@ get_header();
                                                     <input type="radio"
                                                            name="<?= $field['slug']; ?>"
                                                            value="<?= kebab_case($option['value']); ?>"
-                                                        <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                                        <?= array_get($field, 'required') ? 'required data-parsley-required	
+data-parsley-required="true"	' : ''; ?>
                                                         <?= checked(old($field['slug']), kebab_case($option['value'])); ?>
                                                     >
                                                     <?= $option['value']; ?>
@@ -114,9 +126,38 @@ get_header();
                                     <?php endswitch; ?>
                             <?php endforeach; ?>
                             <div class="lms-form__group">
-                                <input type="checkbox" name="change-pass" class="change-pass">
-                                <input type="password" name="new-pass">
-                                <input type="password" name="confirm-pass">
+                                <div class="lms-form__group">
+                                    <label class="lms-form__label lms-label-checkbox">
+
+                                        <?php _e('Change password?', 'lms-plugin'); ?>
+                                        <input type="checkbox" name="change-pass" class="change-pass">
+                                        <span class="lms-checkmark"></span>
+                                    </label>
+                                </div>
+                                <!--                                <div class="lms-form__group lms-form-fake-pass">-->
+                                <!--                                    <label class="lms-form__label">-->
+                                <!--                                          <span>-->
+                                <!--                                            *******-->
+                                <!--                                      </span>-->
+                                <!--                                        <input type="checkbox" name="change-pass" class="change-pass">-->
+                                <!--                                    </label>-->
+                                <!--                                </div>-->
+                                <div class="lms-form-passwords " style="display: none">
+                                    <div class="lms-form__group">
+                                        <label class="lms-form__label">
+                                            <input disabled type="password" id="newPass"
+                                                   placeholder="<?php _e('New password') ?>"
+                                                   name="newPass">
+                                        </label>
+                                    </div>
+                                    <div class="lms-form__group">
+                                        <label class="lms-form__label">
+                                            <input disabled type="password" id="confirmPass"
+                                                   placeholder="<?php _e('Confirm password') ?>"
+                                                   name="confirmPass">
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -124,7 +165,10 @@ get_header();
                         <div id="lms-user-form-avatar"
                              class="lms-user-form-avatar">
                             <label class="lms-user-form-avatar__wrapper">
-                                <img id="lms-user-form-avatar-image" src="" alt="">
+
+                                <img id="lms-user-form-avatar-image"
+                                     src="<?=  wp_get_attachment_url(get_user_meta(get_current_user_id(), 'lms_avatar', true)); ?>"
+                                     alt="">
                                 <input type="file" name="file">
                             </label>
                         </div>

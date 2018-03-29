@@ -122,6 +122,7 @@ $action->add('wp_ajax_get_course_answers', 'Controllers\QuizAnswerController@get
 $action->add('wp_ajax_check_text_answer', 'Controllers\QuizAnswerController@checkTextAnswer');
 
 $action->add('wp_ajax_load_user_profile_field', 'Controllers\UserProfileController@getUserFields');
+$action->add('wp_ajax_removeUser', 'Controllers\UserProfileController@removeUser');
 
 
 $action->add('wp_ajax_save_quiz_result', 'Controllers\QuizAnswerController@saveResult');

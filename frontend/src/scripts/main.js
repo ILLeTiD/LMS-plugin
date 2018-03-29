@@ -7,8 +7,8 @@ import "babel-polyfill";
 import './utilities/nodeListForEach'
 import "web-animations-js"
 require('intersection-observer');
-var Dropzone = require('dropzone');
-
+// import 'jquery-validation'
+// var validate = require('jquery-validation');
 // import  'mediaelement';
 // Import libraries
 import 'izimodal';
@@ -20,22 +20,8 @@ import App from'./modules/app.js';
 (($) => {
     IntersectionObserver.prototype.POLL_INTERVAL = 100;
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
 
-            reader.onload = function (e) {
-                $('#lms-user-form-avatar-image').attr('src', e.target.result);
-            }
 
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#lms-user-form-avatar input").change(function () {
-        readURL(this);
-    });
-    console.log('sdfdsf');
     const app = new App();
     //var player = new MediaElementPlayer('#slide-control-player');
 })($);
