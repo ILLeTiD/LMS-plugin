@@ -62,27 +62,33 @@ class UserProfileController extends Controller
     {
 
         $user_id = get_current_user_id();
-
+        // dd($request);
         $user = User::find($user_id);
-
-        $profile = new Profile($user);
-
-        $newEmail = $request->get('email');
-        $user->user_email = $newEmail;
-
         $fullName = $request->get('full-name');
         list($first_name, $last_name) = explode(' ', $fullName);
         update_user_meta($user->id, 'first_name', $first_name);
         update_user_meta($user->id, 'last_name', $last_name);
 
+        $profile = new Profile($user);
 
-        $isChangePass = false;
-        if ($isChangePass) {
+        $newEmail = $request->get('email');
+
+
+        $isChangePass = $request->get('change-pass');
+        if ($isChangePass && $request->get('new-pass')) {
             $user_id = wp_insert_user([
                 'ID' => $user->id,
                 'user_login' => $user->email,
                 'user_email' => $user->email,
-                'user_pass' => wp_hash_password($request->get('password')),
+                'user_pass' => wp_hash_password($request->get('new-pass')),
+                'first_name' => $first_name,
+                'last_name' => $last_name
+            ]);
+        } else {
+            $user_id = wp_insert_user([
+                'ID' => $user->id,
+                'user_login' => $newEmail,
+                'user_email' => $newEmail,
                 'first_name' => $first_name,
                 'last_name' => $last_name
             ]);

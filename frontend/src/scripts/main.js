@@ -35,7 +35,7 @@ import App from'./modules/app.js';
     $("#lms-user-form-avatar input").change(function () {
         readURL(this);
     });
-
+    console.log('sdfdsf');
     const app = new App();
     //var player = new MediaElementPlayer('#slide-control-player');
 })($);

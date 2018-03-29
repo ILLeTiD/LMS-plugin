@@ -113,6 +113,11 @@ get_header();
                                         <?php break; ?>
                                     <?php endswitch; ?>
                             <?php endforeach; ?>
+                            <div class="lms-form__group">
+                                <input type="checkbox" name="change-pass" class="change-pass">
+                                <input type="password" name="new-pass">
+                                <input type="password" name="confirm-pass">
+                            </div>
 
                         </div>
 

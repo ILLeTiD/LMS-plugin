@@ -21,6 +21,7 @@ class App {
 
     init() {
 
+
         console.info('App Initialized!');
         this.listeners();
 
@@ -38,6 +39,7 @@ class App {
             this.coursesPage.init();
         }
         if ($('.lms-account-page').length > 0) {
+            console.log('acc age!!1');
             this.profilePage.init();
         }
     }
