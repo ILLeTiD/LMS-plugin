@@ -133,8 +133,18 @@ class UserProfileController extends Controller
     public function removeUser()
     {
         $user_id = $_POST['user_id'];
-        if (!$user_id) return false;
+        $user_pass = $_POST['userpass'];
+        if (!$user_id || !$user_pass) return false;
 
-        wp_delete_user($user_id);
+        $user = User::find($user_id);
+        $hashedPass = $user->user_pass;
+
+        $isCoorectPass = wp_check_password($user_pass, $hashedPass, $user_id);
+        if ($isCoorectPass) {
+            wp_delete_user($user_id);
+            wp_send_json(['correct' => true, 'user' => $user]);
+        } else {
+            wp_send_json(['correct' => false, 'user' => $user]);
+        }
     }
 }

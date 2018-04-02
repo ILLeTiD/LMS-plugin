@@ -12,10 +12,6 @@ $all_meta_for_user = get_user_meta(get_current_user_id());
 get_header();
 
 ?>
-    <!--    <pre>-->
-    <!--    --><?php //d($userFields) ?>
-    <!--</pre>-->
-
     <main class="lms-account-page">
         <div class="lms-account-page__wrapper">
             <section class="lms-user-profile lms-user-section">
@@ -180,19 +176,19 @@ data-parsley-required="true"	' : ''; ?>
                     </form>
                 </div>
             </section>
-            <section class="lms-user-notification lms-user-section">
-                <header class="lms-user-notification__header lms-user-section__header">
-                    <h2 class="lms-user-notification__title lms-user-section__title">
-                        <?php _e('Notifications', 'lms-plugin'); ?>
-                    </h2>
-                </header>
-                <p>
-                    When you invited to a course
-                </p>
-                <button class="lms-user-section__button">
-                    <?php _e('Save Changes', 'lms-plugin') ?>
-                </button>
-            </section>
+<!--            <section class="lms-user-notification lms-user-section">-->
+<!--                <header class="lms-user-notification__header lms-user-section__header">-->
+<!--                    <h2 class="lms-user-notification__title lms-user-section__title">-->
+<!--                        --><?php //_e('Notifications', 'lms-plugin'); ?>
+<!--                    </h2>-->
+<!--                </header>-->
+<!--                <p>-->
+<!--                    When you invited to a course-->
+<!--                </p>-->
+<!--                <button class="lms-user-section__button">-->
+<!--                    --><?php //_e('Save Changes', 'lms-plugin') ?>
+<!--                </button>-->
+<!--            </section>-->
             <div class="lms-user-delete-account">
                 <button class="lms-user-delete-account__button">
                     <?php _e('Delete Account', 'lms-plugin') ?>
