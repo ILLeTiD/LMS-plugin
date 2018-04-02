@@ -33,7 +33,7 @@ class RegisterController extends Controller
 
     public function register()
     {
-        $input = array_only($_POST, ['full-name', 'email', 'password']);
+        $input = array_only($_POST, ['full-name', 'email', 'password', 'g-recaptcha-response']);
         $fields = $this->fields_manager->get();
 
         $errors = $this->validate($input);
@@ -114,6 +114,28 @@ class RegisterController extends Controller
 
         if (strlen($input['password']) < 6) {
             $errors->add('password.short', __('Password must be at least 6 characters.', 'lms-plugin'));
+        }
+
+        if (empty($input['g-recaptcha-response'])) {
+            $errors->add('recaptcha.required', __('Please complete reCAPTCHA', 'lms-plugin'));
+        } else {
+            $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
+                'body' => [
+                    'secret' => '6LcpW1AUAAAAANokgh2Yk1cIAzR3kJYPfDirckdd',
+                    'response' => $input['g-recaptcha-response']
+                ]
+            ]);
+
+            if (is_wp_error($response)) {
+                $errors->add('recaptcha.required', __('Please complete reCAPTCHA', 'lms-plugin'));
+            } else {
+                $json = array_get($response, 'body');
+                $data = json_decode($json, true);
+
+                if (!array_get($data, 'success')) {
+                    $errors->add('recaptcha.required', __('Please complete reCAPTCHA', 'lms-plugin'));
+                }
+            }
         }
 
         return $errors;

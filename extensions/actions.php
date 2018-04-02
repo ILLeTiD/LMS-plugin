@@ -187,6 +187,15 @@ $action->add('phpmailer_init', function ($phpmailer) {
 */
 
 /**
+ * Disable a standard registration page.
+ */
+$action->add('init', function () {
+    if ('/wp-login.php' == array_get($_SERVER, 'PHP_SELF') && 'register' == array_get($_GET, 'action')) {
+        wp_redirect('/login');
+    }
+});
+
+/**
  * Shortcodes.
  */
 add_shortcode('button', function ($attributes) {
