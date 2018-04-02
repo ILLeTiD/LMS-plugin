@@ -1,6 +1,6 @@
 <?php
 $subject = array_get($settings, "email_templates.{$name}.subject");
-$body = array_get($settings, "email_templates.{$name}.body");
+$body = stripslashes(array_get($settings, "email_templates.{$name}.body"));
 ?>
 <input type="text"
 
