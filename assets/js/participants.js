@@ -88,6 +88,14 @@
             $('.js-not-found').addClass('hidden');
         });
 
+        $('input[name=search]').on('keypress', function (event) {
+            if (13 == event.which) {
+                $('.js-search-user').click();
+
+                event.preventDefault();
+            }
+        });
+
         $('.js-search-user').on('click', function () {
             var search = $('input[name=search]').val();
 

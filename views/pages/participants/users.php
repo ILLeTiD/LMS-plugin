@@ -8,6 +8,9 @@
                 <?= __('Name', 'lms-plugin'); ?>
             </th>
             <th>
+                <?= __('Email', 'lms-plugin'); ?>
+            </th>
+            <th>
                 <?= __('Role', 'lms-plugin'); ?>
             </th>
             <th class="lms-align-right">
@@ -27,6 +30,9 @@
             </td>
             <td>
                 <?= $user->display_name; ?>
+            </td>
+            <td>
+                <?= $user->user_email; ?>
             </td>
             <td>
                 <?= ucfirst(implode(', ', $user->roles)); ?>
