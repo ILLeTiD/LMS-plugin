@@ -39,7 +39,6 @@ include 'header-auth.php';
                         <input type="password"
                                name="<?= $field['slug']; ?>"
                                placeholder="<?= $field['name']; ?>"
-                               value="<?= old($field['slug']); ?>"
                             <?= array_get($field, 'required') ? 'required' : ''; ?>
                         >
                     <?php break; ?>
@@ -90,6 +89,11 @@ include 'header-auth.php';
                         <?php break; ?>
                 <?php endswitch; ?>
             <?php endforeach; ?>
+
+
+            <p>
+                <div class="g-recaptcha" data-sitekey="6LcpW1AUAAAAAMjOc3Rul7E3rljh6wohBSCdMAvA"></div>
+            </p>
 
             <p>
                 <button><?= __('Sign Up', 'lms-plugin'); ?></button>
