@@ -52,6 +52,7 @@
                 <td>
                     <span class="dashicons-before dashicons-menu js-sortable-handle"></span>
                     <input type="hidden" name="slide_weight[]" value="<?= $slide->ID; ?>">
+                    <input type="hidden" name="slide_index[]" value="<?= $slide->ID; ?>">
                 </td>
             </tr>
         <?php endforeach; ?>

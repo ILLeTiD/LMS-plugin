@@ -40,6 +40,7 @@
 
   .lms-grid-block {
     text-align: center;
+    position: relative;
 
     @media screen and (max-width: 1024px) {
       width: 100% !important;

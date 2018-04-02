@@ -5,8 +5,8 @@
   &__wrapper {
     max-width: 1300px;
     margin: auto;
-    padding: 10px 30px;
-    position: relative;
+    padding: 30px 15px;
+    text-align: center;
 
     //@media screen and (max-width: 991px) {
     //  padding: 5px 15px;
@@ -52,7 +52,7 @@
 
   &__hint {
     position: absolute;
-    top: 4px;
+    top: 20px;
     right: 120px;
     height: 60px;
     width: 60px;
@@ -74,7 +74,12 @@
   }
 
   &__question {
-
+    .lms-quiz__wrapper {
+      & > * {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
   }
 
   &-main {

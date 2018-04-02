@@ -207,7 +207,8 @@ class ProgressController extends Controller
         }
     }
 
-    public function logOutUser(){
+    public function logOutUser()
+    {
         wp_logout();
         exit();
     }
@@ -225,6 +226,7 @@ class ProgressController extends Controller
         foreach ($courses as $course) {
             $filteredCourse['id'] = $course->course->id;
             $filteredCourse['status'] = $course->status;
+            $filteredCourse['viewed'] = $course->viewed;
             $filteredCourse['is_new'] = true;
 
             $filteredCourses[] = $filteredCourse;
@@ -232,6 +234,23 @@ class ProgressController extends Controller
         }
 
         wp_send_json(['courses' => $filteredCourses]);
+    }
+
+    public function setCoursesAsViewed()
+    {
+        if (!isset($_POST['user_id'])) {
+            wp_send_json(['error' => 'Wrong arguments', 'post' => $_POST]);
+        }
+        $userID = $_POST['user_id'];
+        $user = User::find($userID);
+        $courses = $user->enrollments()
+            ->get();
+        foreach ($courses as $course) {
+            $course->viewed = 1;
+            $course->save();
+        }
+
+        wp_send_json(['msg' => 'marked as viewd all user enrolments', 'post' => $_POST]);
     }
 
     public function loadUserActivity()

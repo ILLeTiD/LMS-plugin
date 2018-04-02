@@ -24,8 +24,6 @@ class ParticipantsPageController extends Controller
         $from = array_get($_GET, 'from');
         $to = array_get($_GET, 'to');
 
-        $roles = wp_roles()->role_names;
-
         $arguments = [
             // 'role__in' => array_keys(CustomRoles::roles())
             'role__not_in' => ['administrator']
@@ -72,7 +70,6 @@ class ParticipantsPageController extends Controller
         $this->view('pages.participants.all', compact(
             'categories',
             'search',
-            'roles',
             'users',
             'from',
             'role',
@@ -123,11 +120,14 @@ class ParticipantsPageController extends Controller
             'failed' => __('Failed', 'lms-plugin'),
         ];
 
+        $message = array_pull($_SESSION, 'message');
+
         $this->view(
             'pages.participants.course',
             compact(
                 'participants',
                 'statuses',
+                'message',
                 'course',
                 'search',
                 'status',
@@ -225,7 +225,7 @@ class ParticipantsPageController extends Controller
         $enrollment->reset();
 
         wp_send_json([
-            'message' => __('Participant has been uninvited.', 'lms-plugin')
+            'message' => __('Participant course progress has been reset.', 'lms-plugin')
         ]);
     }
 
@@ -244,20 +244,37 @@ class ParticipantsPageController extends Controller
 
     public function bulk()
     {
-        $action = array_get($_POST, 'bulk_action');
+        $action = camel_case(array_get($_POST, 'bulk_action', 'unknown'));
+        $enrollments = array_get($_POST, 'enrollments');
 
         if (!method_exists(Enrollment::class, $action)) {
-            wp_send_json([
-                'message' => __('There is no such a bulk action.', 'lms-plugin')
-            ]);
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => __('There is no such a bulk action.', 'lms-plugin')
+            ];
+
+            die;
+        }
+
+
+        if (empty($enrollments)) {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => __('No participants has been chosen.', 'lms-plugin')
+            ];
+
+            die;
         }
 
         foreach ($enrollments as $enrollment) {
             (Enrollment::find($enrollment_id))->$action();
         }
 
-        wp_send_json([
-            'message' => __('Bulk action has been perfomed.', 'lms-plugin')
-        ]);
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => __('Bulk action has been perfomed.', 'lms-plugin')
+        ];
+
+        die;
     }
 }

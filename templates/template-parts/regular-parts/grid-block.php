@@ -43,15 +43,16 @@ include 'section-settings.php';
                 if ($videoType) : ?>
                     <video
                             src="<?= $videoEmbed ?>"
-                            style="max-width: 100%"
-                            class="lms-video-player   <?= $videoAutoplay ? 'autoplay' : ''; ?> <?= $videoHideControls ? 'lms-video-player--disabled' : ''; ?>"></video>
+                            style="max-width: 100%; width:100%;height:100%;"
+                            controls="controls"
+                            class="lms-video-player <?= $videoAutoplay ? ' autoplay ' : ''; ?> <?= $videoHideControls ? ' lms-video-player--disabled ' : ''; ?>"></video>
                 <?php else : ?>
                     <video src="<?= $videoMedia; ?>"
-                           style="max-width: 100%"
-                           class="lms-video-player    <?= $videoAutoplay ? 'autoplay' : ''; ?><?= $videoHideControls ? 'lms-video-player--disabled' : ''; ?>"></video>
+                           style="max-width: 100%; width:100%;height:100%;"
+                           controls="controls"
+                           class="lms-video-player <?= $videoAutoplay ? ' autoplay ' : ''; ?> <?= $videoHideControls ? ' lms-video-player--disabled ' : ''; ?>"></video>
 
                     <?php
-                    // echo wp_video_shortcode(['src' => $videoMedia]);
                 endif;
                 ?>
             <?php elseif ($image && !$isBg) : ?>

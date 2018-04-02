@@ -355,7 +355,7 @@ var lms = {
                 $(this).closest('label').siblings('.lms-color-picker-wrap').hide();
             }
         });
-        $('.lms-section-color-trigger').on('change', function (e) {
+        $('.lms-slide-sections').on('change', '.lms-section-color-trigger', function (e) {
             $(this).closest('label').siblings('.lms-color-picker-wrap').toggle();
         });
 

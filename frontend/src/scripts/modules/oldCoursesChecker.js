@@ -1,6 +1,8 @@
+import store from './store'
+
 class newCoursesChecker {
     constructor() {
-
+        this.store = new store('lmsUserCourses');
     }
 
     init() {
@@ -9,7 +11,7 @@ class newCoursesChecker {
     }
 
     coursesFetcher() {
-        console.log('is courses page 11111', this.isCoursesPage);
+        console.log('is courses page', this.isCoursesPage);
         if (!lmsAjax.userID || lmsAjax.userID == 0) return;
 
         const self = this;
@@ -29,36 +31,51 @@ class newCoursesChecker {
                 return json.courses;
 
             })
-            .then(self.checkNewCourses.bind(self))
-            .then(self.coursesPageArchiveActions.bind(self));
+            .then(self.coursesCompareAndStore.bind(self))
+            .then(self.checkNewCourses.bind(self));
     }
 
+    coursesCompareAndStore(newCourses) {
+        // console.log('THIS ', this);
+        let oldItems = this.store.getData();
+        // console.log('OLD ITEMS', oldItems);
+        //console.log('NEW ITEMS', newCourses);
 
-    checkNewCourses(courses) {
-        const ifUserHasNewCourse = courses.find(i => i.viewed == null);
-        console.log('is User Has NEW COURSES!!!1', !!ifUserHasNewCourse);
+        newCourses.forEach(i => {
+            const isNew = oldItems.find(el => el.id === i.id);
+            // console.log('is NEW', isNew);
 
-        if (!ifUserHasNewCourse) return false;
-        if (!this.isCoursesPage) {
+            if (!isNew) {
+                oldItems.push(i);
+            }
+        });
+
+        console.log('oldItems ', oldItems);
+        this.store.saveData(oldItems);
+
+    }
+
+    checkNewCourses() {
+        const ifUserHasNewCourse = this.store.getData().find(i => i.is_new == true);
+        console.log('is User Has NEW COURSES', ifUserHasNewCourse);
+
+        if (ifUserHasNewCourse) {
             const menuLinkHref = lmsAjax.coursesLink;
             const linkNode = $('.menu').find(`a[href="${menuLinkHref}"]`);
             const linkNodeParent = linkNode.parent();
 
             linkNodeParent.addClass('has-new-courses');
+
+            if (this.isCoursesPage) {
+                this.coursesPageArchiveActions()
+            }
         }
-        return courses;
-
-
     }
 
-    coursesPageArchiveActions(courses = false) {
-        console.log('COURSES before', courses);
-        if (!this.isCoursesPage) return false;
-        if (!courses) return false;
-        console.log('COURSES after', courses);
+    coursesPageArchiveActions() {
+        const items = this.store.getData();
 
-
-        courses.forEach(i => {
+        items.forEach(i => {
             const id = i.id;
             const isNew = i.is_new;
             if (isNew) {
@@ -68,23 +85,13 @@ class newCoursesChecker {
                 courseItem.addClass('is-new-course');
             }
         });
-        const self = this;
-        $.ajax(
-            {
-                method: "POST",
-                url: lmsAjax.ajaxurl,
-                data: {
-                    action: 'set_all_users_courses_viewed',
-                    user_id: lmsAjax.userID,
-                }
-            }
-        )
-            .then(function (json) {
-                if (json.error) new Alert(`"${json.error}" please reload page`);
-                console.log('course started ', json);
-                return json.courses;
 
-            })
+        const newItems = items.map(i => {
+            i.is_new = false;
+            return i;
+        });
+        console.log('NEW ITEMS ', newItems);
+        this.store.saveData(newItems);
     }
 }
 export default newCoursesChecker;

@@ -1,4 +1,5 @@
-<div class="lms-slide-section-display-<?= $sectionsDisplay; ?>  lms-slide lms-slide-<?= $template ?> lms-slide-regular <?= $isPassed ? 'passed' : '' ?>"
+<?//= $isPassed ? 'passed' : '' ?>
+<div class="lms-slide-section-display-<?= $sectionsDisplay; ?>  lms-slide lms-slide-<?= $template ?> lms-slide-regular "
      id="slide-<?= $id ?>"
      data-slide-id="<?= $id ?>"
      data-section-display="<?= $sectionsDisplay; ?>"

@@ -2,6 +2,8 @@
 
 namespace FishyMinds;
 
+use FishyMinds\WordPress\Pagination;
+
 class QueryBuilder
 {
     private $db;
@@ -11,6 +13,8 @@ class QueryBuilder
     private $where = [];
     private $order_by = [];
     private $limit = '';
+    private $offset = '';
+    private $pagination;
 
     public function __construct($table, $class)
     {
@@ -61,6 +65,10 @@ class QueryBuilder
 
         if ($this->limit) {
             $query .= ' LIMIT ' . $this->limit;
+        }
+
+        if ($this->offset) {
+            $query .= ' OFFSET ' . $this->offset;
         }
 
         return $query . ';';
@@ -147,9 +155,10 @@ class QueryBuilder
                 return new $this->class($row);
             }, $rows);
 
-            return new Collection($enrollments);
+            return empty($this->pagination) ?
+                    new Collection($enrollments) : 
+                    new PagedCollection($enrollments, $this->pagination);
         }
-
         return new Collection($rows);
     }
 
@@ -184,10 +193,34 @@ class QueryBuilder
         return $row;
     }
 
+    public function skip($number)
+    {
+        $this->offset = $number;
+
+        return $this;
+    }
+
     public function take($number)
     {
         $this->limit = $number;
 
         return $this->get();
+    }
+
+    public function paginate($perPage)
+    {
+        $page = array_get($_GET, 'paged', 1);
+
+        $this->pagination = new Pagination(
+            $page,
+            $this->count(),
+            $perPage
+        );
+
+        $this->select[0] = '*';
+        $offset = ($page - 1) * $perPage;
+
+        return $this->skip($offset)
+                    ->take($perPage);
     }
 }

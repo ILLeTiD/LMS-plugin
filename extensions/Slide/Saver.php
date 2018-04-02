@@ -18,6 +18,7 @@ class Saver
         'slide_content',
         'slide_custom_css',
         'slide_weight',
+        'slide_index',
         'quiz_type',
         'quiz_tolerance',
         'quiz_hint',

@@ -3,6 +3,7 @@
 --------------------------------------------------------------*/
 @import '../../node_modules/normalize.css/normalize';
 @import '../../node_modules/izitoast/dist/css/iziToast.css';
+@import '../../node_modules/dropzone/dist/dropzone.css';
 @import '../../node_modules/sweetalert2/dist/sweetalert2.css';
 @import '../../node_modules/flatpickr/dist/flatpickr.css';
 @import "../../node_modules/dragula/dist/dragula.css";
@@ -147,10 +148,10 @@
   &:before {
     position: absolute;
     content: '';
-    top: -5px;
-    right: 5px;
-    height: 7px;
-    width: 7px;
+    top: -1px;
+    right: 14px;
+    height: 10px;
+    width: 10px;
     border-radius: 50%;
     background-color: #5c8fdc;
   }
@@ -158,4 +159,161 @@
 
 .nav-container .custom-menu-class li {
   float: none;
+}
+
+.lms-account-page {
+  background-color: #f0f0f0;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  &__wrapper {
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.lms-user {
+  &-section {
+    padding: 30px 50px;
+    background: #fff;
+    margin-bottom: 30px;
+
+    &__header {
+      margin-bottom: 30px;
+      background: none;
+    }
+
+    &__title {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 30px;
+      color: #4A4A4A;
+    }
+
+    &__button {
+      background: #094F9A;
+      color: #fff;
+      border-radius: 5px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: lighter;
+      padding-left: 35px;
+      padding-right: 35px;
+      font-size: 17px;
+    }
+  }
+
+  &-delete-account {
+    &::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    &__button {
+      float: right;
+      border-radius: 5px;
+      background: transparent;
+      border: 1px solid #BFBFBF;
+      color: #BFBFBF;
+      font-weight: lighter;
+      padding-left: 30px;
+      padding-right: 30px;
+      font-size: 16px;
+
+      &:hover {
+        background: #BFBFBF;
+        color: #fff;
+      }
+    }
+  }
+
+  &-form {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+
+    &-info {
+      width: auto;
+      flex: 1 1 auto;
+    }
+
+    &-avatar {
+      width: 200px;
+      padding: 20px;
+
+      &__wrapper {
+        width: 200px;
+        height: 200px;
+        display: block;
+        background: #f0f0f0;
+        cursor: pointer;
+
+        img {
+          //display: block;
+          max-width: 100%;
+          height: auto;
+        }
+
+        input[type=file] {
+          appearance: none;
+          height: 0;
+          width: 0;
+          outline: none;
+        }
+      }
+    }
+
+    &__full {
+      width: 100%;
+    }
+  }
+}
+
+.lms-form {
+  &__group {
+    margin-bottom: 20px;
+  }
+
+  &__label {
+    font-weight: 300;
+    font-size: 16px;
+    color: #4A4A4A;
+    display: block;
+
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      border-radius: 3px;
+      border: 1px solid #BFBFBF;
+      display: block;
+      width: 100%;
+      font-size: 17px;
+      margin-top: 10px;
+      height: 40px;
+      line-height: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+
+      &:focus,
+      &:active {
+        outline: none;
+        border-color: #000;
+      }
+    }
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: BFBFBF;
+      opacity: 1; /* Firefox */
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: BFBFBF;
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+      color: BFBFBF;
+    }
+  }
 }

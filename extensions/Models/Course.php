@@ -3,36 +3,16 @@
 namespace LmsPlugin\Models;
 
 use FishyMinds\Collection;
-use FishyMinds\QueryBuilder;
-use WP_Post;
-use WP_Query;
 
 /**
  * Class Course
  *
  * @property int $id
- *
- * @package LmsPlugin\Models
+ * @property string $name
  */
-class Course
+class Course extends Post
 {
-    private $post;
-
-    public function __construct($post = null)
-    {
-        if (!$post) {
-            global $post;
-        }
-
-        $this->post = $post;
-    }
-
-    public static function find($id)
-    {
-        $post = WP_Post::get_instance($id);
-
-        return new static($post);
-    }
+    const POST_TYPE = 'course';
 
     public static function statuses()
     {

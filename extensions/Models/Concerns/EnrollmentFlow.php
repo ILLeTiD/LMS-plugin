@@ -6,12 +6,12 @@ trait EnrollmentFlow
 {
     public function resendInvite()
     {
-        do_action('lms_event_participant_invited', $enrollment);
+        do_action('lms_event_participant_invited', $this);
     }
 
     public function uninvite()
     {
-        $enrollment->delete();
+        $this->delete();
     }
 
     public function reset()
@@ -21,19 +21,19 @@ trait EnrollmentFlow
         $wpdb->delete(
             $wpdb->prefix . 'lms_progress',
             [
-                'user_id' => $enrollment->user_id,
-                'course_id' => $enrollment->course_id
+                'user_id' => $this->user_id,
+                'course_id' => $this->course_id
             ],
             ['%d', '%d']
         );
 
-        $enrollment->status = 'enrolled';
-        $enrollment->save();
+        $this->status = 'enrolled';
+        $this->save();
     }
 
     public function fail()
     {
-        $enrollment->status = 'failed';
-        $enrollment->save();
+        $this->status = 'failed';
+        $this->save();
     }
 }

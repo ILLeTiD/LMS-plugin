@@ -1,4 +1,5 @@
 <input type="hidden" name="slide_weight" value="<?= $weight; ?>">
+<input type="hidden" name="slide_index" value="<?= $index; ?>">
 
 <div class="lms-field">
     <div class="lms-field__title">

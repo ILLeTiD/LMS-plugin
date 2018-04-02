@@ -10,6 +10,7 @@ array_walk($dragObjects, function (&$item, $key) {
 if (!$passed) {
     shuffle($dragObjects);
 }
+
 ?>
 
 <div class="lms-quiz__wrapper">
@@ -17,17 +18,15 @@ if (!$passed) {
         <div class="lms-dnd-quiz-board lms-dnd-quiz-board-layout--<?= $dnd_layout; ?>">
             <div class="lms-dnd-quiz-drag ">
                 <?php foreach ($dragObjects as $object): ?>
-                    <div class=" lms-dnd-quiz-drag__item lms-dnd-quiz-drag__item--<?= $object['type'] ?>"
+                    <div class="lms-dnd-quiz-drag__item lms-dnd-quiz-drag__item--<?= $object['type'] ?>"
                          data-real-index="<?= $object['index'] ?>"
                          data-dz="<?= $object["drop_zone"] ?>">
-                        <div class="lms-dnd-quiz-drag__item-content lms-dnd-dragula">
-                            <?php if ($object['type'] == 'image') : ?>
-                                <img src="<?= $object["thumbnail"] ?>" alt="">
-                            <?php else: ?>
-                                <h4 class="lms-dnd-quiz-drag__item-text">
-                                    <?= $object["text"]; ?>
-                                </h4>
+                        <div class="lms-dnd-quiz-drag__item-content  lms-dnd-dragula"
+                            <?php if ($object['width']) : ?>
+                                style="width: <?= $object['width'] ?>%"
                             <?php endif; ?>
+                        >
+
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -35,20 +34,42 @@ if (!$passed) {
             <div class="lms-dnd-quiz-drop">
                 <?php
                 $index = 1;
-                foreach ($drop_zones as $key => $zone): ?>
-                    <div class="lms-dnd-quiz-drop__zone  lms-dnd-quiz-drop__zone--<?= $zone["type"] ?>"
-                        <?php if ($zone['type'] == 'image') : ?>
-                            style="background: url(<?= $zone["image"] ?>) 50% no-repeat;
-                                    background-size: cover;"
-                        <?php endif; ?>
-                    >
-                        <?php if ($zone['type'] == 'text') : ?>
-                            <h4 class="lms-dnd-quiz-drop__zone-text">
-                                <?= $zone["text"] ?>
-                            </h4>
-                        <?php endif; ?>
-                        <div class="lms-dnd-quiz-drop__zone-content lms-dnd-dragula ">
 
+                foreach ($drop_zones as $key => $zone): ?>
+                    <div class="lms-dnd-quiz-drop__zone-outher">
+                        <div class="lms-dnd-quiz-drop__zone  lms-dnd-quiz-drop__zone--<?= $zone["type"] ?>"
+                             data-dz="<?= $index; ?>"
+                             style="
+                             <?php if ($zone['type'] == 'image') : ?>
+                                     background: url(<?= $zone["image"] ?>) 50% no-repeat;
+                                     background-size: cover;
+                             <?php endif; ?>
+                             <?php if ($zone['width']): ?>
+                                     width: <?= $zone['width'] ?>%;
+                             <?php endif; ?>
+                                     ">
+                            <?php if ($zone['type'] == 'text') : ?>
+                                <h4 class="lms-dnd-quiz-drop__zone-text">
+                                    <?= $zone["text"] ?>
+                                </h4>
+                            <?php endif; ?>
+                            <div class="lms-dnd-quiz-drop__zone-content lms-dnd-dragula ">
+                                <?php
+                                $objectIndex = array_search($key + 1, array_column($dragObjects, 'drop_zone'));
+                                $object = $dragObjects[$objectIndex];
+                                if ($object['type'] == 'image') : ?>
+                                    <img class="lms-dnd-quiz-drag__object"
+                                         src="<?= $object["thumbnail"] ?>" alt=""
+                                         data-real-index="<?= $object['index'] ?>"
+                                         data-dz="<?= $object["drop_zone"] ?>">
+                                <?php else: ?>
+                                    <h4 class="lms-dnd-quiz-drag__item-text lms-dnd-quiz-drag__object"
+                                        data-real-index="<?= $object['index'] ?>"
+                                        data-dz="<?= $object["drop_zone"] ?>">
+                                        <?= $object["text"]; ?>
+                                    </h4>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                     <?php

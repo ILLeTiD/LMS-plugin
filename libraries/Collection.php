@@ -8,7 +8,7 @@ use IteratorAggregate;
 
 class Collection implements IteratorAggregate, Countable
 {
-    private $items = [];
+    protected $items = [];
 
     public function __construct(array $items)
     {

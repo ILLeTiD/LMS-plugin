@@ -32,9 +32,12 @@ class CustomPages
 
     public function addLmsPages()
     {
+
+        //@TODO save id of custom pages to wp options to get id easy
         $this->addPage('lms-activity', 'Activity');
         $this->addPage('lms-terms', 'Terms of Service');
         $this->addPage('lms-courses', 'Courses');
+        $this->addPage('lms-profile', 'Edit user profile');
 
     }
 
@@ -43,6 +46,7 @@ class CustomPages
         $activity = get_page_by_path('lms-activity');
         $terms = get_page_by_path('lms-terms');
         $courses = get_page_by_path('lms-courses');
+        $profile = get_page_by_path('lms-profile');
         if ($activity) {
             wp_delete_post($activity->ID, true);
         }
@@ -51,6 +55,9 @@ class CustomPages
         }
         if ($courses) {
             wp_delete_post($courses->ID, true);
+        }
+        if ($profile) {
+            wp_delete_post($profile->ID, true);
         }
     }
 }

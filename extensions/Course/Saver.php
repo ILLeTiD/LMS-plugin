@@ -20,6 +20,11 @@ class Saver
         foreach ($_POST['slide_weight'] as $weight => $slideID) {
             update_post_meta($slideID, 'slide_weight', $weight);
         }
+
+        foreach ($_POST['slide_index'] as $index => $slideID) {
+            update_post_meta($slideID, 'slide_index', $index + 1);
+        }
+
         foreach ($this->fields as $name) {
             //@TODO Check and made work solution for save empty
            // if (empty($_POST[$name])) continue;
@@ -59,4 +64,16 @@ class Saver
         return method_exists($this, $method) ? $this->$method($value) : $value;
     }
 
+    public function delete($course_id)
+    {
+        global $post_type, $wpdb;
+
+        if ($post_type != 'course') return;
+
+        $wpdb->delete(
+            $wpdb->prefix . 'lms_enrollments', 
+            ['course_id' => $course_id], 
+            ['%d']
+        );
+    }
 }

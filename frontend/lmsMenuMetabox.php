@@ -25,31 +25,48 @@ function custom_menu_meta_box()
     $login = new stdClass();
     $signIn = new stdClass();
     $logout = new stdClass();
+    $profile = new stdClass();
+    $activity = new stdClass();
 
     $logout->url = wp_logout_url();
     $logout->title = 'Logout';
     $logout->post_title = 'lms-logout-button';
     $logout->type = 'custom';
     $logout->object = 'lmsNavCustom';
-    $logout->classes = array('lms-menu-item-logout-button');
+    $logout->classes = array('lms-menu-item-logout-button', 'lms-button-show-when-logged');
+
+
+    $profile->url = get_permalink(get_page_by_title('Edit user profile'));
+    $profile->title = 'My Account';
+    $profile->post_title = 'lms-profile-button';
+    $profile->type = 'custom';
+    $profile->object = 'lmsNavCustom';
+    $profile->classes = array('lms-menu-item-profile-button', 'lms-button-show-when-logged');
+
+
+    $activity->url = get_permalink(get_page_by_title('Activity'));
+    $activity->title = 'Activity';
+    $activity->post_title = 'lms-activity-button';
+    $activity->type = 'custom';
+    $activity->object = 'lmsNavCustom';
+    $activity->classes = array('lms-menu-item-activity-button', 'lms-button-show-when-logged');
 
     $login->url = get_bloginfo('url') . '/login';
     $login->title = 'Login';
     $login->post_title = 'lms-login-button';
     $login->type = 'custom';
     $login->object = 'lmsNavCustom';
-    $login->classes = array('lms-menu-item-login-button');
+    $login->classes = array('lms-menu-item-login-button', 'lms-button-show-when-unlogged');
 
     $signIn->url = get_bloginfo('url') . '/register';
     $signIn->title = 'Sign In';
     $signIn->post_title = 'lms-signin-button';
     $signIn->type = 'custom';
     $signIn->object = 'lmsNavCustom';
-    $signIn->classes = array('lms-menu-item-signin-button');
+    $signIn->classes = array('lms-menu-item-signin-button', 'lms-button-show-when-unlogged');
 
-    $buttons = [$login, $signIn, $logout];
+    $buttons = [$login, $signIn, $logout, $profile, $activity];
     foreach ($buttons as &$button) {
-//   $button->classes = array('lms-login-button');
         $button->object_id = uniqid();
         $button->db_id = 0;
         $button->menu_item_parent = 0;
@@ -57,7 +74,7 @@ function custom_menu_meta_box()
         $button->xfn = '';
         $button->object = 'lmsNavButton';
         $button->attr_title = 'button';
-        $button->type_label = 'My Cool Plugin';
+        $button->type_label = 'Lms Plugin';
     }
     $db_fields = false;
 // If your links will be hieararchical, adjust the $db_fields array bellow
@@ -119,14 +136,14 @@ function my_wp_nav_menu_objects($items, $args)
 {
     foreach ($items as $key => &$item) {
 
-        if (in_array('lms-menu-item-login-button', array_values($item->classes)) || in_array('lms-menu-item-signin-button', array_values($item->classes))) {
+        if (in_array('lms-button-show-when-unlogged', array_values($item->classes))) {
 
             if (is_user_logged_in()) {
                 unset($items[$key]);
             }
         }
 
-        if (in_array('lms-menu-item-logout-button', array_values($item->classes))) {
+        if (in_array('lms-button-show-when-logged', array_values($item->classes))) {
             if (!is_user_logged_in()) {
                 unset($items[$key]);
             }
