@@ -141,6 +141,21 @@ if (!function_exists('array_only')) {
     }
 }
 
+if ( ! function_exists('array_except'))
+{
+    /**
+     * Get all of the given array except for a specified array of items.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return array
+     */
+    function array_except($array, $keys)
+    {
+        return array_diff_key($array, array_flip((array) $keys));
+    }
+}
+
 if (!function_exists('array_pull')) {
     /**
      * Get a value from the array, and remove it.
@@ -527,5 +542,28 @@ if (!function_exists('lms_save_quiz_result')) {
                 'results' => $result]);
             $QuizModel->save();
         }
+    }
+}
+
+if (!function_exists('lms_dropdown_roles')) {
+    function lms_dropdown_roles($selected = 'subscriber', $except = [])
+    {
+        $r = '';
+    
+        $editable_roles = array_reverse(
+            array_except(get_editable_roles(), $except)
+        );
+    
+        foreach ( $editable_roles as $role => $details ) {
+            $name = translate_user_role($details['name'] );
+            // preselect specified role
+            if ( $selected == $role ) {
+                $r .= "\n\t<option selected='selected' value='" . esc_attr( $role ) . "'>$name</option>";
+            } else {
+                $r .= "\n\t<option value='" . esc_attr( $role ) . "'>$name</option>";
+            }
+        }
+    
+        return $r;
     }
 }

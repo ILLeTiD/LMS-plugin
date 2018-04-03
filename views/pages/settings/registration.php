@@ -96,6 +96,25 @@
             </div>
         </div>
 
+        <!-- Default Role -->
+        <div class="row">
+            <div class="col-2">
+                <h4 class="field__title">
+                    <?= __('Default Role', 'lms-plugin'); ?>
+                </h4>
+            </div>
+            <div class="col-3">
+                <select name="settings[register][default_role]">
+                    <?= lms_dropdown_roles(array_get($settings, 'register.default_role', 'subscriber'), ['administrator']); ?>
+                </select>
+            </div>
+            <div class="col-4">
+                <p class="lms-form-text">
+                    <?= __('Default role which will be assigned to newly created users.', 'lms-plugin'); ?>
+                </p>
+            </div>
+        </div>
+
     </div>
 </div>
 
