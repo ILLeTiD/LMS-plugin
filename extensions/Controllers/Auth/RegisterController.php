@@ -46,12 +46,16 @@ class RegisterController extends Controller
 
         list($first_name, $last_name) = explode(' ', $input['full-name']);
 
+        $settings = $this->plugin->getSettings();
+        $default_role = array_get($settings, 'registr.default_role', 'subscriber');
+
         $user_id = wp_insert_user([
             'user_login' => $input['email'],
             'user_email' => $input['email'],
             'user_pass' => $input['password'],
             'first_name' => $first_name,
-            'last_name' => $last_name
+            'last_name' => $last_name,
+            'role' => $default_role
         ]);
 
         if (is_wp_error($user_id)) {
@@ -62,7 +66,7 @@ class RegisterController extends Controller
         }
 
         $user = User::find($user_id);
-        $user->remove_role(get_option('default_role'));
+
 
         $profile = new Profile($user);
 
@@ -78,6 +82,7 @@ class RegisterController extends Controller
         update_user_meta($user->id, 'lms_last_activity', time());
 
         if ($moderation) {
+            $user->remove_role($default_role);
             $success = __('Your registration is pending. You will get an email when your account is activated.', 'lms-plugin');
 
             return $this->view('auth.register', compact('success'));
