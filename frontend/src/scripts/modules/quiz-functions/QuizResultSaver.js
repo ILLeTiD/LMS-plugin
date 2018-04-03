@@ -15,7 +15,6 @@ const QuizResultSaver = {
             }
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log('quiz result saved', json);
         });
     }
 };

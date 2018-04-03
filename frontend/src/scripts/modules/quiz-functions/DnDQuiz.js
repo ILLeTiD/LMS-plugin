@@ -1,7 +1,7 @@
 import dragula from 'dragula';
 import AbstractQuiz from './AbstractQuiz'
 import Alert from '../../utilities/Alerts'
-import Hint from '../Hint'
+import Hint from './Hint'
 import QuizResultSaver from './QuizResultSaver'
 
 class DnDQuiz extends AbstractQuiz {
@@ -16,7 +16,7 @@ class DnDQuiz extends AbstractQuiz {
             const hint = new Hint(this.hint, this.slide);
         }
 
-        console.log("INIT DND!!!!");
+        // console.log("INIT DND!!!!");
         this.initDnD();
 
     }
@@ -64,7 +64,7 @@ class DnDQuiz extends AbstractQuiz {
     initDnD() {
         const self = this;
         const docElem = this.slide[0];
-        console.log('Slide EL ', docElem);
+        // console.log('Slide EL ', docElem);
         const dnd = docElem.querySelector(this.selectors.dndQuiz);
         this.board = dnd.querySelector('.board');
         const itemContainers = Array.prototype.slice.call(dnd.querySelectorAll('.lms-dnd-dragula'));
@@ -93,8 +93,8 @@ class DnDQuiz extends AbstractQuiz {
         this.slide.find('.lms-dnd-quiz-drag__object').each(function (i) {
             const isDragged = $(this).parent().parent().hasClass('lms-dnd-quiz-drop__zone');
             const indexToCheck = $(this).parent().parent().data('dz');
-            console.log('PARENT ', $(this).parent().parent());
-            console.log('IS DRAGGED', isDragged);
+            // console.log('PARENT ', $(this).parent().parent());
+            // console.log('IS DRAGGED', isDragged);
             let isCorrect;
             if (indexToCheck == $(this).data('dz')) {
                 isCorrect = true;
@@ -110,13 +110,13 @@ class DnDQuiz extends AbstractQuiz {
                 isDragged: isDragged
             });
         });
-        console.log(this.statsDnD);
+        // console.log(this.statsDnD);
 
         const isAllNotMoved = this.statsDnD.every(item => item.isDragged == false);
-        console.log('isDragged', isAllNotMoved);
+        // console.log('isDragged', isAllNotMoved);
 
         if (isAllNotMoved) {
-            console.log('unaswered');
+            // console.log('unaswered');
             new Alert(lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].message, lmsAjax.notificationMessages[`${this.type}_quiz_unanswered`].title, 'info', 3000);
 
             return false;
@@ -129,7 +129,7 @@ class DnDQuiz extends AbstractQuiz {
             return isCorrect ? acc + percent : acc;
         }, 0);
         const roundedPercentOfCorrect = Math.round(percentOfCorrect);
-        console.log('PERCENT OF CORRECT', roundedPercentOfCorrect);
+        // console.log('PERCENT OF CORRECT', roundedPercentOfCorrect);
         this.percentOfCorrect = roundedPercentOfCorrect;
         //console.log(this.tolerance);
         if (this.tolerance == 'strict') {

@@ -9,7 +9,7 @@ class newCoursesChecker {
     }
 
     coursesFetcher() {
-        console.log('is courses page 11111', this.isCoursesPage);
+        // console.log('is courses page?', this.isCoursesPage);
         if (!lmsAjax.userID || lmsAjax.userID == 0) return;
 
         const self = this;
@@ -52,10 +52,10 @@ class newCoursesChecker {
     }
 
     coursesPageArchiveActions(courses = false) {
-        console.log('COURSES before', courses);
+        // console.log('COURSES before', courses);
         if (!this.isCoursesPage) return false;
         if (!courses) return false;
-        console.log('COURSES after', courses);
+        // console.log('COURSES after', courses);
 
 
         courses.forEach(i => {

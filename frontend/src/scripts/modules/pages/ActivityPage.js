@@ -3,7 +3,7 @@ import {observable, autorun} from 'mobx';
 import moment from 'moment';
 import tippy from 'tippy.js'
 // import  'moment/locale/sv'
-import Alert from '../utilities/Alerts'
+import Alert from '../../utilities/Alerts'
 class ActivityPage {
     constructor() {
     }
@@ -18,10 +18,7 @@ class ActivityPage {
     @observable items = [];
 
     init() {
-
         moment.locale($('html').attr('lang'));
-
-
         //using mobX to manage state more at https://mobx.js.org/refguide/autorun.html
         autorun(
             () => {

@@ -27,5 +27,5 @@ export const selectors = {
     shortcodeNext: '.lms-shortcode-next',
     shortcodePrev: '.lms-shortcode-prev',
     shortcodeRestart: '.lms-shortcode-restart',
-
+    allTextToResponsive: 'p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea'
 };

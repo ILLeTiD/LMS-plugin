@@ -2,14 +2,13 @@
  * Manage global libraries like jQuery or THREE from the package.json file
  */
 // var $ =  window.jQuery= require('jquery');
+
 var $ = window.jQuery;
 import "babel-polyfill";
 import './utilities/nodeListForEach'
 import "web-animations-js"
 require('intersection-observer');
-// import 'jquery-validation'
-// var validate = require('jquery-validation');
-// import  'mediaelement';
+
 // Import libraries
 import 'izimodal';
 
@@ -19,10 +18,6 @@ import App from'./modules/app.js';
 
 (($) => {
     IntersectionObserver.prototype.POLL_INTERVAL = 100;
-
-
-
     const app = new App();
-    //var player = new MediaElementPlayer('#slide-control-player');
 })($);
 

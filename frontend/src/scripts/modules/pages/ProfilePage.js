@@ -1,11 +1,8 @@
-import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
+import lmsConfirmAlert from '../../utilities/lmsConfirmAlert'
 import swal from 'sweetalert2'
 class ProfilePage {
     constructor() {
         this.user_id = lmsAjax.userID;
-
-        console.log('USER ID', this.user_id);
-        console.log('test!!1');
     }
 
     init() {
@@ -14,32 +11,24 @@ class ProfilePage {
     }
 
     listeners() {
-
-        console.log('listeners!!1');
         $("#lms-user-form").validate({
             rules: {
                 newPass: {
                     required: true,
                     minlength: 6,
-
-
                 },
-
                 confirmPass: {
                     equalTo: "#newPass",
                     minlength: 6,
                 },
-
-
             },
             messages: {
                 password: {
                     required: "the password is required"
-
                 }
             }
-
         });
+
         $('.change-pass').on('change', (e) => {
             const $this = $(e.target);
             console.log($this);
@@ -52,6 +41,7 @@ class ProfilePage {
                 }
             });
         });
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -98,14 +88,7 @@ class ProfilePage {
                                 }
                             }
                         ).done(function (json) {
-                            console.log('logged out', json
-                            );
-                            if (json.correct == true) {
-                                // swal.showValidationError(
-                                //     'This password correct.'
-                                // );
-                                //     resolve();
-                            } else {
+                            if (!json.correct == true) {
                                 swal.showValidationError(
                                     'This password incorrect.'
                                 )
@@ -128,36 +111,13 @@ class ProfilePage {
                     }, 1500);
                 }
             });
-            // lmsConfirmAlert({
-            //     title: 'Do you want to delete account? ',
-            //     text: '',
-            // }, () => {
-            //     $.ajax(
-            //         {
-            //             method: "POST",
-            //             url: lmsAjax.ajaxurl,
-            //             data: {
-            //                 action: 'removeUser',
-            //                 user_id: this.user_id
-            //             }
-            //         }
-            //     ).done(function (json) {
-            //         console.log('logged out', json
-            //         );
-            //         window.location.href = lmsAjax.homeUrl;
-            //     });
-            // });
         });
-
-
     }
 
     checkPasswords() {
         const newPassField = $('.newPass');
         const reTyped = $('.confirmPass');
 
-        console.log('old val ', newPassField.val());
-        console.log('old val ', reTyped.val());
         if (newPassField.val() != reTyped.val()) {
 
         }

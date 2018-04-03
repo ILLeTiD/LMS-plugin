@@ -1,6 +1,6 @@
 //reference to new quiz types
 
-import Hint from '../Hint'
+import Hint from './Hint'
 import Alert from '../../utilities/Alerts'
 import {selectors} from '../selectors'
 class AbstractQuiz {

@@ -13,7 +13,7 @@ export const ProgressLogger = {
             }
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log('course progress deleted ', json);
+            // console.log('course progress deleted ', json);
         });
     },
     commitProgress(user_id, course_id, slide_id, name = 'finished'){
@@ -31,7 +31,7 @@ export const ProgressLogger = {
             }
         ).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log('slide finished ', json);
+            // console.log('slide finished ', json);
         });
     }
 };

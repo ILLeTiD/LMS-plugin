@@ -1,7 +1,7 @@
 import 'hammerjs'
 import Muuri from 'muuri';
 import Alert from '../../utilities/Alerts'
-import Hint from '../Hint'
+import Hint from './Hint'
 import AbstractQuiz from './AbstractQuiz'
 import QuizResultSaver from './QuizResultSaver'
 

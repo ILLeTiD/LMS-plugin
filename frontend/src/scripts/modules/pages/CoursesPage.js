@@ -1,7 +1,7 @@
 import moment from 'moment';
 import  'moment/locale/sv'
-import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
-import {Activity} from './ActivityLogger'
+import lmsConfirmAlert from '../../utilities/lmsConfirmAlert'
+import {Activity} from '../ActivityLogger'
 class CoursesPage {
     constructor() {
 
@@ -25,11 +25,10 @@ class CoursesPage {
 
     enrollToPublicCourse(e) {
         if (e) e.preventDefault();
-        console.log('sdfdsfsd');
         const $button = $(e.target);
         const courseID = $button.data('course-id');
         const userID = $button.data('user-id');
-        console.log(courseID, userID);
+
         Activity.enrollToPublicCourse(userID, courseID);
     }
 
@@ -82,7 +81,6 @@ class CoursesPage {
             title: 'Do you want restart course?',
             text: '',
         }, () => {
-            //var player = new MediaElementPlayer('#slide-control-player');
             const courseID = $button.data('course-id');
             const userID = $button.data('user-id');
             Activity.redoCourse(userID, courseID);

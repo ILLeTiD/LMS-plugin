@@ -1,7 +1,7 @@
-import iziToast from '../utilities/iziToast'
+import iziToast from '../../utilities/iziToast'
 import Popper from 'popper.js'
 import Tooltip from 'tooltip.js'
-import {selectors} from './selectors'
+import {selectors} from '../selectors'
 class Hint {
     constructor(message, slide, timeOut = 30000) {
         this.message = message;
@@ -17,7 +17,6 @@ class Hint {
         });
         this.startTimer();
 
-        console.info('Hint inited!', this.tooltip);
     }
 
     startTimer() {

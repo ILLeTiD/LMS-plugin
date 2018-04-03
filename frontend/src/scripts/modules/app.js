@@ -1,6 +1,6 @@
-import Course from './Course';
-import CoursesPage from './CoursesPage';
-import ProfilePage from './ProfilePage';
+import CoursePage from './pages/CoursePage';
+import CoursesPage from './pages/CoursesPage';
+import ProfilePage from './pages/ProfilePage';
 import newCoursesChecker from './newCoursesChecker';
 import {selectors} from './selectors'
 import moment from 'moment'
@@ -8,11 +8,10 @@ import detectIE from '../utilities/detectIE'
 import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
 var objectFitImages = require('object-fit-images');
 
-import QuizResultSaver from './quiz-functions/QuizResultSaver'
 class App {
 
     constructor() {
-        this.course = new Course();
+        this.course = new CoursePage();
         this.coursesPage = new CoursesPage();
         this.profilePage = new ProfilePage();
         this.newCoursesChecker = new newCoursesChecker();
@@ -20,12 +19,11 @@ class App {
     }
 
     init() {
-        console.log('length ', $('.lms-account-page').length);
 
         console.info('App Initialized!');
         this.listeners();
 
-       this.newCoursesChecker.init();
+        this.newCoursesChecker.init();
 
         objectFitImages('img.lms-grid-block__image');
         const isIE = detectIE() ? 'is-ie' : '';

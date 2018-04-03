@@ -1,0 +1,112 @@
+
+.lms-account-page {
+  background-color: #f0f0f0;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  &__wrapper {
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.lms-user {
+  &-section {
+    padding: 30px 50px;
+    background: #fff;
+    margin-bottom: 30px;
+
+    &__header {
+      margin-bottom: 30px;
+      background: none;
+    }
+
+    &__title {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 30px;
+      color: #4A4A4A;
+    }
+
+    &__button {
+      background: #094F9A;
+      color: #fff;
+      border-radius: 5px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: lighter;
+      padding-left: 35px;
+      padding-right: 35px;
+      font-size: 17px;
+    }
+  }
+
+  &-delete-account {
+    &::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    &__button {
+      float: right;
+      border-radius: 5px;
+      background: transparent;
+      border: 1px solid #BFBFBF;
+      color: #BFBFBF;
+      font-weight: lighter;
+      padding-left: 30px;
+      padding-right: 30px;
+      font-size: 16px;
+
+      &:hover {
+        background: #BFBFBF;
+        color: #fff;
+      }
+    }
+  }
+
+  &-form {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+
+    &-info {
+      width: auto;
+      flex: 1 1 auto;
+    }
+
+    &-avatar {
+      width: 200px;
+      padding: 20px;
+
+      &__wrapper {
+        width: 200px;
+        height: 200px;
+        display: block;
+        background: #f0f0f0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        img {
+          //display: block;
+          max-width: 100%;
+          height: auto;
+        }
+
+        input[type=file] {
+          appearance: none;
+          height: 0;
+          width: 0;
+          outline: none;
+        }
+      }
+    }
+
+    &__full {
+      width: 100%;
+    }
+  }
+}

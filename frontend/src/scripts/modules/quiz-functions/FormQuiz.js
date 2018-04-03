@@ -1,6 +1,6 @@
 import AbstractQuiz from './AbstractQuiz'
 import Alert from '../../utilities/Alerts'
-import Hint from '../Hint'
+import Hint from './Hint'
 class FormQuiz extends AbstractQuiz {
     constructor(slide, type, tolerance, CourseInstance) {
         super(slide, type, tolerance, CourseInstance)
@@ -46,7 +46,7 @@ class FormQuiz extends AbstractQuiz {
             }
         }).done(function (json) {
             if (json.error) new Alert(`"${json.error}" please reload page`);
-            console.log(json);
+
             checkedAnswers = json.checkedAnswers;
             inputsCheck(checkedAnswers);
             optionAnswerAfterCheck(checkedAnswers, slide.data('tolerance'), correctAnswersCount);

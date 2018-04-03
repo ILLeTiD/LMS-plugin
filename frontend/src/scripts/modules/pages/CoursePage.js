@@ -1,19 +1,19 @@
-import SlideCtr from './Slides';
-import {initLazyLoading} from '../utilities/lazy-loading';
+import SlideCtr from '../Slides';
+import {initLazyLoading} from '../../utilities/lazy-loading';
 import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
-import lmsConfirmAlert from '../utilities/lmsConfirmAlert'
-import Alert from '../utilities/Alerts'
+import lmsConfirmAlert from '../../utilities/lmsConfirmAlert'
+import Alert from '../../utilities/Alerts'
 import 'hammerjs'
 import 'mediaelement/full';
-import {selectors} from './selectors'
-import {ProgressLogger} from './CourseProgressLogger'
-import {Activity} from  './ActivityLogger'
-import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../utilities/fullscreen'
-import {showArrow} from '../utilities/checkIfArrowAllowed'
+import {selectors} from '../selectors'
+import {ProgressLogger} from '../CourseProgressLogger'
+import {Activity} from  '../ActivityLogger'
+import {GoInFullscreen, GoOutFullscreen, IsFullScreenCurrently} from '../../utilities/fullscreen'
+import {showArrow} from '../../utilities/checkIfArrowAllowed'
 import Stickyfill from 'stickyfilljs'
 
-class Course {
+class CoursePage {
     constructor() {
         // this.slideCtr = new SlideCtr(this);
         this.SlidesController = new SlideCtr(this);
@@ -32,7 +32,6 @@ class Course {
     }
 
     init($courseEl) {
-        console.log(this.selectors);
         this.courseEl = $courseEl;
         this.courseId = $courseEl.data('id');
         this.userId = $courseEl.data('user-id');
@@ -52,7 +51,7 @@ class Course {
                 const isHiddenControls = $(this).hasClass('lms-video-player--disabled');
                 const isAutoplay = $(this).hasClass('autoplay');
 
-                console.log('is Hidden controlls? ', isHiddenControls, " is Autoplay ? ", isAutoplay, 'this', $(this));
+                // console.log('is Hidden controlls? ', isHiddenControls, " is Autoplay ? ", isAutoplay, 'this', $(this));
 
                 const playeryOptions = {
                     pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
@@ -62,7 +61,6 @@ class Course {
 
                     success: function (mediaElement, originalNode, instance) {
                         if (isAutoplay) {
-                            console.log('IS AUTOPLAY');
                             instance.play();
                         }
                         self.initedVideos.push({
@@ -83,7 +81,6 @@ class Course {
     initAudio() {
         const self = this;
         if ($.fn.mediaelementplayer) {
-            console.log('MEDIA ELEMENT');
             this.player = $(this.selectors.audioPlayerControl).mediaelementplayer({
                 pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
                 shimScriptAccess: 'always',
@@ -138,14 +135,13 @@ class Course {
             if (json.error) {
                 new Alert(`"${json.error}" please reload page`, 'error');
             }
-            console.log(json);
+
             self.passedIds = json.ids && json.ids[0] != null ? json.ids : [];
             self.setActiveSlideOnInit();
         });
     }
 
     beforeStarted() {
-        console.log('BEFORE STARTED');
         $('.lms-course-controls-start').show();
         $('.lms-slide-control-navigation').addClass('hide-imp');
         $('.lms-section-control-navigation').addClass('hide-imp');
@@ -157,7 +153,6 @@ class Course {
     }
 
     afterStarted() {
-        console.log('AFTER STARTED');
         $('.lms-slide-control-navigation').removeClass('hide-imp');
         $('.lms-section-control-navigation').removeClass('hide-imp');
         $('.lms-course-controls-start').remove();
@@ -166,7 +161,6 @@ class Course {
     }
 
     checkStartStatus() {
-        console.log('check START');
         this.isStart = true;
         if (this.courseEl.data('enrollment-status') == 'enrolled') {
             this.beforeStarted();
@@ -216,7 +210,6 @@ class Course {
                 lastSlideIndexFromDB = this.SlidesController.current.data('slide-index');
             } else {
                 //user cant go to slide in hash but has some activities so show last activity
-                console.log('wrong slide11');
                 history.replaceState({current: lastSlideIndexFromDB}, `Slide ${lastSlideIndexFromDB + 1}`, `#slide${lastSlideIndexFromDB + 1}`);
                 this.SlidesController.currentById = +lastSlideIdFromDB;
                 lastSlideIndexFromDB = this.SlidesController.current.data('slide-index');
@@ -261,14 +254,13 @@ class Course {
 
     fullscreenChangeHandler(e) {
         //default ESC button exit fullscreen handler
-        console.log('width', $(window).width());
         let windowWidth = $(window).width();
 
-        const calcFz = (initialFz) => {
+        const calcScaledFontSize = (initialFz) => {
             let initialWidth = 1200;
             let initialK = initialFz / initialWidth;
             let newFz;
-            if (windowWidth > 1910) {
+            if (windowWidth > 1500) {
                 newFz = windowWidth * initialK;
             } else {
                 newFz = windowWidth * (initialK - 0.002);
@@ -276,22 +268,20 @@ class Course {
 
             return newFz;
         };
+
         if (!IsFullScreenCurrently()) {
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
             this.courseEl.removeClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-fullscreen-init');
             // this.fullscreenPaintNavButtons(true);
 
-            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
-                let fontSize = $(this).css("fontSize");
-                fontSize = calcFz(parseInt(fontSize)) - 6 + "px";
+            $(this.selectors.course).find(this.selectors.allTextToResponsive).each(function (i) {
                 $(this).css(`fontSize`, ``);
             });
         } else {
-            console.log('sdfdsfds');
-            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
+            $(this.selectors.course).find(this.selectors.allTextToResponsive).each(function (i) {
                 let fontSize = $(this).css("fontSize");
-                fontSize = calcFz(parseInt(fontSize)) + "px";
+                fontSize = calcScaledFontSize(parseInt(fontSize)) + "px";
                 $(this).css(`fontSize`, `${fontSize}`);
             });
         }
@@ -308,7 +298,6 @@ class Course {
     }
 
     urlChangeHandler(e) {
-        console.log('CHANGE URL LISTENER');
         var state = e.state;
 
         try {
@@ -327,9 +316,9 @@ class Course {
         $(document).on('mousemove', this.fullscreenShowToolbarOnHover.bind(this));
 
         //IDK why but this works
-        $('.lms-course').on('webkitfullscreenchange', this.fullscreenChangeHandler.bind(this));
+        $(this.selectors.course).on('webkitfullscreenchange', this.fullscreenChangeHandler.bind(this));
         $(document).on('mozfullscreenchange', this.fullscreenChangeHandler.bind(this));
-        $('.lms-course').on('fullscreenchange', this.fullscreenChangeHandler.bind(this));
+        $(this.selectors.course).on('fullscreenchange', this.fullscreenChangeHandler.bind(this));
         $(document).on('MSFullscreenChange', this.fullscreenChangeHandler.bind(this));
 
         $(this.selectors.shortcodeBackToCourses).on('click', this.shortcodeBackToCourses.bind(this));
@@ -357,7 +346,6 @@ class Course {
 
     shortcodeRestart(e) {
         if (e) e.preventDefault();
-        console.log('START DELETEING');
 
         lmsConfirmAlert({
             title: 'Do you want restart course?',
@@ -377,13 +365,7 @@ class Course {
             this.courseEl.addClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
             // this.fullscreenPaintNavButtons(true);
-            // $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
-            //     let fontSize = $(this).css("fontSize");
-            //     fontSize = parseInt(fontSize) + 6 + "px";
-            //     $(this).css(`fontSize`, `${fontSize}`);
-            // });
         } else {
-
             GoOutFullscreen();
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
             this.courseEl.removeClass('lms-fullscreen-init');
@@ -480,9 +462,6 @@ class Course {
         }
 
         if (this.SlidesController.current.data('type') === 'quiz') {
-            console.log('IS SLIDE QUIZ');
-            console.log(this.passedIds);
-            console.log(this.SlidesController.current.data('slide-id'));
 
             if (!this.passedIds.includes(this.SlidesController.current.data('slide-id'))) {
                 console.log('IS SLIDE QUIZ FIRST TIME');
@@ -516,7 +495,6 @@ class Course {
                 this.endOfCourse();
             }
 
-            console.log('remove CHECK');
             $('.lms-nav-button--prev').removeClass('disabled');
             $('.lms-nav-button--check').removeClass('active');
 
@@ -649,4 +627,4 @@ class Course {
         }
     }
 }
-export default Course;
+export default CoursePage;
