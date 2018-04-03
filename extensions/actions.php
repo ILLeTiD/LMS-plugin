@@ -159,6 +159,7 @@ $action->add('wp_ajax_test', function () {
     do_action('lms_event_user_registered', $user);
 });
 
+/*
 $action->add('phpmailer_init', function ($phpmailer) {
     // Define that we are sending with SMTP
     $phpmailer->isSMTP();
@@ -185,6 +186,7 @@ $action->add('phpmailer_init', function ($phpmailer) {
     $phpmailer->From = 'noreply@fishy-minds.localhost';
     $phpmailer->FromName = 'WP DEV';
 });
+*/
 
 /**
  * Disable a standard registration page.
