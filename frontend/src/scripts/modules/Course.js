@@ -261,6 +261,21 @@ class Course {
 
     fullscreenChangeHandler(e) {
         //default ESC button exit fullscreen handler
+        console.log('width', $(window).width());
+        let windowWidth = $(window).width();
+
+        const calcFz = (initialFz) => {
+            let initialWidth = 1200;
+            let initialK = initialFz / initialWidth;
+            let newFz;
+            if (windowWidth > 1910) {
+                newFz = windowWidth * initialK;
+            } else {
+                newFz = windowWidth * (initialK - 0.002);
+            }
+
+            return newFz;
+        };
         if (!IsFullScreenCurrently()) {
             this.courseEl.find(this.selectors.courseControls).removeClass('lms-option-shown');
             this.courseEl.removeClass('lms-fullscreen-init');
@@ -269,7 +284,14 @@ class Course {
 
             $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
                 let fontSize = $(this).css("fontSize");
-                fontSize = parseInt(fontSize) - 6 + "px";
+                fontSize = calcFz(parseInt(fontSize)) - 6 + "px";
+                $(this).css(`fontSize`, ``);
+            });
+        } else {
+            console.log('sdfdsfds');
+            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
+                let fontSize = $(this).css("fontSize");
+                fontSize = calcFz(parseInt(fontSize)) + "px";
                 $(this).css(`fontSize`, `${fontSize}`);
             });
         }
@@ -355,11 +377,11 @@ class Course {
             this.courseEl.addClass('lms-fullscreen-init');
             this.courseEl.find(this.selectors.courseControls).addClass('lms-fullscreen-init');
             // this.fullscreenPaintNavButtons(true);
-            $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
-                let fontSize = $(this).css("fontSize");
-                fontSize = parseInt(fontSize) + 6 + "px";
-                $(this).css(`fontSize`, `${fontSize}`);
-            });
+            // $('.lms-course').find('p,h1,h2,h3,h4,h5,h6, .lms-label-checkbox, .lms-label-radio, .lms-quiz-form input[type="text"], .lms-quiz-form textarea').each(function (i) {
+            //     let fontSize = $(this).css("fontSize");
+            //     fontSize = parseInt(fontSize) + 6 + "px";
+            //     $(this).css(`fontSize`, `${fontSize}`);
+            // });
         } else {
 
             GoOutFullscreen();
