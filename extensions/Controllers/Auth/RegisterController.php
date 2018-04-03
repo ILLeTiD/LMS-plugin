@@ -27,7 +27,7 @@ class RegisterController extends Controller
         }
 
         $this->view('auth.register', [
-            'fields' => $this->fields_manager->get()
+            'fields' => $this->fields_manager->get(),
         ]);
     }
 
@@ -77,12 +77,18 @@ class RegisterController extends Controller
         update_user_meta($user->id, 'lms_status', $moderation ? 'waiting' : 'accepted');
         update_user_meta($user->id, 'lms_last_activity', time());
 
+        if ($moderation) {
+            $success = __('Your registration is pending. You will get an email when your account is activated.', 'lms-plugin');
+
+            return $this->view('auth.register', compact('success'));
+        }
+
         // Fire user registered event.
         do_action('lms_event_user_registered', $user);
 
-        $_SESSION['success'] = __('Woohoo! Your account is ready. Please login to access your courses.', 'lms-plugin');
+        $success = __('Woohoo! Your account is ready. Please <a href="/login">login</a> to access your courses.', 'lms-plugin');
 
-        wp_redirect('/login');
+        return $this->view('auth.register', compact('success'));
     }
 
     private function validate($input)
