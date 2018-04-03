@@ -678,6 +678,10 @@
     top: 8px;
 }
 
+.lms-form-input-sender input {
+    width: auto !important;
+}
+
 .lms-profile-field {
     position: relative;
 }
