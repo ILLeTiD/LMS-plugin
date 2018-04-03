@@ -21,7 +21,9 @@ class SettingsPageController extends Controller
     {
         $settings = $this->plugin->getSettings();
         $membership = get_option('users_can_register');
-        $support = new WP_User_Query(['role' => 'administrator']);
+        $support = new WP_User_Query([
+            'role__in' => ['editor', 'administrator']
+        ]);
 
         $fields = $this->fields_manager->get();
 
