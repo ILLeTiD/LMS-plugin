@@ -29,6 +29,7 @@ $action->add('admin_menu', 'DashboardMenu@create');
 
 $action->add('init', 'Course\CoursePostType@register');
 $action->add('init', 'Course\CategoryTaxonomy@register');
+$action->add('add_meta_boxes', 'Course\SettingsMetaBox@add');
 $action->add('add_meta_boxes', 'Course\ParticipantsMetaBox@add');
 $action->add('add_meta_boxes', 'Course\ProgressMetaBox@add');
 $action->add('add_meta_boxes', 'Course\SlidesMetaBox@add');

@@ -5,8 +5,10 @@ namespace LmsPlugin\Course;
 class Saver
 {
     private $fields = [
-      'course_custom_css'
+        'course_visibility',
+        'course_custom_css'
     ];
+
     public function save($courseID)
     {
         if (get_post_type($courseID) != 'course') {
