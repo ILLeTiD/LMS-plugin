@@ -159,7 +159,6 @@ $action->add('lms_event_participant_invited', 'Listeners\SendCourseInvitationEma
 
 $action->add('wp_ajax_test', function () {
     $user = \LmsPlugin\Models\User::find(28);
-    d($user);
     do_action('lms_event_user_registered', $user);
 });
 
@@ -187,8 +186,8 @@ $action->add('phpmailer_init', function ($phpmailer) {
     // The encryption system to use - ssl (deprecated) or tls
     // $phpmailer->SMTPSecure = 'tls';
 
-    $phpmailer->From = 'noreply@fishy-minds.localhost';
-    $phpmailer->FromName = 'WP DEV';
+    // $phpmailer->From = 'noreply@fishy-minds.localhost';
+    // $phpmailer->FromName = 'WP DEV';
 });
 */
 
