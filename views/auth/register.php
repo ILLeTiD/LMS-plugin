@@ -1,6 +1,8 @@
 <?php
 include 'header-auth.php';
 ?>
+
+<?php if (empty($success)): ?>
     <div class="auth-content">
         <div class="auth-content__intro">
             <h2 class="auth-content__title">
@@ -19,26 +21,26 @@ include 'header-auth.php';
                 <?php switch ($field['type']):
                     case 'text': ?>
                         <input type="text"
-                               name="<?= $field['slug']; ?>"
-                               placeholder="<?= $field['name']; ?>"
-                               value="<?= old($field['slug']); ?>"
-                               <?= array_get($field, 'required') ? 'required' : ''; ?>
+                            name="<?= $field['slug']; ?>"
+                            placeholder="<?= $field['name']; ?>"
+                            value="<?= old($field['slug']); ?>"
+                            <?= array_get($field, 'required') ? 'required' : ''; ?>
                         >
                     <?php break; ?>
 
                     <?php case 'mail': ?>
                         <input type="email"
-                               name="<?= $field['slug']; ?>"
-                               placeholder="<?= $field['name']; ?>"
-                               value="<?= old($field['slug']); ?>"
-                               <?= array_get($field, 'required') ? 'required' : ''; ?>
+                            name="<?= $field['slug']; ?>"
+                            placeholder="<?= $field['name']; ?>"
+                            value="<?= old($field['slug']); ?>"
+                            <?= array_get($field, 'required') ? 'required' : ''; ?>
                         >
                     <?php break; ?>
 
                     <?php case 'password': ?>
                         <input type="password"
-                               name="<?= $field['slug']; ?>"
-                               placeholder="<?= $field['name']; ?>"
+                            name="<?= $field['slug']; ?>"
+                            placeholder="<?= $field['name']; ?>"
                             <?= array_get($field, 'required') ? 'required' : ''; ?>
                         >
                     <?php break; ?>
@@ -46,10 +48,10 @@ include 'header-auth.php';
                     <?php case 'checkbox': ?>
                         <label>
                             <input type="checkbox"
-                                   name="<?= $field['slug']; ?>"
-                                   value="1"
-                                   <?= checked(old($field['slug'])); ?>
-                                   <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                name="<?= $field['slug']; ?>"
+                                value="1"
+                                <?= checked(old($field['slug'])); ?>
+                                <?= array_get($field, 'required') ? 'required' : ''; ?>
                             >
                             <?= $field['name']; ?>
                         </label>
@@ -78,10 +80,10 @@ include 'header-auth.php';
                             <?php foreach (array_get($field, 'options') as $option): ?>
                                 <label>
                                     <input type="radio"
-                                           name="<?= $field['slug']; ?>"
-                                           value="<?= kebab_case($option['value']); ?>"
-                                           <?= array_get($field, 'required') ? 'required' : ''; ?>
-                                           <?= checked(old($field['slug']), kebab_case($option['value'])); ?>
+                                        name="<?= $field['slug']; ?>"
+                                        value="<?= kebab_case($option['value']); ?>"
+                                        <?= array_get($field, 'required') ? 'required' : ''; ?>
+                                        <?= checked(old($field['slug']), kebab_case($option['value'])); ?>
                                     >
                                     <?= $option['value']; ?>
                                 </label>
@@ -118,5 +120,11 @@ include 'header-auth.php';
             </div>
         </div><!-- .wrap -->
     </footer><!-- #colophon -->
+<?php else: ?>
+    <div class="auth-content">
+        <?php include('errors.php'); ?>
+    </div>
+<?php endif; ?>
+
 <?php
 include 'footer-auth.php';

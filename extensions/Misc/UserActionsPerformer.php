@@ -11,6 +11,9 @@ class UserActionsPerformer
         $user = new \WP_User($user_id);
 
         $user->add_role($role);
+
+        do_action('lms_event_user_registered', new User($user));
+
         update_user_meta($user_id, 'lms_status', 'accepted');
         update_user_meta($user_id, 'lms_last_activity', time());
     }
