@@ -54,4 +54,16 @@ $filter->add('mce_buttons', function ($buttons) {
     return $buttons;
 });
 
+$filter->add('wp_mail_from', function ($default_email) {
+    $email = $this->plugin->getSettings('register.sender.email');
+
+    return $email ?: $default_email;
+});
+
+$filter->add('wp_mail_from_name', function ($default_name) {
+    $name = $this->plugin->getSettings('register.sender.name');
+
+    return $name ?: $default_name;
+});
+
 

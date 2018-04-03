@@ -115,6 +115,30 @@
             </div>
         </div>
 
+        <!-- Sender -->
+        <div class="row">
+            <div class="col-2">
+                <h4 class="field__title">
+                    <?= __('Email Sender', 'lms-plugin'); ?>
+                </h4>
+            </div>
+            <div class="col-3">
+                <div class="lms-form-input-sender">
+                    <input type="text"
+                        name="settings[register][sender][name]"
+                        value="<?= array_get($settings, 'register.sender.name') ?: lms_sender_name(); ?>">
+                    <input type="text"
+                        name="settings[register][sender][email]"
+                        value="<?= array_get($settings, 'register.sender.email') ?: lms_sender_email(); ?>">
+                </div>
+            </div>
+            <div class="col-4">
+                <p class="lms-form-text">
+                    <?= __('Name and email to send email from.', 'lms-plugin'); ?>
+                </p>
+            </div>
+        </div>
+
     </div>
 </div>
 
