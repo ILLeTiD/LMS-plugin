@@ -102,7 +102,10 @@ $action->add('wp_ajax_delete_user', 'Controllers\UsersPageController@delete');
 $action->add('wp_ajax_progress_commit', 'Controllers\ProgressController@commitProgress');
 $action->add('wp_ajax_progress_reset', 'Controllers\ProgressController@resetProgress');
 $action->add('wp_ajax_activity_commit', 'Controllers\ProgressController@commitActivity');
+
 $action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
+$action->add('wp_ajax_enrollToPublicCourse', 'Controllers\ProgressController@enrollToPublicCourse');
+
 $action->add('wp_ajax_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
 $action->add('wp_ajax_activity_redo_course', 'Controllers\ProgressController@restartCourse');
 $action->add('wp_ajax_activity_complete_course', 'Controllers\ProgressController@completeCourse');

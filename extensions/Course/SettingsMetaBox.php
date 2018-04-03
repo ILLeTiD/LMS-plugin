@@ -16,16 +16,16 @@ class SettingsMetaBox extends MetaBox
         global $post;
 
         $visibilityOptions = [
-            'all' => __('All users', 'lms-plugin'),
             'invited' => __('Invites only', 'lms-plugin'),
+            'all' => __('All users', 'lms-plugin'),
             // 'role' => __('Specific roles', 'lms-plugin'),
             'admin' => __('Amin only', 'lms-plugin'),
-            'hidden' => __('Hidden', 'lms-plugin'),
+//            'hidden' => __('Hidden', 'lms-plugin'),
         ];
 
-        $this->view( 'meta-boxes.course.settings', [ 
+        $this->view('meta-boxes.course.settings', [
             'course' => $post,
             'visibilityOptions' => $visibilityOptions
         ]);
-    }    
+    }
 }

@@ -7,6 +7,7 @@ $user = \LmsPlugin\Models\User::find($userID);
 $isEnrolled = $course->hasParticipant($userID);
 $slides = $course->slides();
 
+$course_visibility = get_post_meta(get_the_ID(), 'course_visibility', true);
 
 //if (!is_user_logged_in()) {
 //    wp_redirect(home_url());
@@ -25,9 +26,11 @@ get_header('course');
     <main class="lms-course-page">
         <?php if (current_user_can('administrator')) : ?>
             <?php
-            lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides, 'enrollmentStatus' =>'in_progress']);
+            lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides, 'enrollmentStatus' => 'in_progress']);
             lms_get_template('course-parts/course-page-content.php');
             ?>
+        <?php elseif (!$isEnrolled && $course_visibility == 'all') : ?>
+            <?php lms_get_template('course-parts/course-content-not-invited.php', ['public' => true]); ?>
         <?php elseif (!is_user_logged_in() || !$isEnrolled) : ?>
             <?php lms_get_template('course-parts/course-content-not-invited.php'); ?>
         <?php else : ?>

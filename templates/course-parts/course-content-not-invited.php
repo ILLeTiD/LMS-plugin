@@ -11,5 +11,20 @@
             the_post();
             the_content(); ?>
         </div>
+        <?php if (isset($public) && $public == true) : ?>
+            <div class="lms-course-page-buttons">
+                <a class="lms-link"
+                   href="<?php echo get_post_type_archive_link('course'); ?>">
+                    <?php _e('Back to Courses', 'lms-plugin') ?>
+                </a>
+                <button type="button" class="lms-course__button lms-course-begin-button-public"
+                        data-course-id="<?= get_the_ID(); ?>"
+                        data-user-id="<?= get_current_user_id() ?>"
+                >
+                    <?php _e("Enroll to course", "lms-plugin"); ?>
+                </button>
+            </div>
+        <?php endif; ?>
+
     </div>
 </section>

@@ -15,11 +15,22 @@ class CoursesPage {
 
     listeners() {
         $('.lms-course-begin-button').on('click', this.acceptInvite.bind(this));
+        $('.lms-course-begin-button-public').on('click', this.enrollToPublicCourse.bind(this));
         $('.lms-course-start-button').on('click', this.startCourse.bind(this));
         $('.lms-course-reject-button').on('click', this.rejectEnrollment.bind(this));
         $('.lms-course-redo-button').on('click', this.redoCourse.bind(this));
         $('.lms-course-reset-button').on('click', this.redoCourse.bind(this));
         $('.lms-course-archive-button').on('click', this.archiveEnrollment.bind(this));
+    }
+
+    enrollToPublicCourse(e) {
+        if (e) e.preventDefault();
+        console.log('sdfdsfsd');
+        const $button = $(e.target);
+        const courseID = $button.data('course-id');
+        const userID = $button.data('user-id');
+        console.log(courseID, userID);
+        Activity.enrollToPublicCourse(userID, courseID);
     }
 
     acceptInvite(e) {

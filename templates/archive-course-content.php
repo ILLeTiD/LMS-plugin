@@ -16,7 +16,10 @@
         <?php if ($course->have_posts()) : ?>
             <?php while ($course->have_posts()) : $course->the_post();
                 $theCourse = get_post(get_the_ID());
+                $course_visibility = get_post_meta(get_the_ID(), 'course_visibility', true);
+                //if ($course_visibility == 'hidden') continue;
                 ?>
+
                 <div class="lms-courses-list">
                     <div class="lms-courses-list__item lms-list-course lms-courses-course"
                          data-course-id="<?= get_the_ID() ?>">
@@ -52,6 +55,24 @@
         <?php endif;
         wp_reset_query(); ?>
     <?php else: ?>
+        <?php $publicCourse_args = array(
+            'post_type' => 'course',
+            'post_status' => 'publish',
+            'order' => 'ASC',
+            'orderby' => 'menu_order',
+            'posts_per_page' => -1,
+            'meta_query' => [
+                'relation' => 'OR', [
+                    'course_visibility' => [
+                        'key' => 'course_visibility',
+                        'value' => 'all',
+                        'compare' => '='
+                    ],
+                ]
+            ]
+        ); ?>
+
+        <?php $publicCourse = new WP_Query($publicCourse_args); ?>
         <?php
         $currentCourseNo = 0;
         $courseIndex = 0;
@@ -85,10 +106,33 @@
                 <?php } ?>
             </div>
         <?php else : ?>
-            <div class="lms-courses-list">
-                <?php lms_get_template('courses-parts/course-not-found.php'); ?>
-            </div>
-        <?php endif ?>
+            <?php if (!$publicCourse->have_posts()) : ?>
+                <div class="lms-courses-list">
+                    <?php lms_get_template('courses-parts/course-not-found.php'); ?>
+                </div>
+            <?php endif ?>
+    <?php endif ?>
+
+    <?php
+    $user = lms_user();
+    $enrollments = $user->enrollments()->get();
+    $enrollmentsCoursesID = [];
+    foreach ($enrollments as $enrollment) {
+        $enrollmentsCoursesID[] = $enrollment->course->id;
+    }
+
+    ?>
+
+    <?php if ($publicCourse->have_posts()) : ?>
+        <?php while ($publicCourse->have_posts()) : $publicCourse->the_post(); ?>
+            <?php
+            if (in_array(get_the_ID(), $enrollmentsCoursesID)) {
+                continue;
+            }
+            lms_get_template('courses-parts/course-item-public.php');
+            ?>
+        <?php endwhile; ?>
+    <?php endif; ?>
     <?php endif; ?>
 
 </section>

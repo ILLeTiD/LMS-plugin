@@ -25,7 +25,7 @@ class App {
         console.info('App Initialized!');
         this.listeners();
 
-        this.newCoursesChecker.init();
+       this.newCoursesChecker.init();
 
         objectFitImages('img.lms-grid-block__image');
         const isIE = detectIE() ? 'is-ie' : '';

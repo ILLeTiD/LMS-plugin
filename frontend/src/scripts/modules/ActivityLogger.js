@@ -1,6 +1,27 @@
 import Alert from '../utilities/Alerts'
 
 export const Activity = {
+    enrollToPublicCourse(userId, courseId){
+        const self = this;
+
+        $.ajax(
+            {
+                method: "POST",
+                url: lmsAjax.ajaxurl,
+                data: {
+                    action: 'enrollToPublicCourse',
+                    user_id: userId,
+                    course_id: courseId,
+                }
+            }
+        ).done(function (json) {
+            if (json.error) new Alert(`"${json.error}" please reload page`);
+            console.log('course started ', json);
+            $.when(self.defferedCommit(userId, 'course', 'enrolled', courseId)).then(function (data, textStatus, jqXHR) {
+                window.location.href = json.course_link;
+            });
+        });
+    },
     acceptInvite(userId, courseId){
         const self = this;
         $.ajax(

@@ -80,6 +80,30 @@ class ProgressController extends Controller
             'post' => $_POST]);
     }
 
+    public function enrollToPublicCourse()
+    {
+        if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+        $course = $_POST['course_id'];
+        $user = $_POST['user_id'];
+
+        $isEnrolled = Enrollment::where('user_id', $user)
+            ->where('course_id', $course)
+            ->count();
+
+        if (!$isEnrolled) {
+            $enrollment = Enrollment::create((['user_id' => $user, 'course_id' => $course]));
+            $enrollment->status = 'enrolled';
+            $enrollment->viewed = '1';
+
+            $enrollment->save();
+            wp_send_json(['course_link' => get_the_permalink($course)]);
+        } else {
+            wp_send_json(['error' => 'user alray enrolled']);
+        }
+    }
+
     public function acceptInvite()
     {
         if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {
