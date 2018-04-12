@@ -2,23 +2,67 @@
 
 The plugin activates an area in the dashboard where you are able to create and edit online courses. The courses contains of a various numbers of slides. The slides contain a custom structure where you are able to add extra several rows of text and images. The plugin will also be able to handle users invites and tracking the users participating in courses.
 
-## Plugin structure ##
+## Directory structure: ##
 
-### File and directory structure: ###
-
-* assets/ (dashboard assets)
+* assets/ 
+    * scripts.php
+    * styles.php
 * extensions/
-    * actions.php (the file where custom actions are added)
-    * filters.php (the file where custom filters are added)
-    * routes.php (the file where custom routes are added)
+    * actions.php 
+    * filters.php 
+    * routes.php 
 * frontend/
 * languages/
 * libraries/
-* templates/ (directory for front-end templates)
-* views/ (directory for dashboard templates)
+* templates/ 
+* views/ 
 * autoload.php 
-* lms-plugin.php (main plugin's file and entry point)
+* lms-plugin.php 
 
+The `assets` directory contains styles, scripts, fonts, images and etc. Also there are `scripts.php` and `styles.php` files where you can enqueue scripts and styles respectively.
+
+The `extensions` directory, as name implies, contains custom functionality. There is `helpers.php` where project specific helper functions are located.
+
+The `libraries` directory contains various libraries. Also there is `helpers.php` for generic helper functions.
+
+The `templates` directory contains front-end related views.
+
+The `views` directory contains dashboard and authentication related views.
+
+## Enqueuing scripts ## 
+
+The `assets/scripts.php` contains all plugin's dashboard (admin) scripts.
+
+To enqueue script specify handler and file name (relatively to `assets/js` directory):
+```php
+$script->add('script-handler')
+       ->source('filename.js');
+```
+
+It's also possible to set script's dependencies:
+```php
+$script->add('script-handler')
+       ->source('filename.js')
+       ->dependencies(['dependency1.js', 'dependency2']);
+```
+
+If you need to enqueue the script only on specific page, use `condition` method with a predicate function:
+```php
+$script->add('script-handler')
+       ->source('filename.js')
+       ->condition(function () {
+           return $this->getCurrentScreen()->id == 'course';
+       });
+```
+
+## Enqueuing styles ## 
+
+The `assets/styles.php` contains all plugin's dashboard (admin) styles.
+
+To enqueue style specify handler and file name (relatively to `assets/css` directory):
+```php
+$style->add('style-handler', 'style.css');
+```
 
 ## Adding a new action ##
 
@@ -110,6 +154,17 @@ $filter->add('menu_order', 'DashboardMenu@changeOrder');
 
 ```
 
+## Defining custom routes ##
+
+The `extensions/routes.php` contains all plugin's custom routes.
+
+You can specify method (GET or POST) to which route will respond by calling corresponding method on `$route` object.
+
+The `get` and `post` methods accept two arguments: relative URL and controller/action in `Controller@action` format. Controller class name must be relative to `LmsPlugin\Contollers` namespace.
+```php
+$route->get('login', 'Auth/LoginController@showForm');
+$route->post('login', 'Auth/LoginController@login');
+```
 
 ## Releasing a new version ##
 
