@@ -1,8 +1,8 @@
-# LMS Plugin #
+# LMS Plugin
 
 The plugin activates an area in the dashboard where you are able to create and edit online courses. The courses contains of a various numbers of slides. The slides contain a custom structure where you are able to add extra several rows of text and images. The plugin will also be able to handle users invites and tracking the users participating in courses.
 
-## Directory structure: ##
+## Directory structure
 
 * assets/ 
     * scripts.php
@@ -29,7 +29,7 @@ The `templates` directory contains front-end related views.
 
 The `views` directory contains dashboard and authentication related views.
 
-## Enqueuing scripts ## 
+## Enqueuing scripts 
 
 The `assets/scripts.php` contains all plugin's dashboard (admin) scripts.
 
@@ -55,7 +55,7 @@ $script->add('script-handler')
        });
 ```
 
-## Enqueuing styles ## 
+## Enqueuing styles 
 
 The `assets/styles.php` contains all plugin's dashboard (admin) styles.
 
@@ -64,7 +64,7 @@ To enqueue style specify handler and file name (relatively to `assets/css` direc
 $style->add('style-handler', 'style.css');
 ```
 
-## Adding a new action ##
+## Adding a new action
 
 The `extensions/actions.php` contains all plugin's custom actions.
 
@@ -86,7 +86,7 @@ $action->add($hook_name, $callable, $priority);
 
 **We don't need to pass number of argument, because they'll be determined using reflection**
 
-### Examples ###
+### Examples
 
 ```php
 
@@ -107,7 +107,7 @@ $action->add('wp_enqueue_scripts', 'StyleLoader@load');
 
 ```
 
-## Adding a new filter ##
+## Adding a new filter
 
 The `extensions/filters.php` contains all plugin's custom filters.
 
@@ -129,7 +129,7 @@ $action->add($hook_name, $callable, $priority);
 
 **We don't need to pass number of argument, because they'll be determined using reflection**
 
-### Examples ###
+### Examples
 
 ```php
 
@@ -154,7 +154,7 @@ $filter->add('menu_order', 'DashboardMenu@changeOrder');
 
 ```
 
-## Defining custom routes ##
+## Defining custom routes
 
 The `extensions/routes.php` contains all plugin's custom routes.
 
