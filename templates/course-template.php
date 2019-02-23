@@ -23,18 +23,20 @@ $course_visibility = get_post_meta(get_the_ID(), 'course_visibility', true);
 get_header('course');
 ?>
 
-    <main class="lms-course-page">
-        <?php if (current_user_can('administrator')) : ?>
-            <?php
+<main class="lms-course-page">
+    <?php if (current_user_can('administrator')) : ?>
+    <?php
             lms_get_template('course-parts/course-player.php', ['course' => $course, 'slides' => $slides, 'enrollmentStatus' => 'in_progress']);
             lms_get_template('course-parts/course-page-content.php');
             ?>
-        <?php elseif (!$isEnrolled && $course_visibility == 'all') : ?>
-            <?php lms_get_template('course-parts/course-content-not-invited.php', ['public' => true]); ?>
-        <?php elseif (!is_user_logged_in() || !$isEnrolled) : ?>
-            <?php lms_get_template('course-parts/course-content-not-invited.php'); ?>
-        <?php else : ?>
-            <?php
+    <?php elseif ((!$isEnrolled && $course_visibility == 'all')||(is_user_logged_in() && $course_visibility == 'public')) : ?>
+    <?php lms_get_template('course-parts/course-content-not-invited.php', ['public' => true]); ?>
+    <?php elseif (!is_user_logged_in() && $course_visibility == 'public') : ?>
+    <?php lms_get_template('course-parts/course-content-public.php', ['public' => true]); ?>
+    <?php elseif (!is_user_logged_in() || !$isEnrolled) : ?>
+    <?php lms_get_template('course-parts/course-content-not-invited.php'); ?>
+    <?php else : ?>
+    <?php
             $enrollment = $user->enrollments()
                 ->where('course_id', '=', $courseID)
                 ->first();
@@ -53,8 +55,8 @@ get_header('course');
                     break;
             }
             ?>
-        <?php endif; ?>
-    </main>
+    <?php endif; ?>
+</main>
 <?php
 get_footer('course');
 //lms_get_template('course-footer.php');

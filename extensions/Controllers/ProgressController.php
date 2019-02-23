@@ -104,6 +104,16 @@ class ProgressController extends Controller
         }
     }
 
+    public function enrollToPublicCourseNonLogged()
+    {
+         if (!isset($_POST['course_id'])) {
+            wp_send_json(['error' => 'provide correct arguments']);
+        }
+             $course = $_POST['course_id'];
+            wp_send_json(['course_link' => get_the_permalink($course)]);
+       
+    }
+
     public function acceptInvite()
     {
         if (!isset($_POST['user_id']) || !isset($_POST['course_id'])) {

@@ -29,11 +29,9 @@ foreach ($slides as $key => $slide) {
 }
 ?>
 <div class="lms-course__outher">
-    <section class="lms-course unloaded"
-             id="lms-course"
-             data-enrollment-status="<?= $enrollmentStatus ?>"
-             data-id="<?= $course->id; ?>"
-             data-user-id="<?= get_current_user_id() ?>">
+    <section class="lms-course unloaded" id="lms-course" data-enrollment-status="<?= $enrollmentStatus ?>"
+        data-id="<?= $course->id; ?>" data-visibility="<?= $course_visibility ?>"
+        data-user-id="<?= get_current_user_id() ?>">
         <?php
         lms_get_template('template-parts/course-preloader.php');
         ?>

@@ -18,6 +18,7 @@ class SettingsMetaBox extends MetaBox
         $visibilityOptions = [
             'invited' => __('Invites only', 'lms-plugin'),
             'all' => __('All users', 'lms-plugin'),
+            'public' => __('Public course', 'lms-plugin'),
             // 'role' => __('Specific roles', 'lms-plugin'),
             'admin' => __('Amin only', 'lms-plugin'),
 //            'hidden' => __('Hidden', 'lms-plugin'),

@@ -105,6 +105,7 @@ $action->add('wp_ajax_activity_commit', 'Controllers\ProgressController@commitAc
 
 $action->add('wp_ajax_activity_accept_invite', 'Controllers\ProgressController@acceptInvite');
 $action->add('wp_ajax_enrollToPublicCourse', 'Controllers\ProgressController@enrollToPublicCourse');
+$action->add('wp_ajax_nopriv_enrollToPublicCourse', 'Controllers\ProgressController@enrollToPublicCourseNonLogged');
 
 $action->add('wp_ajax_activity_reject_invite', 'Controllers\ProgressController@rejectInvite');
 $action->add('wp_ajax_activity_redo_course', 'Controllers\ProgressController@restartCourse');
