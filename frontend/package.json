@@ -23,7 +23,7 @@
     "izimodal": "^1.5.1",
     "izitoast": "^1.2.0",
     "jquery": "^3.2.1",
-    "jquery-validation": "^1.17.0",
+    "jquery-validation": "^1.19.3",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "mediaelement": "^4.2.8",
